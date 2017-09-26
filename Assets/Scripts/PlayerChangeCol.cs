@@ -10,19 +10,20 @@ public class PlayerChangeCol : NetworkBehaviour
 	[SyncVar] private Color currColor;
 	private Color prevColor;
 	Color[] colors = { Color.yellow, Color.cyan, Color.blue, Color.green, Color.white, Color.magenta };
+    private ColorManager cm;
 
 	RaycastHit hit;
     public float hitDistance = 1;
     Vector3 offsetPos;
-	ColorManager colorManager;
 	Renderer rd;
 
     void Start()
     {
 		rd = GetComponentInChildren<Renderer> ();
 		currColor = Color.black;
-		colorManager = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>();
         offsetPos = new Vector3(0, .5f, 0);
+        cm = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>();
+        ChangeCol(gameObject, Color.white);
     }
 
 
@@ -50,7 +51,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
 	[Command]
 	void CmdChangeCol(GameObject obj, Color col){
-		colorManager.RpcChangeCol (obj, col);
+		cm.RpcChangeCol (obj, col);
 	}
 
 

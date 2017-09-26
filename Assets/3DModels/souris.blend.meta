@@ -33,6 +33,7 @@ ModelImporter:
     100050: Tail_004
     100052: Tail_005
     100054: UBERROOT
+    100056: Mice
     400000: Arm_L
     400002: Arm_R
     400004: Body
@@ -61,7 +62,9 @@ ModelImporter:
     400050: Tail_004
     400052: Tail_005
     400054: UBERROOT
+    400056: Mice
     4300000: Cube
+    4300002: Mice
     7400000: Default Take
     7400002: RatRuns
     7400004: RatRuns-laid
@@ -69,8 +72,9 @@ ModelImporter:
     7400008: RatSits
     9500000: //RootNode
     13700000: Cube
+    13700002: Mice
   materials:
-    importMaterials: 1
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
   animations:
@@ -91,14 +95,434 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Default Take
+      takeName: Default Take
+      firstFrame: -1
+      lastFrame: 59
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: RatArma
+        weight: 1
+      - path: RatArma/UBERROOT
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_R
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L/Arm_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R/Arm_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L/Foot_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R/Foot_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004/Tail_005
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: RatRuns
+      takeName: RatRuns
+      firstFrame: -1
+      lastFrame: 9
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: RatArma
+        weight: 1
+      - path: RatArma/UBERROOT
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_R
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L/Arm_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R/Arm_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L/Foot_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R/Foot_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004/Tail_005
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: RatRuns-laid
+      takeName: RatRuns-laid
+      firstFrame: 4
+      lastFrame: 28
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: RatArma
+        weight: 1
+      - path: RatArma/UBERROOT
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_R
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L/Arm_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R/Arm_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L/Foot_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R/Foot_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004/Tail_005
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: RatRuns-laid02
+      takeName: RatRuns-laid02
+      firstFrame: -1
+      lastFrame: 19
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: RatArma
+        weight: 1
+      - path: RatArma/UBERROOT
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_R
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L/Arm_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R/Arm_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L/Foot_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R/Foot_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004/Tail_005
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: RatSits
+      takeName: RatSits
+      firstFrame: -1
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Cube
+        weight: 1
+      - path: RatArma
+        weight: 1
+      - path: RatArma/UBERROOT
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKFoot_R
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_L
+        weight: 1
+      - path: RatArma/UBERROOT/IKHand_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Neck/Head/Ear_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_L/Arm_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Body/Shoulder_R/Arm_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_L/Foot_L
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Leg_R/Foot_R
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004
+        weight: 1
+      - path: RatArma/UBERROOT/ROOT/Tail/Tail_001/Tail_002/Tail_003/Tail_004/Tail_005
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importBlendShapes: 1
+    importBlendShapes: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

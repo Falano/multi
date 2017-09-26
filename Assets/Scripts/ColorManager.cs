@@ -8,14 +8,18 @@ using UnityEngine.Networking;
 
 todo:
 
-have sheep die
+-DONE- have sheep die
+die plouf graphical droplets
 count lives on GUI
 make real level design (several levels)
-implement enemies
-options (how many enemies, lives, which start level)
+-DONE-implement enemies
+-tocheck- anim enemies
+options (how many enemies, how many lives, which start level, how many players in all, teamwork (brown feet), chrono, deathwave, / language, keys, sound volume, )
 keys binding
 start menu
 checking if you're the same colour as the ground
+players in a list when join
+Esc -> sure wanna quit? Yes -> back to lobby
 
 */
 

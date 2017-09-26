@@ -5,15 +5,14 @@ using UnityEngine.Networking;
 
 public class EnemySpawner : NetworkBehaviour {
     public GameObject enemyPrefab;
-    public int numEnemies = 10;
 
     public override void OnStartServer()
     {
-        for (int i = 0; i < numEnemies; i++) {
+		for (int i = 0; i < MenuManager.enemyNumber; i++) {
             SpawnEnemy();
         }
 
-        InvokeRepeating("SpawnEnemy", 10, 10);
+        Invoke("SpawnEnemy", 0);
     }
 
     void SpawnEnemy() {
