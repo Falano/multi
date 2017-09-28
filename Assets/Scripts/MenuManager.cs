@@ -7,29 +7,58 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour {
 	public Scene[] scenes;
 	public static int enemyNumber = 3;
-	public static int startHp = 100;
+	public static int startHp = 30;
 	public static int playersNumber;
 	public static string startLevel;
 	public static int teamwork; // number of different teams; 0 is chacun pour soi
 	public static float chrono = 0; // en minutes
-	//
+    [SerializeField]
+    public static int activeScene = 0;
+    public static int nbScenes;
+    //
 
-	public Text enemyText;
+    public Text enemyText;
 	public Text hpText;
 	public Text chronoText;
+	public Text lvlText;
 
-	public void Quit(){
+    public void Start()
+    {
+        //nbScenes = SceneManager.sceneCount;
+        nbScenes = 3;
+    }
+
+
+    public void Quit(){
 		Application.Quit ();
 	}
 
-	public void LoadLevel(string lvl){
-		SceneManager.LoadScene (lvl);
+	public void LoadLevel(int lvl){
+        activeScene = lvl;
+        SceneManager.LoadScene (activeScene);
 	}
 
-	public void LoadRandomLevel(){
+    public void LoadNextScene()
+    {
+        activeScene += 1;
+        if (activeScene >= nbScenes)
+        {
+            activeScene = 0;
+        }
+        SceneManager.LoadScene(activeScene);
+    }
+
+    public void LoadRandomLevel(){
 		int randomScene = Random.Range (1, scenes.Length);
-		SceneManager.LoadScene (randomScene);
+        activeScene = randomScene;
+		SceneManager.LoadScene (activeScene);
 	}
+
+    public void ChangeStartScene(int change) {
+        activeScene = (activeScene+change+nbScenes)%(nbScenes-1)+1;
+        print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
+        lvlText.text = (activeScene).ToString();
+    }
 
 	public void ChangeNbrEnemies(int nb){
 		enemyNumber += nb;

@@ -19,6 +19,7 @@ public class EnemyMover : MonoBehaviour
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         ChangeDestination();
+        lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
     }
 
     void Update()

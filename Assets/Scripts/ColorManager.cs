@@ -31,8 +31,10 @@ Esc -> sure wanna quit? Yes -> back to lobby
 public class ColorManager : NetworkBehaviour
 {
 	int i;
+    public Vector3 LvlSize;
 
-	[ClientRpc]
+
+    [ClientRpc]
     public void RpcChangeCol(GameObject obj, Color col) {
 		obj.GetComponent<PlayerHealth> ().TakeDamage();
 		Renderer rd = obj.GetComponentInChildren<Renderer> ();
