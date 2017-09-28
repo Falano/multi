@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerHealth : NetworkBehaviour {
 	[SerializeField]
 	int hp;
 	ColorManager cm;
+	public Image healthGUI;
+	public Sprite[] sprites;
+	private int spritesIndex = 10;
 
 	// Use this for initialization
 	void Start () {
-		hp = Options.StartHp;
+		hp = MenuManager.startHp;
 		cm = GameObject.FindGameObjectWithTag ("ColorManager").GetComponent<ColorManager> ();
 	}
 
@@ -19,6 +23,10 @@ public class PlayerHealth : NetworkBehaviour {
 		if (hp <= 0) {
 			cm.Kill (this.gameObject);
 		}
+		spritesIndex = (int) Mathf.Floor (hp / 100 * 10)+1;
+		healthGUI.sprite = sprites [spritesIndex];
+
+
 	}
 
 	// Update is called once per frame
