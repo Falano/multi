@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour {
 	public Scene[] scenes;
@@ -35,17 +36,20 @@ public class MenuManager : MonoBehaviour {
 
 	public void LoadLevel(int lvl){
         activeScene = lvl;
-        SceneManager.LoadScene (activeScene);
+        NetworkManagerPersistence.NetworkManager.ServerChangeScene(lvl.ToString());
+        //SceneManager.LoadScene (activeScene);
 	}
 
     public void LoadNextScene()
     {
         activeScene += 1;
+        NetworkManagerPersistence.NetworkManager.gameObject.GetComponent<NetworkManagerHUD>().enabled = true;
         if (activeScene >= nbScenes)
         {
-            activeScene = 0;
+            activeScene = 1;
         }
-        SceneManager.LoadScene(activeScene);
+        NetworkManagerPersistence.NetworkManager.ServerChangeScene(activeScene.ToString());
+        //SceneManager.LoadScene(activeScene);
     }
 
     public void LoadRandomLevel(){
