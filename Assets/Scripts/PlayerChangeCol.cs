@@ -17,6 +17,10 @@ public class PlayerChangeCol : NetworkBehaviour
     Vector3 offsetPos;
 	Renderer rd;
 
+    bool paintReady = true;
+    [SerializeField]
+    float cooldown = 3;
+
     void Start()
     {
 		rd = GetComponentInChildren<Renderer> ();
@@ -36,14 +40,24 @@ public class PlayerChangeCol : NetworkBehaviour
 
 	// changing colour
 	void ChangeCol(GameObject obj){
+        paintReady = false;
 		prevColor = currColor;
 		// so it doesn't "change" to the same colour:
 		while (prevColor == currColor) { 
 			currColor = colors[Random.Range(0, colors.Length)];
 		}
 		CmdChangeCol (obj, currColor);
+        StartCoroutine("paintCooldown", cooldown);
 	}
-		
+
+    IEnumerator paintCooldown(float cooldown) {
+        yield return new WaitForSeconds(cooldown);
+        paintReady = true;
+    }
+
+
+
+
 	// so I can choose to change to one specific colour
 	void ChangeCol(GameObject obj, Color col){ 
 		CmdChangeCol (obj, col);
@@ -67,7 +81,7 @@ public class PlayerChangeCol : NetworkBehaviour
 			}
 
 			Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
-			if (Input.GetKeyDown (KeyCode.Space)) {
+			if (Input.GetKeyDown (KeyCode.Space) && paintReady) {
 				// changing another's colour
 				if (Physics.Raycast (transform.position + offsetPos, transform.forward, out hit)) {
 					if (Vector3.Distance (hit.transform.position, transform.position) <= hitDistance) {
