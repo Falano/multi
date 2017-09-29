@@ -26,10 +26,10 @@ public class PlayerHealth : NetworkBehaviour {
 			cm.Kill (this.gameObject);
 		}
 		spritesIndex = (int) Mathf.Floor ((hp / MenuManager.startHp) * 10);
-        healthGUI.sprite = sprites [spritesIndex];
-
-
-	}
+        if (isLocalPlayer) {
+            healthGUI.sprite = sprites[spritesIndex];
+        }
+    }
 
 	// Update is called once per frame
 	void Update () {

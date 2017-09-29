@@ -36,19 +36,20 @@ public class MenuManager : MonoBehaviour {
 
 	public void LoadLevel(int lvl){
         activeScene = lvl;
-        NetworkManagerPersistence.NetworkManager.ServerChangeScene(lvl.ToString());
+        NetworkManager.singleton.ServerChangeScene(lvl.ToString());
         //SceneManager.LoadScene (activeScene);
 	}
 
     public void LoadNextScene()
     {
         activeScene += 1;
-        NetworkManagerPersistence.NetworkManager.gameObject.GetComponent<NetworkManagerHUD>().enabled = true;
+        NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = true;
         if (activeScene >= nbScenes)
         {
             activeScene = 1;
         }
-        NetworkManagerPersistence.NetworkManager.ServerChangeScene(activeScene.ToString());
+        //NetworkManager.networkSceneName = activeScene.ToString();
+        NetworkManager.singleton.ServerChangeScene(activeScene.ToString());
         //SceneManager.LoadScene(activeScene);
     }
 
@@ -59,9 +60,10 @@ public class MenuManager : MonoBehaviour {
 	}
 
     public void ChangeStartScene(int change) {
-        activeScene = (activeScene+change+nbScenes)%(nbScenes-1)+1;
+        activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
         print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
-        lvlText.text = (activeScene).ToString();
+        lvlText.text = (activeScene+1).ToString();
+        NetworkManager.networkSceneName = (activeScene + 1).ToString();
     }
 
 	public void ChangeNbrEnemies(int nb){
