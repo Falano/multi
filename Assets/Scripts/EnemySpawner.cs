@@ -12,7 +12,7 @@ public class EnemySpawner : NetworkBehaviour {
             SpawnEnemy();
         }
 
-        InvokeRepeating("SpawnEnemy", 10, 10);
+        Invoke("SpawnEnemy", 0);
     }
 
     void SpawnEnemy() {

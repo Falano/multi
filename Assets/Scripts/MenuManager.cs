@@ -3,33 +3,68 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour {
 	public Scene[] scenes;
 	public static int enemyNumber = 3;
-	public static int startHp = 100;
+	public static int startHp = 30;
 	public static int playersNumber;
 	public static string startLevel;
 	public static int teamwork; // number of different teams; 0 is chacun pour soi
 	public static float chrono = 0; // en minutes
-	//
+    [SerializeField]
+    public static int activeScene = 0;
+    public static int nbScenes;
+    //
 
-	public Text enemyText;
+    public Text enemyText;
 	public Text hpText;
 	public Text chronoText;
+	public Text lvlText;
 
-	public void Quit(){
+    public void Start()
+    {
+        //nbScenes = SceneManager.sceneCount;
+        nbScenes = 3;
+    }
+
+
+    public void Quit(){
 		Application.Quit ();
 	}
 
-	public void LoadLevel(string lvl){
-		SceneManager.LoadScene (lvl);
+	public void LoadLevel(int lvl){
+        activeScene = lvl;
+        NetworkManager.singleton.ServerChangeScene(lvl.ToString());
+        //SceneManager.LoadScene (activeScene);
 	}
 
-	public void LoadRandomLevel(){
+    public void LoadNextScene()
+    {
+        activeScene += 1;
+        NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = true;
+        if (activeScene >= nbScenes)
+        {
+            activeScene = 1;
+        }
+        //NetworkManager.networkSceneName = activeScene.ToString();
+        NetworkManager.singleton.ServerChangeScene(activeScene.ToString());
+        //SceneManager.LoadScene(activeScene);
+    }
+
+    public void LoadRandomLevel(){
 		int randomScene = Random.Range (1, scenes.Length);
-		SceneManager.LoadScene (randomScene);
+        activeScene = randomScene;
+		SceneManager.LoadScene (activeScene);
 	}
+
+    public void ChangeStartScene(int change) {
+        activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
+        print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
+        lvlText.text = (activeScene+1).ToString();
+        NetworkManager.networkSceneName = (activeScene + 1).ToString();
+    }
 
 	public void ChangeNbrEnemies(int nb){
 		enemyNumber += nb;

@@ -12,12 +12,14 @@ public class EnemyMover : MonoBehaviour
     bool moving;
     Animator animator;
     public Vector2 waitRange = new Vector2(3,6);
+    public int rotationSpeed = 5;
 
     void Start()
     {
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         ChangeDestination();
+        lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
     }
 
     void Update()
@@ -26,6 +28,18 @@ public class EnemyMover : MonoBehaviour
             IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
             StartCoroutine(wait);
         }
+
+        /*
+        if ( transform.forward != Vector3.zero)
+        {
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(transform.forward),
+                Time.deltaTime * rotationSpeed
+            );
+        }
+        */
+
     }
 
     IEnumerator waitForChangeDir(float time)
