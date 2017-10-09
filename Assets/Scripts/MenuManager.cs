@@ -16,7 +16,6 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
-    //
 
     public Text enemyText;
 	public Text hpText;
@@ -26,7 +25,7 @@ public class MenuManager : MonoBehaviour {
     public void Start()
     {
         //nbScenes = SceneManager.sceneCount;
-        nbScenes = 3;
+        nbScenes = 4;
     }
 
 
@@ -63,7 +62,7 @@ public class MenuManager : MonoBehaviour {
         activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
         print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
-        NetworkManager.networkSceneName = (activeScene + 1).ToString();
+        NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
     }
 
 	public void ChangeNbrEnemies(int nb){
