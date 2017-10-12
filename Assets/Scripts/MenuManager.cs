@@ -77,7 +77,7 @@ public class MenuManager : MonoBehaviour {
 
 	public void ChangeChrono(float nb){
 		chrono += nb;
-		chronoText.text = chrono.ToString("F1");
-	}
+		chronoText.text = chrono.ToString("F1");        
+    }
 
 }
