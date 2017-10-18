@@ -2,17 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : NetworkBehaviour {
     public GameObject enemyPrefab;
+    public int enemyNumberTest;
+    private int enemyNumber;
 
     public override void OnStartServer()
     {
-		for (int i = 0; i < MenuManager.enemyNumber; i++) {
+
+        if (SceneManager.GetActiveScene().name == "testing")
+        {
+            enemyNumber = enemyNumberTest;
+        }
+        else
+        {
+            enemyNumber = MenuManager.enemyNumber;
+        }
+		for (int i = 0; i < enemyNumber-1; i++) {
             SpawnEnemy();
         }
 
         Invoke("SpawnEnemy", 0);
+        
     }
 
     void SpawnEnemy() {
