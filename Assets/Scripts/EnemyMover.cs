@@ -49,19 +49,16 @@ public class EnemyMover : MonoBehaviour
     IEnumerator waitForChangeDir(float time)
     {
         animator.SetBool("moving", false);
-        print("stopping mice; time = " + Time.fixedTime + " , waiting between " + waitRange.x + " and " + waitRange.y + " seconds.");
         yield return new WaitForSeconds(time);
-        //yield return new WaitForSeconds(0);
-        print("ok, looking for a new goal");
         ChangeDestination();
         }
 
     void ChangeDestination()
     {
         animator.SetBool("moving", true);
-        Vector3 randomPoint = new Vector3(Random.Range(lvlSize.x, -lvlSize.x), Random.Range(lvlSize.y, -lvlSize.y), Random.Range(lvlSize.z, -lvlSize.z));
+        Vector3 randomPoint = new Vector3(Random.Range(lvlSize.x, -lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(lvlSize.z, -lvlSize.z));
         goal = randomPoint;
-        if (lvlSize.y >= .1)
+        if (lvlSize.y >= .2)
         {
             while (!NavMesh.SamplePosition(randomPoint, out hit, 1, NavMesh.AllAreas))
             {
@@ -70,7 +67,6 @@ public class EnemyMover : MonoBehaviour
             goal = hit.position;
         }
         ag.SetDestination(goal);
-        print("I just set a new goal!");
         readyToChangeDestination = true;
     }
 
