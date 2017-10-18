@@ -13,6 +13,7 @@ public class EnemyMover : MonoBehaviour
     Animator animator;
     public Vector2 waitRange = new Vector2(3,6);
     public int rotationSpeed = 5;
+    private bool readyToChangeDestination = true; 
 
     void Start()
     {
@@ -24,10 +25,13 @@ public class EnemyMover : MonoBehaviour
 
     void Update()
     {
-        if (ag.remainingDistance <= ag.stoppingDistance) {
+        if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination) {
+            readyToChangeDestination = false;
             IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
             StartCoroutine(wait);
         }
+
+        Debug.DrawLine(transform.position, goal, Color.red);
 
         /*
         if ( transform.forward != Vector3.zero)
@@ -45,9 +49,12 @@ public class EnemyMover : MonoBehaviour
     IEnumerator waitForChangeDir(float time)
     {
         animator.SetBool("moving", false);
+        print("stopping mice; time = " + Time.fixedTime + " , waiting between " + waitRange.x + " and " + waitRange.y + " seconds.");
         yield return new WaitForSeconds(time);
+        //yield return new WaitForSeconds(0);
+        print("ok, looking for a new goal");
         ChangeDestination();
-    }
+        }
 
     void ChangeDestination()
     {
@@ -63,6 +70,8 @@ public class EnemyMover : MonoBehaviour
             goal = hit.position;
         }
         ag.SetDestination(goal);
+        print("I just set a new goal!");
+        readyToChangeDestination = true;
     }
 
 }
