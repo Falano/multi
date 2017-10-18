@@ -28,6 +28,7 @@ ModelImporter:
     100040: Shin_R
     100042: Thigh_L
     100044: Thigh_R
+    100046: Sheep
     400000: arm_L
     400002: arm_R
     400004: Armature
@@ -51,12 +52,15 @@ ModelImporter:
     400040: Shin_R
     400042: Thigh_L
     400044: Thigh_R
+    400046: Sheep
     4300000: Cube
+    4300002: Sheep
     7400000: Default Take
     7400002: IDLEsheep
     7400004: RUNsheep
     9500000: //RootNode
     13700000: Cube
+    13700002: Sheep
   materials:
     importMaterials: 1
     materialName: 0
