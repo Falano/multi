@@ -45,8 +45,11 @@ public class ColorManager : NetworkBehaviour
 	}
     
 	public void Kill(GameObject obj){
-
-        Destroy (obj);
+        obj.transform.GetChild(0).gameObject.SetActive(false);
+        obj.transform.GetChild(2).gameObject.SetActive(true);
+        GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
+        //then wait till anim finished
+        //Destroy (obj);
 	}
 
 }

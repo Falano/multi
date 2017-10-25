@@ -13,6 +13,8 @@ public class PlayerHealth : NetworkBehaviour {
     [SerializeField]
 	private int spritesIndex = 10;
 
+    public int nummer;
+
 	// Use this for initialization
 	void Start () {
 		hp = MenuManager.startHp;
@@ -33,6 +35,5 @@ public class PlayerHealth : NetworkBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
 	}
 }

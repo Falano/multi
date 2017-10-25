@@ -28,6 +28,7 @@ public class DieWhenFinishedAnim : MonoBehaviour
         IEnumerator wait = waitForEndAnim(2);
         StartCoroutine(wait);
     }
+    /*
     // Update is called once per frame
     void Update()
     {
@@ -38,5 +39,5 @@ public class DieWhenFinishedAnim : MonoBehaviour
         if (playAnim)
         {
             playDeath();        }
-    }
+    }*/
 }
