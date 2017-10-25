@@ -45,7 +45,8 @@ public class ColorManager : NetworkBehaviour
 	}
     
 	public void Kill(GameObject obj){
-		Destroy (obj);
+
+        Destroy (obj);
 	}
 
 }
