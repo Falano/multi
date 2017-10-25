@@ -13,6 +13,7 @@ bugs:
 		et on ne sait toujours pas refaire une partie sans redémarrer le jeu
 		//// si ça devient chiant: remettre les lignes "NetworkManager.singleton" dans MenuManager's LoadNextScene(), et commenter SceneManager.LoadScene
 		//// et enlever les NetworkManager des scenes individuelles, le remettre dans la scene Menu, et changer le prefab pour qu'il dontDestroyOnLoad
+		////// en fait j'ai probablement besoin d'utiliser le NetworkLobbyManager, ou une variante perso, parce qu'il fait juste ce que je veux.
 	rat anim ugly (check how sheep synchronises and do the same)
 --DONE: faster rotation speed-- have rat LOOK WHERE THEY'RE GOING (don't drink and drive)
 	play with outside players (unity matchmaking)
