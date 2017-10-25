@@ -379,6 +379,7 @@ GameObject:
   - component: {fileID: 212753436825027344}
   - component: {fileID: 114429843116155440}
   - component: {fileID: 95761035678053726}
+  - component: {fileID: 114566961614709154}
   m_Layer: 0
   m_Name: deathAnim
   m_TagString: Untagged
@@ -899,6 +900,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
+--- !u!114 &114566961614709154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1996901191698520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 588017714c244e0499fcf106ad122947, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114907404837594186
 MonoBehaviour:
   m_ObjectHideFlags: 1
