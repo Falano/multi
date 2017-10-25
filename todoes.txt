@@ -1,12 +1,13 @@
 todoes multi
 
 to implement:
-anim sheep death
-when dead follow other players
+--doing-- anim sheep death
+	when dead follow other players
 
 bugs:
-client only on second time
-rat anim ugly (check how sheep synchronises and do the same)
+	client only on second time
+	rat anim ugly (check how sheep synchronises and do the same)
 --DONE: faster rotation speed-- have rat LOOK WHERE THEY'RE GOING (don't drink and drive)
-play with outside players (unity matchmaking)
-client's camera don't follow them
+	play with outside players (unity matchmaking)
+-- huh yes they do?-- client's camera don't follow them
+	anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
