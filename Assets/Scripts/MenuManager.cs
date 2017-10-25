@@ -42,14 +42,13 @@ public class MenuManager : MonoBehaviour {
     public void LoadNextScene()
     {
         activeScene += 1;
-        NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = true;
+        //NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = true;
         if (activeScene >= nbScenes)
         {
             activeScene = 1;
         }
-        //NetworkManager.networkSceneName = activeScene.ToString();
-        NetworkManager.singleton.ServerChangeScene(activeScene.ToString());
-        //SceneManager.LoadScene(activeScene);
+        //NetworkManager.singleton.ServerChangeScene(activeScene.ToString());
+        SceneManager.LoadScene(activeScene);
     }
 
     public void LoadRandomLevel(){

@@ -6,6 +6,13 @@ to implement:
 
 bugs:
 	client only on second time
+		ai supprimé le network manager du menu
+		la fonction du bouton Play (LoadNextScene()), j'en ai enlevé toute référence au NetworkManager
+		le client se lance tout de suite
+		si tous les joueurs ont sélectionné le bon niveau / sinon ça refuse de lancer le niveau en multi (côté client)
+		et on ne sait toujours pas refaire une partie sans redémarrer le jeu
+		//// si ça devient chiant: remettre les lignes "NetworkManager.singleton" dans MenuManager's LoadNextScene(), et commenter SceneManager.LoadScene
+		//// et enlever les NetworkManager des scenes individuelles, le remettre dans la scene Menu, et changer le prefab pour qu'il dontDestroyOnLoad
 	rat anim ugly (check how sheep synchronises and do the same)
 --DONE: faster rotation speed-- have rat LOOK WHERE THEY'RE GOING (don't drink and drive)
 	play with outside players (unity matchmaking)
