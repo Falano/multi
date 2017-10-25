@@ -42,4 +42,7 @@ graphical files
 ===========
 *~
 *.kra
+*.kra.meta
 *.blend1
+*.blend1.meta
+\.vs/multi/v15/sqlite3/storage\.ide
