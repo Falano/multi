@@ -24,8 +24,8 @@ public class MenuManager : MonoBehaviour {
 
     public void Start()
     {
-        //nbScenes = SceneManager.sceneCount;
-        nbScenes = 4;
+        nbScenes = SceneManager.sceneCountInBuildSettings;
+        //nbScenes = 4;
     }
 
 
