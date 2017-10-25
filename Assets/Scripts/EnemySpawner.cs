@@ -29,7 +29,7 @@ public class EnemySpawner : NetworkBehaviour {
     }
 
     void SpawnEnemy() {
-        var pos = new Vector3(Random.Range(-10.0f, 10.0f), 1f, Random.Range(-10.0f, 10.0f));
+        var pos = new Vector3(Random.Range(-ColorManager.LvlSize.x, ColorManager.LvlSize.x), 1f, Random.Range(-ColorManager.LvlSize.z, ColorManager.LvlSize.z));
         var rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
         var enemy = (GameObject)Instantiate(enemyPrefab, pos, rot);
 
