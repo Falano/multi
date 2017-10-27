@@ -5,7 +5,8 @@ Temp/
 Library/
 Build/
 Builds/
-Resources/Images/
+Resources/
+Images/
 
 =====================================
 Visual Studio / MonoDevelop generated
@@ -46,3 +47,5 @@ graphical files
 *.blend1
 *.blend1.meta
 \.vs/multi/v15/sqlite3/storage\.ide
+
+RechGraph/
