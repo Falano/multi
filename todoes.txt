@@ -3,6 +3,12 @@ todoes multi
 to implement:
 --DONE-- anim sheep death
 	when dead follow other players
+	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option)
+	custom colours dans le menu
+	custom keys (global or local? Maybe all boring settings are local. They should.)
+	custom musics
+	sound volume (global or local?)
+	custom EVERYTHING
 
 bugs:
 	client only on second time
