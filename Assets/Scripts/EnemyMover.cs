@@ -16,7 +16,7 @@ public class EnemyMover : MonoBehaviour
 
     void Start()
     {
-        lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
+        lvlSize = ColorManager.LvlSize;
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));

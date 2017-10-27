@@ -17,16 +17,19 @@ public class MenuManager : MonoBehaviour {
     public static int activeScene = 0;
     public static int nbScenes;
 
+    public Sprite[] lvlPreviews;
     public Text enemyText;
 	public Text hpText;
 	public Text chronoText;
 	public Text lvlText;
+    private Image lvlImg;
 
     public void Start()
     {
         nbScenes = SceneManager.sceneCountInBuildSettings;
-        //nbScenes = 4;
-    }
+        lvlImg = lvlText.transform.parent.GetComponent<Image>();
+        lvlImg.sprite = lvlPreviews[activeScene];
+        }
 
 
     public void Quit(){
@@ -63,6 +66,7 @@ public class MenuManager : MonoBehaviour {
         print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
+        lvlImg.sprite = lvlPreviews[activeScene];
     }
 
 	public void ChangeNbrEnemies(int nb){
