@@ -46,3 +46,5 @@ graphical files
 *.blend1
 *.blend1.meta
 \.vs/multi/v15/sqlite3/storage\.ide
+
+ProjectSettings/ProjectVersion\.txt
