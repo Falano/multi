@@ -16,7 +16,7 @@ to implement:
 	some tuto or sth
 	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 	team share lives (both have to be ok with it, and they change col painlessly while doing it)
-	max number of players (lobby)
+	max number of players (lobby) - min number of players?
 	max time
 	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 	leur demander leur nom (lobby)
@@ -25,6 +25,9 @@ to implement:
 	cooldown?
 	make a lvl editor :D
 	gérer pos camera so it doesn't fish eye so much
+	language choice
+	players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
+	esc -> sure wanna quit? Yes -> back to lobby
 
 bugs:
 --DONE--	client only on second time
