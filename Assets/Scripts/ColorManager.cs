@@ -3,36 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-
-/*
-
-todo:
-
--DONE- have sheep die
--DONE- die plouf graphical droplets
--DONE?-count lives on GUI
-make real level design (several levels)
--DONE-implement enemies
--tocheck- anim enemies
-options (how many enemies, how many lives, which start level, how many players in all, teamwork (brown feet), chrono, deathwave, / language, keys, sound volume, )
-keys binding
--DONE- start menu
-checking if you're the same colour as the ground
-players in a list when join
-Esc -> sure wanna quit? Yes -> back to lobby
-make LvlSize a list and go get the size of -your- lvl
-
-*/
-
-
 // à mettre sur le color manager
-
 
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
 public class ColorManager : NetworkBehaviour
 {
 	int i;
-    public static Vector3 LvlSize;
+    public Vector3 LvlSize;
 
 
     [ClientRpc]
@@ -51,5 +28,4 @@ public class ColorManager : NetworkBehaviour
         obj.GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
         //the object destroy itself is on a script on the child
 	}
-
 }

@@ -8,6 +8,7 @@ public class EnemySpawner : NetworkBehaviour {
     public GameObject enemyPrefab;
     public int enemyNumberTest;
     private int enemyNumber;
+    private Vector3 lvlSize;
 
     public override void OnStartServer()
     {
@@ -28,8 +29,14 @@ public class EnemySpawner : NetworkBehaviour {
         
     }
 
+
+    private void Start()
+    {
+        lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
+    }
+
     void SpawnEnemy() {
-        var pos = new Vector3(Random.Range(-ColorManager.LvlSize.x, ColorManager.LvlSize.x), 1f, Random.Range(-ColorManager.LvlSize.z, ColorManager.LvlSize.z));
+        var pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), 1f, Random.Range(-lvlSize.z, lvlSize.z));
         var rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
         var enemy = (GameObject)Instantiate(enemyPrefab, pos, rot);
 
