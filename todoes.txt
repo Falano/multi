@@ -22,7 +22,7 @@ to implement:
 	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 	leur demander leur nom (lobby)
 	score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs) 
-	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, 
+	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
 	cooldown?
 	make a lvl editor :D
 	gérer pos camera so it doesn't fish eye so much
@@ -38,7 +38,7 @@ bugs:
 	play with outside players (unity matchmaking) (lobby)
 -- huh yes they do?-- client's camera don't follow them
 --DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
-	needs wider lookat radius for attackChangeCOl
+	needs wider lookat radius for attackChangeCOl -- ask flo, she'll know
 --DONE-- fix mice's lvlSize array
 	check if attackChangeCol works as intended
 	sometimes sheep death anim only works on localPlayer (probs because the server is told of the collision at some random point after it happens and if it is after the anim has finished playing then it skips the anim)
