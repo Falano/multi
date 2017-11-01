@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-//only 2D Y rotation for now
+// script found on the internet 
+// because stupid unity network transform doesn't work with rigidbodies - or transforms? - with whatever I use
+// only 2D Y rotation for now
 // added a teleportDistance variable
 
 public class TransformNetworkSync : NetworkBehaviour

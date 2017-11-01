@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 
+// cacher le network HUD si on est dans le menu de départ
 public class checkIfNetworkHUD : MonoBehaviour {
 
     private void OnEnable()

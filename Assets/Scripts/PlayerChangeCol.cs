@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // à mettre sur le player
+// triggers the change col
 
 public class PlayerChangeCol : NetworkBehaviour
 {
@@ -39,6 +40,7 @@ public class PlayerChangeCol : NetworkBehaviour
 	}
 
 	// changing colour
+    // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur
 	void ChangeCol(GameObject obj){
         paintReady = false;
 		prevColor = currColor;

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// enemy mover.
+// the lvlSize that says where they spawn and move is on the colormanager (which is really a game manager)
+
 public class EnemyMover : MonoBehaviour
 {
     NavMeshAgent ag;
@@ -48,7 +51,7 @@ public class EnemyMover : MonoBehaviour
         goal = randomPoint;
         if (lvlSize.y >= .2)
         {
-            while (!NavMesh.SamplePosition(randomPoint, out hit, 1, NavMesh.AllAreas))
+            while (!NavMesh.SamplePosition(randomPoint, out hit, 1, NavMesh.AllAreas)) // si le point random choisi n'est pas près du sol (genre s'il y a plusieurs étages), on recommence
             {
                 randomPoint = new Vector3(Random.Range(lvlSize.x, -lvlSize.x), Random.Range(lvlSize.y, -lvlSize.y), Random.Range(lvlSize.z, -lvlSize.z));
             }

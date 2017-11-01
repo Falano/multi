@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// à mettre sur le 2D billboarded obj death anim
+// détruit tout le mouton quand l'anim est finie
+
 public class DieWhenFinishedAnim : MonoBehaviour
 {
 

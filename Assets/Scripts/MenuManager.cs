@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+// à mettre sur le menu canvas, vu que ça ne sera pas utilisé in-game
+// aussi c'est ici que j'ai les stats globales et les préférences pour lancer le jeu
+
 public class MenuManager : MonoBehaviour {
 	public Scene[] scenes;
 	public static int enemyNumber = 3;
@@ -36,13 +39,14 @@ public class MenuManager : MonoBehaviour {
 		Application.Quit ();
 	}
 
-	public void LoadLevel(int lvl){
+	public void LoadLevel(int lvl) //ne jamais utiliser ça ça fait bugger le jeu (needs spawn client twice); ou alors que si j'ai fait mon network manager custom
+    {
         activeScene = lvl;
         NetworkManager.singleton.ServerChangeScene(lvl.ToString());
         //SceneManager.LoadScene (activeScene);
 	}
 
-    public void LoadNextScene()
+    public void LoadNextScene() //ne jamais utiliser ça ça fait bugger le jeu (needs spawn client twice); ou alors que si j'ai fait mon network manager custom
     {
         activeScene += 1;
         NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = true;
@@ -63,7 +67,7 @@ public class MenuManager : MonoBehaviour {
 
     public void ChangeStartScene(int change) {
         activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
-        print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
+        //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];

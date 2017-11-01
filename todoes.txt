@@ -2,8 +2,9 @@ todoes multi
 
 to implement:
 --DONE-- anim sheep death
-	anim sheep death same col as sheep
+--DONE-- anim sheep death same col as sheep
 	when dead follow other players
+		mon colorManager qui est un gameManager pourrait au début du jeu enregistrer le joueur et si le joueur n'est plus là lancer le "follow other players"
 	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option)
 	custom colours dans le menu
 	custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
@@ -28,6 +29,7 @@ to implement:
 	language choice
 	players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
 	esc -> sure wanna quit? Yes -> back to lobby
+	add a "rotating right/left without advancing" anim?
 
 bugs:
 --DONE--	client only on second time

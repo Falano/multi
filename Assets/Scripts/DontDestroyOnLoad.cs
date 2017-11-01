@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// don't destroy on load (don't think this is ever used actually)
+
 public class DontDestroyOnLoad : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 		DontDestroyOnLoad (this);
 	}
 	
-	// Update is called once per frame
 	void Update () {
 		
 	}

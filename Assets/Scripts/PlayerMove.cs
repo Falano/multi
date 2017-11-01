@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+// player move
+// also camera position
+
 public class PlayerMove : NetworkBehaviour
 {
 

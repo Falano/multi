@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
+// enemy spawner.
+// the lvlSize that says where they spawn and move is on the colormanager (which is really a game manager)
+
 public class EnemySpawner : NetworkBehaviour {
     public GameObject enemyPrefab;
     public int enemyNumberTest;
@@ -13,7 +16,7 @@ public class EnemySpawner : NetworkBehaviour {
     public override void OnStartServer()
     {
 
-        if (SceneManager.GetActiveScene().name == "testing")
+        if (SceneManager.GetActiveScene().name == "testing") // pour que je n'ai pas à repasser par le menu si je veux juste tester un truc rapide
         {
             enemyNumber = enemyNumberTest;
         }
