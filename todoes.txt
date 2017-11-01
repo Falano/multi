@@ -3,33 +3,33 @@ todoes multi
 to implement:
 --DONE-- anim sheep death
 --DONE-- anim sheep death same col as sheep
-	when dead follow other players
+2	when dead follow other players
 		mon colorManager qui est un gameManager pourrait au début du jeu enregistrer le joueur et si le joueur n'est plus là lancer le "follow other players"
-	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option)
-	custom colours dans le menu
-	custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
-	custom key bindings (global or local? Maybe all boring settings are local. They should.)
-	(boring options menu in-game)
-	custom musics
-	sound volume
-	custom EVERYTHING
-	more lvls
+4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option)
+3	custom colours dans le menu
+4	custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
+2	custom key bindings (global or local? Maybe all boring settings are local. They should.)
+2	(boring options menu in-game)
+3	custom musics
+4	sound volume
+4	custom EVERYTHING
+2	more lvls
 	some tuto or sth
-	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
-	team share lives (both have to be ok with it, and they change col painlessly while doing it)
+2	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
+2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
 	max number of players (lobby) - min number of players?
-	max time
-	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
+2	max time (needs: scores)
+2	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 	leur demander leur nom (lobby)
-	score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs) 
-	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
-	cooldown?
-	make a lvl editor :D
-	gérer pos camera so it doesn't fish eye so much
-	language choice
+1	score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs)
+3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
+--DONE-- cooldown?
+999	make a lvl editor :D
+3	gérer pos camera so it doesn't fish eye so much
+4	language choice
 	players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
-	esc -> sure wanna quit? Yes -> back to lobby
-	add a "rotating right/left without advancing" anim?
+	esc -> sure wanna quit? Yes -> back to lobby (lobby)
+4	add a "rotating right/left without advancing" anim?
 
 bugs:
 --DONE-- client only on second time
@@ -42,3 +42,4 @@ bugs:
 --DONE-- fix mice's lvlSize array
 	check if attackChangeCol works as intended
 	sometimes sheep death anim only works on localPlayer (probs because the server is told of the collision at some random point after it happens and if it is after the anim has finished playing then it skips the anim)
+	can't play twice in a row (check if it persists with the lobby manager)
