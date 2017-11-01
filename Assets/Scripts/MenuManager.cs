@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour {
 	public Scene[] scenes;
-	public static int enemyNumber = 3;
+	public static int enemyNumber = 30;
 	public static int startHp = 30;
 	public static int playersNumber;
 	public static string startLevel;

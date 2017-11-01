@@ -32,13 +32,13 @@ to implement:
 	add a "rotating right/left without advancing" anim?
 
 bugs:
---DONE--	client only on second time
-	rat anim ugly (check how sheep synchronises and do the same)
+--DONE-- client only on second time
+--DONE-- rat anim ugly (check how sheep synchronises and do the same)
 --DONE: faster rotation speed-- have rat LOOK WHERE THEY'RE GOING (don't drink and drive)
 	play with outside players (unity matchmaking) (lobby)
 -- huh yes they do?-- client's camera don't follow them
 --DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
 	needs wider lookat radius for attackChangeCOl
-	fix mice's lvlSize array
+--DONE-- fix mice's lvlSize array
 	check if attackChangeCol works as intended
-	sometimes sheep death anim only works on localPlayer
+	sometimes sheep death anim only works on localPlayer (probs because the server is told of the collision at some random point after it happens and if it is after the anim has finished playing then it skips the anim)

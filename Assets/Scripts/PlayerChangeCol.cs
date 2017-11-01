@@ -5,9 +5,11 @@ using UnityEngine.Networking;
 
 // à mettre sur le player
 // triggers the change col
+// aussi la fonction d'attaque des moutons est ici
 
 public class PlayerChangeCol : NetworkBehaviour
 {
+
 	[SyncVar] private Color currColor;
 	private Color prevColor;
 	Color[] colors = { Color.yellow, Color.cyan, Color.blue, Color.green, Color.white, Color.magenta };
@@ -82,20 +84,35 @@ public class PlayerChangeCol : NetworkBehaviour
 				ChangeCol (this.gameObject);
 			}
 
-			Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
-			if (Input.GetKeyDown (KeyCode.Space) && paintReady) {
-				// changing another's colour
-				if (Physics.Raycast (transform.position + offsetPos, transform.forward, out hit)) {
-					if (Vector3.Distance (hit.transform.position, transform.position) <= hitDistance) {
-						if (hit.transform.CompareTag ("Player")) {
-							ChangeCol (hit.transform.gameObject);
-						}
-					}
-				}
-			}
-			if (rd.materials [1].color != Color.black) {
-				rd.materials [1].color = Color.black;
-			}
+            // changing another's colour
+            /*
+            for (float i = -.2f; i < .2f; i += .05f)
+            {
+                Debug.DrawRay(transform.position + offsetPos, (transform.forward + new Vector3(0, 0, i)) * hitDistance, Color.green);
+            */
+            Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
+
+            if (Input.GetKeyDown(KeyCode.Space) && paintReady)
+                {
+
+                    if (Physics.Raycast(transform.position + offsetPos, transform.forward /*+ new Vector3(0,0,i)*/, out hit))
+                    {
+                        if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
+                        {
+                            if (hit.transform.CompareTag("Player"))
+                            {
+                                ChangeCol(hit.transform.gameObject);
+                            }
+                        }
+                    }
+                }
+                if (rd.materials[1].color != Color.black)
+                {
+                    rd.materials[1].color = Color.black;
+                }
+
+
+            //}
         }
 	}
 }

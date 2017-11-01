@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
 // enemy mover.
 // the lvlSize that says where they spawn and move is on the colormanager (which is really a game manager)
 
-public class EnemyMover : MonoBehaviour
+public class EnemyMover : NetworkBehaviour
 {
     NavMeshAgent ag;
     public Vector3 goal;
@@ -19,6 +20,10 @@ public class EnemyMover : MonoBehaviour
 
     void Start()
     {
+        if (!isServer)
+        {
+            return;
+        }
         lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -28,6 +33,10 @@ public class EnemyMover : MonoBehaviour
 
     void Update()
     {
+        if (!isServer)
+        {
+            return;
+        }
         if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination) {
             readyToChangeDestination = false;
             IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
