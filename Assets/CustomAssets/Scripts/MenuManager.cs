@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour {
 	public Scene[] scenes;
+    // Default Game Options that you can't change in the editor because they're static
+    // should I have a non-static variable that the static ones take after so the designer can change it?
 	public static int enemyNumber = 3;
 	public static int startHp = 30;
 	public static int playersNumber;
@@ -17,10 +19,15 @@ public class MenuManager : MonoBehaviour {
     public static int activeScene = 0;
     public static int nbScenes;
 
+    [Header("don't change that if it works")]
+    [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
-	public Text hpText;
-	public Text chronoText;
-	public Text lvlText;
+    [Tooltip("the 'lives' text object")]
+    public Text hpText;
+    [Tooltip("the 'chrono' text object; aka if the game has a fixed duration")]
+    public Text chronoText;
+    [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
+    public Text lvlText;
 
     public void Start()
     {

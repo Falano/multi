@@ -76,7 +76,8 @@ public class PlayerChangeCol : NetworkBehaviour
     {
 		if(isLocalPlayer){
 			// changing their own colour
-			if (Input.GetKeyDown (KeyCode.LeftControl)) { 
+			if (Input.GetKeyDown (KeyCode.LeftControl)) {
+                print("such marvellous colours!");
 				ChangeCol (this.gameObject);
 			}
 
