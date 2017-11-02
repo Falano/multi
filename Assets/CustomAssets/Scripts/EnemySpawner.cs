@@ -13,6 +13,9 @@ public class EnemySpawner : NetworkBehaviour {
     private int enemyNumber;
     private Vector3 lvlSize;
 
+    private Vector3 pos;
+    private Quaternion rot;
+
     public override void OnStartServer()
     {
 
@@ -25,11 +28,11 @@ public class EnemySpawner : NetworkBehaviour {
             enemyNumber = MenuManager.enemyNumber;
         }
 		for (int i = 0; i < enemyNumber-1; i++) {
-            SpawnEnemy();
-        }
-
-        Invoke("SpawnEnemy", 0);
-        
+            pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), 1f, Random.Range(-lvlSize.z, lvlSize.z));
+            rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
+            GameObject enemy = Instantiate(enemyPrefab, pos, rot);
+            NetworkServer.Spawn(enemy);
+        }        
     }
 
 
@@ -37,13 +40,4 @@ public class EnemySpawner : NetworkBehaviour {
     {
         lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
     }
-
-    void SpawnEnemy() {
-        var pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), 1f, Random.Range(-lvlSize.z, lvlSize.z));
-        var rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
-        var enemy = (GameObject)Instantiate(enemyPrefab, pos, rot);
-
-        NetworkServer.Spawn(enemy);
-    }
-
 }

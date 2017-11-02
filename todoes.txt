@@ -1,4 +1,4 @@
-todoes multi
+﻿todoes multi
 
 to implement:
 --DONE-- anim sheep death
@@ -29,19 +29,21 @@ to implement:
 	players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
 	esc -> sure wanna quit? Yes -> back to lobby (lobby)
 4	add a "rotating right/left without advancing" anim?
-	some tuto or sth
-	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left
-	have the lobby start not automatically but when the host clicks okay (https://docs.unity3d.com/Manual/UNetLobby.html "All of the above server functions have empty default implementations, except for OnLobbyServerPlayersReady, which calls ServerChangeScene with the PlayScene.")
+2	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left
+4	have the lobby start not automatically but when the host clicks okay (https://docs.unity3d.com/Manual/UNetLobby.html "All of the above server functions have empty default implementations, except for OnLobbyServerPlayersReady, which calls ServerChangeScene with the PlayScene.")
+
 
 bugs:
 --DONE-- client only on second time
 --DONE-- rat anim ugly (check how sheep synchronises and do the same)
 --DONE: faster rotation speed-- have rat LOOK WHERE THEY'RE GOING (don't drink and drive)
-	play with outside players (unity matchmaking) (lobby)
+	playing with outside players doesn't work :( (unity matchmaking) (lobby)
 -- huh yes they do?-- client's camera don't follow them
 --DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
 	needs wider lookat radius for attackChangeCOl -- ask flo, she'll know
 --DONE-- fix mice's lvlSize array
 	check if attackChangeCol works as intended
 	sometimes sheep death anim only works on localPlayer (probs because the server is told of the collision at some random point after it happens and if it is after the anim has finished playing then it skips the anim)
-	can't play twice in a row (check if it persists with the lobby manager)
+--DONE: more like lobby manager fixed it all on its own-- can't play twice in a row (check if it persists with the lobby manager)
+	enemy spawns at center. enemySpawner script seems fine though
+	make prettier code for the thing bastien helped with

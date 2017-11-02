@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour {
-	public Scene[] scenes;
+    public static MenuManager singleton;
+    public Scene[] scenes;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
 	public static int enemyNumber = 3;
@@ -32,6 +33,19 @@ public class MenuManager : MonoBehaviour {
     [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
     public Text lvlText;
     private Image lvlImg;
+
+    void Awake()
+    {
+        if (singleton == null)
+        {
+            singleton = this;
+        }
+        else if (singleton != this)
+        {
+            Destroy(this);
+        }
+    }
+
 
 
     public void Start()

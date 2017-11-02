@@ -12,7 +12,18 @@ public class ColorManager : NetworkBehaviour
 {
 	int i;
     public Vector3 LvlSize;
+    public static ColorManager singleton;
 
+    void Awake()
+    {
+        if (singleton == null) {
+            singleton = this;
+        }
+        else if (singleton != this)
+        {
+            Destroy(this);
+        }
+    }
 
     [ClientRpc]
     public void RpcChangeCol(GameObject obj, Color col) {
