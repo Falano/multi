@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // à mettre sur le player
+// triggers the change col 
 
 public class PlayerChangeCol : NetworkBehaviour
 {
@@ -42,8 +43,9 @@ public class PlayerChangeCol : NetworkBehaviour
 		}
 	}
 
-	// changing colour
-	void ChangeCol(GameObject obj){
+    // changing colour
+    // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
+    void ChangeCol(GameObject obj){
         paintReady = false;
 		prevColor = currColor;
 		// so it doesn't "change" to the same colour:
@@ -69,7 +71,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
 	[Command]
 	void CmdChangeCol(GameObject obj, Color col){
-		cm.RpcChangeCol (obj, col);
+		cm.RpcChangeCol (obj, col); // si les souris spawnent au même endroit que le player on aura des NullReferenceException pendant les .2 premières secondes (à cause du Invoke ligne 27)
 	}
 
 

@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitDistance: 2
-  cooldown: 1
+  cooldown: 0.5
 --- !u!114 &114937269543962950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1065,3 +1065,4 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

@@ -22,6 +22,7 @@ public class MenuManager : MonoBehaviour {
     private NetworkLobbyManager lobbyManager;
 
     [Header("don't change that if it works")]
+    public Sprite[] lvlPreviews;
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
     [Tooltip("the 'lives' text object")]
@@ -30,54 +31,31 @@ public class MenuManager : MonoBehaviour {
     public Text chronoText;
     [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
     public Text lvlText;
+    private Image lvlImg;
+
 
     public void Start()
     {
         nbScenes = SceneManager.sceneCountInBuildSettings;
         lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>();
-        //nbScenes = 4;
-    }
+        lvlImg = lvlText.transform.parent.GetComponent<Image>();
+        lvlImg.sprite = lvlPreviews[activeScene];
+       }
 
 
     public void Quit(){
 		Application.Quit ();
 	}
 
-    /*
-	public void LoadLevel(int lvl){
-        activeScene = lvl;
-        NetworkManager.singleton.ServerChangeScene(lvl.ToString());
-        //SceneManager.LoadScene (activeScene);
-	}
-
-    public void LoadNextScene()
-    {
-        activeScene += 1;
-        NetworkManager.singleton.GetComponent<NetworkManagerHUD>().enabled = true;
-        if (activeScene >= nbScenes)
-        {
-            activeScene = 1;
-        }
-        //NetworkManager.networkSceneName = activeScene.ToString();
-        NetworkManager.singleton.ServerChangeScene(activeScene.ToString());
-        //SceneManager.LoadScene(activeScene);
-    }
-
-    public void LoadRandomLevel(){
-		int randomScene = Random.Range (1, scenes.Length);
-        activeScene = randomScene;
-		SceneManager.LoadScene (activeScene);
-	}
-    */
-
     public void ChangeStartScene(int change) {
         activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
         print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
         lobbyManager.playScene = (activeScene + 1).ToString();
+        lvlImg.sprite = lvlPreviews[activeScene];
     }
 
-	public void ChangeNbrEnemies(int nb){
+    public void ChangeNbrEnemies(int nb){
 		enemyNumber += nb;
 		enemyText.text = enemyNumber.ToString();
 	}
@@ -89,7 +67,7 @@ public class MenuManager : MonoBehaviour {
 
 	public void ChangeChrono(float nb){
 		chrono += nb;
-		chronoText.text = chrono.ToString("F1");        
+		chronoText.text = chrono.ToString("F1");
     }
 
 }
