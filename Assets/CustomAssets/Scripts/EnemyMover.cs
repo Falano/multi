@@ -24,7 +24,7 @@ public class EnemyMover : NetworkBehaviour
         {
             return;
         }
-        lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
+        lvlSize = ColorManager.singleton.LvlSize;
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));

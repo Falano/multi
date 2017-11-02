@@ -38,6 +38,6 @@ public class EnemySpawner : NetworkBehaviour {
 
     private void Start()
     {
-        lvlSize = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>().LvlSize;
+        lvlSize = ColorManager.singleton.LvlSize;
     }
 }
