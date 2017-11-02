@@ -3,6 +3,8 @@ todoes multi
 to implement:
 --DONE-- anim sheep death
 	when dead follow other players
+	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left
+	have the lobby start not automatically but when the host clicks okay (https://docs.unity3d.com/Manual/UNetLobby.html "All of the above server functions have empty default implementations, except for OnLobbyServerPlayersReady, which calls ServerChangeScene with the PlayScene.")
 
 bugs:
 	client only on second time
