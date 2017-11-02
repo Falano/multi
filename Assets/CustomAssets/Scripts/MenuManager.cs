@@ -19,6 +19,8 @@ public class MenuManager : MonoBehaviour {
     public static int activeScene = 0;
     public static int nbScenes;
 
+    private NetworkLobbyManager lobbyManager;
+
     [Header("don't change that if it works")]
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
@@ -32,6 +34,7 @@ public class MenuManager : MonoBehaviour {
     public void Start()
     {
         nbScenes = SceneManager.sceneCountInBuildSettings;
+        lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>();
         //nbScenes = 4;
     }
 
@@ -40,6 +43,7 @@ public class MenuManager : MonoBehaviour {
 		Application.Quit ();
 	}
 
+    /*
 	public void LoadLevel(int lvl){
         activeScene = lvl;
         NetworkManager.singleton.ServerChangeScene(lvl.ToString());
@@ -64,12 +68,13 @@ public class MenuManager : MonoBehaviour {
         activeScene = randomScene;
 		SceneManager.LoadScene (activeScene);
 	}
+    */
 
     public void ChangeStartScene(int change) {
         activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
         print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
-        NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
+        lobbyManager.playScene = (activeScene + 1).ToString();
     }
 
 	public void ChangeNbrEnemies(int nb){
