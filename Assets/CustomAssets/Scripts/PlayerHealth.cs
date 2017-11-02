@@ -9,9 +9,8 @@ using UnityEngine.UI;
 // also manages the GUI's healthbar 
 
 public class PlayerHealth : NetworkBehaviour {
-	[SerializeField]
-	float hp;
-	ColorManager cm;
+    [SerializeField]
+    float hp;
 	public Image healthGUI;
 	public Sprite[] sprites;
     [SerializeField]
@@ -29,13 +28,7 @@ public class PlayerHealth : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        Invoke("Initialize", 0.2f);
-    }
-
-    void Initialize()
-    {
         hp = MenuManager.startHp;
-        cm = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>();
         healthGUI = GameObject.FindGameObjectWithTag("hGUI").GetComponent<Image>();
     }
 
@@ -44,7 +37,7 @@ public class PlayerHealth : NetworkBehaviour {
 		hp -= dmg;
         if (Hp <= 0)
         {
-            cm.Kill (this.gameObject);
+            ColorManager.singleton.Kill (this.gameObject);
 		}
         spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * 10);
         if (isLocalPlayer) {

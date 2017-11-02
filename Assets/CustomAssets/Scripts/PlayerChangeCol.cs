@@ -11,7 +11,6 @@ public class PlayerChangeCol : NetworkBehaviour
 	[SyncVar] private Color currColor;
 	private Color prevColor;
 	Color[] colors = { Color.yellow, Color.cyan, Color.blue, Color.green, Color.white, Color.magenta };
-    private ColorManager cm;
 
 	RaycastHit hit;
     public float hitDistance = 1;
@@ -24,15 +23,14 @@ public class PlayerChangeCol : NetworkBehaviour
 
     void Start()
     {
-        Invoke("Initialize", .2f);
-    }
-
-    private void Initialize()
-    {
         rd = GetComponentInChildren<Renderer>();
         currColor = Color.black;
         offsetPos = new Vector3(0, .5f, 0);
-        cm = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>();
+        Invoke("startWhite", .5f);
+    }
+
+    void startWhite()
+    {
         ChangeCol(gameObject, Color.white);
     }
 
@@ -71,7 +69,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
 	[Command]
 	void CmdChangeCol(GameObject obj, Color col){
-		cm.RpcChangeCol (obj, col); // si les souris spawnent au même endroit que le player on aura des NullReferenceException pendant les .2 premières secondes (à cause du Invoke ligne 27)
+		ColorManager.singleton.RpcChangeCol (obj, col);
 	}
 
 
@@ -97,7 +95,7 @@ public class PlayerChangeCol : NetworkBehaviour
 					}
 				}
 			}
-			if (rd.materials [1].color != Color.black) { //this creates a few NullReferenceException because for .2f seconds rd doesn't exist (but if I don't do that lobby fucks with me)
+			if (rd.materials [1].color != Color.black) {
 				rd.materials [1].color = Color.black;
 			}
         }
