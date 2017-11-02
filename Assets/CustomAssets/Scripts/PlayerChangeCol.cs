@@ -23,16 +23,20 @@ public class PlayerChangeCol : NetworkBehaviour
 
     void Start()
     {
-		rd = GetComponentInChildren<Renderer> ();
-		currColor = Color.black;
+        Invoke("Initialize", .2f);
+    }
+
+    private void Initialize()
+    {
+        rd = GetComponentInChildren<Renderer>();
+        currColor = Color.black;
         offsetPos = new Vector3(0, .5f, 0);
         cm = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>();
         ChangeCol(gameObject, Color.white);
     }
 
-
-	// mice make them change colour
-	void OnTriggerEnter(Collider other){
+    // mice make them change colour
+    void OnTriggerEnter(Collider other){
 		if (other.CompareTag ("AttackChangeCol")) {
 			ChangeCol(this.gameObject);
 		}
@@ -77,7 +81,6 @@ public class PlayerChangeCol : NetworkBehaviour
 		if(isLocalPlayer){
 			// changing their own colour
 			if (Input.GetKeyDown (KeyCode.LeftControl)) {
-                print("such marvellous colours!");
 				ChangeCol (this.gameObject);
 			}
 
@@ -92,7 +95,7 @@ public class PlayerChangeCol : NetworkBehaviour
 					}
 				}
 			}
-			if (rd.materials [1].color != Color.black) {
+			if (rd.materials [1].color != Color.black) { //this creates a few NullReferenceException because for .2f seconds rd doesn't exist (but if I don't do that lobby fucks with me)
 				rd.materials [1].color = Color.black;
 			}
         }

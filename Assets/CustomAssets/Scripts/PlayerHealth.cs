@@ -17,9 +17,14 @@ public class PlayerHealth : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		hp = MenuManager.startHp;
-		cm = GameObject.FindGameObjectWithTag ("ColorManager").GetComponent<ColorManager> ();
-		healthGUI = GameObject.FindGameObjectWithTag ("hGUI").GetComponent<Image> ();
+        Invoke("Initialize", 0.2f);
+    }
+
+    void Initialize()
+    {
+        hp = MenuManager.startHp;
+        cm = GameObject.FindGameObjectWithTag("ColorManager").GetComponent<ColorManager>();
+        healthGUI = GameObject.FindGameObjectWithTag("hGUI").GetComponent<Image>();
     }
 
 	public void TakeDamage(int dmg = 1){
