@@ -18,7 +18,7 @@ public class EnemySpawner : NetworkBehaviour {
 
     public override void OnStartServer()
     {
-
+        lvlSize = ColorManager.singleton.LvlSize;
         if (SceneManager.GetActiveScene().name == "testing") // pour que je n'ai pas à repasser par le menu si je veux juste tester un truc rapide
         {
             enemyNumber = enemyNumberTest;
@@ -28,16 +28,16 @@ public class EnemySpawner : NetworkBehaviour {
             enemyNumber = MenuManager.enemyNumber;
         }
 		for (int i = 0; i < enemyNumber-1; i++) {
-            pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), 1f, Random.Range(-lvlSize.z, lvlSize.z));
-            rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
-            GameObject enemy = Instantiate(enemyPrefab, pos, rot);
-            NetworkServer.Spawn(enemy);
+            spawnEnemy();
         }        
     }
 
-
-    private void Start()
+    public void spawnEnemy()
     {
-        lvlSize = ColorManager.singleton.LvlSize;
+        pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), 1f, Random.Range(-lvlSize.z, lvlSize.z));
+        rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
+        GameObject enemy = Instantiate(enemyPrefab, pos, rot);
+        NetworkServer.Spawn(enemy);
     }
+
 }
