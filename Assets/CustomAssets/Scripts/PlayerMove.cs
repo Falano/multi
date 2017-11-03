@@ -4,13 +4,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // player move
-// also camera position
 
 public class PlayerMove : NetworkBehaviour
 {
 
     public float rotationSpeed;
-    public Vector3 posOffset;
     private Animator animator;
     public float speed = 5;
     public Rigidbody rb;
@@ -18,13 +16,12 @@ public class PlayerMove : NetworkBehaviour
     [SyncVar] private bool isAnimated;
     [SyncVar] private string animationName;
 
-    private GameObject worldCamera;
 
     public override void OnStartLocalPlayer()
     {
-        worldCamera = GameObject.FindGameObjectWithTag("MainCamera");
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
     }
 
     void Update()
@@ -33,8 +30,6 @@ public class PlayerMove : NetworkBehaviour
         {
             return;
         }
-
-        worldCamera.transform.position = transform.position + posOffset;
 
         if (animator)
         {
@@ -55,6 +50,5 @@ public class PlayerMove : NetworkBehaviour
         {
             transform.Translate(0, 0, speed * 0.01f);
         }
-
     }
 }

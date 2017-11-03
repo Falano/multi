@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
 public class ColorManager : NetworkBehaviour
 {
+    public static List<Score> playersList;
 	int i;
     public Vector3 LvlSize;
     public static ColorManager singleton;
@@ -43,9 +44,12 @@ public class ColorManager : NetworkBehaviour
         mesh.SetActive(false);
         GameObject death = obj.transform.GetChild(2).gameObject;
         death.SetActive(true);
+        Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
+        player.SetTimeOfDeath(); // pour le score
+        print(player.PlayerName + " est mort après " + player.TimeOfDeath + "secondes." );
         death.GetComponent<SpriteRenderer>().color = mesh.GetComponent<Renderer>().material.color;
-        print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
-        print("meshcol = " + mesh.GetComponent<Renderer>().material.color);
+        //print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
+        //print("meshcol = " + mesh.GetComponent<Renderer>().material.color);
         obj.GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
         //the object destroy itself is on a script on the child
 	}

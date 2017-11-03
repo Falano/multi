@@ -54,7 +54,11 @@ public class MenuManager : MonoBehaviour {
         lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>();
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
-       }
+        //now: initializing the texts with the default values:
+        enemyText.text = enemyNumber.ToString();
+        hpText.text = startHp.ToString();
+        chronoText.text = chrono.ToString();
+    }
 
 
     public void Quit(){

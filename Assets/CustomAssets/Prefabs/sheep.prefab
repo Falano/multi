@@ -120,6 +120,7 @@ GameObject:
   - component: {fileID: 114907404837594186}
   - component: {fileID: 114369389828030044}
   - component: {fileID: 54442260372631464}
+  - component: {fileID: 114550873388179458}
   m_Layer: 0
   m_Name: sheep
   m_TagString: Player
@@ -900,6 +901,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
+--- !u!114 &114550873388179458
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165169909168218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86b1b6c629f85c4b9b7ceef9c885109, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayer: {fileID: 0}
 --- !u!114 &114566961614709154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -936,7 +949,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 5
-  posOffset: {x: 0, y: 5, z: -5}
   speed: 5
   rb: {fileID: 0}
 --- !u!137 &137606392631630526
