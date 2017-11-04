@@ -52,5 +52,8 @@ public class Score {
     {
         i = newI;
     }
-
+    public void changedCol(ref int param, int nb = 1)
+    {
+        param+=nb;
+    }
 }

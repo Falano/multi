@@ -36,6 +36,11 @@ public class ColorManager : NetworkBehaviour
             {
                 mat.color = col;
             }
+            /*
+            if (attacker == obj)
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.changedCol()
+            }*/
         }
 		
 	}

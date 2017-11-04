@@ -76,29 +76,29 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void ChangeNbrEnemies(int nb){
-        ChangeSetting(nb, enemyNumber, enemyText);
+        ChangeSetting(nb, ref enemyNumber, enemyText);
 	}
 
     public void ChangeStartHp(int nb)
     {
-        ChangeSetting(nb, startHp, hpText);
+        ChangeSetting(nb, ref startHp, hpText);
     }
     public void ChangeMaxPlayers(int nb)
     {
-        ChangeSetting(nb, maxPlayersNumber, maxPlayersText);
+        ChangeSetting(nb, ref maxPlayersNumber, maxPlayersText);
     }
 
     public void ChangeChrono(float nb){
-        ChangeSetting(nb, chrono, chronoText);
+        ChangeSetting(nb, ref chrono, chronoText);
     }
 
-    public void ChangeSetting(int nb, int setting, Text settingText)
+    public void ChangeSetting(int nb, ref int setting, Text settingText)
     {
         setting += nb;
         settingText.text = setting.ToString();
     }
 
-    public void ChangeSetting(float nb, float setting, Text settingText)
+    public void ChangeSetting(float nb, ref float setting, Text settingText)
     {
         setting += nb;
         settingText.text = setting.ToString("F1");

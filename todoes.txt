@@ -32,11 +32,14 @@ to implement:
 --DONE-- gerer pos camera so it doesn't fish eye so much
 4	language choice
 	players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
-	esc -> sure wanna quit? Yes -> back to lobby (lobby)
+2	esc -> sure wanna quit? Yes -> back to lobby (lobby)
 4	add a "rotating right/left without advancing" anim?
-2	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left
+2	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left; 
+	less default mice
 4	have the lobby start not automatically but when the host clicks okay (https://docs.unity3d.com/Manual/UNetLobby.html "All of the above server functions have empty default implementations, except for OnLobbyServerPlayersReady, which calls ServerChangeScene with the PlayScene.")
-
+	speed boost after a color change
+	wine issue: no words (at the very least include screenshots for linux users)
+	
 
 bugs:
 --DONE-- client only on second time
@@ -47,6 +50,7 @@ I think you can already play over the Internet. I dont have time to test it sinc
 use your ip address and forward ports on your router to play over the internet﻿
 https://forum.unity.com/threads/unet-and-nat-punchthrough-it-can-be-done.391845/
 or scrap the lobby and use evolve?
+check how the not-lobby matchmaking works (more like: whether)
 
 -- huh yes they do?-- client's camera don't follow them
 --DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
