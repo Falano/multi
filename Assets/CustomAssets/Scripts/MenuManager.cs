@@ -21,9 +21,9 @@ public class MenuManager : MonoBehaviour {
     public static int nbScenes;
 
 
-    private NetworkLobbyManager lobbyManager;
+    //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 
-    [Header("don't change that if it works")]
+    [Header("Don't change that if it works")]
     public Sprite[] lvlPreviews;
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
@@ -53,7 +53,7 @@ public class MenuManager : MonoBehaviour {
     public void Start()
     {
         nbScenes = SceneManager.sceneCountInBuildSettings;
-        lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>();
+        //lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>(); //for lobby version
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
         //now: initializing the texts with the default values:
@@ -72,7 +72,8 @@ public class MenuManager : MonoBehaviour {
         activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
         //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
-        lobbyManager.playScene = (activeScene + 1).ToString();
+        NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
+        //NetlobbyManager.playScene = (activeScene + 1).ToString(); // for lobby version
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
