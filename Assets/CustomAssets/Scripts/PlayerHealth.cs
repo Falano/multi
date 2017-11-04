@@ -28,15 +28,17 @@ public class PlayerHealth : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        hp = MenuManager.startHp;
+        hp = MenuManager.startHp+1;
         healthGUI = GameObject.FindGameObjectWithTag("hGUI").GetComponent<Image>();
     }
 
     // both for hp value and GUI's healthbar 
     public void TakeDamage(int dmg = 1){
 		hp -= dmg;
+        print("hp = " + hp);
         if (Hp <= 0)
         {
+            print("dead");
             ColorManager.singleton.Kill (this.gameObject);
 		}
         spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * 10);
