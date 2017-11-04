@@ -12,7 +12,6 @@ public class CameraMover : NetworkBehaviour {
     public Transform activePlayer; //assigné au début du jeu dans PlayerMove
     public Transform posRotOffset;
     private int i = 0;
-    private bool isPlayerDead = false;
 
     void Awake()
     {
@@ -34,7 +33,6 @@ public class CameraMover : NetworkBehaviour {
 	}
 
 	void Update () {
-        if (!isLocalPlayer) { return; }
         if (activePlayer != null)
         {
             transform.position = activePlayer.position + posRotOffset.position;
@@ -42,7 +40,6 @@ public class CameraMover : NetworkBehaviour {
         }
         else
         {
-            isPlayerDead = true;
             while(activePlayer == null)
             {
                 activePlayer = ColorManager.playersList[i].PlayerObj.transform;
@@ -53,7 +50,7 @@ public class CameraMover : NetworkBehaviour {
                 i++;
             }
         }
-        if(Input.GetKeyDown(KeyCode.Space) && isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
+        if(Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
          i++;
             print("space"); // clairement ça ne marche pas
          activePlayer = ColorManager.playersList[i].PlayerObj.transform;

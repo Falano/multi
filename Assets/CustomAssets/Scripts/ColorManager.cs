@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // à mettre sur le color manager
-// dit à tout le monde que le mouton a changé de couleur (rpc)
+// dit à tout le monde que le mouton a changé de couleur (rpc) (probs car n'est oas localPlayerAuthority?)
 // contient la fonction finale Kill qui désactive le renderer du mouton et active death anim; the object destroy itself is on a script on the child
 
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
@@ -14,6 +14,7 @@ public class ColorManager : NetworkBehaviour
 	int i;
     public Vector3 LvlSize;
     public static ColorManager singleton;
+    public bool isPlayerDead = false;
 
     void Awake()
     {
@@ -25,6 +26,21 @@ public class ColorManager : NetworkBehaviour
             Destroy(this);
         }
             playersList = new Score[MenuManager.maxPlayersNumber];
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePlayersList(Score player)
+    {
+        bool done = false;
+        for(int i = 0; done == false; i++)
+        {
+            if(playersList[i]== null)
+            {
+                player.SetI(i);
+                playersList[i] = player;
+                done = true;
+            }
+        }
     }
 
     [ClientRpc]
@@ -52,10 +68,13 @@ public class ColorManager : NetworkBehaviour
 
             }
         }
-		
 	}
     
 	public void Kill(GameObject obj){
+        if (isLocalPlayer)
+        {
+            isPlayerDead = true;
+        }
         GameObject mesh = obj.transform.GetChild(0).gameObject;
         mesh.SetActive(false);
         GameObject death = obj.transform.GetChild(2).gameObject;

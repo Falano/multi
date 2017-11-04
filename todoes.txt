@@ -36,9 +36,11 @@ to implement:
 4	add a "rotating right/left without advancing" anim?
 2	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left; 
 	less default mice
-4	have the lobby start not automatically but when the host clicks okay (https://docs.unity3d.com/Manual/UNetLobby.html "All of the above server functions have empty default implementations, except for OnLobbyServerPlayersReady, which calls ServerChangeScene with the PlayScene.")
+4	make a fake lobby with like you start the game in pause or something till everyone has joined
+	also check why the networkHUD disappears after the first play
 	speed boost after a color change
-	wine issue: no words (at the very least include screenshots for linux users)
+	wine issue: no words 
+--DONE-- (at the very least include screenshots for linux users)
 	keep mice from spam attacking the player
 	
 
@@ -52,10 +54,11 @@ use your ip address and forward ports on your router to play over the internetï»
 https://forum.unity.com/threads/unet-and-nat-punchthrough-it-can-be-done.391845/
 or scrap the lobby and use evolve?
 check how the not-lobby matchmaking works (more like: whether)
+whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 
 -- huh yes they do?-- client's camera don't follow them
 --DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
-	needs wider lookat radius for attackChangeCOl -- ask flo, she'll know
+	needs wider lookat radius for attackChangeCOl -- ask flo, she'll know -- do I really need it though?
 --DONE-- fix mice's lvlSize array
 	check if attackChangeCol works as intended
 	sometimes sheep death anim only works on localPlayer (probs because the server is told of the collision at some random point after it happens and if it is after the anim has finished playing then it skips the anim)

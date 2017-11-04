@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // juste la classe score avec ses fonctions
-
+// fucks with ColorManager's RpcUpdatePlayersList (line 32) // unity says there is no constructor :/ // they say UNetWeaver error
 public class Score {
-    int i = 0;
+    int i;
     GameObject playerObj;
     string playerName;
     float timeOfDeath;
@@ -37,7 +37,7 @@ public class Score {
         }
     }
 
-    public Score(GameObject playerObject, string playerNamed)
+    public Score(GameObject playerObject, string playerNamed) 
     {
         playerObj = playerObject;
         startTime = Time.time;
