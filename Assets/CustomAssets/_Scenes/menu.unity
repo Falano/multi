@@ -3443,7 +3443,7 @@ Canvas:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1205808145}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -4071,7 +4071,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 852822625}
         m_MethodName: set_enabled
         m_Mode: 6
         m_Arguments:
@@ -4385,22 +4385,22 @@ Prefab:
         type: 2}
       propertyPath: enemyText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1911907639}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: hpText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1886410317}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: chronoText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1769838184}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: lvlText
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 570395772}
     - target: {fileID: 114854382139961450, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -4485,6 +4485,11 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: c563c9f4ca5a16348a496c9736f943b9,
         type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: maxPlayersText
+      value: 
+      objectReference: {fileID: 2026613408}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_IsPrefabParent: 0

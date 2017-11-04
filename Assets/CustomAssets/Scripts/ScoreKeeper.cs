@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 // à mettre sur le sheep prefab
 
+    /*
 public class ScoreKeeper : NetworkBehaviour {
     public Score currentPlayer;
 
@@ -35,3 +36,4 @@ public class ScoreKeeper : NetworkBehaviour {
 
     }
 }
+*/

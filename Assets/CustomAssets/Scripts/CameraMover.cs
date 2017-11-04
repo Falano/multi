@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-// get a list of all players
+// get a list of all players somehow
 // follow the played player
 // when they die, follow another
 
@@ -25,19 +25,14 @@ public class CameraMover : NetworkBehaviour {
         }
     }
 
-
-
-    // Use this for initialization
-    void Start () {
-
-	}
-
 	void Update () {
         if (activePlayer != null)
         {
             transform.position = activePlayer.position + posRotOffset.position;
             transform.rotation = posRotOffset.rotation;
         }
+        /*
+        // for following not-dead players; currently purging scores, so commenting it.
         if(Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
             print("space"); // clairement ça ne marche pas
             while (activePlayer == null)
@@ -51,5 +46,6 @@ public class CameraMover : NetworkBehaviour {
             }
             activePlayer = ColorManager.playersList[i].PlayerObj.transform;
         }
+        */
     }
 }
