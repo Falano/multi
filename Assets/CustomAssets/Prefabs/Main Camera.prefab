@@ -23,6 +23,8 @@ GameObject:
   - component: {fileID: 92150559993692668}
   - component: {fileID: 124248994213928296}
   - component: {fileID: 81448052517540604}
+  - component: {fileID: 114777898419650402}
+  - component: {fileID: 114354436883010120}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -36,13 +38,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1386656431010788}
-  m_LocalRotation: {x: -0.41281685, y: 0.15504625, z: -0.07154173, w: -0.8946646}
-  m_LocalPosition: {x: 3.869269, y: 5.610012, z: -8.284565}
+  m_LocalRotation: {x: 0.37940946, y: 0.12059045, z: -0.04995019, w: 0.9159757}
+  m_LocalPosition: {x: -3.5, y: 13.3, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 15, z: 0}
 --- !u!20 &20320176039448910
 Camera:
   m_ObjectHideFlags: 1
@@ -61,7 +63,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -93,6 +95,52 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1386656431010788}
   m_Enabled: 1
+--- !u!114 &114354436883010120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1386656431010788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17f452c380f6ba438ee0ecb14766eca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePlayer: {fileID: 0}
+  posRotOffset: {fileID: 4980439881794022, guid: 2ff5aebae327383429dab4ba41430b62,
+    type: 2}
+--- !u!114 &114777898419650402
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1386656431010788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 104
+    i1: 192
+    i2: 42
+    i3: 215
+    i4: 102
+    i5: 76
+    i6: 15
+    i7: 68
+    i8: 27
+    i9: 64
+    i10: 214
+    i11: 218
+    i12: 50
+    i13: 104
+    i14: 36
+    i15: 28
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!124 &124248994213928296
 Behaviour:
   m_ObjectHideFlags: 1
