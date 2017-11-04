@@ -9,10 +9,10 @@ public class Score {
     GameObject playerObj;
     string playerName;
     float timeOfDeath;
-    int colorChangesToOthers;
-    int colorChangesFromOthers;
-    int colorChangesFromMice;
-    int colorChangesFromSelf;
+    public int colorChangesToOthers;
+    public int colorChangesFromOthers;
+    public int colorChangesFromMice;
+    public int colorChangesFromSelf;
     float startTime;
 
     public string PlayerName
@@ -51,9 +51,5 @@ public class Score {
     public void SetI(int newI)
     {
         i = newI;
-    }
-    public void changedCol(ref int param, int nb = 1)
-    {
-        param+=nb;
     }
 }

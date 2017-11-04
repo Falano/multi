@@ -28,7 +28,7 @@ public class ColorManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcChangeCol(GameObject obj, Color col) {
+    public void RpcChangeCol(GameObject obj, Color col, GameObject attacker) {
 		obj.GetComponent<PlayerHealth> ().TakeDamage();
         if (obj.GetComponent<PlayerHealth>().Hp > 0) { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
             Renderer rd = obj.GetComponentInChildren<Renderer>();
@@ -36,11 +36,21 @@ public class ColorManager : NetworkBehaviour
             {
                 mat.color = col;
             }
-            /*
+            
             if (attacker == obj)
             {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.changedCol()
-            }*/
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromSelf += 1;
+            }
+            else if (attacker.CompareTag("AttackChangeCol"))
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromMice += 1;
+            }
+            else if (attacker.CompareTag("Player"))
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromOthers += 1;
+                attacker.GetComponent<ScoreKeeper>().currentPlayer.colorChangesToOthers += 1;
+
+            }
         }
 		
 	}
@@ -53,7 +63,7 @@ public class ColorManager : NetworkBehaviour
         Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
         player.SetTimeOfDeath(); // pour le score
         print(player.PlayerName + " est mort après " + player.TimeOfDeath + "secondes." );
-        print("You dissolved into paint after " + player.TimeOfDeath + "seconds." );
+        print("You dissolved into paint after " + player.TimeOfDeath.ToString("F1") + " seconds. You changed colour " + player.colorChangesFromMice + " times because of mice, " + player.colorChangesFromOthers + " times because of other players, " + player.colorChangesFromSelf  + " times of your own volition, and you made other players change colour " + player.colorChangesToOthers + " times." );
         death.GetComponent<SpriteRenderer>().color = mesh.GetComponent<Renderer>().material.color;
         //print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
         //print("meshcol = " + mesh.GetComponent<Renderer>().material.color);

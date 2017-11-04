@@ -28,7 +28,7 @@ public class PlayerHealth : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        hp = MenuManager.startHp;
+        hp = MenuManager.startHp+1;
         healthGUI = GameObject.FindGameObjectWithTag("hGUI").GetComponent<Image>();
     }
 

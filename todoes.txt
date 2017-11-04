@@ -39,6 +39,7 @@ to implement:
 4	have the lobby start not automatically but when the host clicks okay (https://docs.unity3d.com/Manual/UNetLobby.html "All of the above server functions have empty default implementations, except for OnLobbyServerPlayersReady, which calls ServerChangeScene with the PlayScene.")
 	speed boost after a color change
 	wine issue: no words (at the very least include screenshots for linux users)
+	keep mice from spam attacking the player
 	
 
 bugs:
