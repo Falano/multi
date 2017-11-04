@@ -20,6 +20,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/CustomAssets/_Scenes/4.unity
     guid: 9ca7813a8a387b84899cc2249b45702b
-  - enabled: 1
+  - enabled: 0
     path: Assets/CustomAssets/_Scenes/testing.unity
     guid: 22a39b4c23d872640b43b0f57994b74e

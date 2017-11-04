@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
 public class ColorManager : NetworkBehaviour
 {
-    public static List<Score> playersList;
+    public static Score[] playersList; // trouver un moyen de la synchroniser à travers le réseau
 	int i;
     public Vector3 LvlSize;
     public static ColorManager singleton;
@@ -24,6 +24,7 @@ public class ColorManager : NetworkBehaviour
         {
             Destroy(this);
         }
+            playersList = new Score[MenuManager.maxPlayersNumber];
     }
 
     [ClientRpc]
@@ -47,6 +48,7 @@ public class ColorManager : NetworkBehaviour
         Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
         player.SetTimeOfDeath(); // pour le score
         print(player.PlayerName + " est mort après " + player.TimeOfDeath + "secondes." );
+        print("You dissolved into paint after " + player.TimeOfDeath + "seconds." );
         death.GetComponent<SpriteRenderer>().color = mesh.GetComponent<Renderer>().material.color;
         //print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
         //print("meshcol = " + mesh.GetComponent<Renderer>().material.color);

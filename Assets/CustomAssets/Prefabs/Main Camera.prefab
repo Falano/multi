@@ -38,13 +38,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1386656431010788}
-  m_LocalRotation: {x: -0.41281685, y: 0.15504625, z: -0.07154173, w: -0.8946646}
-  m_LocalPosition: {x: 3.869269, y: 5.610012, z: -8.284565}
+  m_LocalRotation: {x: 0.37940946, y: 0.12059045, z: -0.04995019, w: 0.9159757}
+  m_LocalPosition: {x: -3.5, y: 13.3, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 15, z: 0}
 --- !u!20 &20320176039448910
 Camera:
   m_ObjectHideFlags: 1
@@ -63,7 +63,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -107,7 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activePlayer: {fileID: 0}
-  posOffset: {x: 0, y: 0, z: 0}
+  posRotOffset: {fileID: 4980439881794022, guid: 2ff5aebae327383429dab4ba41430b62,
+    type: 2}
 --- !u!114 &114777898419650402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -122,22 +123,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 104
+    i1: 192
+    i2: 42
+    i3: 215
+    i4: 102
+    i5: 76
+    i6: 15
+    i7: 68
+    i8: 27
+    i9: 64
+    i10: 214
+    i11: 218
+    i12: 50
+    i13: 104
+    i14: 36
+    i15: 28
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!124 &124248994213928296

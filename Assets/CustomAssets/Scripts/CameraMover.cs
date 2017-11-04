@@ -10,7 +10,9 @@ using UnityEngine.Networking;
 public class CameraMover : NetworkBehaviour {
     public static CameraMover singleton;
     public Transform activePlayer; //assigné au début du jeu dans PlayerMove
-    public Vector3 posOffset;
+    public Transform posRotOffset;
+    private int i = 0;
+    private bool isPlayerDead = false;
 
     void Awake()
     {
@@ -30,22 +32,31 @@ public class CameraMover : NetworkBehaviour {
     void Start () {
 
 	}
-	/*
-	// Update is called once per frame
+
 	void Update () {
+        if (!isLocalPlayer) { return; }
         if (activePlayer != null)
         {
-            transform.position = activePlayer.position + posOffset;
+            transform.position = activePlayer.position + posRotOffset.position;
+            transform.rotation = posRotOffset.rotation;
         }
         else
         {
-            activePlayer = listPlayers [x]...
+            isPlayerDead = true;
+            while(activePlayer == null)
+            {
+                activePlayer = ColorManager.playersList[i].PlayerObj.transform;
+                if(i >= ColorManager.playersList.Length)
+                {
+                    i = -1;
+                }
+                i++;
+            }
         }
-        if(Input.GetKeyDown(KeyCode.Y)){
-         x+=1;
-         activePlayer = listPlayers[x];
+        if(Input.GetKeyDown(KeyCode.Space) && isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
+         i++;
+            print("space"); // clairement ça ne marche pas
+         activePlayer = ColorManager.playersList[i].PlayerObj.transform;
+        }
     }
-
-    }
-    */
 }

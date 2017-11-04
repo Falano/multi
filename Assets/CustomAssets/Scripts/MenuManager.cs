@@ -12,7 +12,7 @@ public class MenuManager : MonoBehaviour {
     // should I have a non-static variable that the static ones take after so the designer can change it?
 	public static int enemyNumber = 3;
 	public static int startHp = 30;
-	public static int playersNumber;
+	public static int maxPlayersNumber = 20;
 	public static string startLevel;
 	public static int teamwork; // number of different teams; 0 is chacun pour soi
 	public static float chrono = 0; // en minutes
@@ -32,6 +32,7 @@ public class MenuManager : MonoBehaviour {
     public Text chronoText;
     [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
     public Text lvlText;
+    public Text maxPlayersText;
     private Image lvlImg;
 
     void Awake()
@@ -58,6 +59,7 @@ public class MenuManager : MonoBehaviour {
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
+        maxPlayersText.text = maxPlayersNumber.ToString();
     }
 
 
@@ -67,25 +69,38 @@ public class MenuManager : MonoBehaviour {
 
     public void ChangeStartScene(int change) {
         activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
-        print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
+        //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene+1).ToString();
         lobbyManager.playScene = (activeScene + 1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
     public void ChangeNbrEnemies(int nb){
-		enemyNumber += nb;
-		enemyText.text = enemyNumber.ToString();
+        ChangeSetting(nb, enemyNumber, enemyText);
 	}
 
-	public void ChangeStartHp(int nb){
-		startHp += nb;
-		hpText.text = startHp.ToString();
-	}
-
-	public void ChangeChrono(float nb){
-		chrono += nb;
-		chronoText.text = chrono.ToString("F1");
+    public void ChangeStartHp(int nb)
+    {
+        ChangeSetting(nb, startHp, hpText);
+    }
+    public void ChangeMaxPlayers(int nb)
+    {
+        ChangeSetting(nb, maxPlayersNumber, maxPlayersText);
     }
 
+    public void ChangeChrono(float nb){
+        ChangeSetting(nb, chrono, chronoText);
+    }
+
+    public void ChangeSetting(int nb, int setting, Text settingText)
+    {
+        setting += nb;
+        settingText.text = setting.ToString();
+    }
+
+    public void ChangeSetting(float nb, float setting, Text settingText)
+    {
+        setting += nb;
+        settingText.text = setting.ToString("F1");
+    }
 }

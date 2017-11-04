@@ -24,7 +24,7 @@ public class PlayerChangeCol : NetworkBehaviour
     void Start()
     {
         rd = GetComponentInChildren<Renderer>();
-        currColor = Color.black;
+        currColor = Color.white;
         offsetPos = new Vector3(0, .5f, 0);
         Invoke("startWhite", .5f);
     }
@@ -44,6 +44,10 @@ public class PlayerChangeCol : NetworkBehaviour
     // changing colour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
     void ChangeCol(GameObject obj){
+        if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
+        {
+            return;
+        }
         paintReady = false;
 		prevColor = currColor;
 		// so it doesn't "change" to the same colour:
@@ -63,8 +67,12 @@ public class PlayerChangeCol : NetworkBehaviour
 
 
 	// so I can choose to change to one specific colour
-	void ChangeCol(GameObject obj, Color col){ 
-		CmdChangeCol (obj, col);
+	void ChangeCol(GameObject obj, Color col){
+        if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
+        {
+            return;
+        }
+        CmdChangeCol (obj, col);
 	}
 
 	[Command]

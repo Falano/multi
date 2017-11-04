@@ -29,6 +29,13 @@ public class Score {
             return timeOfDeath;
         }
     }
+    public GameObject PlayerObj
+    {
+        get
+        {
+            return playerObj;
+        }
+    }
 
     public Score(GameObject playerObject, string playerNamed)
     {
