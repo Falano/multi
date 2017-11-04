@@ -11,13 +11,27 @@ public class ScoreKeeper : NetworkBehaviour {
     public override void OnStartLocalPlayer()
     {
         if (!isLocalPlayer) { return; }
-        //Prototype.NetworkLobby.LobbyPlayer lobby = (Prototype.NetworkLobby.LobbyPlayer)GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<Prototype.NetworkLobby.LobbyManager>().lobbyPlayerPrefab;
-        currentPlayer = new Score(gameObject, "test"/*lobby.playerName*/);
-        Invoke("playersListWithParameters", 2); //have invoke with parameters
+        string playerName = PlayerPrefs.GetString(name);
+        currentPlayer = new Score(gameObject, playerName); // need somewhere to ask it of the player
+        CmdUpdatePlayerList(gameObject);
     }
 
-    void playersListWithParameters()
+    [Command]
+    public void CmdUpdatePlayerList(GameObject obj)
     {
-        ColorManager.singleton.RpcUpdatePlayersList(currentPlayer);
+        Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
+        bool done = false;
+        for (int i = 0; done == false; i++)
+        {
+            if (ColorManager.playersList[i] == null)
+            {
+                player.SetI(i);
+                ColorManager.playersList[i] = player;
+                done = true;
+            }
+        }
+
+        ColorManager.singleton.RpcUpdatePlayersList(obj);
+
     }
 }

@@ -38,22 +38,18 @@ public class CameraMover : NetworkBehaviour {
             transform.position = activePlayer.position + posRotOffset.position;
             transform.rotation = posRotOffset.rotation;
         }
-        else
-        {
-            while(activePlayer == null)
+        if(Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
+            print("space"); // clairement ça ne marche pas
+            while (activePlayer == null)
             {
                 activePlayer = ColorManager.playersList[i].PlayerObj.transform;
-                if(i >= ColorManager.playersList.Length)
+                if (i >= ColorManager.playersList.Length)
                 {
                     i = -1;
                 }
                 i++;
             }
-        }
-        if(Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
-         i++;
-            print("space"); // clairement ça ne marche pas
-         activePlayer = ColorManager.playersList[i].PlayerObj.transform;
+            activePlayer = ColorManager.playersList[i].PlayerObj.transform;
         }
     }
 }

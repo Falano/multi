@@ -35,8 +35,10 @@ public class PlayerHealth : NetworkBehaviour {
     // both for hp value and GUI's healthbar 
     public void TakeDamage(int dmg = 1){
 		hp -= dmg;
+        print("hp = " + hp);
         if (Hp <= 0)
         {
+            print("dead");
             ColorManager.singleton.Kill (this.gameObject);
 		}
         spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * 10);

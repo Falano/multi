@@ -10,15 +10,16 @@ public class MenuManager : MonoBehaviour {
     public Scene[] scenes;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
-	public static int enemyNumber = 3;
-	public static int startHp = 30;
-	public static int maxPlayersNumber = 20;
+	public static int enemyNumber = 5;
+	public static int startHp = 20;
+	public static int maxPlayersNumber = 5;
 	public static string startLevel;
 	public static int teamwork; // number of different teams; 0 is chacun pour soi
 	public static float chrono = 0; // en minutes
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
+
 
     private NetworkLobbyManager lobbyManager;
 

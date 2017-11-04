@@ -5,11 +5,11 @@ using UnityEngine;
 // juste la classe score avec ses fonctions
 // fucks with ColorManager's RpcUpdatePlayersList (line 32) // unity says there is no constructor :/ // they say UNetWeaver error
 public class Score {
-    int i;
+    public int i;
     GameObject playerObj;
     string playerName;
     float timeOfDeath;
-    public int colorChangesToOthers;
+    public int colorChangesToOthers = 0;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
     public int colorChangesFromSelf;

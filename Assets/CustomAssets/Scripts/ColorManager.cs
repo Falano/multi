@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // à mettre sur le color manager
-// dit à tout le monde que le mouton a changé de couleur (rpc) (probs car n'est oas localPlayerAuthority?)
+// dit à tout le monde que le mouton a changé de couleur (rpc) (probs car n'est pas localPlayerAuthority?)
 // contient la fonction finale Kill qui désactive le renderer du mouton et active death anim; the object destroy itself is on a script on the child
 
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
@@ -29,18 +29,12 @@ public class ColorManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcUpdatePlayersList(Score player)
+    public void RpcUpdatePlayersList(GameObject obj)
     {
-        bool done = false;
-        for(int i = 0; done == false; i++)
-        {
-            if(playersList[i]== null)
-            {
-                player.SetI(i);
-                playersList[i] = player;
-                done = true;
-            }
-        }
+        Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
+        ColorManager.playersList[i] = player;
+        playersList[player.i] = player;
+
     }
 
     [ClientRpc]
@@ -52,7 +46,9 @@ public class ColorManager : NetworkBehaviour
             {
                 mat.color = col;
             }
-            
+
+            // if I keep this, after the second player attack, sheep bleed to death FOR SOME REASON
+            /*
             if (attacker == obj)
             {
                 obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromSelf += 1;
@@ -65,10 +61,10 @@ public class ColorManager : NetworkBehaviour
             {
                 obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromOthers += 1;
                 attacker.GetComponent<ScoreKeeper>().currentPlayer.colorChangesToOthers += 1;
-
             }
+            */
         }
-	}
+    }
     
 	public void Kill(GameObject obj){
         if (isLocalPlayer)
@@ -81,6 +77,7 @@ public class ColorManager : NetworkBehaviour
         death.SetActive(true);
         Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
         player.SetTimeOfDeath(); // pour le score
+//        CameraMover.singleton.activePlayer = null; // pour si la caméra ne comprend pas qu'il est mort
         print(player.PlayerName + " est mort après " + player.TimeOfDeath + "secondes." );
         print("You dissolved into paint after " + player.TimeOfDeath.ToString("F1") + " seconds. You changed colour " + player.colorChangesFromMice + " times because of mice, " + player.colorChangesFromOthers + " times because of other players, " + player.colorChangesFromSelf  + " times of your own volition, and you made other players change colour " + player.colorChangesToOthers + " times." );
         death.GetComponent<SpriteRenderer>().color = mesh.GetComponent<Renderer>().material.color;
@@ -89,4 +86,13 @@ public class ColorManager : NetworkBehaviour
         obj.GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
         //the object destroy itself is on a script on the child
 	}
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            print(playersList); // une liste vide :/
+        }
+    }
+
 }
