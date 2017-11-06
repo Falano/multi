@@ -12,9 +12,26 @@ public class EnemySpawner : NetworkBehaviour {
     public int enemyNumberTest;
     private int enemyNumber;
     private Vector3 lvlSize;
+    int i;
 
     private Vector3 pos;
     private Quaternion rot;
+
+    public static EnemyMover[] enemyList;
+
+    public EnemySpawner singleton;
+
+    void Awake()
+    {
+        if (singleton == null)
+        {
+            singleton = this;
+        }
+        else if (singleton != this)
+        {
+            Destroy(this);
+        }
+    }
 
     public override void OnStartServer()
     {
@@ -27,7 +44,8 @@ public class EnemySpawner : NetworkBehaviour {
         {
             enemyNumber = MenuManager.enemyNumber;
         }
-		for (int i = 0; i < enemyNumber-1; i++) {
+        enemyList = new EnemyMover[enemyNumber - 1];
+		for (i = 0; i < enemyNumber-1; i++) {
             spawnEnemy();
         }        
     }
@@ -38,6 +56,6 @@ public class EnemySpawner : NetworkBehaviour {
         rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
         GameObject enemy = Instantiate(enemyPrefab, pos, rot);
         NetworkServer.Spawn(enemy);
+        enemyList[i] = enemy.GetComponent<EnemyMover>();
     }
-
 }

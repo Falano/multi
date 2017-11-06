@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 // à mettre sur le color manager
 // dit à tout le monde que le mouton a changé de couleur (rpc) (probs car n'est pas localPlayerAuthority?)
 // contient la fonction finale Kill qui désactive le renderer du mouton et active death anim; the object destroy itself is on a script on the child
+// LaunchGame and RefreshListOfPlayers are essentially a lobby
 
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
 public class ColorManager : NetworkBehaviour
@@ -15,7 +17,9 @@ public class ColorManager : NetworkBehaviour
     public Vector3 LvlSize;
     public static ColorManager singleton;
     public bool isPlayerDead = false;
-
+    public static bool isGamePlaying = false;
+    public static Score[] listPlayers;
+    
     void Awake()
     {
         if (singleton == null) {
@@ -25,7 +29,9 @@ public class ColorManager : NetworkBehaviour
         {
             Destroy(this);
         }
-      //      playersList = new Score[MenuManager.maxPlayersNumber];
+        //      playersList = new Score[MenuManager.maxPlayersNumber];
+        //Invoke("LaunchGame", 3);
+        InvokeRepeating("RefreshListOfPlayers", 0, 5);
     }
 
     /*
@@ -87,4 +93,60 @@ public class ColorManager : NetworkBehaviour
         obj.GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
         //the object destroy itself is on a script on the child
 	}
+
+    public IEnumerator launchingGame()
+    {
+        yield return new WaitForSeconds(2);
+        LaunchGame();
+
+    }
+
+    public void LaunchGame()
+    {
+        CancelInvoke("RefreshListOfPlayers");
+        isGamePlaying = true;
+        if (isServer)
+        {
+           /* foreach(EnemyMover enemy in EnemySpawner.enemyList)
+            {
+                StartCoroutine(enemy.wait); //seems like he doesn't like starting coroutines from outside but since it only throxs an error, whatever
+            }*/
+        }
+        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        for(int i = 0; i < listPlayersGO.Length; i++)
+        {
+            listPlayers[i] = listPlayersGO[i].GetComponent<Score>();
+        }
+    }
+
+    public void RefreshListOfPlayers()
+    {
+        print("refreshing list of players");
+        int numberOfPlayersReady = 0;
+        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        listPlayers = new Score[listPlayersGO.Length];
+        for(int i = 0; i < listPlayersGO.Length; i++)
+        {
+            listPlayers[i] = listPlayersGO[i].GetComponent<Score>();
+            listPlayers[i].SetI(i);
+            if(listPlayers[i].PlayerName == null)
+            {
+                listPlayers[i].SetPlayersName("Player" + i.ToString());
+            }
+            string readyState = "not ready...";
+            if (listPlayers[i].IsReady == true)
+            {
+                readyState = "ready!";
+                numberOfPlayersReady++;
+            }
+           print(listPlayers[i].PlayerName + " : " + readyState);
+        }
+        if(numberOfPlayersReady == listPlayers.Length)
+        {
+            Debug.Log("active? " + gameObject.activeInHierarchy);
+            StartCoroutine("launchingGame");
+        }
+    }
+    
+
 }

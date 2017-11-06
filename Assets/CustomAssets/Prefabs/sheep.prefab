@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 114937269543962950}
   - component: {fileID: 114907404837594186}
   - component: {fileID: 114369389828030044}
+  - component: {fileID: 114114773217116560}
   - component: {fileID: 54442260372631464}
   m_Layer: 0
   m_Name: sheep
@@ -839,6 +840,22 @@ MonoBehaviour:
   posThreshold: 0.5
   rotThreshold: 5
   teleportDistance: 5
+--- !u!114 &114114773217116560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165169909168218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c366392e9dec74bbe664077964cb05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  i: 0
+  colorChangesToOthers: 0
+  colorChangesFromOthers: 0
+  colorChangesFromMice: 0
+  colorChangesFromSelf: 0
 --- !u!114 &114169377485764966
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -16,7 +16,8 @@ public class EnemyMover : NetworkBehaviour
     Animator animator;
     public Vector2 waitRange = new Vector2(3,6);
     public int rotationSpeed = 5;
-    private bool readyToChangeDestination = true; 
+    private bool readyToChangeDestination = true;
+    //public IEnumerator wait;
 
     void Start()
     {
@@ -28,7 +29,9 @@ public class EnemyMover : NetworkBehaviour
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
-        StartCoroutine(wait);        
+        //animator.SetBool("moving", false);
+
+        //StartCoroutine(wait);        
     }
 
     void Update()
@@ -51,7 +54,7 @@ public class EnemyMover : NetworkBehaviour
         animator.SetBool("moving", false);
         yield return new WaitForSeconds(time);
         ChangeDestination();
-        }
+    }
 
     void ChangeDestination()
     {

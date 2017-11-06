@@ -26,7 +26,7 @@ public class PlayerMove : NetworkBehaviour
 
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || !ColorManager.isGamePlaying)
         {
             return;
         }
