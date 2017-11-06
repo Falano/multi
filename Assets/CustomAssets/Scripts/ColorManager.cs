@@ -31,7 +31,7 @@ public class ColorManager : NetworkBehaviour
         }
         //      playersList = new Score[MenuManager.maxPlayersNumber];
         //Invoke("LaunchGame", 3);
-        InvokeRepeating("RefreshListOfPlayers", 0, 5);
+        InvokeRepeating("RefreshListOfPlayers", 3, 5);
     }
 
     /*
@@ -98,7 +98,6 @@ public class ColorManager : NetworkBehaviour
     {
         yield return new WaitForSeconds(2);
         LaunchGame();
-
     }
 
     public void LaunchGame()
@@ -143,7 +142,6 @@ public class ColorManager : NetworkBehaviour
         }
         if(numberOfPlayersReady == listPlayers.Length)
         {
-            Debug.Log("active? " + gameObject.activeInHierarchy);
             StartCoroutine("launchingGame");
         }
     }

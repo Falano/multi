@@ -66,7 +66,7 @@ public class Score : NetworkBehaviour{
     public void ToggleReady()
     {
         isReady = !isReady;
-        print("is player ready?" + isReady);
+        print("is player ready? " + isReady);
     }
 
     public void SetPlayersName(string name)
