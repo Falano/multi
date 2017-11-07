@@ -17,7 +17,8 @@ public class Score : NetworkBehaviour{
     public int colorChangesFromMice;
     public int colorChangesFromSelf;
     float startTime;
-    bool isReady = false;
+    bool _isReady = false;
+    public GameObject ScoreTx;
 
     public string PlayerName
     {
@@ -44,7 +45,11 @@ public class Score : NetworkBehaviour{
     {
         get
         {
-            return isReady;
+            return _isReady;
+        }
+        set
+        {
+            ToggleReady(value);
         }
     }
 
@@ -68,19 +73,19 @@ public class Score : NetworkBehaviour{
 
     public void ToggleReady(bool state)
     {
-        isReady = state;
-        print("is player ready? " + isReady);
+        _isReady = state;
+        //print("is player ready? " + isReady);
         CmdTogglePlayerReady(gameObject, state);
     }
     [Command]
     public void CmdTogglePlayerReady(GameObject player, bool state)
     {
-        isReady = state;
+        _isReady = state;
         ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
     } 
     public void ToggleReadySolo(bool state)
     {
-        isReady = state;
+        _isReady = state;
     }
 
 
@@ -96,7 +101,7 @@ public class Score : NetworkBehaviour{
             return;
         }
         if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying) {
-            ToggleReady(!isReady);
+            ToggleReady(!_isReady);
         }
     }
 }

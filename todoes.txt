@@ -9,6 +9,7 @@ to implement:
 --DONE-- anim sheep death
 --DONE-- anim sheep death same col as sheep
 2	when dead follow other players
+1	custom player name
 		mon colorManager qui est un gameManager pourrait au debut du jeu enregistrer le joueur et si le joueur n'est plus la lancer le "follow other players"
 4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option)
 3	custom colours dans le menu
@@ -25,7 +26,7 @@ to implement:
 2	max time (needs: scores)
 2	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 	leur demander leur nom (lobby)
-1	score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs)
+0	score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs)
 3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
 --DONE-- cooldown?
 999	make a lvl editor :D
@@ -66,3 +67,8 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE: more like lobby manager fixed it all on its own-- can't play twice in a row (check if it persists with the lobby manager)
 --DONE-- enemy spawns at center. enemySpawner script seems fine though
 --DONE-- make prettier code for the thing bastien helped with
+	keeps moving on anim death;
+	quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut.
+-> quand un joueur poppe, qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
+--DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
+sinon, le joueur n'a pas les bonnes infos, et un joueur qui vient en cours de route sera coincé dans le lobby
