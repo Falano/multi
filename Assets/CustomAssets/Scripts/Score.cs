@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 // juste la classe score avec ses fonctions
 // fucks with ColorManager's RpcUpdatePlayersList (line 32) // unity says there is no constructor :/ // they say UNetWeaver error
+
 public class Score : NetworkBehaviour{
     [Tooltip("its index in the list")]
     public int i;

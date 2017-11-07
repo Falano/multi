@@ -17,7 +17,7 @@ public class EnemyMover : NetworkBehaviour
     public Vector2 waitRange = new Vector2(3,6);
     public int rotationSpeed = 5;
     private bool readyToChangeDestination = true;
-    //public IEnumerator wait;
+    private IEnumerator wait;
 
     void Start()
     {
@@ -28,7 +28,7 @@ public class EnemyMover : NetworkBehaviour
         lvlSize = ColorManager.singleton.LvlSize;
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
+        wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
         //animator.SetBool("moving", false);
 
         //StartCoroutine(wait);        
@@ -42,14 +42,14 @@ public class EnemyMover : NetworkBehaviour
         }
         if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination) {
             readyToChangeDestination = false;
-            IEnumerator wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
+            wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
             StartCoroutine(wait);
         }
 
         Debug.DrawLine(transform.position, goal, Color.red);
     }
 
-    IEnumerator waitForChangeDir(float time)
+    public IEnumerator waitForChangeDir(float time)
     {
         animator.SetBool("moving", false);
         yield return new WaitForSeconds(time);
@@ -58,6 +58,10 @@ public class EnemyMover : NetworkBehaviour
 
     void ChangeDestination()
     {
+        if (!ColorManager.isGamePlaying)
+        {
+            return;
+        }
         animator.SetBool("moving", true);
         Vector3 randomPoint = new Vector3(Random.Range(lvlSize.x, -lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(lvlSize.z, -lvlSize.z));
         goal = randomPoint;

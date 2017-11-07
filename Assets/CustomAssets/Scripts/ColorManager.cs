@@ -19,6 +19,8 @@ public class ColorManager : NetworkBehaviour
     public bool isPlayerDead = false;
     public static bool isGamePlaying = false;
     public static Score[] listPlayers;
+    public Canvas lobbyCanvas;
+    public Text launchGameTx;
     
     void Awake()
     {
@@ -32,6 +34,7 @@ public class ColorManager : NetworkBehaviour
         //      playersList = new Score[MenuManager.maxPlayersNumber];
         //Invoke("LaunchGame", 3);
         InvokeRepeating("RefreshListOfPlayers", 3, 5);
+        launchGameTx.text = "";
     }
 
     /*
@@ -96,6 +99,7 @@ public class ColorManager : NetworkBehaviour
 
     public IEnumerator launchingGame()
     {
+        launchGameTx.text = "Launching Game...";
         yield return new WaitForSeconds(2);
         LaunchGame();
     }
@@ -106,16 +110,18 @@ public class ColorManager : NetworkBehaviour
         isGamePlaying = true;
         if (isServer)
         {
-           /* foreach(EnemyMover enemy in EnemySpawner.enemyList)
+           foreach(EnemyMover enemy in EnemySpawner.enemyList)
             {
-                StartCoroutine(enemy.wait); //seems like he doesn't like starting coroutines from outside but since it only throxs an error, whatever
-            }*/
+                IEnumerator wait = enemy.waitForChangeDir(Random.Range(enemy.waitRange.x, enemy.waitRange.y));
+                StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
+            }
         }
         GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
         for(int i = 0; i < listPlayersGO.Length; i++)
         {
             listPlayers[i] = listPlayersGO[i].GetComponent<Score>();
         }
+        lobbyCanvas.enabled = false;
     }
 
     public void RefreshListOfPlayers()
@@ -145,6 +151,4 @@ public class ColorManager : NetworkBehaviour
             StartCoroutine("launchingGame");
         }
     }
-    
-
 }
