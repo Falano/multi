@@ -19,8 +19,13 @@ public class ColorManager : NetworkBehaviour
     public bool isPlayerDead = false;
     public static bool isGamePlaying = false;
     public static Score[] listPlayers;
+    [Header("scripts drag-and-drop variables")]
     public Canvas lobbyCanvas;
     public Text launchGameTx;
+    public GameObject listOfPlayersParent;
+    public GameObject playerStatePrefab;
+
+    private float refreshFrequency = 2;
     
     void Awake()
     {
@@ -33,19 +38,10 @@ public class ColorManager : NetworkBehaviour
         }
         //      playersList = new Score[MenuManager.maxPlayersNumber];
         //Invoke("LaunchGame", 3);
-        InvokeRepeating("RefreshListOfPlayers", 3, 5);
+        InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
     }
 
-    /*
-    [ClientRpc]
-    public void RpcUpdatePlayersList(GameObject obj)
-    {
-        Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
-        ColorManager.playersList[i] = player;
-        playersList[player.i] = player;
-    }
-    */
 
     [ClientRpc]
     public void RpcChangeCol(GameObject obj, Color col/*, GameObject attacker*/) {
@@ -76,6 +72,8 @@ public class ColorManager : NetworkBehaviour
         }
     }
     
+
+
 	public void Kill(GameObject obj){
         if (isLocalPlayer)
         {
@@ -97,7 +95,9 @@ public class ColorManager : NetworkBehaviour
         //the object destroy itself is on a script on the child
 	}
 
-    public IEnumerator launchingGame()
+
+
+    public IEnumerator launchingGame() // ne sait pas se lancer sur le host?
     {
         launchGameTx.text = "Launching Game...";
         yield return new WaitForSeconds(2);
@@ -124,6 +124,16 @@ public class ColorManager : NetworkBehaviour
         lobbyCanvas.enabled = false;
     }
 
+
+
+    [ClientRpc]
+    public void RpcTogglePlayerReady(GameObject player, bool state)
+    {
+        player.GetComponent<Score>().ToggleReadySolo(state);
+    }
+
+
+
     public void RefreshListOfPlayers()
     {
         print("refreshing list of players");
@@ -139,16 +149,28 @@ public class ColorManager : NetworkBehaviour
                 listPlayers[i].SetPlayersName("Player" + i.ToString());
             }
             string readyState = "not ready...";
+            Color txColor = Color.white;
             if (listPlayers[i].IsReady == true)
             {
                 readyState = "ready!";
                 numberOfPlayersReady++;
+                txColor = Color.green;
             }
-           print(listPlayers[i].PlayerName + " : " + readyState);
+            print(listPlayers[i].PlayerName + " : " + readyState); // remplacer ça par un truc visible par le joueur
+            float posX = listOfPlayersParent.transform.position.x;
+            float posY = listOfPlayersParent.transform.position.y;
+            GameObject playerState = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
+            playerState.transform.position = new Vector2(posX, posY - 20 + i * -20);
+            playerState.GetComponent<Text>().text = listPlayers[i].PlayerName + " : " + readyState;
+            playerState.GetComponent<Text>().color = txColor;
+            Destroy(playerState, refreshFrequency);
         }
         if(numberOfPlayersReady == listPlayers.Length)
         {
             StartCoroutine("launchingGame");
         }
     }
+
+
+
 }

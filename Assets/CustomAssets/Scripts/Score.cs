@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 // juste la classe score avec ses fonctions
-// fucks with ColorManager's RpcUpdatePlayersList (line 32) // unity says there is no constructor :/ // they say UNetWeaver error
+// fucks with ColorManager's RpcUpdatePlayersList (line 32) if I don't make it a SthBehaviour // unity says there is no constructor :/ // they say UNetWeaver error
 
 public class Score : NetworkBehaviour{
     [Tooltip("its index in the list")]
@@ -64,11 +64,25 @@ public class Score : NetworkBehaviour{
         i = newI;
     }
 
-    public void ToggleReady()
+
+
+    public void ToggleReady(bool state)
     {
-        isReady = !isReady;
+        isReady = state;
         print("is player ready? " + isReady);
+        CmdTogglePlayerReady(gameObject, state);
     }
+    [Command]
+    public void CmdTogglePlayerReady(GameObject player, bool state)
+    {
+        isReady = state;
+        ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
+    } 
+    public void ToggleReadySolo(bool state)
+    {
+        isReady = state;
+    }
+
 
     public void SetPlayersName(string name)
     {
@@ -82,7 +96,7 @@ public class Score : NetworkBehaviour{
             return;
         }
         if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying) {
-            ToggleReady();
+            ToggleReady(!isReady);
         }
     }
 }
