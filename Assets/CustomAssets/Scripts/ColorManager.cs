@@ -15,7 +15,7 @@ public class ColorManager : NetworkBehaviour
 {
     public Vector3 LvlSize;
     public static ColorManager singleton;
-    public bool isPlayerDead = false;
+    public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
     public static Score[] listPlayers;
     [Header("scripts drag-and-drop variables")]

@@ -35,7 +35,7 @@ public class CameraMover : NetworkBehaviour
         }
 
         // for following not-dead players when you died
-        //if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead)
+        //if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
         //{
         //    print("i = " + i);
         //    print("player list length" + ColorManager.listPlayers.Length);
@@ -66,7 +66,7 @@ public class CameraMover : NetworkBehaviour
 
         // VERSION DE FLO
 
-        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead)
+        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
         {
             Score playerToFollow;
             bool searchingForPlayer = true;
