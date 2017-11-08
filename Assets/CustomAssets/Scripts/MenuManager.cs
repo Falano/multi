@@ -105,4 +105,9 @@ public class MenuManager : MonoBehaviour {
         setting += nb;
         settingText.text = setting.ToString("F1");
     }
+
+    public void ToggleNetworkManagerHUD(bool state)
+    {
+        checkIfNetworkHUD.singleton.GetComponent<NetworkManagerHUD>().enabled = state;
+    }
 }

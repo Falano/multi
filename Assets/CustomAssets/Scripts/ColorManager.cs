@@ -76,7 +76,7 @@ public class ColorManager : NetworkBehaviour
 
 
 
-    public void Kill(GameObject obj)
+    public void KillSolo(GameObject obj)
     {
         if (isLocalPlayer)
         {
@@ -98,7 +98,11 @@ public class ColorManager : NetworkBehaviour
         obj.GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
                                                          //the object destroy itself is on a script on the child
     }
-
+    [Command]
+    void CmdKill(GameObject obj) { RpcKill(obj); }
+    [ClientRpc]
+    void RpcKill(GameObject obj) { KillSolo(obj); }
+    public void Kill(GameObject obj) { CmdKill(obj); }
 
 
     public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever
@@ -108,11 +112,12 @@ public class ColorManager : NetworkBehaviour
         LaunchGame();
     }
 
-    [ClientRpc]
-    public void RpcLaunchGame()
+    public void LaunchGameSolo()
     {
         CancelInvoke("RefreshListOfPlayers");
         isGamePlaying = true;
+        launchGameTx.text = "";
+        listOfPlayersParent.SetActive(false);
         if (isServer)
         {
             foreach (EnemyMover enemy in EnemySpawner.enemyList)
@@ -126,11 +131,16 @@ public class ColorManager : NetworkBehaviour
     [Command]
     void CmdLaunchGame()
     {
-        RpcLaunchGame();
+        RpcLaunchGame(); // 2) de dire aux clients
+    }
+    [ClientRpc]
+    void RpcLaunchGame()
+    {
+        LaunchGameSolo(); // 3) de lancer le jeu
     }
     void LaunchGame()
     {
-        CmdLaunchGame();
+        CmdLaunchGame(); // 1) on dit au server
     }
 
 

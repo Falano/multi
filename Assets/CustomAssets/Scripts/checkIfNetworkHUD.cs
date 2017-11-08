@@ -7,30 +7,32 @@ using UnityEngine.Networking;
 // cacher le network HUD si on est dans le menu de départ
 public class checkIfNetworkHUD : MonoBehaviour {
     public static checkIfNetworkHUD singleton; // it might mess things up (when game>backToMenu>newGame). Be careful.
+    private NetworkManagerHUD netwHUD;
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += CheckIfMenuScene;
         SceneManager.sceneLoaded += checkSingleton;
     }
 
+    private void Awake()
+    {
+        netwHUD = GetComponent<NetworkManagerHUD>();
+    }
 
     public void CheckIfMenuScene(Scene scene,LoadSceneMode mode)
     {
         if (SceneManager.GetActiveScene().name == "menu")
         {
-            gameObject.GetComponent<NetworkManagerHUD>().enabled = false;
+            netwHUD.enabled = false;
+            ColorManager.isGamePlaying = false;
         }
         else {
-            gameObject.GetComponent<NetworkManagerHUD>().enabled = true;
+            netwHUD.enabled = true;
         }
     }
 
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= CheckIfMenuScene;
-        SceneManager.sceneLoaded -= checkSingleton;
-    }
-
+    
     private void checkSingleton(Scene scene, LoadSceneMode mode)
     {
         if (singleton == null)
@@ -43,4 +45,18 @@ public class checkIfNetworkHUD : MonoBehaviour {
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            netwHUD.enabled = !netwHUD.enabled;
+        }
+    }
+
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= CheckIfMenuScene;
+        SceneManager.sceneLoaded -= checkSingleton;
+    }
 }

@@ -22,6 +22,12 @@ public class PlayerMove : NetworkBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
+        if (ColorManager.isGamePlaying) // s'il arrive dans un jeu en cours 
+        {
+            //print("GAME IS PLAYING");
+            ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
+            ColorManager.singleton.Kill(gameObject); // that was so assholes who come mid-game died but could still follow it; don't think it works though
+        }
     }
 
     void Update()
