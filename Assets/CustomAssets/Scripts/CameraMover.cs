@@ -31,21 +31,28 @@ public class CameraMover : NetworkBehaviour {
             transform.position = activePlayer.position + posRotOffset.position;
             transform.rotation = posRotOffset.rotation;
         }
-        /*
-        // for following not-dead players; currently purging scores, so commenting it.
-        if(Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead){ // attention: implémenter: si le joueur local est mort, alors exécuter le code
+
+        // for following not-dead players when you died
+        if(Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isPlayerDead){
+            print("is local player dead? " + ColorManager.singleton.isPlayerDead);
             print("space"); // clairement ça ne marche pas
-            while (activePlayer == null)
+            while (ColorManager.listPlayers[i].TimeOfDeath == 0 || ColorManager.listPlayers[i] == null || ColorManager.listPlayers[i].PlayerObj == null)  //ça. ça bugge. régler ça en commentant des petits bouts de la condition jusqu'à ce que ça marche
             {
-                activePlayer = ColorManager.playersList[i].PlayerObj.transform;
-                if (i >= ColorManager.playersList.Length)
+
+                /*
+                if (ColorManager.listPlayers[i]!= null && ColorManager.listPlayers[i].PlayerObj != null)
+                {
+                    print("trying to attach camera to " + ColorManager.listPlayers[i].PlayerName);
+                    activePlayer = ColorManager.listPlayers[i].PlayerObj.transform;
+                }*/
+                if (i >= ColorManager.listPlayers.Length)
                 {
                     i = -1;
                 }
                 i++;
             }
-            activePlayer = ColorManager.playersList[i].PlayerObj.transform;
+            print("i = " + i + "; trying to attach camera to " + ColorManager.listPlayers[i].PlayerName);
+            activePlayer = ColorManager.listPlayers[i].PlayerObj.transform;
         }
-        */
     }
 }

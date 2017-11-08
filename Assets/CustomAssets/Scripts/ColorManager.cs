@@ -36,6 +36,10 @@ public class ColorManager : NetworkBehaviour
         {
             Destroy(this);
         }
+    }
+
+    void Start()
+    {
         listPlayers = new Score[MenuManager.maxPlayersNumber];
         InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
@@ -76,32 +80,11 @@ public class ColorManager : NetworkBehaviour
 
 
 
-    public void KillSolo(GameObject obj)
-    {
-        if (isLocalPlayer)
-        {
-            isPlayerDead = true;
-        }
-        obj.GetComponent<PlayerMove>().speed = 0;
-        GameObject mesh = obj.transform.GetChild(0).gameObject;
-        mesh.SetActive(false);
-        GameObject death = obj.transform.GetChild(2).gameObject;
-        death.SetActive(true);
-        //        Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
-        //        player.SetTimeOfDeath(); // pour le score
-        //        CameraMover.singleton.activePlayer = null; // pour si la caméra ne comprend pas qu'il est mort
-        //        print(player.PlayerName + " est mort après " + player.TimeOfDeath + "secondes." );
-        //        print("You dissolved into paint after " + player.TimeOfDeath.ToString("F1") + " seconds. You changed colour " + player.colorChangesFromMice + " times because of mice, " + player.colorChangesFromOthers + " times because of other players, " + player.colorChangesFromSelf  + " times of your own volition, and you made other players change colour " + player.colorChangesToOthers + " times." );
-        death.GetComponent<SpriteRenderer>().color = mesh.GetComponent<Renderer>().material.color;
-        //print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
-        //print("meshcol = " + mesh.GetComponent<Renderer>().material.color);
-        obj.GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
-                                                         //the object destroy itself is on a script on the child
-    }
+
     [Command]
     void CmdKill(GameObject obj) { RpcKill(obj); }
     [ClientRpc]
-    void RpcKill(GameObject obj) { KillSolo(obj); }
+    void RpcKill(GameObject obj) { obj.GetComponent<PlayerHealth>().KillSolo(); }
     public void Kill(GameObject obj) { CmdKill(obj); }
 
 
