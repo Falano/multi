@@ -6,12 +6,14 @@ using UnityEngine.Networking;
 // juste la classe score avec ses fonctions
 // fucks with ColorManager's RpcUpdatePlayersList (line 32) if I don't make it a SthBehaviour // unity says there is no constructor :/ // they say UNetWeaver error
 
-public class Score : NetworkBehaviour{
+public class Score : NetworkBehaviour
+{
     [Tooltip("its index in the list")]
     public int i;
     GameObject playerObj;
     string playerName;
     float timeOfDeath;
+    bool alive; // XXX
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
@@ -53,15 +55,30 @@ public class Score : NetworkBehaviour{
         }
     }
 
-    public Score(GameObject playerObject, string playerNamed) 
+    public bool Alive // XXX
+    {
+        get
+        {
+            return alive;
+        }
+        private set
+        {
+            alive = value;
+        }
+    }
+
+    public Score(GameObject playerObject, string playerNamed)
     {
         playerObj = playerObject;
         startTime = Time.time;
         playerName = playerNamed;
+        Alive = true; // XXX
+        timeOfDeath = 0; // XXX
     }
 
     public void SetTimeOfDeath()
     {
+        Alive = false;//XXX
         timeOfDeath = Time.time - startTime;
     }
     public void SetI(int newI)
@@ -82,7 +99,7 @@ public class Score : NetworkBehaviour{
     {
         _isReady = state;
         ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
-    } 
+    }
     public void ToggleReadySolo(bool state)
     {
         _isReady = state;
@@ -100,7 +117,8 @@ public class Score : NetworkBehaviour{
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying) {
+        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
+        {
             ToggleReady(!_isReady);
         }
     }

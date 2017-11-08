@@ -1,20 +1,20 @@
 ﻿todoes multi
 
 currently working on: 
-	camera follow not-dead players
+	camera follow not-dead players [solved by flo - you're wolcome]
 	multi?
 	scores (name. then stats)
 
 to implement:
 --DONE-- anim sheep death
 --DONE-- anim sheep death same col as sheep
-2	when dead follow other players
+2	when dead follow other players [DONE - yes I'll keep adding comments like this]
 1	custom player name
 --no, I have a isPlayerDead now-- mon colorManager qui est un gameManager pourrait au debut du jeu enregistrer le joueur et si le joueur n'est plus la lancer le "follow other players"
-4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option)
+4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option) [yes please]
 3	custom colours dans le menu
 4	custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
-2	custom key bindings (global or local? Maybe all boring settings are local. They should.); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
+2	custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
 2	(boring options menu in-game)
 3	custom musics
 4	sound volume
@@ -22,7 +22,7 @@ to implement:
 2	more lvls
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
-	max number of players (lobby) - min number of players?
+	max number of players (lobby) - min number of players? [yes, that too]
 2	max time (needs: scores)
 2	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 1	leur demander leur nom (lobby)
@@ -46,6 +46,7 @@ to implement:
 --when everyone hits ready: DONE-- is it better if the game launches after a previously-agreed-upon number of players is online or when everyone hits ready?
 --no?-- should we be able to pause the game? Only the server? Anyone?
 	avoir son propre status update immediately and not wait for the global refresh players
+	ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 
 
 bugs:
@@ -74,3 +75,17 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 -> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
 --DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
 	sinon, le joueur n'a pas les bonnes infos, et un joueur qui vient en cours de route sera coincé dans le lobby
+
+
+SUGGESTIONS FLO :
+	Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)
+	Instead of Player0, change to Host
+	(Idée farfelue, peut-être compliquée) plutôt que des frontières invisibles, si tu sors de la map, tu passe en mode Full Rainbow : tu est multicolore (genre comme ça http://rs292.pbsrc.com/albums/mm23/pixcomments/The%2050s/60s/myspace-comments-animated-rainbow-s.gif?w=280&h=210&fit=crop ), et tu gagne en vitesse de déplacement, MAIS tu perds de la vie en continu.
+	Supprimer les composant du joueur à sa mort. Exemple : supprimer les scripts PlayerHealth et PlayerMove à la mort du joueur, etc.
+	Deplus pour les scripts en générals, mais surtout dans le cas de PlayerHealth : avoir un Destroyer, de sorte que tu puisse simplement surrimer le composant sans en perdre les info. Exemple : dans PlayerHealth, lors de la destruction du composant, lui faire stocker les infos 
+
+
+	mettre le Score du player current sur le ColorManager
+
+Modif by Flo :
+	In score.cs, added bool alive, to avoid having to read time of death everytime you need to check who is alive or not.
