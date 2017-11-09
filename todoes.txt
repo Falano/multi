@@ -45,9 +45,9 @@ to implement:
 	keep mice from spam attacking the player
 --when everyone hits ready: DONE-- is it better if the game launches after a previously-agreed-upon number of players is online or when everyone hits ready?
 --no?-- should we be able to pause the game? Only the server? Anyone?
-	avoir son propre status update immediately and not wait for the global refresh players
-	ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
-
+1	avoir son propre status update immediately and not wait for the global refresh players
+1	ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
+5	have menu be usable through keyboard
 
 bugs:
 --DONE-- client only on second time

@@ -5342,6 +5342,11 @@ Prefab:
       propertyPath: m_Channels.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114021511323989624, guid: 219c5e98430805d42b03696c50dd00ec,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4489473434476972, guid: 219c5e98430805d42b03696c50dd00ec, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5418,6 +5423,17 @@ Prefab:
         type: 2}
       propertyPath: m_OfflineScene
       value: menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 114021511323989624, guid: 219c5e98430805d42b03696c50dd00ec,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 1150379542639346, guid: f561426688f6bd944a13d5302220fdfd,
+        type: 2}
+    - target: {fileID: 114021511323989624, guid: 219c5e98430805d42b03696c50dd00ec,
+        type: 2}
+      propertyPath: m_UseSimulator
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114091407309855830, guid: 219c5e98430805d42b03696c50dd00ec, type: 2}

@@ -10,7 +10,9 @@ public class Score : NetworkBehaviour
 {
     [Tooltip("its index in the list")]
     public int i;
+    [SerializeField]
     GameObject playerObj;
+    [SerializeField]
     string playerName;
     float timeOfDeath;
     bool alive; // XXX
@@ -19,6 +21,7 @@ public class Score : NetworkBehaviour
     public int colorChangesFromMice;
     public int colorChangesFromSelf;
     float startTime;
+    [SerializeField]
     bool _isReady = false;
     public GameObject ScoreTx;
 
@@ -50,6 +53,10 @@ public class Score : NetworkBehaviour
         get
         {
             return playerObj;
+        }
+        set
+        {
+            playerObj = value;
         }
     }
     public bool IsReady

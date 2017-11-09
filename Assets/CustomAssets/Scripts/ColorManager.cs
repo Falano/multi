@@ -23,8 +23,13 @@ public class ColorManager : NetworkBehaviour
     public Text launchGameTx;
     public GameObject listOfPlayersParent;
     public GameObject playerStatePrefab;
+    public GameObject emptyNetwPrefab;
+
 
     private float refreshFrequency = 2.5f;
+    [Tooltip("supposed to be empty")]
+    public GameObject Scores;
+
 
     void Awake()
     {
@@ -43,6 +48,12 @@ public class ColorManager : NetworkBehaviour
         listPlayers = new Score[MenuManager.maxPlayersNumber];
         InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
+        Scores = new GameObject("Scores");
+        Scores.AddComponent<NetworkIdentity>();
+        if (isServer)
+        {
+            NetworkServer.Spawn(Scores);
+        }
     }
 
 

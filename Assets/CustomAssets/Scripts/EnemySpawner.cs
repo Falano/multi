@@ -14,8 +14,7 @@ public class EnemySpawner : NetworkBehaviour {
     private Vector3 lvlSize;
     int i;
 
-    private Vector3 pos;
-    private Quaternion rot;
+    GameObject ratKing;
 
     public static EnemyMover[] enemyList;
 
@@ -35,7 +34,13 @@ public class EnemySpawner : NetworkBehaviour {
 
     public override void OnStartServer()
     {
+        //RpcMakeNetworkedRatKing();
+        
+        ratKing = makeSpawnable(ColorManager.singleton.emptyNetwPrefab, "ratKing");
+        NetworkServer.Spawn(ratKing);
+
         lvlSize = ColorManager.singleton.LvlSize;
+
         if (SceneManager.GetActiveScene().name == "testing") // pour que je n'ai pas à repasser par le menu si je veux juste tester un truc rapide
         {
             enemyNumber = enemyNumberTest;
@@ -44,17 +49,38 @@ public class EnemySpawner : NetworkBehaviour {
         {
             enemyNumber = MenuManager.enemyNumber;
         }
+
         enemyList = new EnemyMover[enemyNumber - 1];
 		for (i = 0; i < enemyNumber-1; i++) {
             spawnEnemy();
         }        
     }
 
+    public GameObject makeSpawnable(GameObject prefab, string name, string tag = "Untagged")
+    {
+        GameObject obj = Instantiate(prefab);
+        obj.name = name;
+        obj.tag = tag;
+        return obj;
+    }
+
+    /*
+    [ClientRpc]
+    public void RpcMakeNetworkedRatKing() { MakeNetworkedRatKingSolo(); }
+
+    public void MakeNetworkedRatKingSolo()
+    {
+        ratKing = Instantiate(ColorManager.singleton.emptyNetwPrefab);
+        ratKing.name = "ratKing";
+    }
+    */
+
+
     public void spawnEnemy()
     {
-        pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(-lvlSize.z, lvlSize.z));
-        rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
-        GameObject enemy = Instantiate(enemyPrefab, pos, rot);
+        Vector3 pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(-lvlSize.z, lvlSize.z));
+        Quaternion rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
+        GameObject enemy = Instantiate(enemyPrefab, pos, rot, ratKing.transform);
         NetworkServer.Spawn(enemy);
         enemyList[i] = enemy.GetComponent<EnemyMover>();
     }

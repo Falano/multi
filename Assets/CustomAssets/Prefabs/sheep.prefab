@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 114369389828030044}
   - component: {fileID: 114114773217116560}
   - component: {fileID: 54442260372631464}
+  - component: {fileID: 114376910959394672}
   m_Layer: 0
   m_Name: sheep
   m_TagString: Player
@@ -846,16 +847,20 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1c366392e9dec74bbe664077964cb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   i: 0
+  playerObj: {fileID: 0}
+  playerName: 
   colorChangesToOthers: 0
   colorChangesFromOthers: 0
   colorChangesFromMice: 0
   colorChangesFromSelf: 0
+  _isReady: 0
+  ScoreTx: {fileID: 0}
 --- !u!114 &114169377485764966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -934,6 +939,18 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bde9b27e844d6432d84daabe4be8fca6, type: 3}
   spritesIndex: 10
   nummer: 0
+--- !u!114 &114376910959394672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165169909168218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f86b1b6c629f85c4b9b7ceef9c885109, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScore: {fileID: 0}
 --- !u!114 &114429843116155440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1110,4 +1127,3 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1

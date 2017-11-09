@@ -16,6 +16,7 @@ public class PlayerChangeCol : NetworkBehaviour
     public float hitDistance = 1;
     Vector3 offsetPos;
 	Renderer rd;
+    Score score;
 
     bool paintReady = true;
     [SerializeField]

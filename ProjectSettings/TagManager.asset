@@ -9,6 +9,7 @@ TagManager:
   - ColorManager
   - AttackChangeCol
   - hGUI
+  - Score
   layers:
   - Default
   - TransparentFX

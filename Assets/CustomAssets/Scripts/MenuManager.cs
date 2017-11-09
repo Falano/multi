@@ -74,7 +74,6 @@ public class MenuManager : MonoBehaviour {
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
         maxPlayersText.text = maxPlayersNumber.ToString();
-
         SetInputField();
     }
 
