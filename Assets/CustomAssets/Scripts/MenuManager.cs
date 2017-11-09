@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
-
+    private string playerName;
 
     //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 
@@ -35,6 +35,19 @@ public class MenuManager : MonoBehaviour {
     public Text lvlText;
     public Text maxPlayersText;
     private Image lvlImg;
+
+    public string PlayerName
+    {
+        get
+        {
+                return PlayerPrefs.GetString("playerName");
+        }
+        set
+        {
+            PlayerPrefs.SetString("playerName", value);
+            playerName = value;
+        }
+    }
 
     void Awake()
     {
@@ -61,8 +74,20 @@ public class MenuManager : MonoBehaviour {
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
         maxPlayersText.text = maxPlayersNumber.ToString();
+
+        SetInputField();
     }
 
+    public void SetInputField()
+    {
+        InputField nameField = GetComponentInChildren<InputField>();
+        if (PlayerPrefs.HasKey("playerName"))
+        {
+            nameField.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+            nameField.GetComponentsInChildren<Text>()[0].text = "";
+            nameField.text = PlayerName;
+        }
+    }
 
     public void Quit(){
 		Application.Quit ();
@@ -109,5 +134,19 @@ public class MenuManager : MonoBehaviour {
     public void ToggleNetworkManagerHUD(bool state)
     {
         checkIfNetworkHUD.singleton.GetComponent<NetworkManagerHUD>().enabled = state;
+    }
+
+    public void ClearAllData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //testing area
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

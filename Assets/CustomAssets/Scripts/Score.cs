@@ -26,7 +26,16 @@ public class Score : NetworkBehaviour
     {
         get
         {
+            if (PlayerPrefs.HasKey("playerName"))
+            {
+                return PlayerPrefs.GetString("playerName");
+            }
             return playerName;
+        }
+        set
+        {
+            PlayerPrefs.SetString("playerName", value);
+            playerName = value;
         }
     }
     public float TimeOfDeath
