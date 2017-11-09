@@ -52,7 +52,7 @@ public class PlayerHealth : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-            ColorManager.singleton.isPlayerDead = true;
+            ColorManager.singleton.isLocalPlayerDead = true;
         }
         GetComponent<PlayerMove>().speed = 0;
         GameObject mesh = transform.GetChild(0).gameObject;
