@@ -10,7 +10,6 @@ TagManager:
   - AttackChangeCol
   - hGUI
   - Score
-  - ratKing
   - ThingsHolder
   layers:
   - Default

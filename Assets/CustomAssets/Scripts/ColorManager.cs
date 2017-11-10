@@ -18,17 +18,19 @@ public class ColorManager : NetworkBehaviour
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
     public static Score[] listPlayers;
+    private GameObject listOfPlayersParent;
+
     [Header("scripts drag-and-drop variables")]
     public Canvas lobbyCanvas;
     public Text launchGameTx;
-    public GameObject listOfPlayersParent;
     public GameObject playerStatePrefab;
     public GameObject ratKingPrefab;
-    public GameObject ratKing;
-
-
+    public GameObject ScoresHolderPrefab;
+    [Header("Customisable gameplay-ish options")]
     private float refreshFrequency = 2.5f;
-    [Tooltip("supposed to be empty")]
+
+    [Header("Supposed to be empty: ")]
+    public GameObject ratKing;
     public GameObject Scores;
 
 
@@ -55,7 +57,27 @@ public class ColorManager : NetworkBehaviour
         {
             NetworkServer.Spawn(Scores);
         }
-        ratKing = GameObject.FindGameObjectWithTag("ratKing");
+        GameObject[] thingsHolders = GameObject.FindGameObjectsWithTag("ThingsHolder"); //histoire de ne pas avoir à drag-and-dropper quinze mille objects dans mon ColorManager
+        foreach (GameObject holder in thingsHolders)
+        {
+            switch (holder.name)
+            {
+                case "ratKing":
+                case "ratKing(Clone)":
+                    ratKing = holder;
+                    break;
+                case "listOfPlayers":
+                case "listOfPlayers(Clone)":
+                    listOfPlayersParent = holder;
+                    break;
+                case "Scores":
+                case "Scores(Clone)":
+                    Scores = holder;
+                    break;
+            }
+
+
+        }
     }
 
 
