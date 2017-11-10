@@ -7,34 +7,28 @@ using UnityEngine.Networking;
 
 public class ScoreKeeper : NetworkBehaviour {
     public Score playerScore;
-    GameObject playerScoreObj;
+    public GameObject localScore;
 
     private void Start()
     {
         if (!isLocalPlayer) { return; }
+        ColorManager.singleton.SetScoreHolder(gameObject, ColorManager.singleton.localName);
 
-        SetScoreHolder();
 
-    }
-
-    public void SetScoreHolder() {
-        playerScoreObj = new GameObject("score-" + GetComponent<Score>().PlayerName, typeof(NetworkIdentity) );
-        playerScoreObj.transform.SetParent(ColorManager.singleton.Scores.transform);
-        playerScoreObj.tag = "Score";
-        playerScore = playerScoreObj.AddComponent<Score>();
-        if (PlayerPrefs.HasKey("playerName"))
-        {
-            playerScore.PlayerName = PlayerPrefs.GetString("playerName");
-        }
+        localScore = Instantiate(ColorManager.singleton.ScorePrefab);
+        NetworkServer.Spawn(localScore);
+        localScore.name = "score-" + name;
+        Score playerScore = localScore.GetComponent<Score>();
+        playerScore.PlayerName = name;
         playerScore.PlayerObj = gameObject;
-        CmdSetScoreHolder();
+        localScore.transform.SetParent(ColorManager.singleton.Scores.transform);
+        gameObject.GetComponent<ScoreKeeper>().playerScore = playerScore;
+
+
+
     }
 
-    [Command]
-    void CmdSetScoreHolder()
-    {
-        NetworkServer.Spawn(playerScoreObj);
-    }
+
 
     /*
         public override void OnStartLocalPlayer()

@@ -741,6 +741,12 @@ Prefab:
       value: 
       objectReference: {fileID: 1150379542639346, guid: a14d6a23066ed9542ab45462964162bf,
         type: 2}
+    - target: {fileID: 114726153360141946, guid: 6d715c5e92ae7b948a1de7b77a6a8dda,
+        type: 2}
+      propertyPath: ScorePrefab
+      value: 
+      objectReference: {fileID: 1079634832200884, guid: b6eab1c0b53e28549922d62827650f0a,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d715c5e92ae7b948a1de7b77a6a8dda, type: 2}
   m_IsPrefabParent: 0

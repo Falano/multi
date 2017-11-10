@@ -19,6 +19,7 @@ public class ColorManager : NetworkBehaviour
     public static bool isGamePlaying = false;
     public static Score[] listPlayers;
     private GameObject listOfPlayersParent;
+    public string localName;
 
     [Header("scripts drag-and-drop variables")]
     public Canvas lobbyCanvas;
@@ -26,15 +27,17 @@ public class ColorManager : NetworkBehaviour
     public GameObject playerStatePrefab;
     public GameObject ratKingPrefab;
     public GameObject ScoresHolderPrefab;
+    public GameObject ScorePrefab;
     [Header("Customisable gameplay-ish options")]
     private float refreshFrequency = 2.5f;
 
     [Header("Supposed to be empty: ")]
     public GameObject ratKing;
     public GameObject Scores;
+    public GameObject localScore;
 
 
-    void Awake()
+    void Awake() //singleton code
     {
         if (singleton == null)
         {
@@ -48,6 +51,12 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
+        localName = "player";
+        if (PlayerPrefs.HasKey("playerName"))
+        {
+            localName = PlayerPrefs.GetString("playerName");
+        }
+
         listPlayers = new Score[MenuManager.maxPlayersNumber];
         InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
@@ -114,7 +123,30 @@ public class ColorManager : NetworkBehaviour
     }
 
 
+    [ClientRpc] public void RpcUpdateScoreHolder(GameObject obj, string name) {
+;
 
+
+    }
+    [ClientRpc] public void RpcSetScoreHolder(GameObject obj, string name) { SetScoreHolderSolo(obj, name); }
+    [Command] public void CmdSetScoreHolder(GameObject obj, string name) { RpcSetScoreHolder(obj, name); }
+    public void SetScoreHolder(GameObject obj, string name) { CmdSetScoreHolder(obj, name); }
+    public void SetScoreHolderSolo(GameObject obj, string name)
+    {
+        localScore = Instantiate(ScorePrefab);
+        NetworkServer.Spawn(localScore);
+        localScore.name = "score-" + name;
+        Score playerScore = localScore.GetComponent<Score>();
+        playerScore.PlayerName = name;
+        playerScore.PlayerObj = obj;
+        localScore.transform.SetParent(Scores.transform);
+        obj.GetComponent<ScoreKeeper>().playerScore = playerScore;
+
+
+        //RpcUpdateScoreHolder(obj, name);
+
+
+    }
 
     [Command]
     void CmdKill(GameObject obj) { RpcKill(obj); }
@@ -160,7 +192,6 @@ public class ColorManager : NetworkBehaviour
     {
         CmdLaunchGame(); // 1) on dit au server
     }
-
 
     [ClientRpc]
     public void RpcTogglePlayerReady(GameObject player, bool state)

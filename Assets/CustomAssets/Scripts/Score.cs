@@ -24,6 +24,13 @@ public class Score : NetworkBehaviour
     [SerializeField]
     bool _isReady = false;
     public GameObject ScoreTx;
+    private GameObject ScoreParent;
+
+    private void Start()
+    {
+        ScoreParent = ColorManager.singleton.Scores;
+        transform.SetParent(ScoreParent.transform);
+    }
 
     public string PlayerName
     {
