@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4523301703645686}
   - component: {fileID: 114523977270621482}
   m_Layer: 0
-  m_Name: ratKing
-  m_TagString: ratKing
+  m_Name: Scores
+  m_TagString: ThingsHolder
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54,21 +54,21 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 245
-    i1: 97
-    i2: 66
-    i3: 102
-    i4: 136
-    i5: 246
-    i6: 189
-    i7: 148
-    i8: 74
-    i9: 19
-    i10: 213
-    i11: 48
-    i12: 34
-    i13: 32
-    i14: 253
-    i15: 253
+    i0: 161
+    i1: 77
+    i2: 106
+    i3: 35
+    i4: 6
+    i5: 110
+    i6: 217
+    i7: 84
+    i8: 42
+    i9: 180
+    i10: 84
+    i11: 98
+    i12: 150
+    i13: 65
+    i14: 98
+    i15: 191
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0

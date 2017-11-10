@@ -24,6 +24,7 @@ public class ColorManager : NetworkBehaviour
     public GameObject listOfPlayersParent;
     public GameObject playerStatePrefab;
     public GameObject ratKingPrefab;
+    public GameObject ratKing;
 
 
     private float refreshFrequency = 2.5f;
@@ -54,6 +55,7 @@ public class ColorManager : NetworkBehaviour
         {
             NetworkServer.Spawn(Scores);
         }
+        ratKing = GameObject.FindGameObjectWithTag("ratKing");
     }
 
 

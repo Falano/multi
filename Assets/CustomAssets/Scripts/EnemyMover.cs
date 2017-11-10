@@ -18,9 +18,12 @@ public class EnemyMover : NetworkBehaviour
     public int rotationSpeed = 5;
     private bool readyToChangeDestination = true;
     private IEnumerator wait;
+    GameObject ratKing;
 
     void Start()
     {
+        ratKing = ColorManager.singleton.ratKing;
+        transform.SetParent(ratKing.transform);
         if (!isServer)
         {
             return;
