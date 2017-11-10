@@ -4,6 +4,7 @@ currently working on:
 	camera follow not-dead players [solved by flo - you're wolcome]
 	multi?
 	scores (name. then stats)
+	-> check how to network an object to use as parent later
 
 to implement:
 --DONE-- anim sheep death

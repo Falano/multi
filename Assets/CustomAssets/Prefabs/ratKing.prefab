@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4523301703645686}
   - component: {fileID: 114523977270621482}
   m_Layer: 0
-  m_Name: emptyNetworkedObj
+  m_Name: ratKing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

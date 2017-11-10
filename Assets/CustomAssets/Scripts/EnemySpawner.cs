@@ -36,7 +36,7 @@ public class EnemySpawner : NetworkBehaviour {
     {
         //RpcMakeNetworkedRatKing();
         
-        ratKing = makeSpawnable(ColorManager.singleton.emptyNetwPrefab, "ratKing");
+        ratKing = Instantiate(ColorManager.singleton.ratKingPrefab);
         NetworkServer.Spawn(ratKing);
 
         lvlSize = ColorManager.singleton.LvlSize;
@@ -56,13 +56,8 @@ public class EnemySpawner : NetworkBehaviour {
         }        
     }
 
-    public GameObject makeSpawnable(GameObject prefab, string name, string tag = "Untagged")
-    {
-        GameObject obj = Instantiate(prefab);
-        obj.name = name;
-        obj.tag = tag;
-        return obj;
-    }
+
+
 
     /*
     [ClientRpc]
@@ -80,7 +75,7 @@ public class EnemySpawner : NetworkBehaviour {
     {
         Vector3 pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(-lvlSize.z, lvlSize.z));
         Quaternion rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
-        GameObject enemy = Instantiate(enemyPrefab, pos, rot, ratKing.transform);
+        GameObject enemy = Instantiate(enemyPrefab, pos, rot);
         NetworkServer.Spawn(enemy);
         enemyList[i] = enemy.GetComponent<EnemyMover>();
     }

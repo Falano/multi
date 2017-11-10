@@ -23,7 +23,7 @@ public class ColorManager : NetworkBehaviour
     public Text launchGameTx;
     public GameObject listOfPlayersParent;
     public GameObject playerStatePrefab;
-    public GameObject emptyNetwPrefab;
+    public GameObject ratKingPrefab;
 
 
     private float refreshFrequency = 2.5f;
