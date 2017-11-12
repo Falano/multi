@@ -10,13 +10,11 @@ public class PlayerChangeCol : NetworkBehaviour
 {
 	[SyncVar] private Color currColor;
 	private Color prevColor;
-	Color[] colors = { Color.yellow, Color.cyan, Color.blue, Color.green, Color.white, Color.magenta };
 
 	RaycastHit hit;
     public float hitDistance = 1;
-    Vector3 offsetPos;
+    Vector3 rayOffsetPos;
 	Renderer rd;
-    Score score;
 
     bool paintReady = true;
     [SerializeField]
@@ -26,13 +24,14 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         rd = GetComponentInChildren<Renderer>();
         currColor = Color.white;
-        offsetPos = new Vector3(0, .5f, 0);
+        rayOffsetPos = new Vector3(0, .5f, 0);
         Invoke("startWhite", .5f);
     }
 
     void startWhite()
     {
         ChangeCol(gameObject, Color.white/*, ColorManager.singleton.gameObject*/);
+        GetComponent<PlayerHealth>().TakeDamage(-1);
     }
 
     // mice make them change colour
@@ -53,7 +52,7 @@ public class PlayerChangeCol : NetworkBehaviour
 		prevColor = currColor;
 		// so it doesn't "change" to the same colour:
 		while (prevColor == currColor) { 
-			currColor = colors[Random.Range(0, colors.Length)];
+			currColor = MenuManager.colors[Random.Range(0, MenuManager.colors.Length)];
 		}
 		CmdChangeCol (obj, currColor/*, attacker*/);
         StartCoroutine("paintCooldown", cooldown);
@@ -78,10 +77,40 @@ public class PlayerChangeCol : NetworkBehaviour
 
 	[Command]
 	void CmdChangeCol(GameObject obj, Color col /*, GameObject attacker*/){
-		ColorManager.singleton.RpcChangeCol (obj, col/*, attacker*/);
+		RpcChangeCol (obj, col/*, attacker*/);
 	}
 
+    [ClientRpc]
+    public void RpcChangeCol(GameObject obj, Color col/*, GameObject attacker*/)
+    {
+        obj.GetComponent<PlayerHealth>().TakeDamage();
+        if (obj.GetComponent<PlayerHealth>().Hp > 0)
+        { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
+            Renderer rd = obj.GetComponentInChildren<Renderer>();
+            rd.materials[0].color = col;
+            if (!obj.GetComponent<PlayerBehaviour>().IsLocalPlayer)
+            {
+                rd.materials[1].color = col;
+            }
 
+            // if I keep this, after the second player attack, sheep bleed to death FOR SOME REASON
+            /*
+            if (attacker == obj)
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromSelf += 1;
+            }
+            else if (attacker.CompareTag("AttackChangeCol"))
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromMice += 1;
+            }
+            else if (attacker.CompareTag("Player"))
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromOthers += 1;
+                attacker.GetComponent<ScoreKeeper>().currentPlayer.colorChangesToOthers += 1;
+            }
+            */
+        }
+    }
 
 
 
@@ -93,20 +122,20 @@ public class PlayerChangeCol : NetworkBehaviour
 				ChangeCol (this.gameObject/*, this.gameObject*/);
 			}
 
-			Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
+			Debug.DrawRay(transform.position + rayOffsetPos, transform.forward * hitDistance, Color.green);
 			if (Input.GetKeyDown (KeyCode.Space) && paintReady) {
 				// changing another's colour
-				if (Physics.Raycast (transform.position + offsetPos, transform.forward, out hit)) {
+				if (Physics.Raycast (transform.position + rayOffsetPos, transform.forward, out hit)) {
 					if (Vector3.Distance (hit.transform.position, transform.position) <= hitDistance) {
 						if (hit.transform.CompareTag ("Player")) {
 							ChangeCol (hit.transform.gameObject/*, this.gameObject*/);
 						}
 					}
 				}
-			}
+			}/*
 			if (rd.materials [1].color != Color.black) {
 				rd.materials [1].color = Color.black;
-			}
+			}*/
         }
 	}
 }

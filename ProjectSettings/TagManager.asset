@@ -8,7 +8,6 @@ TagManager:
   - NetworkManager
   - ColorManager
   - AttackChangeCol
-  - hGUI
   - Score
   - ThingsHolder
   layers:

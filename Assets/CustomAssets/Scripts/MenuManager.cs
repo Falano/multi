@@ -19,9 +19,7 @@ public class MenuManager : MonoBehaviour {
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
-    private string playerName;
-
-    //private NetworkLobbyManager lobbyManager; //only useful for lobby version
+    public static Color[] colors = { Color.yellow, Color.cyan, Color.blue, Color.green, Color.white, Color.magenta };
 
     [Header("Don't change that if it works")]
     public Sprite[] lvlPreviews;
@@ -35,19 +33,6 @@ public class MenuManager : MonoBehaviour {
     public Text lvlText;
     public Text maxPlayersText;
     private Image lvlImg;
-
-    public string PlayerName
-    {
-        get
-        {
-                return PlayerPrefs.GetString("playerName");
-        }
-        set
-        {
-            PlayerPrefs.SetString("playerName", value);
-            playerName = value;
-        }
-    }
 
     void Awake()
     {
@@ -66,7 +51,6 @@ public class MenuManager : MonoBehaviour {
     public void Start()
     {
         nbScenes = SceneManager.sceneCountInBuildSettings;
-        //lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>(); //for lobby version
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
         //now: initializing the texts with the default values:
@@ -84,8 +68,15 @@ public class MenuManager : MonoBehaviour {
         {
             nameField.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             nameField.GetComponentsInChildren<Text>()[0].text = "";
-            nameField.text = PlayerName;
+            nameField.text = PlayerPrefs.GetString("playerName");
         }
+    }
+
+    public void ChangeLocalName(string name)
+    {
+        PlayerPrefs.SetString("playerName", name);
+        //ColorManager.singleton.localName = name;
+        
     }
 
     public void Quit(){
@@ -145,7 +136,7 @@ public class MenuManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //testing area
-            PlayerPrefs.DeleteAll();
+            ClearAllData();
         }
     }
 }

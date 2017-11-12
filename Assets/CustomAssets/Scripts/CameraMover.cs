@@ -65,7 +65,7 @@ public class CameraMover : NetworkBehaviour
 
 
         // VERSION DE FLO
-
+        /*
         if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
         {
             Score playerToFollow;
@@ -88,6 +88,6 @@ public class CameraMover : NetworkBehaviour
                 }
 
             }
-        }
+        }*/
     }
 }

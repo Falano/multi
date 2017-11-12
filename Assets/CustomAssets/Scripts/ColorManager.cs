@@ -17,25 +17,26 @@ public class ColorManager : NetworkBehaviour
     public static ColorManager singleton;
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
-    public static Score[] listPlayers;
+    public static Score[] listScores;
     private GameObject listOfPlayersParent;
-    public string localName;
+    public string localName; //do I actually use this?
 
     [Header("scripts drag-and-drop variables")]
-    public Canvas lobbyCanvas;
-    public Text launchGameTx;
+
     public GameObject playerStatePrefab;
     public GameObject ratKingPrefab;
-    public GameObject ScoresHolderPrefab;
+    //public GameObject ScoresHolderPrefab; //soooo I never use this?
     public GameObject ScorePrefab;
     [Header("Customisable gameplay-ish options")]
-    private float refreshFrequency = 2.5f;
+    public float refreshFrequency = 2.5f;
 
-    [Header("Supposed to be empty: ")]
+    [Header("filled out on Start through code: supposed to be empty: ")]
     public GameObject ratKing;
     public GameObject Scores;
     public GameObject localScore;
-
+    public Image healthGUI;
+    public Canvas lobbyCanvas;
+    public Text launchGameTx;
 
     void Awake() //singleton code
     {
@@ -51,21 +52,20 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
-        localName = "player";
         if (PlayerPrefs.HasKey("playerName"))
         {
             localName = PlayerPrefs.GetString("playerName");
         }
 
-        listPlayers = new Score[MenuManager.maxPlayersNumber];
-        InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
         Scores = new GameObject("Scores");
         Scores.AddComponent<NetworkIdentity>();
+        Scores.tag = "ThingsHolder";
         if (isServer)
         {
             NetworkServer.Spawn(Scores);
         }
+
         GameObject[] thingsHolders = GameObject.FindGameObjectsWithTag("ThingsHolder"); //histoire de ne pas avoir à drag-and-dropper quinze mille objects dans mon ColorManager
         foreach (GameObject holder in thingsHolders)
         {
@@ -84,50 +84,53 @@ public class ColorManager : NetworkBehaviour
                     Scores = holder;
                     break;
             }
-
-
         }
+        GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI"); //histoire de ne pas avoir quinze mille tags différents
+        foreach (GameObject gui in GUIs)
+        {
+            switch (gui.name)
+            {
+                case "healthGUI":
+                case "healthGUI(Clone)":
+                    healthGUI = gui.GetComponent<Image>();
+                    break;
+                case "LobbyCanvas":
+                case "LobbyCanvas(Clone)":
+                    lobbyCanvas = gui.GetComponent<Canvas>();
+                    break;
+                case "LaunchGameTx":
+                case "LaunchGameTx(Clone)":
+                    launchGameTx = gui.GetComponent<Text>();
+                    break;
+            }
+        }
+
+
+        listScores = new Score[MenuManager.maxPlayersNumber]; // on crée une liste vide de scores
+        if (isServer)
+        {
+            for (int i = 0; i < listScores.Length; i++) // on crée plein de scores
+            {
+                GameObject currScore = Instantiate(ScorePrefab);
+                NetworkServer.Spawn(currScore);
+            }
+        }
+
+        GameObject[] listScoresGO = GameObject.FindGameObjectsWithTag("Score"); // on chope les objects des scores qu'on vient de créer
+        for (int i = 0; i < listScoresGO.Length; i++)//on met leurs composants score dans la liste
+        {
+            listScores[i] = listScoresGO[i].GetComponent<Score>();
+        }
+
+
+        InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
     }
 
 
-
-    [ClientRpc]
-    public void RpcChangeCol(GameObject obj, Color col/*, GameObject attacker*/)
-    {
-        obj.GetComponent<PlayerHealth>().TakeDamage();
-        if (obj.GetComponent<PlayerHealth>().Hp > 0)
-        { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
-            Renderer rd = obj.GetComponentInChildren<Renderer>();
-            foreach (Material mat in rd.materials)
-            {
-                mat.color = col;
-            }
-
-            // if I keep this, after the second player attack, sheep bleed to death FOR SOME REASON
-            /*
-            if (attacker == obj)
-            {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromSelf += 1;
-            }
-            else if (attacker.CompareTag("AttackChangeCol"))
-            {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromMice += 1;
-            }
-            else if (attacker.CompareTag("Player"))
-            {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromOthers += 1;
-                attacker.GetComponent<ScoreKeeper>().currentPlayer.colorChangesToOthers += 1;
-            }
-            */
-        }
-    }
-
-
+    /*
     [ClientRpc] public void RpcUpdateScoreHolder(GameObject obj, string name) {
-;
-
-
     }
+
     [ClientRpc] public void RpcSetScoreHolder(GameObject obj, string name) { SetScoreHolderSolo(obj, name); }
     [Command] public void CmdSetScoreHolder(GameObject obj, string name) { RpcSetScoreHolder(obj, name); }
     public void SetScoreHolder(GameObject obj, string name) { CmdSetScoreHolder(obj, name); }
@@ -140,13 +143,10 @@ public class ColorManager : NetworkBehaviour
         playerScore.PlayerName = name;
         playerScore.PlayerObj = obj;
         localScore.transform.SetParent(Scores.transform);
-        obj.GetComponent<ScoreKeeper>().playerScore = playerScore;
-
-
+        //obj.GetComponent<ScoreKeeper>().playerScore = playerScore;
         //RpcUpdateScoreHolder(obj, name);
-
-
     }
+    */
 
     [Command]
     void CmdKill(GameObject obj) { RpcKill(obj); }
@@ -168,6 +168,7 @@ public class ColorManager : NetworkBehaviour
         isGamePlaying = true;
         launchGameTx.text = "";
         listOfPlayersParent.SetActive(false);
+        GameObject[] listOfPlayers = GameObject.FindGameObjectsWithTag("Player");
         if (isServer)
         {
             foreach (EnemyMover enemy in EnemySpawner.enemyList)
@@ -193,12 +194,13 @@ public class ColorManager : NetworkBehaviour
         CmdLaunchGame(); // 1) on dit au server
     }
 
-    [ClientRpc]
-    public void RpcTogglePlayerReady(GameObject player, bool state)
-    {
-        player.GetComponent<Score>().ToggleReadySolo(state);
-    }
 
+    public void ResetScore(Score sco)
+    {
+        sco.i = -1;
+        sco.PlayerName = null;
+        sco.PlayerObj = null;
+    }
 
 
     public void RefreshListOfPlayers()
@@ -206,39 +208,41 @@ public class ColorManager : NetworkBehaviour
         print("refreshing list of players");
         int numberOfPlayersReady = 0;
         GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
-        for (int i = 0; i < listPlayers.Length; i++)
+        for (int i = 0; i < listPlayersGO.Length; i++)
         {
-            if (i >= listPlayersGO.Length)
+
+            if (listScores[i].PlayerObj == null || listScores[i].PlayerObj  != listPlayersGO[i])
             {
-                listPlayers[i] = null;
-            }
-            else
-            {
-                listPlayers[i] = listPlayersGO[i].GetComponent<Score>();
-                listPlayers[i].SetI(i);
-                if (listPlayers[i].PlayerName == null)
+                listScores[i].i = i;
+                listScores[i].PlayerObj = listPlayersGO[i];
+                listScores[i].PlayerName = listPlayersGO[i].GetComponent<PlayerBehaviour>().localName;
+                if(listScores[i].PlayerName == "Player")
                 {
-                    listPlayers[i].SetPlayersName("Player" + i.ToString());
+                    listScores[i].PlayerName = "Player" + i;
                 }
+                listScores[i].name = "score-" + listScores[i].PlayerName;
+
+            }
+                
                 string readyState = "not ready...";
                 Color txColor = Color.white;
-                if (listPlayers[i].IsReady == true)
+                if (listPlayersGO[i].GetComponent<PlayerBehaviour>().IsReady == true)
                 {
                     readyState = "ready!";
                     numberOfPlayersReady++;
                     txColor = Color.green;
                 }
                 //print(listPlayers[i].PlayerName + " : " + readyState);
-                if(listPlayers[i].ScoreTx == null)
+                if(listScores[i].ScoreTx == null)
                 {
                     float posX = listOfPlayersParent.transform.position.x;
                     float posY = listOfPlayersParent.transform.position.y;
-                    listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
-                    listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -20);
+                    listScores[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
+                    listScores[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -20);
                 }
-                listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].PlayerName + " : " + readyState;
-                listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
-            }            
+                listScores[i].ScoreTx.GetComponent<Text>().text = listScores[i].PlayerName + " : " + readyState;
+                listScores[i].ScoreTx.GetComponent<Text>().color = txColor;
+            //}
         }
         if (numberOfPlayersReady == listPlayersGO.Length)
         {

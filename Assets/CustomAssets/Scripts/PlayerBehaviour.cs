@@ -5,14 +5,35 @@ using UnityEngine.Networking;
 
 // à mettre sur le sheep prefab
 
-public class ScoreKeeper : NetworkBehaviour {
-    public Score playerScore;
+    
+public class PlayerBehaviour: NetworkBehaviour {
+    [SyncVar]
+    public string localName;
+    [SyncVar]
+    public bool IsReady;
+    public bool IsLocalPlayer = false;
+
+    override public void OnStartLocalPlayer() //le override pourrait éventuellement faire de la merde?
+    {
+        if (isServer)
+        {
+            localName = "HostPlayer";
+        }
+        IsLocalPlayer = true;
+        localName = "Player";
+        if (PlayerPrefs.HasKey("playerName"))
+        {
+            localName = PlayerPrefs.GetString("playerName");
+        }
+    }
+
+    /*public Score playerScore;
     public GameObject localScore;
 
     private void Start()
     {
         if (!isLocalPlayer) { return; }
-        ColorManager.singleton.SetScoreHolder(gameObject, ColorManager.singleton.localName);
+        ColorManager.singleton.SetScoreHolder(gameObject, PlayerPrefs.GetString("playerName"));
 
 
         localScore = Instantiate(ColorManager.singleton.ScorePrefab);
@@ -57,4 +78,18 @@ public class ScoreKeeper : NetworkBehaviour {
             ColorManager.singleton.RpcUpdatePlayersList(obj);
 
         }*/
+
+
+
+    private void Update()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
+        {
+           IsReady = !IsReady;
+        }
+    }
 }

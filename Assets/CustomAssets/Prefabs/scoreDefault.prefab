@@ -84,12 +84,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1c366392e9dec74bbe664077964cb05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  i: 0
+  i: -1
   playerObj: {fileID: 0}
-  playerName: no
+  PlayerName: default
   colorChangesToOthers: 0
   colorChangesFromOthers: 0
   colorChangesFromMice: 0
   colorChangesFromSelf: 0
-  _isReady: 0
   ScoreTx: {fileID: 0}

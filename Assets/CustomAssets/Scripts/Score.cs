@@ -9,20 +9,19 @@ using UnityEngine.Networking;
 public class Score : NetworkBehaviour
 {
     [Tooltip("its index in the list")]
-    public int i;
+    public int i = -1;
     [SerializeField]
     GameObject playerObj;
     [SerializeField]
-    string playerName;
+    public string PlayerName = "default";
     float timeOfDeath;
-    bool alive; // XXX
+    bool alive;
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
     public int colorChangesFromSelf;
     float startTime;
     [SerializeField]
-    bool _isReady = false;
     public GameObject ScoreTx;
     private GameObject ScoreParent;
 
@@ -30,24 +29,9 @@ public class Score : NetworkBehaviour
     {
         ScoreParent = ColorManager.singleton.Scores;
         transform.SetParent(ScoreParent.transform);
+        gameObject.tag = "Score";
     }
 
-    public string PlayerName
-    {
-        get
-        {
-            if (PlayerPrefs.HasKey("playerName"))
-            {
-                return PlayerPrefs.GetString("playerName");
-            }
-            return playerName;
-        }
-        set
-        {
-            PlayerPrefs.SetString("playerName", value);
-            playerName = value;
-        }
-    }
     public float TimeOfDeath
     {
         get
@@ -66,42 +50,10 @@ public class Score : NetworkBehaviour
             playerObj = value;
         }
     }
-    public bool IsReady
-    {
-        get
-        {
-            return _isReady;
-        }
-        set
-        {
-            ToggleReady(value);
-        }
-    }
-
-    public bool Alive // XXX
-    {
-        get
-        {
-            return alive;
-        }
-        private set
-        {
-            alive = value;
-        }
-    }
-
-    public Score(GameObject playerObject, string playerNamed)
-    {
-        playerObj = playerObject;
-        startTime = Time.time;
-        playerName = playerNamed;
-        Alive = true; // XXX
-        timeOfDeath = 0; // XXX
-    }
 
     public void SetTimeOfDeath()
     {
-        Alive = false;//XXX
+        playerObj.GetComponent<PlayerHealth>().Alive = false;
         timeOfDeath = Time.time - startTime;
     }
     public void SetI(int newI)
@@ -110,7 +62,7 @@ public class Score : NetworkBehaviour
     }
 
 
-
+    /*
     public void ToggleReady(bool state)
     {
         _isReady = state;
@@ -126,23 +78,7 @@ public class Score : NetworkBehaviour
     public void ToggleReadySolo(bool state)
     {
         _isReady = state;
-    }
+    }*/
 
 
-    public void SetPlayersName(string name)
-    {
-        playerName = name;
-    }
-
-    private void Update()
-    {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
-        {
-            ToggleReady(!_isReady);
-        }
-    }
 }

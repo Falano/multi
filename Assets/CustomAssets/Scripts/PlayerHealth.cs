@@ -16,6 +16,7 @@ public class PlayerHealth : NetworkBehaviour {
 	public Sprite[] sprites;
     [SerializeField]
 	private int spritesIndex = 10;
+    public bool Alive;
 
     public int nummer;
 
@@ -29,8 +30,8 @@ public class PlayerHealth : NetworkBehaviour {
 
     // Use this for initialization
     void Start () {
-        hp = MenuManager.startHp+1;
-        healthGUI = GameObject.FindGameObjectWithTag("hGUI").GetComponent<Image>();
+        hp = MenuManager.startHp;
+        healthGUI = ColorManager.singleton.healthGUI; ;
     }
 
     // both for hp value and GUI's healthbar 
@@ -55,6 +56,7 @@ public class PlayerHealth : NetworkBehaviour {
             ColorManager.singleton.isLocalPlayerDead = true;
         }
         GetComponent<PlayerMove>().speed = 0;
+        Alive = false;
         GameObject mesh = transform.GetChild(0).gameObject;
         mesh.SetActive(false);
         GameObject death = transform.GetChild(2).gameObject;
