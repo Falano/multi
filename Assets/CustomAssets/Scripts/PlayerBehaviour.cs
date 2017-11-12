@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 // à mettre sur le sheep prefab
 
-    
-public class PlayerBehaviour: NetworkBehaviour {
+
+public class PlayerBehaviour : NetworkBehaviour {
     [SyncVar]
     public string localName;
     [SyncVar]
@@ -26,6 +26,8 @@ public class PlayerBehaviour: NetworkBehaviour {
             localName = PlayerPrefs.GetString("playerName");
         }
     }
+
+
 
     /*public Score playerScore;
     public GameObject localScore;
@@ -89,7 +91,8 @@ public class PlayerBehaviour: NetworkBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
         {
-           IsReady = !IsReady;
+            IsReady = !IsReady;
         }
     }
+
 }

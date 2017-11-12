@@ -116,6 +116,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
 
+
         GameObject[] listScoresGO = GameObject.FindGameObjectsWithTag("Score"); // on chope les objects des scores qu'on vient de créer
         for (int i = 0; i < listScoresGO.Length; i++)//on met leurs composants score dans la liste
         {
@@ -124,6 +125,39 @@ public class ColorManager : NetworkBehaviour
 
 
         InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
+    }
+
+
+    [ClientRpc]
+    public void RpcChangeCol(GameObject obj, Color col/*, GameObject attacker*/)
+    {
+        obj.GetComponent<PlayerHealth>().TakeDamage();
+        if (obj.GetComponent<PlayerHealth>().Hp > 0)
+        { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
+            Renderer rd = obj.GetComponentInChildren<Renderer>();
+            rd.materials[0].color = col;
+            if (!obj.GetComponent<PlayerBehaviour>().IsLocalPlayer)
+            {
+                rd.materials[1].color = col;
+            }
+
+            // if I keep this, after the second player attack, sheep bleed to death FOR SOME REASON
+            /*
+            if (attacker == obj)
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromSelf += 1;
+            }
+            else if (attacker.CompareTag("AttackChangeCol"))
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromMice += 1;
+            }
+            else if (attacker.CompareTag("Player"))
+            {
+                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromOthers += 1;
+                attacker.GetComponent<ScoreKeeper>().currentPlayer.colorChangesToOthers += 1;
+            }
+            */
+        }
     }
 
 
