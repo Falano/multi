@@ -6,6 +6,7 @@ currently working on:
 	scores (name. then stats)
 	-> check how to network an object to use as parent later
 	au lieu d'essayer d'avoir chaque mouton spawner son scoreHolder, spawner autant de scoreHolders que de moutons, les numéroter, et pour chacun prendre le mouton dont l'index dans la liste des Player-tagged correspond au sien, et choper son score.
+	je pense que j'ai un command ou un rpc sur le mauvais objet
 
 to implement:
 --DONE-- anim sheep death

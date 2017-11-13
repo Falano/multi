@@ -30,7 +30,7 @@ public class ColorManager : NetworkBehaviour
     [Header("Customisable gameplay-ish options")]
     public float refreshFrequency = 2.5f;
 
-    [Header("filled out on Start through code: supposed to be empty: ")]
+    [Header("filled out on Start through code: supposed to be empty:")]
     public GameObject ratKing;
     public GameObject Scores;
     public GameObject localScore;
@@ -234,6 +234,7 @@ public class ColorManager : NetworkBehaviour
         sco.i = -1;
         sco.PlayerName = null;
         sco.PlayerObj = null;
+        sco.name = "score";
     }
 
 
@@ -242,8 +243,13 @@ public class ColorManager : NetworkBehaviour
         print("refreshing list of players");
         int numberOfPlayersReady = 0;
         GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
-        for (int i = 0; i < listPlayersGO.Length; i++)
+        for (int i = 0; i < listScores.Length; i++)
         {
+            if(i>= listPlayersGO.Length) // pour si quelqu'un quitte le lobby; le mettre dans le launchGame instead?
+            {
+                ResetScore(listScores[i]);
+                return;
+            }
 
             if (listScores[i].PlayerObj == null || listScores[i].PlayerObj  != listPlayersGO[i])
             {
@@ -267,14 +273,15 @@ public class ColorManager : NetworkBehaviour
                     txColor = Color.green;
                 }
                 //print(listPlayers[i].PlayerName + " : " + readyState);
-                if(listScores[i].ScoreTx == null)
-                {
+                
                     float posX = listOfPlayersParent.transform.position.x;
                     float posY = listOfPlayersParent.transform.position.y;
-                    listScores[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
-                    listScores[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -20);
+            if (listScores[i].ScoreTx == null)
+            {
+                listScores[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
                 }
-                listScores[i].ScoreTx.GetComponent<Text>().text = listScores[i].PlayerName + " : " + readyState;
+            listScores[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -20);
+            listScores[i].ScoreTx.GetComponent<Text>().text = listScores[i].PlayerName + " : " + readyState;
                 listScores[i].ScoreTx.GetComponent<Text>().color = txColor;
             //}
         }
