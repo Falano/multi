@@ -7,9 +7,10 @@ currently working on:
 	-> check how to network an object to use as parent later
 	au lieu d'essayer d'avoir chaque mouton spawner son scoreHolder, spawner autant de scoreHolders que de moutons, les numéroter, et pour chacun prendre le mouton dont l'index dans la liste des Player-tagged correspond au sien, et choper son score.
 	je pense que j'ai un command ou un rpc sur le mauvais objet
-	ratKing and scores Holder Parent shouldn't be spawned, but dropped in the scene. too heavy otherwise
+	ratKing and scores Holder Parent shouldn't be spawned, but dropped in the scene. too heavy otherwise - or each sheep player creates his own - not networked
 	GameManager should be spawned.
 	this GameManager should hold all the rpc calls
+	I need one networked and spawned GameManager (holds the players scores, all the rpcs, the refresh script) and a non-networked one(probs my ColorManager; holds the GUIs, the non-networked parents, the isLocalPlayerDead).
 
 
 to implement:
