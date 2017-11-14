@@ -9,12 +9,16 @@ using UnityEngine.Networking;
 public class PlayerBehaviour : NetworkBehaviour {
     [SyncVar]
     public string localName;
-    [SyncVar]
     public bool IsReady;
     public bool IsLocalPlayer = false;
 
-    override public void OnStartLocalPlayer() //le override pourrait éventuellement faire de la merde?
+    void Start() //le override pourrait éventuellement faire de la merde?
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         if (isServer)
         {
             localName = "HostPlayer";
@@ -91,7 +95,7 @@ public class PlayerBehaviour : NetworkBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
         {
-            IsReady = !IsReady;
+            ColorManager.singleton.ToggleReady(gameObject);
         }
     }
 

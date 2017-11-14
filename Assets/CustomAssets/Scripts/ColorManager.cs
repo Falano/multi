@@ -228,6 +228,12 @@ public class ColorManager : NetworkBehaviour
         CmdLaunchGame(); // 1) on dit au server
     }
 
+    public void ToggleReady(GameObject obj) { obj.GetComponent<PlayerBehaviour>().IsReady = !obj.GetComponent<PlayerBehaviour>().IsReady; CmdToggleReady(obj); }
+    [Command]
+    public void CmdToggleReady(GameObject obj) { obj.GetComponent<PlayerBehaviour>().IsReady = !obj.GetComponent<PlayerBehaviour>().IsReady;  RpcToggleReady(obj); }
+    [ClientRpc]
+    void RpcToggleReady(GameObject obj) { obj.GetComponent<PlayerBehaviour>().IsReady = !obj.GetComponent<PlayerBehaviour>().IsReady; }
+
 
     public void ResetScore(Score sco)
     {
