@@ -13,7 +13,6 @@ public class Score : NetworkBehaviour
     GameObject playerObj;
     string playerName;
     float timeOfDeath;
-    bool alive; // XXX
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
@@ -64,30 +63,17 @@ public class Score : NetworkBehaviour
         }
     }
 
-    public bool Alive // XXX
-    {
-        get
-        {
-            return alive;
-        }
-        private set
-        {
-            alive = value;
-        }
-    }
 
     public Score(GameObject playerObject, string playerNamed)
     {
         playerObj = playerObject;
         startTime = Time.time;
         playerName = playerNamed;
-        Alive = true; // XXX
         timeOfDeath = 0; // XXX
     }
 
     public void SetTimeOfDeath()
     {
-        Alive = false;//XXX
         timeOfDeath = Time.time - startTime;
     }
     public void SetI(int newI)

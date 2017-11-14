@@ -17,7 +17,6 @@ public class PlayerHealth : NetworkBehaviour {
     [SerializeField]
 	private int spritesIndex = 10;
 
-    public int nummer;
 
     public float Hp
     {
