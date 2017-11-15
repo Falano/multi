@@ -5,17 +5,18 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class MenuManager : MonoBehaviour {
+public class MenuManager : MonoBehaviour
+{
     public static MenuManager singleton;
     public Scene[] scenes;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
-	public static int enemyNumber = 5;
-	public static int startHp = 20;
-	public static int maxPlayersNumber = 20;
-	public static string startLevel;
-	public static int teamwork; // number of different teams; 0 is chacun pour soi
-	public static float chrono = 0; // en minutes
+    public static int enemyNumber = 5;
+    public static int startHp = 20;
+    public static int maxPlayersNumber = 20;
+    public static string startLevel;
+    public static int teamwork; // number of different teams; 0 is chacun pour soi
+    public static float chrono = 0; // en minutes
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
@@ -40,7 +41,7 @@ public class MenuManager : MonoBehaviour {
     {
         get
         {
-                return PlayerPrefs.GetString("playerName");
+            return PlayerPrefs.GetString("playerName");
         }
         set
         {
@@ -89,22 +90,25 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    public void Quit(){
-		Application.Quit ();
-	}
+    public void Quit()
+    {
+        Application.Quit();
+    }
 
-    public void ChangeStartScene(int change) {
-        activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
+    public void ChangeStartScene(int change)
+    {
+        activeScene = (activeScene + change + (nbScenes - 1)) % (nbScenes - 1); //parce qu'il ne faut pas tomber sur le menu
         //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
-        lvlText.text = (activeScene+1).ToString();
+        lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
         //NetlobbyManager.playScene = (activeScene + 1).ToString(); // for lobby version
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
-    public void ChangeNbrEnemies(int nb){
+    public void ChangeNbrEnemies(int nb)
+    {
         ChangeSetting(nb, ref enemyNumber, enemyText);
-	}
+    }
 
     public void ChangeStartHp(int nb)
     {
@@ -115,7 +119,8 @@ public class MenuManager : MonoBehaviour {
         ChangeSetting(nb, ref maxPlayersNumber, maxPlayersText);
     }
 
-    public void ChangeChrono(float nb){
+    public void ChangeChrono(float nb)
+    {
         ChangeSetting(nb, ref chrono, chronoText);
     }
 

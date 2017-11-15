@@ -18,11 +18,14 @@ public class ColorManager : NetworkBehaviour
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
     public static Score[] listPlayers;
-    [Header("scripts drag-and-drop variables")]
+    [Header("supposed to be empty")]
     public Canvas lobbyCanvas;
     public Text launchGameTx;
     public GameObject listOfPlayersParent;
     public GameObject playerStatePrefab;
+    public GameObject ScoresHolderParent;
+    public GameObject ratKing;
+    public Image healthGUI;
 
     private float refreshFrequency = 2.5f;
 
@@ -40,11 +43,39 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
+        ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" };
+        ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
+
+
+        GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
+        foreach (GameObject gui in GUIs)
+        {
+            switch (name)
+            {
+                case "healthGUI":
+                case "healthGUI(Clone)":
+                    healthGUI = gui.GetComponent<Image>();
+                    break;
+                case "LobbyCanvas":
+                case "LobbyCanvas(Clone)":
+                    lobbyCanvas = gui.GetComponent<Canvas>();
+                    break;
+                case "listOfPlayers":
+                case "listOfPlayers(Clone)":
+                    listOfPlayersParent = gui;
+                    break;
+                case "LaunchGameTx":
+                case "LaunchGameTx(Clone)":
+                    launchGameTx = gui.GetComponent<Text>();
+                    break;
+            }
+        }
+
+
         listPlayers = new Score[MenuManager.maxPlayersNumber];
         InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
     }
-
 
 
     [ClientRpc]
@@ -163,7 +194,7 @@ public class ColorManager : NetworkBehaviour
                     txColor = Color.green;
                 }
                 //print(listPlayers[i].PlayerName + " : " + readyState);
-                if(listPlayers[i].ScoreTx == null)
+                if (listPlayers[i].ScoreTx == null)
                 {
                     float posX = listOfPlayersParent.transform.position.x;
                     float posY = listOfPlayersParent.transform.position.y;
@@ -172,7 +203,7 @@ public class ColorManager : NetworkBehaviour
                 }
                 listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].PlayerName + " : " + readyState;
                 listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
-            }            
+            }
         }
         if (numberOfPlayersReady == listPlayersGO.Length)
         {

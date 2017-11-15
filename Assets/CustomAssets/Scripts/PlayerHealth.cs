@@ -9,13 +9,15 @@ using UnityEngine.UI;
 // also manages the GUI's healthbar 
 // has KillSolo() (because isLocalPlayer doesn't work if it's on the gameManager)
 
-public class PlayerHealth : NetworkBehaviour {
+public class PlayerHealth : NetworkBehaviour
+{
     [SerializeField]
     float hp;
-	public Image healthGUI;
-	public Sprite[] sprites;
+    public Image healthGUI;
+    public Sprite[] sprites;
+    private bool isAlive = true;
     [SerializeField]
-	private int spritesIndex = 10;
+    private int spritesIndex = 10;
 
     public int nummer;
 
@@ -28,23 +30,37 @@ public class PlayerHealth : NetworkBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-        hp = MenuManager.startHp+1;
-        healthGUI = GameObject.FindGameObjectWithTag("hGUI").GetComponent<Image>();
+    void Start()
+    {
+        hp = MenuManager.startHp + 2;
+        foreach (GameObject gui in GameObject.FindGameObjectsWithTag("GUI"))// I should be able to just do a healthGUI = ColorManager.singleton.healthGUI but no if I do they s'emballent on line 59 à la fin de TakeDamage()
+        {
+            if (gui.name == "healthGUI")
+            {
+                healthGUI = gui.GetComponent<Image>();
+            }
+        }
     }
 
     // both for hp value and GUI's healthbar 
-    public void TakeDamage(int dmg = 1){
-		hp -= dmg;
+    public void TakeDamage(int dmg = 1)
+    {
+        if (!isAlive)
+        {
+            return;
+        }
+        hp -= dmg;
         print("hp = " + hp);
         if (Hp <= 0)
         {
             print("dead");
-            ColorManager.singleton.Kill (this.gameObject);
-		}
+            isAlive = false;
+            ColorManager.singleton.Kill(this.gameObject);
+        }
         spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * 10);
-        if (isLocalPlayer) {
-            healthGUI.sprite = sprites[spritesIndex];
+        if (isLocalPlayer)
+        {
+            healthGUI.sprite = sprites[spritesIndex]; // (si healthGUI est mal défini line 34-38 dans le Start():) ça. ça fait tout foirer. C'est la racine du mal. C'est à cause de lui que (ALORS QUE JE N'AI PAS DE WHILE NI DE FOR NI RIEN QUI EVOQUE UNE BOUCLE INFINIE) au deuxième ChangeCOl il s'emballe et re-TakeDamage() à l'infini
         }
     }
 
@@ -68,6 +84,6 @@ public class PlayerHealth : NetworkBehaviour {
         //print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
         //print("meshcol = " + mesh.GetComponent<Renderer>().material.color);
         GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
-                                                         //the object destroy itself is on a script on the child
+                                                     //the object destroy itself is on a script on the child
     }
 }

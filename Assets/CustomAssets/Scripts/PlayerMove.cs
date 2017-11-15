@@ -44,12 +44,12 @@ public class PlayerMove : NetworkBehaviour
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
-			// add a "rotating right without advancing" anim?
+            // add a "rotating right without advancing" anim?
             transform.Rotate(0, rotationSpeed, 0);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-			// add a "rotating left without advancing" anim?
+            // add a "rotating left without advancing" anim?
             transform.Rotate(0, -rotationSpeed, 0);
         }
         if (Input.GetKey(KeyCode.UpArrow))

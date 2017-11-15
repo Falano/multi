@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 // enemy spawner.
 // the lvlSize that says where they spawn and move is on the colormanager (which is really a game manager)
 
-public class EnemySpawner : NetworkBehaviour {
+public class EnemySpawner : NetworkBehaviour
+{
     public GameObject enemyPrefab;
     public int enemyNumberTest;
     private int enemyNumber;
@@ -45,9 +46,10 @@ public class EnemySpawner : NetworkBehaviour {
             enemyNumber = MenuManager.enemyNumber;
         }
         enemyList = new EnemyMover[enemyNumber - 1];
-		for (i = 0; i < enemyNumber-1; i++) {
+        for (i = 0; i < enemyNumber - 1; i++)
+        {
             spawnEnemy();
-        }        
+        }
     }
 
     public void spawnEnemy()
