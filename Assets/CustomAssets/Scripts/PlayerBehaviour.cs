@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class PlayerBehaviour : NetworkBehaviour {
+public class PlayerBehaviour : NetworkBehaviour
+{
 
     bool _isReady = false;
     public int idNumber;
@@ -24,26 +25,32 @@ public class PlayerBehaviour : NetworkBehaviour {
             ToggleReady(value);
         }
     }
-    
 
-    void Start () {
-        if (!isLocalPlayer) { return; }
-        CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
-        if (ColorManager.isGamePlaying) // s'il arrive dans un jeu en cours 
+
+    void Start()
+    {
+        if (isLocalPlayer)
         {
-            //print("GAME IS PLAYING");
-            ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
-            ColorManager.singleton.Kill(gameObject); // that was so assholes who come mid-game died but could still follow it; don't think it works though
+            CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
+            if (ColorManager.isGamePlaying) // s'il arrive dans un jeu en cours 
+            {
+                //print("GAME IS PLAYING");
+                ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
+                ColorManager.singleton.Kill(gameObject); // that was so assholes who come mid-game died but could still follow it; don't think it works though
+            }
+            if (PlayerPrefs.HasKey("playerName"))
+            {
+                localName = PlayerPrefs.GetString("playerName");
+                ColorManager.singleton.CmdSetLocalName(localName, gameObject);
+            }
         }
-        if (PlayerPrefs.HasKey("playerName"))
-        {
-            localName = PlayerPrefs.GetString("playerName");
-            ColorManager.singleton.CmdSetLocalName(localName, gameObject);
-        }
+        name = "sheep-" + localName;
     }
 
     public void SetLocalNameSolo(string name)
     {
+        print("SetLocalNameSolo: " + name + " for " + gameObject);
+
         localName = name;
     }
 
@@ -66,7 +73,8 @@ public class PlayerBehaviour : NetworkBehaviour {
 
 
 
-    void Update () {
+    void Update()
+    {
 
         if (!isLocalPlayer)
         {

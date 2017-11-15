@@ -74,7 +74,7 @@ public class ColorManager : NetworkBehaviour
 
 
         listPlayers = new PlayerBehaviour[maxPlayersNumber];
-        InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
+        InvokeRepeating("RefreshListOfPlayers", 3, refreshFrequency);
         launchGameTx.text = "";
     }
 
@@ -163,13 +163,17 @@ public class ColorManager : NetworkBehaviour
     [Command]
     public void CmdSetLocalName(string name, GameObject obj)
     {
+        print("CmdSetLocalName: " + name + " for " + obj);
         RpcSetLocalName(name, obj);
     }
     [ClientRpc]
     void RpcSetLocalName(string name, GameObject obj)
     {
+        print("RpcSetLocalName: " + name + " for " + obj);
         obj.GetComponent<PlayerBehaviour>().SetLocalNameSolo(name);
     }
+
+
 
     [ClientRpc]
     public void RpcTogglePlayerReady(GameObject player, bool state)
@@ -193,9 +197,7 @@ public class ColorManager : NetworkBehaviour
             else
             {
                 listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
-                listPlayers
-                    [i].
-idNumber = i;
+                listPlayers[i].idNumber = i;
                 if (listPlayers[i].localName == null || listPlayers[i].localName == "" )
                 {
                     listPlayers[i].localName = "Player" + i.ToString();
