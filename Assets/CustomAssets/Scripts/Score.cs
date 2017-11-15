@@ -13,14 +13,11 @@ public class Score : NetworkBehaviour
     GameObject playerObj;
     string playerName;
     float timeOfDeath;
-    bool alive; // XXX
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
     public int colorChangesFromSelf;
     float startTime;
-    bool _isReady = false;
-    public GameObject ScoreTx;
 
     public string PlayerName
     {
@@ -52,42 +49,18 @@ public class Score : NetworkBehaviour
             return playerObj;
         }
     }
-    public bool IsReady
-    {
-        get
-        {
-            return _isReady;
-        }
-        set
-        {
-            ToggleReady(value);
-        }
-    }
-
-    public bool Alive // XXX
-    {
-        get
-        {
-            return alive;
-        }
-        private set
-        {
-            alive = value;
-        }
-    }
+    
 
     public Score(GameObject playerObject, string playerNamed)
     {
         playerObj = playerObject;
         startTime = Time.time;
         playerName = playerNamed;
-        Alive = true; // XXX
-        timeOfDeath = 0; // XXX
+        timeOfDeath = 0;
     }
 
     public void SetTimeOfDeath()
     {
-        Alive = false;//XXX
         timeOfDeath = Time.time - startTime;
     }
     public void SetI(int newI)
@@ -97,38 +70,10 @@ public class Score : NetworkBehaviour
 
 
 
-    public void ToggleReady(bool state)
-    {
-        _isReady = state;
-        //print("is player ready? " + isReady);
-        CmdTogglePlayerReady(gameObject, state);
-    }
-    [Command]
-    public void CmdTogglePlayerReady(GameObject player, bool state)
-    {
-        ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
-    }
-    public void ToggleReadySolo(bool state)
-    {
-        ColorManager.singleton.RefreshListOfPlayers();
-        _isReady = state;
-    }
-
 
     public void SetPlayersName(string name)
     {
         playerName = name;
     }
-
-    private void Update()
-    {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
-        {
-            ToggleReady(!_isReady);
-        }
-    }
+    
 }

@@ -151,7 +151,7 @@ public class MenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //testing area
-            PlayerPrefs.DeleteAll();
+            print(PlayerPrefs.GetString("playerName"));
         }
     }
 }

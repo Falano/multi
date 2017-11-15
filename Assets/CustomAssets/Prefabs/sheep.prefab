@@ -119,8 +119,8 @@ GameObject:
   - component: {fileID: 114937269543962950}
   - component: {fileID: 114907404837594186}
   - component: {fileID: 114369389828030044}
-  - component: {fileID: 114114773217116560}
   - component: {fileID: 54442260372631464}
+  - component: {fileID: 114814742401910154}
   m_Layer: 0
   m_Name: sheep
   m_TagString: Player
@@ -840,22 +840,6 @@ MonoBehaviour:
   posThreshold: 0.5
   rotThreshold: 5
   teleportDistance: 5
---- !u!114 &114114773217116560
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1c366392e9dec74bbe664077964cb05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  i: 0
-  colorChangesToOthers: 0
-  colorChangesFromOthers: 0
-  colorChangesFromMice: 0
-  colorChangesFromSelf: 0
 --- !u!114 &114169377485764966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -933,7 +917,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8d3db86630b8e4758a19a25719103338, type: 3}
   - {fileID: 21300000, guid: bde9b27e844d6432d84daabe4be8fca6, type: 3}
   spritesIndex: 10
-  nummer: 0
 --- !u!114 &114429843116155440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -957,6 +940,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588017714c244e0499fcf106ad122947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114814742401910154
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165169909168218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed57930bd6aa9041b1c3f443b7363c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idNumber: 0
+  localName: 
+  ScoreTx: {fileID: 0}
 --- !u!114 &114907404837594186
 MonoBehaviour:
   m_ObjectHideFlags: 1
