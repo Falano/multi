@@ -63,7 +63,7 @@ public class CameraMover : NetworkBehaviour
         //}
 
 
-
+        /*
         // VERSION DE FLO
 
         if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
@@ -88,6 +88,6 @@ public class CameraMover : NetworkBehaviour
                 }
 
             }
-        }
+        }*/
     }
 }

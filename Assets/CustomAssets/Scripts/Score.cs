@@ -106,11 +106,11 @@ public class Score : NetworkBehaviour
     [Command]
     public void CmdTogglePlayerReady(GameObject player, bool state)
     {
-        _isReady = state;
         ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
     }
     public void ToggleReadySolo(bool state)
     {
+        ColorManager.singleton.RefreshListOfPlayers();
         _isReady = state;
     }
 
