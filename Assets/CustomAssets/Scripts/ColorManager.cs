@@ -160,14 +160,9 @@ public class ColorManager : NetworkBehaviour
 
 
 
-    [Command]
-    public void CmdSetLocalName(string name, GameObject obj)
-    {
-        print("CmdSetLocalName: " + name + " for " + obj);
-        RpcSetLocalName(name, obj);
-    }
+
     [ClientRpc]
-    void RpcSetLocalName(string name, GameObject obj)
+    public void RpcSetLocalName(string name, GameObject obj)
     {
         print("RpcSetLocalName: " + name + " for " + obj);
         obj.GetComponent<PlayerBehaviour>().SetLocalNameSolo(name);

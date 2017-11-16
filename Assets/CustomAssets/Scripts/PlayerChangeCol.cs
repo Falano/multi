@@ -98,7 +98,7 @@ public class PlayerChangeCol : NetworkBehaviour
             // changing their own colour
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                ChangeCol(this.gameObject/*, this.gameObject*/);
+                ChangeCol(gameObject/*, this.gameObject*/);
             }
 
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);

@@ -9,6 +9,7 @@ public class PlayerBehaviour : NetworkBehaviour
 
     bool _isReady = false;
     public int idNumber;
+    [SyncVar]
     public string localName;
     public GameObject ScoreTx;
 
@@ -41,10 +42,17 @@ public class PlayerBehaviour : NetworkBehaviour
             if (PlayerPrefs.HasKey("playerName"))
             {
                 localName = PlayerPrefs.GetString("playerName");
-                ColorManager.singleton.CmdSetLocalName(localName, gameObject);
+                CmdSetLocalName(localName, gameObject);
             }
         }
         name = "sheep-" + localName;
+    }
+
+    [Command]
+    public void CmdSetLocalName(string name, GameObject obj)
+    {
+        print("CmdSetLocalName: " + name + " for " + obj);
+        ColorManager.singleton.RpcSetLocalName(name, obj);
     }
 
     public void SetLocalNameSolo(string name)
