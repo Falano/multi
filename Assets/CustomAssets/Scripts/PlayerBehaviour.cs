@@ -12,6 +12,7 @@ public class PlayerBehaviour : NetworkBehaviour
     [SyncVar]
     public string localName;
     public GameObject ScoreTx;
+    public GameObject ScoreObj;
 
 
 
@@ -45,20 +46,25 @@ public class PlayerBehaviour : NetworkBehaviour
                 CmdSetLocalName(localName, gameObject);
             }
         }
-        name = "sheep-" + localName;
+        StartCoroutine("waitToAssignScore");
+    }
+
+    IEnumerator waitToAssignScore()
+    {
+        yield return new WaitForSeconds(.5f);
+        ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
+        name = "sheep-" + localName; // ça ne marche que chez soi, probs parce que le CmdSetLocalName n'a pas encore fini de run. Mais on s'en fout parce que pour le reste c'est bon.
+
     }
 
     [Command]
     public void CmdSetLocalName(string name, GameObject obj)
     {
-        print("CmdSetLocalName: " + name + " for " + obj);
         ColorManager.singleton.RpcSetLocalName(name, obj);
     }
 
     public void SetLocalNameSolo(string name)
     {
-        print("SetLocalNameSolo: " + name + " for " + gameObject);
-
         localName = name;
     }
 

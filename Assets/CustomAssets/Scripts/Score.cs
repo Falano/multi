@@ -10,31 +10,21 @@ public class Score : NetworkBehaviour
 {
     [Tooltip("its index in the list")]
     public int i;
-    GameObject playerObj;
-    string playerName;
-    float timeOfDeath;
+    public GameObject playerObj;
+    public string playerName;
+    float timeOfDeath = 0;
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
     public int colorChangesFromSelf;
-    float startTime;
+    float startTime; // l'assigner on start game
 
-    public string PlayerName
+    private void Start()
     {
-        get
-        {
-            if (PlayerPrefs.HasKey("playerName"))
-            {
-                return PlayerPrefs.GetString("playerName");
-            }
-            return playerName;
-        }
-        set
-        {
-            PlayerPrefs.SetString("playerName", value);
-            playerName = value;
-        }
+        transform.SetParent(ColorManager.singleton.ScoresHolderParent.transform);
     }
+
+
     public float TimeOfDeath
     {
         get
@@ -49,20 +39,12 @@ public class Score : NetworkBehaviour
             return playerObj;
         }
     }
-    
-
-    public Score(GameObject playerObject, string playerNamed)
-    {
-        playerObj = playerObject;
-        startTime = Time.time;
-        playerName = playerNamed;
-        timeOfDeath = 0;
-    }
 
     public void SetTimeOfDeath()
     {
         timeOfDeath = Time.time - startTime;
     }
+
     public void SetI(int newI)
     {
         i = newI;
@@ -75,5 +57,5 @@ public class Score : NetworkBehaviour
     {
         playerName = name;
     }
-    
+
 }

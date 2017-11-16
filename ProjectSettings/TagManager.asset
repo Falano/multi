@@ -9,6 +9,7 @@ TagManager:
   - ColorManager
   - AttackChangeCol
   - ThingsHolder
+  - Score
   layers:
   - Default
   - TransparentFX

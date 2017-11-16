@@ -18,6 +18,7 @@ public class ColorManager : NetworkBehaviour
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
     public static PlayerBehaviour[] listPlayers;
+    public GameObject ScorePrefab;
     [Header("supposed to be empty")]
     public Canvas lobbyCanvas;
     public Text launchGameTx;
@@ -40,11 +41,12 @@ public class ColorManager : NetworkBehaviour
         {
             Destroy(this);
         }
+        ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; ///////////////////////cause I'm using it in the Score's start
+
     }
 
     void Start()
     {
-        ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" };
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
         maxPlayersNumber = 20; //ok c'est laid mais c'est juste pour tester si ça marche /////////////////////////////////////
 
@@ -74,8 +76,22 @@ public class ColorManager : NetworkBehaviour
 
 
         listPlayers = new PlayerBehaviour[maxPlayersNumber];
-        InvokeRepeating("RefreshListOfPlayers", 3, refreshFrequency);
+        InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
+    }
+
+    
+    public GameObject SpawnScore(string name, GameObject obj)
+    {
+        GameObject score = Instantiate(ScorePrefab);
+        score.name = "score-" + name;
+        Score currScore = score.GetComponent<Score>();
+        currScore.playerObj = obj;
+        currScore.playerName = name;
+        NetworkServer.Spawn(score);
+
+        return score;
+
     }
 
 
@@ -158,7 +174,6 @@ public class ColorManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSetLocalName(string name, GameObject obj)
     {
-        print("RpcSetLocalName: " + name + " for " + obj);
         obj.GetComponent<PlayerBehaviour>().SetLocalNameSolo(name);
     }
 
