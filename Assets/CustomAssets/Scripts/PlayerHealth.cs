@@ -53,7 +53,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             print("dead");
             isAlive = false;
-            ColorManager.singleton.Kill(this.gameObject);
+            Kill();
         }
         spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * 10);
         if (isLocalPlayer)
@@ -61,6 +61,10 @@ public class PlayerHealth : NetworkBehaviour
             healthGUI.sprite = sprites[spritesIndex]; // (si healthGUI est mal défini line 34-38 dans le Start():) ça. ça fait tout foirer. C'est la racine du mal. C'est à cause de lui que (ALORS QUE JE N'AI PAS DE WHILE NI DE FOR NI RIEN QUI EVOQUE UNE BOUCLE INFINIE) au deuxième ChangeCOl il s'emballe et re-TakeDamage() à l'infini
         }
     }
+
+    void Kill() { CmdKill(gameObject); }
+    [Command]
+    void CmdKill(GameObject obj) { ColorManager.singleton.RpcKill(obj); }
 
     public void KillSolo()
     {

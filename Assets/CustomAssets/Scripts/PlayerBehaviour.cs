@@ -37,7 +37,7 @@ public class PlayerBehaviour : NetworkBehaviour
             {
                 //print("GAME IS PLAYING");
                 ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
-                ColorManager.singleton.Kill(gameObject); // that was so assholes who come mid-game died but could still follow it; don't think it works though
+                GetComponent<PlayerHealth>().TakeDamage(999999); // that was so assholes who come mid-game died but could still follow it; don't think it works though
             }
             if (PlayerPrefs.HasKey("playerName"))
             {

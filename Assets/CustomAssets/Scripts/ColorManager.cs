@@ -111,14 +111,8 @@ public class ColorManager : NetworkBehaviour
     }
 
 
-
-
-    [Command]
-    void CmdKill(GameObject obj) { RpcKill(obj); }
     [ClientRpc]
-    void RpcKill(GameObject obj) { obj.GetComponent<PlayerHealth>().KillSolo(); }
-    public void Kill(GameObject obj) { CmdKill(obj); }
-
+    public void RpcKill(GameObject obj) { obj.GetComponent<PlayerHealth>().KillSolo(); }
 
     public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever
     {
@@ -193,7 +187,7 @@ public class ColorManager : NetworkBehaviour
             {
                 listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
                 listPlayers[i].idNumber = i;
-                if (listPlayers[i].localName == null || listPlayers[i].localName == "" )
+                if (listPlayers[i].localName == null || listPlayers[i].localName == "")
                 {
                     listPlayers[i].localName = "Player" + i.ToString();
                 }
