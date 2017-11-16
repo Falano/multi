@@ -135,7 +135,7 @@ public class ColorManager : NetworkBehaviour
     public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever
     {
         launchGameTx.text = "Launching Game...";
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(2);
         LaunchGame();
     }
 
@@ -241,16 +241,30 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
+    IEnumerator waitForGameEnd()
+    {
+        yield return new WaitForSeconds(1);
+        listOfPlayersParent.SetActive(true);
+        lobbyCanvas.enabled = true;
+        for (int i = 0; i < Scores.Length; i++)
+        {
+            Scores[i].PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>().text = Scores[i].playerName + " / ToD " + Scores[i].TimeOfDeath;
+        }
+    }
+
     private void Update()
     {
-        if(numberOfPlayersPlaying <= 0)
+
+        if (isGamePlaying == true && numberOfPlayersPlaying <= 0)
         {
             isGamePlaying = false;
-            lobbyCanvas.enabled = true;
-            for (int i = 0; i < Scores.Length; i++)
-            {
-                Scores[i].PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>().text = Scores[i].playerName + " / ToD " + Scores[i].TimeOfDeath + " / "; 
-            }
+            StartCoroutine("waitForGameEnd");
         }
+
+        if (Input.GetKeyDown(KeyCode.A)) // testing area //////////////////////////////////////////////////////////////////////////////////
+        {
+            print("number of Players Playing: " + numberOfPlayersPlaying);
+        }
+
     }
 }

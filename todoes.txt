@@ -4,6 +4,9 @@ currently working on:
 	camera follow not-dead players [solved by flo - you're wolcome]
 	multi?
 	scores (name. then stats)
+	have a refresh players list for every player as soon as one of them changed status
+	have scores for everybody
+	delete ugly useless scores
 
 to implement:
 --DONE-- anim sheep death
