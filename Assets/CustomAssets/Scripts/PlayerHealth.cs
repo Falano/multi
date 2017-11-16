@@ -62,12 +62,18 @@ public class PlayerHealth : NetworkBehaviour
         }
     }
 
-    void Kill() { CmdKill(gameObject); }
+    void Kill() {
+        ColorManager.numberOfPlayersPlaying--;
+        CmdKill(gameObject); }
     [Command]
     void CmdKill(GameObject obj) { ColorManager.singleton.RpcKill(obj); }
 
     public void KillSolo()
     {
+
+        Score score = GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
+        score.SetTimeOfDeath();
+        print(score.playerName + "'s time of death: " + score.TimeOfDeath);
         if (isLocalPlayer)
         {
             ColorManager.singleton.isLocalPlayerDead = true;

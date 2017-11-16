@@ -26,7 +26,7 @@ public class PlayerChangeCol : NetworkBehaviour
         rd = GetComponentInChildren<Renderer>();
         currColor = Color.white;
         offsetPos = new Vector3(0, .5f, 0);
-        Invoke("startWhite", .5f);
+        Invoke("startWhite", .5f); ////// non, mettre ça dans le LaunchGame
     }
 
     void startWhite()
@@ -47,6 +47,10 @@ public class PlayerChangeCol : NetworkBehaviour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
     void ChangeCol(GameObject obj/*, GameObject attacker*/)
     {
+        if(!ColorManager.isGamePlaying)
+        {
+            return;
+        }
         if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
         {
             return;

@@ -28,6 +28,8 @@ public class ColorManager : NetworkBehaviour
     public GameObject ratKing;
     public Image healthGUI;
     public int maxPlayersNumber;
+    public static int numberOfPlayersPlaying;
+    Score[] Scores;
 
     private float refreshFrequency = 2.5f;
 
@@ -48,7 +50,7 @@ public class ColorManager : NetworkBehaviour
     void Start()
     {
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
-        maxPlayersNumber = 20; //ok c'est laid mais c'est juste pour tester si ça marche /////////////////////////////////////
+        maxPlayersNumber = MenuManager.maxPlayersNumber; //si ça ne marche pas, mettre un int pour l'instant /////////////////////////////////////
 
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
@@ -139,7 +141,9 @@ public class ColorManager : NetworkBehaviour
 
     public void LaunchGameSolo()
     {
+        Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         CancelInvoke("RefreshListOfPlayers");
+        numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         isGamePlaying = true;
         launchGameTx.text = "";
         listOfPlayersParent.SetActive(false);
@@ -150,6 +154,10 @@ public class ColorManager : NetworkBehaviour
                 IEnumerator wait = enemy.waitForChangeDir(Random.Range(enemy.waitRange.x, enemy.waitRange.y));
                 StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
             }
+        }
+        foreach(GameObject score in GameObject.FindGameObjectsWithTag("Score"))
+        {
+            score.GetComponent<Score>().SetStartTime();
         }
         lobbyCanvas.enabled = false;
     }
@@ -202,6 +210,7 @@ public class ColorManager : NetworkBehaviour
             {
                 listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
                 listPlayers[i].idNumber = i;
+                listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
                 if (listPlayers[i].localName == null || listPlayers[i].localName == "")
                 {
                     listPlayers[i].localName = "Player" + i.ToString();
@@ -214,7 +223,7 @@ public class ColorManager : NetworkBehaviour
                     numberOfPlayersReady++;
                     txColor = Color.green;
                 }
-                print(listPlayers[i].localName + " : " + readyState);
+                //print(listPlayers[i].localName + " : " + readyState);
                 if (listPlayers[i].ScoreTx == null)
                 {
                     float posX = listOfPlayersParent.transform.position.x;
@@ -229,6 +238,19 @@ public class ColorManager : NetworkBehaviour
         if (numberOfPlayersReady == listPlayersGO.Length)
         {
             StartCoroutine("launchingGame");
+        }
+    }
+
+    private void Update()
+    {
+        if(numberOfPlayersPlaying <= 0)
+        {
+            isGamePlaying = false;
+            lobbyCanvas.enabled = true;
+            for (int i = 0; i < Scores.Length; i++)
+            {
+                Scores[i].PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>().text = Scores[i].playerName + " / ToD " + Scores[i].TimeOfDeath + " / "; 
+            }
         }
     }
 }

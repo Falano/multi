@@ -9,10 +9,10 @@ using UnityEngine.Networking;
 public class Score : NetworkBehaviour
 {
     [Tooltip("its index in the list")]
-    public int i;
+    public int idNumber;
     public GameObject playerObj;
     public string playerName;
-    float timeOfDeath = 0;
+    string timeOfDeath = "0";
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
@@ -25,7 +25,7 @@ public class Score : NetworkBehaviour
     }
 
 
-    public float TimeOfDeath
+    public string TimeOfDeath
     {
         get
         {
@@ -42,16 +42,19 @@ public class Score : NetworkBehaviour
 
     public void SetTimeOfDeath()
     {
-        timeOfDeath = Time.time - startTime;
+        timeOfDeath = (Time.time - startTime).ToString("0.0");
     }
 
     public void SetI(int newI)
     {
-        i = newI;
+        idNumber = newI;
     }
 
 
-
+    public void SetStartTime()
+    {
+        startTime = Time.time;
+    }
 
     public void SetPlayersName(string name)
     {
