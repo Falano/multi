@@ -26,10 +26,9 @@ public class PlayerChangeCol : NetworkBehaviour
         rd = GetComponentInChildren<Renderer>();
         currColor = Color.white;
         offsetPos = new Vector3(0, .5f, 0);
-        Invoke("startWhite", .5f); ////// non, mettre ça dans le LaunchGame
     }
 
-    void startWhite()
+    public void startWhite()
     {
         ChangeCol(gameObject, Color.white, ColorManager.singleton.gameObject);
     }

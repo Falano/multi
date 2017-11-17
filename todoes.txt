@@ -3,10 +3,7 @@
 currently working on: 
 	camera follow not-dead players [solved by flo - you're wolcome]
 	multi?
-	scores (name. then stats)
 	have a refresh players list for every player as soon as one of them changed status
-	have scores for everybody
-	delete ugly useless scores
 
 to implement:
 --DONE-- anim sheep death
@@ -28,8 +25,9 @@ to implement:
 	max number of players (lobby) - min number of players? [yes, that too]
 2	max time (needs: scores)
 2	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
-1	leur demander leur nom (lobby)
-0	score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs)
+--DONE-- leur demander leur nom (lobby)
+--DONE-- score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs)
+2	pretty score screen
 3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
 --DONE-- cooldown?
 999	make a lvl editor :D
@@ -49,7 +47,7 @@ to implement:
 --when everyone hits ready: DONE-- is it better if the game launches after a previously-agreed-upon number of players is online or when everyone hits ready?
 --no?-- should we be able to pause the game? Only the server? Anyone?
 	avoir son propre status update immediately and not wait for the global refresh players
-	ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
+--DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 
 
 bugs:
@@ -63,7 +61,6 @@ https://forum.unity.com/threads/unet-and-nat-punchthrough-it-can-be-done.391845/
 or scrap the lobby and use evolve?
 check how the not-lobby matchmaking works (more like: whether)
 whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
-
 -- huh yes they do?-- client's camera don't follow them
 --DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
 --useless?-- needs wider lookat radius for attackChangeCOl -- ask flo, she'll know -- do I really need it though?
@@ -74,8 +71,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- enemy spawns at center. enemySpawner script seems fine though
 --DONE-- make prettier code for the thing bastien helped with
 --DONE-- keeps moving on anim death;
-	quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut.
--> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
+--DONE with StartWhite on LaunchGame--quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut. -> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
 --DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
 	sinon, le joueur n'a pas les bonnes infos, et un joueur qui vient en cours de route sera coincé dans le lobby
 

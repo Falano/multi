@@ -27,6 +27,7 @@ public class ColorManager : NetworkBehaviour
     public GameObject ScoresHolderParent;
     public GameObject ratKing;
     public Image healthGUI;
+    public GameObject localPlayer;
     public int maxPlayersNumber;
     public int numberOfPlayersPlaying;
     Score[] Scores;
@@ -150,9 +151,11 @@ public class ColorManager : NetworkBehaviour
             }
         }
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
+        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         foreach (Score sco in Scores)
         {
             sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+            sco.SetStartTime();
         }
         CancelInvoke("RefreshListOfPlayers");
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -166,10 +169,6 @@ public class ColorManager : NetworkBehaviour
                 IEnumerator wait = enemy.waitForChangeDir(Random.Range(enemy.waitRange.x, enemy.waitRange.y));
                 StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
             }
-        }
-        foreach(GameObject score in GameObject.FindGameObjectsWithTag("Score"))
-        {
-            score.GetComponent<Score>().SetStartTime();
         }
         lobbyCanvas.enabled = false;
     }
@@ -241,7 +240,7 @@ public class ColorManager : NetworkBehaviour
                     float posX = listOfPlayersParent.transform.position.x;
                     float posY = listOfPlayersParent.transform.position.y;
                     listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
-                    listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -20);
+                    listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -50);
                 }
                 listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].localName + " : " + readyState;
                 listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
@@ -293,7 +292,7 @@ public class ColorManager : NetworkBehaviour
     private void Update()
     {
 
-        if (isGamePlaying == true && numberOfPlayersPlaying <= 0)
+        if (isGamePlaying == true && numberOfPlayersPlaying <= 1)
         {
             isGamePlaying = false;
             StartCoroutine("waitForGameEnd");
