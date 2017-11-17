@@ -115,11 +115,11 @@ GameObject:
   - component: {fileID: 114366779190381156}
   - component: {fileID: 114169377485764966}
   - component: {fileID: 195894360082853744}
+  - component: {fileID: 54442260372631464}
   - component: {fileID: 114029998074554822}
   - component: {fileID: 114937269543962950}
   - component: {fileID: 114907404837594186}
   - component: {fileID: 114369389828030044}
-  - component: {fileID: 54442260372631464}
   - component: {fileID: 114814742401910154}
   m_Layer: 0
   m_Name: sheep
@@ -954,6 +954,7 @@ MonoBehaviour:
   idNumber: 0
   localName: 
   ScoreTx: {fileID: 0}
+  ScoreObj: {fileID: 0}
 --- !u!114 &114907404837594186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1107,4 +1108,3 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1

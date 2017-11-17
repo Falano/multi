@@ -239,8 +239,9 @@ public class ColorManager : NetworkBehaviour
                 {
                     float posX = listOfPlayersParent.transform.position.x;
                     float posY = listOfPlayersParent.transform.position.y;
+                    int offset = (int) Mathf.Round(0.05f * Screen.height);
                     listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
-                    listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -50);
+                    listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
                 }
                 listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].localName + " : " + readyState;
                 listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
@@ -267,12 +268,22 @@ public class ColorManager : NetworkBehaviour
             float PosX = Scores[i].ScoreTx.transform.position.x;
             float PosY = Scores[i].ScoreTx.transform.position.y;
             Scores[i].ScoreTx.color = Color.white;
-            Scores[i].ScoreTx.transform.position = new Vector2 (PosX-Screen.width*2/5, PosY);
+            Scores[i].ScoreTx.transform.position = new Vector2 (PosX-Screen.width*0.33f, PosY);
+            string deathText;
+            if(Scores[i].TimeOfDeath == "0")
+            {
+                deathText = ": Survived To The End! ";
+            }
+            else
+            {
+                deathText = ": died at " + Scores[i].TimeOfDeath + "s; ";
+            }
+
             if (!MenuManager.shortScore)
             {
                 Scores[i].ScoreTx.text = Scores[i].playerName +
-                    ": died at " + Scores[i].TimeOfDeath +
-                    "s ; changed " + Scores[i].colorChangesToOthers +
+                    deathText +
+                    "changed " + Scores[i].colorChangesToOthers +
                     " colors; others changed theirs " + Scores[i].colorChangesFromOthers +
                     " times, mice " + Scores[i].colorChangesFromMice +
                     " times; themselves " + Scores[i].colorChangesFromSelf + " times.";
@@ -280,11 +291,9 @@ public class ColorManager : NetworkBehaviour
             else
             {
                 Scores[i].ScoreTx.text = Scores[i].playerName +
-                    ": Death at " + Scores[i].TimeOfDeath +
-                    "s; CCToOthers: " + Scores[i].colorChangesToOthers +
-                    "; CCFromOthers: " + Scores[i].colorChangesFromOthers +
-                    "; CCFromMice: " + Scores[i].colorChangesFromMice +
-                    "; CCFromSelf " + Scores[i].colorChangesFromSelf;
+                    deathText +
+                    "Changed others' color " + Scores[i].colorChangesToOthers +
+                    " times ";
             }
         }
     }

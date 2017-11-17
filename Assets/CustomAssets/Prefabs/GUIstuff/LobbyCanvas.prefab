@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 224090291254607398}
   m_Layer: 5
   m_Name: listOfPlayers
-  m_TagString: Untagged
+  m_TagString: GUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 114904688462349710}
   m_Layer: 5
   m_Name: LaunchGameTx
-  m_TagString: Untagged
+  m_TagString: GUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
