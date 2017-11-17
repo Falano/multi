@@ -98,8 +98,9 @@ public class ColorManager : NetworkBehaviour
 
 
     [ClientRpc]
-    public void RpcChangeCol(GameObject obj, Color col/*, GameObject attacker*/)
+    public void RpcChangeCol(GameObject obj, Color col, GameObject attacker)
     {
+        Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         obj.GetComponent<PlayerHealth>().TakeDamage();
         if (obj.GetComponent<PlayerHealth>().Hp > 0)
         { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
@@ -110,21 +111,19 @@ public class ColorManager : NetworkBehaviour
             }
 
             // if I keep this, after the second player attack, sheep bleed to death FOR SOME REASON
-            /*
             if (attacker == obj)
             {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromSelf += 1;
+                score.colorChangesFromSelf += 1;
             }
             else if (attacker.CompareTag("AttackChangeCol"))
             {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromMice += 1;
+                score.colorChangesFromMice += 1;
             }
             else if (attacker.CompareTag("Player"))
             {
-                obj.GetComponent<ScoreKeeper>().currentPlayer.colorChangesFromOthers += 1;
-                attacker.GetComponent<ScoreKeeper>().currentPlayer.colorChangesToOthers += 1;
+                score.colorChangesFromOthers += 1;
+                attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
             }
-            */
         }
     }
 
@@ -259,10 +258,35 @@ public class ColorManager : NetworkBehaviour
         yield return new WaitForSeconds(1);
         listOfPlayersParent.SetActive(true);
         lobbyCanvas.enabled = true;
-        for (int i = 0; i < Scores.Length; i++)
+        /* //pour si on veut un titre; mais c'est chiant à aligner, donc non.
+        launchGameTx.text = "Name/ Time of Death/ Player Changes/ Players Changed/ Mice changes/ Self Changes";
+        launchGameTx.fontSize = (int) Mathf.Round(launchGameTx.fontSize*0.7f);
+        launchGameTx.transform.position = new Vector2(launchGameTx.transform.position.x - Screen.width*2/5, launchGameTx.transform.position.y + Screen.height * 2 / 5);
+        */
+    for (int i = 0; i < Scores.Length; i++)
         {
-
-            Scores[i].ScoreTx.text = Scores[i].playerName + " / ToD " + Scores[i].TimeOfDeath;
+            float PosX = Scores[i].ScoreTx.transform.position.x;
+            float PosY = Scores[i].ScoreTx.transform.position.y;
+            Scores[i].ScoreTx.color = Color.white;
+            Scores[i].ScoreTx.transform.position = new Vector2 (PosX-Screen.width*2/5, PosY);
+            if (!MenuManager.shortScore)
+            {
+                Scores[i].ScoreTx.text = Scores[i].playerName +
+                    ": died at " + Scores[i].TimeOfDeath +
+                    "s ; changed " + Scores[i].colorChangesToOthers +
+                    " colors; others changed theirs " + Scores[i].colorChangesFromOthers +
+                    " times, mice " + Scores[i].colorChangesFromMice +
+                    " times; themselves " + Scores[i].colorChangesFromSelf + " times.";
+            }
+            else
+            {
+                Scores[i].ScoreTx.text = Scores[i].playerName +
+                    ": Death at " + Scores[i].TimeOfDeath +
+                    "s; CCToOthers: " + Scores[i].colorChangesToOthers +
+                    "; CCFromOthers: " + Scores[i].colorChangesFromOthers +
+                    "; CCFromMice: " + Scores[i].colorChangesFromMice +
+                    "; CCFromSelf " + Scores[i].colorChangesFromSelf;
+            }
         }
     }
 

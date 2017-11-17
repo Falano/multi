@@ -21,6 +21,7 @@ public class MenuManager : MonoBehaviour
     public static int activeScene = 0;
     public static int nbScenes;
     private string playerName;
+    public static bool shortScore = true;
 
     //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 

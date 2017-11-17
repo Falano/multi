@@ -31,7 +31,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
     void startWhite()
     {
-        ChangeCol(gameObject, Color.white/*, ColorManager.singleton.gameObject*/);
+        ChangeCol(gameObject, Color.white, ColorManager.singleton.gameObject);
     }
 
     // mice make them change colour
@@ -39,13 +39,13 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         if (other.CompareTag("AttackChangeCol"))
         {
-            ChangeCol(this.gameObject/*, other.gameObject*/);
+            ChangeCol(this.gameObject, other.gameObject);
         }
     }
 
     // changing colour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
-    void ChangeCol(GameObject obj/*, GameObject attacker*/)
+    void ChangeCol(GameObject obj, GameObject attacker)
     {
         if(!ColorManager.isGamePlaying)
         {
@@ -62,7 +62,7 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             currColor = colors[Random.Range(0, colors.Length)];
         }
-        CmdChangeCol(obj, currColor/*, attacker*/);
+        CmdChangeCol(obj, currColor, attacker);
         StartCoroutine("paintCooldown", cooldown);
     }
 
@@ -76,19 +76,19 @@ public class PlayerChangeCol : NetworkBehaviour
 
 
     // so I can choose to change to one specific colour
-    void ChangeCol(GameObject obj, Color col/*, GameObject attacker*/)
+    void ChangeCol(GameObject obj, Color col, GameObject attacker)
     {
         if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
         {
             return;
         }
-        CmdChangeCol(obj, col/*, attacker*/);
+        CmdChangeCol(obj, col, attacker);
     }
 
     [Command]
-    void CmdChangeCol(GameObject obj, Color col /*, GameObject attacker*/)
+    void CmdChangeCol(GameObject obj, Color col , GameObject attacker)
     {
-        ColorManager.singleton.RpcChangeCol(obj, col/*, attacker*/);
+        ColorManager.singleton.RpcChangeCol(obj, col, attacker);
     }
 
 
@@ -102,7 +102,7 @@ public class PlayerChangeCol : NetworkBehaviour
             // changing their own colour
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                ChangeCol(gameObject/*, this.gameObject*/);
+                ChangeCol(gameObject, gameObject);
             }
 
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
@@ -115,7 +115,7 @@ public class PlayerChangeCol : NetworkBehaviour
                     {
                         if (hit.transform.CompareTag("Player"))
                         {
-                            ChangeCol(hit.transform.gameObject/*, this.gameObject*/);
+                            ChangeCol(hit.transform.gameObject, gameObject);
                         }
                     }
                 }
