@@ -28,7 +28,7 @@ public class ColorManager : NetworkBehaviour
     public GameObject ratKing;
     public Image healthGUI;
     public int maxPlayersNumber;
-    public static int numberOfPlayersPlaying;
+    public int numberOfPlayersPlaying;
     Score[] Scores;
 
     private float refreshFrequency = 2.5f;
@@ -128,10 +128,12 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-
+    
     [ClientRpc]
-    public void RpcKill(GameObject obj) { obj.GetComponent<PlayerHealth>().KillSolo(); }
-
+    public void RpcKill(GameObject obj) {
+        obj.GetComponent<PlayerHealth>().KillSolo();
+    }
+        
     public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever
     {
         launchGameTx.text = "Launching Game...";
@@ -141,6 +143,13 @@ public class ColorManager : NetworkBehaviour
 
     public void LaunchGameSolo()
     {
+        foreach (Transform score in ScoresHolderParent.transform)
+        {
+            if(score.name == "ScoreDefault(Clone)")
+            {
+                Destroy(score.gameObject);
+            }
+        }
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         CancelInvoke("RefreshListOfPlayers");
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -263,7 +272,8 @@ public class ColorManager : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.A)) // testing area //////////////////////////////////////////////////////////////////////////////////
         {
-            print("number of Players Playing: " + numberOfPlayersPlaying);
+            lobbyCanvas.enabled = !lobbyCanvas.enabled;
+            launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying;
         }
 
     }

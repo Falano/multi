@@ -48,7 +48,7 @@ public class PlayerHealth : NetworkBehaviour
             return;
         }
         hp -= dmg;
-        print("hp = " + hp);
+        //print("hp = " + hp);
         if (Hp <= 0)
         {
             print("dead");
@@ -63,17 +63,23 @@ public class PlayerHealth : NetworkBehaviour
     }
 
     void Kill() {
-        ColorManager.numberOfPlayersPlaying--;
-        CmdKill(gameObject); }
+        if (isLocalPlayer)
+        {
+            CmdKill(gameObject);
+        }
+    }
     [Command]
-    void CmdKill(GameObject obj) { ColorManager.singleton.RpcKill(obj); }
-
+    void CmdKill(GameObject obj) {
+        ColorManager.singleton.RpcKill(obj); }
+        
     public void KillSolo()
     {
+        ColorManager.singleton.numberOfPlayersPlaying--;
 
         Score score = GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         score.SetTimeOfDeath();
         print(score.playerName + "'s time of death: " + score.TimeOfDeath);
+        
         if (isLocalPlayer)
         {
             ColorManager.singleton.isLocalPlayerDead = true;
