@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 // juste la classe score avec ses fonctions
@@ -17,6 +18,7 @@ public class Score : NetworkBehaviour
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
     public int colorChangesFromSelf;
+    public Text ScoreTx;
     float startTime; // l'assigner on start game
 
     private void Start()

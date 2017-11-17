@@ -151,6 +151,10 @@ public class ColorManager : NetworkBehaviour
             }
         }
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
+        foreach (Score sco in Scores)
+        {
+            sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+        }
         CancelInvoke("RefreshListOfPlayers");
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         isGamePlaying = true;
@@ -257,7 +261,8 @@ public class ColorManager : NetworkBehaviour
         lobbyCanvas.enabled = true;
         for (int i = 0; i < Scores.Length; i++)
         {
-            Scores[i].PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>().text = Scores[i].playerName + " / ToD " + Scores[i].TimeOfDeath;
+
+            Scores[i].ScoreTx.text = Scores[i].playerName + " / ToD " + Scores[i].TimeOfDeath;
         }
     }
 
