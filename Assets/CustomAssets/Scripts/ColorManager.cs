@@ -301,7 +301,7 @@ public class ColorManager : NetworkBehaviour
     private void Update()
     {
 
-        if (isGamePlaying == true && numberOfPlayersPlaying <= 1)
+        if (isGamePlaying == true && (numberOfPlayersPlaying <= 1 && numberOfPlayersPlaying!= maxPlayersNumber))
         {
             isGamePlaying = false;
             StartCoroutine("waitForGameEnd");
