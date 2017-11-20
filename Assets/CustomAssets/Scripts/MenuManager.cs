@@ -21,7 +21,10 @@ public class MenuManager : MonoBehaviour
     public static int activeScene = 0;
     public static int nbScenes;
     private string playerName;
-    public static bool shortScore = true;
+    public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
+    public static Color[] colors;
+    [SerializeField]
+    private Material[] colorsMats;
 
     //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 
@@ -67,6 +70,7 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
         //lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>(); //for lobby version
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
@@ -78,6 +82,14 @@ public class MenuManager : MonoBehaviour
         maxPlayersText.text = maxPlayersNumber.ToString();
 
         SetInputField();
+    }
+
+    public void RefreshColors()
+    {
+        for (int i = 0; i < colorsMats.Length; i++)
+        {
+            colors[i] = colorsMats[i].color;
+        }
     }
 
     public void SetInputField()

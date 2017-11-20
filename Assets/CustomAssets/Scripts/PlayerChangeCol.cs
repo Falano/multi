@@ -10,7 +10,7 @@ public class PlayerChangeCol : NetworkBehaviour
 {
     [SyncVar] private Color currColor;
     private Color prevColor;
-    Color[] colors = { Color.yellow, Color.cyan, Color.blue, Color.green, Color.white, Color.magenta };
+    Color[] colors;
 
     RaycastHit hit;
     public float hitDistance = 1;
@@ -23,14 +23,15 @@ public class PlayerChangeCol : NetworkBehaviour
 
     void Start()
     {
+        colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
-        currColor = Color.white;
+        currColor = colors[0];
         offsetPos = new Vector3(0, .5f, 0);
     }
 
     public void startWhite()
     {
-        ChangeCol(gameObject, Color.white, ColorManager.singleton.gameObject);
+        ChangeCol(gameObject, colors[0], ColorManager.singleton.gameObject);
     }
 
     // mice make them change colour
@@ -38,7 +39,7 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         if (other.CompareTag("AttackChangeCol"))
         {
-            ChangeCol(this.gameObject, other.gameObject);
+            ChangeCol(gameObject, other.gameObject);
         }
     }
 

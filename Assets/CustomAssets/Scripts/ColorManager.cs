@@ -31,6 +31,7 @@ public class ColorManager : NetworkBehaviour
     public int maxPlayersNumber;
     public int numberOfPlayersPlaying;
     Score[] Scores;
+    private NetworkManagerHUD networkManager;
 
     private float refreshFrequency = 2.5f;
 
@@ -52,7 +53,7 @@ public class ColorManager : NetworkBehaviour
     {
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
         maxPlayersNumber = MenuManager.maxPlayersNumber; //si ça ne marche pas, mettre un int pour l'instant /////////////////////////////////////
-
+        networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
         {
@@ -77,10 +78,11 @@ public class ColorManager : NetworkBehaviour
             }
         }
 
-
-        listPlayers = new PlayerBehaviour[maxPlayersNumber];
-        InvokeRepeating("RefreshListOfPlayers", 0, refreshFrequency);
         launchGameTx.text = "";
+        listPlayers = new PlayerBehaviour[maxPlayersNumber];
+        Invoke("RefreshListOfPlayers", 0.2f);
+        InvokeRepeating("RefreshListOfPlayers", .7f, refreshFrequency);
+        toggleNetwHUD();
     }
 
     
@@ -296,6 +298,12 @@ public class ColorManager : NetworkBehaviour
                     " times ";
             }
         }
+    }
+
+
+    public void toggleNetwHUD()
+    {
+        networkManager.enabled = !networkManager.enabled;
     }
 
     private void Update()

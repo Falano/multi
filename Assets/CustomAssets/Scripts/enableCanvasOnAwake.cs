@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class enableCanvasOnAwake : MonoBehaviour {
 
-	// Use this for initialization
 	void Awake () {
         GetComponent<Canvas>().enabled = true;
-	}
+    }
 }

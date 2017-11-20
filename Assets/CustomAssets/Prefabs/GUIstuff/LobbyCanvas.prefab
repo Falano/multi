@@ -170,7 +170,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Game Launching...
+  m_Text: test
 --- !u!114 &114954196090801380
 MonoBehaviour:
   m_ObjectHideFlags: 1

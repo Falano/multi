@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1234,7 +1234,7 @@ GameObject:
   - component: {fileID: 344779278}
   - component: {fileID: 344779277}
   m_Layer: 5
-  m_Name: maxPlayersNumber
+  m_Name: clearDataTx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1868,7 +1868,7 @@ GameObject:
   - component: {fileID: 626509577}
   - component: {fileID: 626509576}
   m_Layer: 5
-  m_Name: maxPlayersFleece
+  m_Name: clearDataFleece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4702,6 +4702,11 @@ Prefab:
       propertyPath: lvlPreviews.Array.size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 224945709569083716, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -4891,14 +4896,37 @@ Prefab:
         type: 2}
       propertyPath: lvlPreviews.Array.data[4]
       value: 
-      objectReference: {fileID: 21300000, guid: 0117b45ed202cc441a8075c29a0e67d2,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: lvlPreviews.Array.data[5]
       value: 
-      objectReference: {fileID: 21300000, guid: 5bc17b864139f2d4db4ec1d4537d711a,
-        type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1483868705}
+    - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: RefreshColors
+      objectReference: {fileID: 0}
+    - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114342964791289458, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}

@@ -266,11 +266,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a239932bd414a248f211b0fb33f5d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colorsMats:
+  - {fileID: 2100000, guid: 2db0d6aaf6e4c73498534bb1ee63db4b, type: 2}
+  - {fileID: 2100000, guid: d3b48ae074f2095449593c74e990bacc, type: 2}
+  - {fileID: 2100000, guid: 70b620d7cb8096f4783bb2b8e0f5a3b9, type: 2}
+  - {fileID: 2100000, guid: f884e6176bebeba4daba3880924dd1d7, type: 2}
+  - {fileID: 2100000, guid: de893bfce86074a43a02033ae0ce4628, type: 2}
+  - {fileID: 2100000, guid: f0d00844738ba3e43a5c5ad16c7c3977, type: 2}
   lvlPreviews:
   - {fileID: 21300000, guid: 497f11cea6aa7c64f96b2afcf7f4e548, type: 3}
   - {fileID: 21300000, guid: f8ba48bec485e85429d6bf51900d0df3, type: 3}
   - {fileID: 21300000, guid: 1c33d80f8766fc247895ac334b047807, type: 3}
   - {fileID: 21300000, guid: c563c9f4ca5a16348a496c9736f943b9, type: 3}
+  - {fileID: 21300000, guid: 7872e9a8a61383845869187b39f3defb, type: 3}
+  - {fileID: 21300000, guid: bbbedf816d3910d4abb9271fead1f760, type: 3}
   enemyText: {fileID: 0}
   hpText: {fileID: 0}
   chronoText: {fileID: 0}
