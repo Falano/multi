@@ -29,10 +29,7 @@ public class EnemyMover : NetworkBehaviour
         lvlSize = ColorManager.singleton.LvlSize;
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
-        //animator.SetBool("moving", false);
-
-        //StartCoroutine(wait);        
+        wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));  
     }
 
     void Update()

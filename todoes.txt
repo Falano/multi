@@ -4,6 +4,7 @@ currently working on:
 	multi?
 	have a refresh players list for every player as soon as one of them changed status
 	tuto
+	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
 to implement:
 --DONE-- anim sheep death
