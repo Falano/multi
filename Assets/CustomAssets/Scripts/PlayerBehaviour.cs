@@ -46,7 +46,6 @@ public class PlayerBehaviour : NetworkBehaviour
                 localName = PlayerPrefs.GetString("playerName");
                 CmdSetLocalName(localName, gameObject);
             }
-            CmdRefreshListOfPlayers();
         }
         StartCoroutine("waitToAssignScore");
     }
@@ -59,9 +58,10 @@ public class PlayerBehaviour : NetworkBehaviour
 
     IEnumerator waitToAssignScore()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
         name = "sheep-" + localName; // ça ne marche que chez soi, probs parce que le CmdSetLocalName n'a pas encore fini de run. Mais on s'en fout parce que pour le reste c'est bon.
+        CmdRefreshListOfPlayers();
 
     }
 
