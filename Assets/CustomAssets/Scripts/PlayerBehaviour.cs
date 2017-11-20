@@ -46,8 +46,15 @@ public class PlayerBehaviour : NetworkBehaviour
                 localName = PlayerPrefs.GetString("playerName");
                 CmdSetLocalName(localName, gameObject);
             }
+            CmdRefreshListOfPlayers();
         }
         StartCoroutine("waitToAssignScore");
+    }
+
+    [Command]
+    private void CmdRefreshListOfPlayers()
+    {
+        ColorManager.singleton.RpcRefreshListOfPlayers();
     }
 
     IEnumerator waitToAssignScore()
@@ -79,10 +86,10 @@ public class PlayerBehaviour : NetworkBehaviour
     public void CmdTogglePlayerReady(GameObject player, bool state)
     {
         ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
+        ColorManager.singleton.RpcRefreshListOfPlayers();
     }
     public void ToggleReadySolo(bool state)
     {
-        ColorManager.singleton.RefreshListOfPlayers();
         _isReady = state;
     }
 

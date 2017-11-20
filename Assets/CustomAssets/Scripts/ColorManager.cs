@@ -85,8 +85,15 @@ public class ColorManager : NetworkBehaviour
 
         launchGameTx.text = "";
         listPlayers = new PlayerBehaviour[maxPlayersNumber];
-        Invoke("RefreshListOfPlayers", 0.2f);
-        InvokeRepeating("RefreshListOfPlayers", .7f, refreshFrequency);
+        Invoke("RefreshListOfPlayersSolo", 0.2f);
+        if (isServer)
+        {
+            Invoke("RpcRefreshListOfPlayers", .7f);
+        }
+        else
+        {
+            Invoke("RefreshListOfPlayersSolo", .7f);
+        }
         toggleNetwHUD();
     }
 
@@ -141,15 +148,23 @@ public class ColorManager : NetworkBehaviour
         obj.GetComponent<PlayerHealth>().KillSolo();
     }
         
-    public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever
+    public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever (check if that's still true) // to be launched only on the server
+    {
+        RpcLaunchGameTx();
+        yield return new WaitForSeconds(2);
+        RpcLaunchGame();
+    }
+
+    [ClientRpc]
+    public void RpcLaunchGameTx()
     {
         launchGameTx.text = "Launching Game...";
-        yield return new WaitForSeconds(2);
-        LaunchGame();
     }
 
     public void LaunchGameSolo()
     {
+        print("launching game: " + localPlayer.name);
+        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         foreach (Transform score in ScoresHolderParent.transform)
         {
             if(score.name == "ScoreDefault(Clone)")
@@ -158,13 +173,11 @@ public class ColorManager : NetworkBehaviour
             }
         }
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
-        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         foreach (Score sco in Scores)
         {
             sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
             sco.SetStartTime();
         }
-        CancelInvoke("RefreshListOfPlayers");
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         isGamePlaying = true;
         launchGameTx.text = "";
@@ -179,22 +192,12 @@ public class ColorManager : NetworkBehaviour
         }
         lobbyCanvas.enabled = false;
     }
-    [Command]
-    void CmdLaunchGame()
-    {
-        RpcLaunchGame(); // 2) de dire aux clients
-    }
+
     [ClientRpc]
     void RpcLaunchGame()
     {
-        LaunchGameSolo(); // 3) de lancer le jeu
+        LaunchGameSolo();
     }
-    void LaunchGame()
-    {
-        CmdLaunchGame(); // 1) on dit au server
-    }
-
-
 
 
     [ClientRpc]
@@ -211,9 +214,10 @@ public class ColorManager : NetworkBehaviour
         player.GetComponent<PlayerBehaviour>().ToggleReadySolo(state);
     }
 
+    [ClientRpc]
+    public void RpcRefreshListOfPlayers() { RefreshListOfPlayersSolo(); }
 
-
-    public void RefreshListOfPlayers()
+    public void RefreshListOfPlayersSolo()
     {
         print("refreshing list of players");
         int numberOfPlayersReady = 0;
@@ -254,7 +258,7 @@ public class ColorManager : NetworkBehaviour
                 listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
             }
         }
-        if (numberOfPlayersReady == listPlayersGO.Length)
+        if (numberOfPlayersReady == listPlayersGO.Length && isServer)
         {
             StartCoroutine("launchingGame");
         }
