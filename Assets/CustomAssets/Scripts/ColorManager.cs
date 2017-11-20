@@ -159,13 +159,13 @@ public class ColorManager : NetworkBehaviour
     public void RpcLaunchGameTx()
     {
         launchGameTx.text = "Launching Game...";
+        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
     }
 
     public void LaunchGameSolo()
     {
         print("launching game: " + localPlayer.name);
-        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
-        foreach (Transform score in ScoresHolderParent.transform)
+        foreach (Transform score in ScoresHolderParent.transform) // cherche dans ses enfants
         {
             if(score.name == "ScoreDefault(Clone)")
             {
@@ -175,13 +175,17 @@ public class ColorManager : NetworkBehaviour
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         foreach (Score sco in Scores)
         {
-            sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
-            sco.SetStartTime();
+            if (sco.name != "ScoreDefault(Clone)")
+            {
+                sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+                sco.SetStartTime();
+            }
         }
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         isGamePlaying = true;
         launchGameTx.text = "";
         listOfPlayersParent.SetActive(false);
+        lobbyCanvas.enabled = false;
         if (isServer)
         {
             foreach (EnemyMover enemy in EnemySpawner.enemyList)
@@ -190,7 +194,6 @@ public class ColorManager : NetworkBehaviour
                 StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
             }
         }
-        lobbyCanvas.enabled = false;
     }
 
     [ClientRpc]
