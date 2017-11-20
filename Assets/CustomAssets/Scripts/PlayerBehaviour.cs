@@ -35,11 +35,18 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             ColorManager.singleton.localPlayer = gameObject;
             CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
+            //foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
+            //{
+            //    if(obj.GetComponent<PlayerMove>().speed != 0)
+            //    {
+            //        ColorManager.isGamePlaying = true;
+            //    }
+            //}
             if (ColorManager.isGamePlaying) // s'il arrive dans un jeu en cours 
             {
                 //print("GAME IS PLAYING");
                 ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
-                GetComponent<PlayerHealth>().TakeDamage(999999); // that was so assholes who come mid-game died but could still follow it; don't think it works though
+                GetComponent<PlayerHealth>().TakeDamage(999999); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
             }
             if (PlayerPrefs.HasKey("playerName"))
             {
@@ -60,7 +67,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         yield return new WaitForSeconds(.1f);
         ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
-        name = "sheep-" + localName; // ça ne marche que chez soi, probs parce que le CmdSetLocalName n'a pas encore fini de run. Mais on s'en fout parce que pour le reste c'est bon.
+        name = "sheep-" + localName;
         CmdRefreshListOfPlayers();
 
     }
