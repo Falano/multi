@@ -30,7 +30,7 @@ public class ColorManager : NetworkBehaviour
     public GameObject localPlayer;
     public int maxPlayersNumber;
     public int numberOfPlayersPlaying;
-    Score[] Scores;
+    public Score[] Scores;
     private NetworkManagerHUD networkManager;
 
     private float refreshFrequency = 2.5f;
