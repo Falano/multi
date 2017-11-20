@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 // get a list of all players somehow
 // follow the played player
@@ -55,6 +56,7 @@ public class CameraMover : NetworkBehaviour
                 }
             }
             activePlayer = ColorManager.singleton.Scores[i].PlayerObj.transform;
+            ColorManager.singleton.following.text = "following " + activePlayer.GetComponent<PlayerBehaviour>().localName;
 
             //        if (ColorManager.listPlayers[i]!= null && ColorManager.listPlayers[i].PlayerObj != null)
             //        {

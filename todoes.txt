@@ -1,15 +1,15 @@
 ﻿todoes multi
 
 currently working on: 
-	camera follow not-dead players [solved by flo - you're wolcome]
 	multi?
 	have a refresh players list for every player as soon as one of them changed status
+	tuto
 
 to implement:
 --DONE-- anim sheep death
 --DONE-- anim sheep death same col as sheep
-2	when dead follow other players [DONE - yes I'll keep adding comments like this]
-1	custom player name
+--DONE-- when dead follow other players [DONE - yes I'll keep adding comments like this]
+--DONE-- custom player name
 --no, I have a isPlayerDead now-- mon colorManager qui est un gameManager pourrait au debut du jeu enregistrer le joueur et si le joueur n'est plus la lancer le "follow other players"
 4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option) [yes please]
 3	custom colours dans le menu
@@ -34,19 +34,19 @@ to implement:
 --DONE-- gerer pos camera so it doesn't fish eye so much
 4	language choice
 --DONE-- players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
-2	esc -> sure wanna quit? Yes -> back to lobby (lobby)
+--DONEkinda(enough)-- esc -> sure wanna quit? Yes -> back to lobby (lobby)
 4	add a "rotating right/left without advancing" anim?
 2	tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left; 
 --DONE :(-- less default mice
 --DONE-- make a fake lobby with like you start the game in pause or something till everyone has joined
 --DONE-- also check why the networkHUD disappears after the first play
-	speed boost after a color change
-	wine issue: no words 
+3	speed boost after a color change
+4	wine issue: no words 
 --DONE-- (at the very least include screenshots for linux users)
-	keep mice from spam attacking the player
+3	keep mice from spam attacking the player
 --when everyone hits ready: DONE-- is it better if the game launches after a previously-agreed-upon number of players is online or when everyone hits ready?
 --no?-- should we be able to pause the game? Only the server? Anyone?
-	avoir son propre status update immediately and not wait for the global refresh players
+1	avoir son propre status update immediately and not wait for the global refresh players
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 
 
@@ -74,12 +74,13 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE with StartWhite on LaunchGame--quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut. -> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
 --DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
 	sinon, le joueur n'a pas les bonnes infos, et un joueur qui vient en cours de route sera coincé dans le lobby
+	client players need another spacebarPress to launch the game
 
 
 SUGGESTIONS FLO :
-	Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)
-	Instead of Player0, change to Host
-	(Idée farfelue, peut-être compliquée) plutôt que des frontières invisibles, si tu sors de la map, tu passe en mode Full Rainbow : tu est multicolore (genre comme ça http://rs292.pbsrc.com/albums/mm23/pixcomments/The%2050s/60s/myspace-comments-animated-rainbow-s.gif?w=280&h=210&fit=crop ), et tu gagne en vitesse de déplacement, MAIS tu perds de la vie en continu.
+--DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)
+--useless-- Instead of Player0, change to Host
+--nope--(Idée farfelue, peut-être compliquée) plutôt que des frontières invisibles, si tu sors de la map, tu passe en mode Full Rainbow : tu est multicolore (genre comme ça http://rs292.pbsrc.com/albums/mm23/pixcomments/The%2050s/60s/myspace-comments-animated-rainbow-s.gif?w=280&h=210&fit=crop ), et tu gagne en vitesse de déplacement, MAIS tu perds de la vie en continu.
 	Supprimer les composant du joueur à sa mort. Exemple : supprimer les scripts PlayerHealth et PlayerMove à la mort du joueur, etc.
 	Deplus pour les scripts en générals, mais surtout dans le cas de PlayerHealth : avoir un Destroyer, de sorte que tu puisse simplement surrimer le composant sans en perdre les info. Exemple : dans PlayerHealth, lors de la destruction du composant, lui faire stocker les infos 
 

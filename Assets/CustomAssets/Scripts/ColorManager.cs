@@ -19,7 +19,7 @@ public class ColorManager : NetworkBehaviour
     public static bool isGamePlaying = false;
     public static PlayerBehaviour[] listPlayers;
     public GameObject ScorePrefab;
-    [Header("supposed to be empty")]
+    [Header("supposed to be empty in the Editor")]
     public Canvas lobbyCanvas;
     public Text launchGameTx;
     public GameObject listOfPlayersParent;
@@ -31,6 +31,7 @@ public class ColorManager : NetworkBehaviour
     public int maxPlayersNumber;
     public int numberOfPlayersPlaying;
     public Score[] Scores;
+    public Text following;
     private NetworkManagerHUD networkManager;
 
     private float refreshFrequency = 2.5f;
@@ -57,7 +58,7 @@ public class ColorManager : NetworkBehaviour
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
         {
-            switch (name)
+            switch (gui.name)
             {
                 case "healthGUI":
                 case "healthGUI(Clone)":
@@ -74,6 +75,10 @@ public class ColorManager : NetworkBehaviour
                 case "LaunchGameTx":
                 case "LaunchGameTx(Clone)":
                     launchGameTx = gui.GetComponent<Text>();
+                    break;
+                case "following":
+                case "following(Clone)":
+                    following = gui.GetComponent<Text>();
                     break;
             }
         }

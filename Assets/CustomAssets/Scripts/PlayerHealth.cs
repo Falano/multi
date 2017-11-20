@@ -31,13 +31,7 @@ public class PlayerHealth : NetworkBehaviour
     void Start()
     {
         hp = MenuManager.startHp + 2;
-        foreach (GameObject gui in GameObject.FindGameObjectsWithTag("GUI"))// I should be able to just do a healthGUI = ColorManager.singleton.healthGUI but no if I do they s'emballent on line 59 à la fin de TakeDamage()
-        {
-            if (gui.name == "healthGUI")
-            {
-                healthGUI = gui.GetComponent<Image>();
-            }
-        }
+        healthGUI = ColorManager.singleton.healthGUI;
     }
 
     // both for hp value and GUI's healthbar 
