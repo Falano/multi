@@ -55,7 +55,7 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             return;
         }
-        paintReady = false;
+        attacker.GetComponent<PlayerChangeCol>().paintReady = false;
         prevColor = currColor;
         // so it doesn't "change" to the same colour:
         while (prevColor == currColor)
@@ -63,13 +63,14 @@ public class PlayerChangeCol : NetworkBehaviour
             currColor = colors[Random.Range(0, colors.Length)];
         }
         CmdChangeCol(obj, currColor, attacker);
-        StartCoroutine("paintCooldown", cooldown);
+        IEnumerator paintCooldownNow = paintCooldown(cooldown, attacker);
+        StartCoroutine(paintCooldownNow);
     }
 
-    IEnumerator paintCooldown(float cooldown)
+    IEnumerator paintCooldown(float cooldown, GameObject attacker)
     {
         yield return new WaitForSeconds(cooldown);
-        paintReady = true;
+        attacker.GetComponent<PlayerChangeCol>().paintReady = true;
     }
 
 

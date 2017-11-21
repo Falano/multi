@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
     public Scene[] scenes;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
-    public static int enemyNumber = 20;
+    public static int enemyNumber = 10;
     public static int startHp = 20;
     public static bool soloGame = false;
     public static string startLevel;
@@ -72,7 +72,6 @@ public class MenuManager : MonoBehaviour
     {
         colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
-        //lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>(); //for lobby version
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
         //now: initializing the texts with the default values:
@@ -113,7 +112,6 @@ public class MenuManager : MonoBehaviour
         //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
-        //NetlobbyManager.playScene = (activeScene + 1).ToString(); // for lobby version
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
