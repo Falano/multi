@@ -17,7 +17,6 @@ public class ColorManager : NetworkBehaviour
     public static ColorManager singleton;
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
-    public static PlayerBehaviour[] listPlayers;
     public GameObject ScorePrefab;
     [Header("supposed to be empty in the Editor")]
     public Canvas lobbyCanvas;
@@ -28,7 +27,6 @@ public class ColorManager : NetworkBehaviour
     public GameObject ratKing;
     public Image healthGUI;
     public GameObject localPlayer;
-    public int maxPlayersNumber;
     public int numberOfPlayersPlaying;
     public Score[] Scores;
     public Text following;
@@ -53,8 +51,8 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
-        maxPlayersNumber = MenuManager.maxPlayersNumber; //si ça ne marche pas, mettre un int pour l'instant /////////////////////////////////////
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
+        toggleNetwHUD();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
         {
@@ -84,7 +82,28 @@ public class ColorManager : NetworkBehaviour
         }
 
         launchGameTx.text = "";
-        listPlayers = new PlayerBehaviour[maxPlayersNumber];
+
+        /*
+        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject obj in listPlayersGO)
+        {
+            if (obj.GetComponent<PlayerMove>().speed != 0)
+            {
+                ColorManager.isGamePlaying = true;
+            }
+        }
+        if (ColorManager.isGamePlaying) // s'il arrive dans un jeu en cours 
+        {
+            print("GAME IS PLAYING");
+            ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
+            Destroy(listPlayersGO[listPlayersGO.Length - 1].GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            Destroy(listPlayersGO[listPlayersGO.Length - 1].GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            Destroy(listPlayersGO[listPlayersGO.Length - 1]); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            return;
+        }
+        */
+
+
         Invoke("RefreshListOfPlayersSolo", 0.2f);
         if (isServer)
         {
@@ -94,10 +113,9 @@ public class ColorManager : NetworkBehaviour
         {
             Invoke("RefreshListOfPlayersSolo", .7f);
         }
-        toggleNetwHUD();
     }
 
-    
+
     public GameObject SpawnScore(string name, GameObject obj)
     {
         GameObject score = Instantiate(ScorePrefab);
@@ -140,12 +158,13 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-    
+
     [ClientRpc]
-    public void RpcKill(GameObject obj) {
+    public void RpcKill(GameObject obj)
+    {
         obj.GetComponent<PlayerHealth>().KillSolo();
     }
-        
+
     public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever (check if that's still true) // to be launched only on the server
     {
         RpcLaunchGameTx();
@@ -167,8 +186,8 @@ public class ColorManager : NetworkBehaviour
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         foreach (Score sco in Scores)
         {
-                sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
-                sco.SetStartTime();
+            sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+            sco.SetStartTime();
         }
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         isGamePlaying = true;
@@ -214,41 +233,35 @@ public class ColorManager : NetworkBehaviour
         print("refreshing list of players");
         int numberOfPlayersReady = 0;
         GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        PlayerBehaviour[] listPlayers = new PlayerBehaviour[listPlayersGO.Length];
         for (int i = 0; i < listPlayers.Length; i++)
         {
-            if (i >= listPlayersGO.Length)
+            listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
+            listPlayers[i].idNumber = i;
+            listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            if (listPlayers[i].localName == null || listPlayers[i].localName == "")
             {
-                listPlayers[i] = null;
+                listPlayers[i].localName = "Player" + i.ToString();
             }
-            else
+            string readyState = "not ready...";
+            Color txColor = Color.white;
+            if (listPlayers[i].IsReady == true)
             {
-                listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
-                listPlayers[i].idNumber = i;
-                listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
-                if (listPlayers[i].localName == null || listPlayers[i].localName == "")
-                {
-                    listPlayers[i].localName = "Player" + i.ToString();
-                }
-                string readyState = "not ready...";
-                Color txColor = Color.white;
-                if (listPlayers[i].IsReady == true)
-                {
-                    readyState = "ready!";
-                    numberOfPlayersReady++;
-                    txColor = Color.green;
-                }
-                //print(listPlayers[i].localName + " : " + readyState);
-                if (listPlayers[i].ScoreTx == null)
-                {
-                    float posX = listOfPlayersParent.transform.position.x;
-                    float posY = listOfPlayersParent.transform.position.y;
-                    int offset = (int) Mathf.Round(0.05f * Screen.height);
-                    listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
-                    listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
-                }
-                listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].localName + " : " + readyState;
-                listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
+                readyState = "ready!";
+                numberOfPlayersReady++;
+                txColor = Color.green;
             }
+            //print(listPlayers[i].localName + " : " + readyState);
+            if (listPlayers[i].ScoreTx == null)
+            {
+                float posX = listOfPlayersParent.transform.position.x;
+                float posY = listOfPlayersParent.transform.position.y;
+                int offset = (int)Mathf.Round(0.05f * Screen.height);
+                listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
+                listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
+            }
+            listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].localName + " : " + readyState;
+            listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
         }
         if (numberOfPlayersReady == listPlayersGO.Length && isServer)
         {
@@ -265,12 +278,12 @@ public class ColorManager : NetworkBehaviour
         launchGameTx.transform.position = new Vector2(launchGameTx.transform.position.x - Screen.width*2/5, launchGameTx.transform.position.y + Screen.height * 2 / 5);
         */
         ShowScores();
-    
+
     }
 
     private void ShowScores()
-    { if (localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores();} }
-    [Command] private void CmdShowScores() {RpcShowScores();}
+    { if (localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores(); } }
+    [Command] private void CmdShowScores() { RpcShowScores(); }
     [ClientRpc] private void RpcShowScores() { ShowScoresSolo(); }
 
     public void ShowScoresSolo()
@@ -281,13 +294,7 @@ public class ColorManager : NetworkBehaviour
         {
             print(Scores[i]);
             print(Scores[i].ScoreTx);
-            float PosX = 
-                Scores
-                [i].
-                ScoreTx.
-                transform.
-                position.
-                x;
+            float PosX = Scores[i].ScoreTx.transform.position.x;
             float PosY = Scores[i].ScoreTx.transform.position.y;
             Scores[i].ScoreTx.color = Color.white;
             Scores[i].ScoreTx.transform.position = new Vector2(PosX - Screen.width * 0.33f, PosY);
@@ -328,7 +335,7 @@ public class ColorManager : NetworkBehaviour
     private void Update()
     {
 
-        if (isGamePlaying == true && (numberOfPlayersPlaying <= 1 && numberOfPlayersPlaying!= maxPlayersNumber))
+        if (isGamePlaying == true && numberOfPlayersPlaying <= 1 && !MenuManager.soloGame)
         {
             isGamePlaying = false;
             StartCoroutine("waitForGameEnd");

@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     // should I have a non-static variable that the static ones take after so the designer can change it?
     public static int enemyNumber = 5;
     public static int startHp = 20;
-    public static int maxPlayersNumber = 20;
+    public static bool soloGame = false;
     public static string startLevel;
     public static int teamwork; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
@@ -28,7 +28,7 @@ public class MenuManager : MonoBehaviour
 
     //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 
-    [Header("Don't change that if it works")]
+    [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
@@ -38,7 +38,7 @@ public class MenuManager : MonoBehaviour
     public Text chronoText;
     [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
     public Text lvlText;
-    public Text maxPlayersText;
+    public Text soloGameText;
     private Image lvlImg;
 
     public string PlayerName
@@ -79,7 +79,6 @@ public class MenuManager : MonoBehaviour
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
-        maxPlayersText.text = maxPlayersNumber.ToString();
 
         SetInputField();
     }
@@ -127,14 +126,29 @@ public class MenuManager : MonoBehaviour
     {
         ChangeSetting(nb, ref startHp, hpText);
     }
-    public void ChangeMaxPlayers(int nb)
+    public void ChangeSoloGame()
     {
-        ChangeSetting(nb, ref maxPlayersNumber, maxPlayersText);
+        ChangeSetting(ref soloGame, soloGameText);
     }
 
     public void ChangeChrono(float nb)
     {
         ChangeSetting(nb, ref chrono, chronoText);
+    }
+
+    public void ChangeSetting(ref bool setting, Text settingText)
+    {
+        setting = !setting;
+        string settingValue;
+        if(setting == true)
+        {
+            settingValue = "yes";
+        }
+        else
+        {
+            settingValue = "no";
+        }
+        settingText.text = settingValue;
     }
 
     public void ChangeSetting(int nb, ref int setting, Text settingText)
