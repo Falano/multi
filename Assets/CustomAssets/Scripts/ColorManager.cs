@@ -47,12 +47,12 @@ public class ColorManager : NetworkBehaviour
             Destroy(this);
         }
         ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; ///////////////////////cause I'm using it in the Score's start
+        ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
 
     }
 
     void Start()
     {
-        ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
         maxPlayersNumber = MenuManager.maxPlayersNumber; //si ça ne marche pas, mettre un int pour l'instant /////////////////////////////////////
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
@@ -105,7 +105,6 @@ public class ColorManager : NetworkBehaviour
         Score currScore = score.GetComponent<Score>();
         currScore.playerObj = obj;
         currScore.playerName = name;
-        NetworkServer.Spawn(score);
 
         return score;
 
@@ -125,7 +124,6 @@ public class ColorManager : NetworkBehaviour
                 mat.color = col;
             }
 
-            // if I keep this, after the second player attack, sheep bleed to death FOR SOME REASON
             if (attacker == obj)
             {
                 score.colorChangesFromSelf += 1;
@@ -165,21 +163,12 @@ public class ColorManager : NetworkBehaviour
     public void LaunchGameSolo()
     {
         print("launching game: " + localPlayer.name);
-        foreach (Transform score in ScoresHolderParent.transform) // cherche dans ses enfants
-        {
-            if(score.name == "ScoreDefault(Clone)")
-            {
-                Destroy(score.gameObject);
-            }
-        }
+
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         foreach (Score sco in Scores)
         {
-            if (sco.name != "ScoreDefault(Clone)")
-            {
                 sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
                 sco.SetStartTime();
-            }
         }
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         isGamePlaying = true;
@@ -270,21 +259,40 @@ public class ColorManager : NetworkBehaviour
     IEnumerator waitForGameEnd()
     {
         yield return new WaitForSeconds(1);
-        listOfPlayersParent.SetActive(true);
-        lobbyCanvas.enabled = true;
         /* //pour si on veut un titre; mais c'est chiant à aligner, donc non.
         launchGameTx.text = "Name/ Time of Death/ Player Changes/ Players Changed/ Mice changes/ Self Changes";
         launchGameTx.fontSize = (int) Mathf.Round(launchGameTx.fontSize*0.7f);
         launchGameTx.transform.position = new Vector2(launchGameTx.transform.position.x - Screen.width*2/5, launchGameTx.transform.position.y + Screen.height * 2 / 5);
         */
-    for (int i = 0; i < Scores.Length; i++)
+        ShowScores();
+    
+    }
+
+    private void ShowScores()
+    { if (localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores();} }
+    [Command] private void CmdShowScores() {RpcShowScores();}
+    [ClientRpc] private void RpcShowScores() { ShowScoresSolo(); }
+
+    public void ShowScoresSolo()
+    {
+        lobbyCanvas.enabled = true;
+        listOfPlayersParent.SetActive(true);
+        for (int i = 0; i < Scores.Length; i++)
         {
-            float PosX = Scores[i].ScoreTx.transform.position.x;
+            print(Scores[i]);
+            print(Scores[i].ScoreTx);
+            float PosX = 
+                Scores
+                [i].
+                ScoreTx.
+                transform.
+                position.
+                x;
             float PosY = Scores[i].ScoreTx.transform.position.y;
             Scores[i].ScoreTx.color = Color.white;
-            Scores[i].ScoreTx.transform.position = new Vector2 (PosX-Screen.width*0.33f, PosY);
+            Scores[i].ScoreTx.transform.position = new Vector2(PosX - Screen.width * 0.33f, PosY);
             string deathText;
-            if(Scores[i].TimeOfDeath == "0")
+            if (Scores[i].TimeOfDeath == "0")
             {
                 deathText = ": Survived To The End! ";
             }
@@ -311,7 +319,6 @@ public class ColorManager : NetworkBehaviour
             }
         }
     }
-
 
     public void toggleNetwHUD()
     {
