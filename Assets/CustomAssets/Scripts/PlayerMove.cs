@@ -10,17 +10,27 @@ public class PlayerMove : NetworkBehaviour
 
     public float rotationSpeed;
     private Animator animator;
-    public float speed = 5;
+    [SerializeField]
+    private float baseSpeed = 5;
+    public float speed;
     public Rigidbody rb;
 
     [SyncVar] private bool isAnimated;
     [SyncVar] private string animationName;
 
+    public float BaseSpeed
+    {
+        get
+        {
+            return baseSpeed;
+        }
+    }
 
     public override void OnStartLocalPlayer()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        speed = 0;
     }
 
     void Update()

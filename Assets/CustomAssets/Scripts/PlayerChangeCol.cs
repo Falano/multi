@@ -20,6 +20,13 @@ public class PlayerChangeCol : NetworkBehaviour
     bool paintReady = true;
     [SerializeField]
     float cooldown = 3;
+    [SerializeField]
+    float speedBoostDuration = 1;
+    [SerializeField]
+    float speedBoostStrength = 3;
+
+
+
 
     void Start()
     {
@@ -65,6 +72,11 @@ public class PlayerChangeCol : NetworkBehaviour
         CmdChangeCol(obj, currColor, attacker);
         IEnumerator paintCooldownNow = paintCooldown(cooldown, attacker);
         StartCoroutine(paintCooldownNow);
+        if (isLocalPlayer)
+        {
+            IEnumerator speedBoostNow = speedBoost(speedBoostDuration, speedBoostStrength);
+            StartCoroutine(speedBoostNow);
+        }
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -73,7 +85,26 @@ public class PlayerChangeCol : NetworkBehaviour
         attacker.GetComponent<PlayerChangeCol>().paintReady = true;
     }
 
+    IEnumerator speedBoost(float duration, float strength) {
+        // both base speed
+        print("speed: " + GetComponent<PlayerMove>().speed);
+        print("baseSpeed: " + GetComponent<PlayerMove>().BaseSpeed);
 
+        PlayerMove playerMove = GetComponent<PlayerMove>();
+        playerMove.speed *= strength;
+        print(strength);
+        print(playerMove.speed);
+        //updated speed (or should be)
+        print("speed: " + GetComponent<PlayerMove>().speed);
+        print("baseSpeed: " + GetComponent<PlayerMove>().BaseSpeed);
+
+        yield return new WaitForSeconds(duration);
+        playerMove.speed = playerMove.BaseSpeed;
+        
+        // re- base speed
+        print("speed: " + GetComponent<PlayerMove>().speed);
+        print("baseSpeed: " + GetComponent<PlayerMove>().BaseSpeed);
+    }
 
 
     // so I can choose to change to one specific colour

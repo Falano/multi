@@ -968,6 +968,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitDistance: 2
   cooldown: 0.5
+  speedBoostDuration: 1
+  speedBoostStrength: 3
 --- !u!114 &114937269543962950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -980,6 +982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 5
+  baseSpeed: 5
   speed: 5
   rb: {fileID: 0}
 --- !u!137 &137606392631630526

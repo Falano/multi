@@ -40,7 +40,7 @@ to implement:
 --DONE :(-- less default mice
 --DONE-- make a fake lobby with like you start the game in pause or something till everyone has joined
 --DONE-- also check why the networkHUD disappears after the first play
-3	speed boost after a color change
+-doing- speed boost after a color change
 4	wine issue: no words 
 --DONE-- (at the very least include screenshots for linux users)
 3	keep mice from spam attacking the player
@@ -49,6 +49,9 @@ to implement:
 --DONE-- avoir son propre status update immediately and not wait for the global refresh players
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 --DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
+
+fix boost
+
 
 bugs:
 --DONE-- client only on second time
