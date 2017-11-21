@@ -2,7 +2,6 @@
 
 currently working on: 
 	multi?
-	have a refresh players list for every player as soon as one of them changed status
 	tuto
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
@@ -47,8 +46,9 @@ to implement:
 3	keep mice from spam attacking the player
 --when everyone hits ready: DONE-- is it better if the game launches after a previously-agreed-upon number of players is online or when everyone hits ready?
 --no?-- should we be able to pause the game? Only the server? Anyone?
-1	avoir son propre status update immediately and not wait for the global refresh players
+--DONE-- avoir son propre status update immediately and not wait for the global refresh players
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
+1	check whether scores work on all servers
 
 
 bugs:
@@ -75,7 +75,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE with StartWhite on LaunchGame--quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut. -> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
 --DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
 	sinon, le joueur n'a pas les bonnes infos, et un joueur qui vient en cours de route sera coincé dans le lobby
-	client players need another spacebarPress to launch the game
+--DONE-- client players need another spacebarPress to launch the game
 
 
 SUGGESTIONS FLO :
