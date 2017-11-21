@@ -23,13 +23,15 @@ public class PlayerChangeCol : NetworkBehaviour
     [SerializeField]
     float speedBoostDuration = 1;
     [SerializeField]
-    float speedBoostStrength = 3;
+    float speedBoostStrengthFactor = 3;
+    float speedBoostStrength;
 
 
 
 
     void Start()
     {
+        speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
         colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
         currColor = colors[0];
@@ -74,7 +76,7 @@ public class PlayerChangeCol : NetworkBehaviour
         StartCoroutine(paintCooldownNow);
         if (isLocalPlayer)
         {
-            IEnumerator speedBoostNow = speedBoost(speedBoostDuration, speedBoostStrength);
+            IEnumerator speedBoostNow = speedBoost(speedBoostDuration, speedBoostStrength, obj);
             StartCoroutine(speedBoostNow);
         }
     }
@@ -85,25 +87,14 @@ public class PlayerChangeCol : NetworkBehaviour
         attacker.GetComponent<PlayerChangeCol>().paintReady = true;
     }
 
-    IEnumerator speedBoost(float duration, float strength) {
-        // both base speed
-        print("speed: " + GetComponent<PlayerMove>().speed);
-        print("baseSpeed: " + GetComponent<PlayerMove>().BaseSpeed);
-
+    IEnumerator speedBoost(float duration, float strength, GameObject obj) {
         PlayerMove playerMove = GetComponent<PlayerMove>();
-        playerMove.speed *= strength;
-        print(strength);
-        print(playerMove.speed);
-        //updated speed (or should be)
-        print("speed: " + GetComponent<PlayerMove>().speed);
-        print("baseSpeed: " + GetComponent<PlayerMove>().BaseSpeed);
-
+        Animator animator = playerMove.animator;
+        playerMove.speed = strength;
+        animator.speed = 2;
         yield return new WaitForSeconds(duration);
         playerMove.speed = playerMove.BaseSpeed;
-        
-        // re- base speed
-        print("speed: " + GetComponent<PlayerMove>().speed);
-        print("baseSpeed: " + GetComponent<PlayerMove>().BaseSpeed);
+        animator.speed = 1;
     }
 
 

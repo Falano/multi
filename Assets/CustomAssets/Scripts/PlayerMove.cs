@@ -9,7 +9,7 @@ public class PlayerMove : NetworkBehaviour
 {
 
     public float rotationSpeed;
-    private Animator animator;
+    public Animator animator;
     [SerializeField]
     private float baseSpeed = 5;
     public float speed;

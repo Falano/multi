@@ -49,8 +49,9 @@ to implement:
 --DONE-- avoir son propre status update immediately and not wait for the global refresh players
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 --DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
+--DONE-- fix speed boost so it can't accelerate forever and always chooses the right sheep
 
-fix boost
+
 
 
 bugs:
@@ -76,8 +77,9 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- keeps moving on anim death;
 --DONE with StartWhite on LaunchGame--quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut. -> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
 --DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
-	sinon, le joueur n'a pas les bonnes infos, et un joueur qui vient en cours de route sera coincé dans le lobby
 --DONE-- client players need another spacebarPress to launch the game
+	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu
+	fix mice change col since apparently it's broken?
 
 
 SUGGESTIONS FLO :
