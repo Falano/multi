@@ -107,7 +107,7 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-  m_NavMeshData: {fileID: 23800000, guid: 26593604417178b4384243c5c53b7861, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 85f62a092f9fd404baadc07270ad97d0, type: 2}
 --- !u!1001 &58309827
 Prefab:
   m_ObjectHideFlags: 0
@@ -1395,8 +1395,9 @@ MonoBehaviour:
   ratKing: {fileID: 0}
   healthGUI: {fileID: 0}
   localPlayer: {fileID: 0}
-  maxPlayersNumber: 0
   numberOfPlayersPlaying: 0
+  Scores: []
+  following: {fileID: 0}
 --- !u!114 &1967981957
 MonoBehaviour:
   m_ObjectHideFlags: 0

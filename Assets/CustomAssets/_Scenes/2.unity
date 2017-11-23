@@ -923,8 +923,9 @@ MonoBehaviour:
   ratKing: {fileID: 0}
   healthGUI: {fileID: 0}
   localPlayer: {fileID: 0}
-  maxPlayersNumber: 0
   numberOfPlayersPlaying: 0
+  Scores: []
+  following: {fileID: 0}
 --- !u!114 &1604480895
 MonoBehaviour:
   m_ObjectHideFlags: 0

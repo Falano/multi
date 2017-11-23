@@ -22,7 +22,7 @@ to implement:
 2	more lvls
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
-	max number of players (lobby) - min number of players? [yes, that too]
+--nope?-- max number of players (lobby) - min number of players? [yes, that too]
 2	max time (needs: scores)
 2	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 --DONE-- leur demander leur nom (lobby)
@@ -50,7 +50,7 @@ to implement:
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 --DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
 --DONE-- fix speed boost so it can't accelerate forever and always chooses the right sheep
-
+	sound
 
 
 
@@ -80,6 +80,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- client players need another spacebarPress to launch the game
 	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu
 	fix mice change col since apparently it's broken?
+	check if I can easily fix LAN play
 
 
 SUGGESTIONS FLO :
