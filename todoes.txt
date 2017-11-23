@@ -50,7 +50,7 @@ to implement:
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 --DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
 --DONE-- fix speed boost so it can't accelerate forever and always chooses the right sheep
-	sound
+1	sound
 
 
 
@@ -81,7 +81,8 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu
 	fix mice change col since apparently it's broken?
 	check if I can easily fix LAN play
-
+--DONE-- move after death: the fuck? Probs linked to speed gain after changeCol
+	you can go to lvl -3: keep menu values in the positive
 
 SUGGESTIONS FLO :
 --DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)

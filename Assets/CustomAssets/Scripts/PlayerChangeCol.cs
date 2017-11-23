@@ -93,8 +93,12 @@ public class PlayerChangeCol : NetworkBehaviour
         playerMove.speed = strength;
         animator.speed = 2;
         yield return new WaitForSeconds(duration);
-        playerMove.speed = playerMove.BaseSpeed;
-        animator.speed = 1;
+        if(playerMove.speed == strength) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
+        {
+            playerMove.speed = playerMove.BaseSpeed;
+            animator.speed = 1;
+
+        }
     }
 
 

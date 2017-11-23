@@ -41,6 +41,10 @@ public class PlayerBehaviour : NetworkBehaviour
                 localName = PlayerPrefs.GetString("playerName");
                 CmdSetLocalName(localName, gameObject);
             }
+            //gameObject.AddComponent<AudioListener>(); // avoir un AudioListener et l'activer/desactiver ici ne marche pas :/ 
+        }
+        else
+        {
         }
         StartCoroutine("waitToAssignScore");
     }

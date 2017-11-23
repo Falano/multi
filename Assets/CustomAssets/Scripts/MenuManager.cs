@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
+    public static int musicIndex;
     private string playerName;
     public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
     public static Color[] colors;
@@ -39,6 +40,7 @@ public class MenuManager : MonoBehaviour
     [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
     public Text lvlText;
     public Text soloGameText;
+    public Text musicText;
     private Image lvlImg;
 
     public string PlayerName
@@ -70,6 +72,10 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        if (PlayerPrefs.HasKey("faveMusic"))
+        {
+            musicIndex = PlayerPrefs.GetInt("faveMusic");
+        }
         colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
@@ -78,6 +84,7 @@ public class MenuManager : MonoBehaviour
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
+        musicText.text = musicIndex.ToString();
 
         SetInputField();
     }
@@ -114,6 +121,25 @@ public class MenuManager : MonoBehaviour
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];
     }
+
+    public void ChangeMusicIndex(int index)
+    {
+        if (musicIndex+index < 0 || musicIndex+index >= ColorManager.singleton.musics.Length)
+        {
+            if(index < 0)
+            {
+                musicIndex = 0 - index; 
+            }
+            else if (index > 0)
+            {
+                musicIndex = ColorManager.singleton.musics.Length -1 - index;
+
+            }
+        }
+        ChangeSetting(index, ref musicIndex, musicText);
+        PlayerPrefs.SetInt("faveMusic", musicIndex);
+    }
+
 
     public void ChangeNbrEnemies(int nb)
     {

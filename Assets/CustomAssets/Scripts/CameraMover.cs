@@ -35,7 +35,7 @@ public class CameraMover : NetworkBehaviour
         }
 
         // for following not-dead players when you died
-        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
+        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead && ColorManager.singleton.numberOfPlayersPlaying>0)
         {
             i += 1;
             if (i >= ColorManager.singleton.Scores.Length)

@@ -31,6 +31,9 @@ public class ColorManager : NetworkBehaviour
     public Score[] Scores;
     public Text following;
     private NetworkManagerHUD networkManager;
+    [Header("tmp: sound stuff")]
+    public AudioClip[] ChangeColSounds;
+    public AudioClip[] musics;
 
     private float refreshFrequency = 2.5f;
 
@@ -46,7 +49,7 @@ public class ColorManager : NetworkBehaviour
         }
         ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; ///////////////////////cause I'm using it in the Score's start
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
-
+        GetComponent<AudioSource>().clip = musics[MenuManager.musicIndex];
     }
 
     void Start()
@@ -134,6 +137,12 @@ public class ColorManager : NetworkBehaviour
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         obj.GetComponent<PlayerHealth>().TakeDamage();
+        if (isGamePlaying)
+        { // sound stuff
+            AudioSource sound = obj.GetComponent<AudioSource>();
+            sound.clip = ChangeColSounds[Random.Range(0, ChangeColSounds.Length)];
+            sound.Play();
+        }
         if (obj.GetComponent<PlayerHealth>().Hp > 0)
         { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
             Renderer rd = obj.GetComponentInChildren<Renderer>();
