@@ -25,8 +25,7 @@ public class PlayerChangeCol : NetworkBehaviour
     [SerializeField]
     float speedBoostStrengthFactor = 3;
     float speedBoostStrength;
-
-
+    int currBoost = 0;
 
 
     void Start()
@@ -91,12 +90,14 @@ public class PlayerChangeCol : NetworkBehaviour
     }
 
     IEnumerator speedBoost(float duration, float strength, GameObject obj) {
+        currBoost += 1;
+        int prevBoost = currBoost;
         PlayerMove playerMove = GetComponent<PlayerMove>();
         Animator animator = playerMove.animator;
         playerMove.speed = strength;
         animator.speed = 2;
         yield return new WaitForSeconds(duration);
-        if(playerMove.speed == strength) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
+        if(playerMove.speed == strength && prevBoost == currBoost) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
         {
             playerMove.speed = playerMove.BaseSpeed;
             animator.speed = 1;
