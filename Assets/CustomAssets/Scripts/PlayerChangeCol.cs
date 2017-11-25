@@ -78,7 +78,7 @@ public class PlayerChangeCol : NetworkBehaviour
         StartCoroutine(paintCooldownNow);
         if (isLocalPlayer)
         {
-            IEnumerator speedBoostNow = speedBoost(speedBoostDuration, speedBoostStrength, obj);
+            IEnumerator speedBoostNow = speedBoost(speedBoostDuration, speedBoostStrength, obj, attacker);
             StartCoroutine(speedBoostNow);
         }
     }
@@ -89,7 +89,11 @@ public class PlayerChangeCol : NetworkBehaviour
         attacker.GetComponent<PlayerChangeCol>().paintReady = true;
     }
 
-    IEnumerator speedBoost(float duration, float strength, GameObject obj) {
+    IEnumerator speedBoost(float duration, float strength, GameObject obj, GameObject attacker) {
+        if(obj == attacker) // so it's twice as expensive to speedBoost to chase someone (if you changed your own colour) as it is if you're running away (if you've been attacked)
+        {
+            duration *= .5f;
+        }
         currBoost += 1;
         int prevBoost = currBoost;
         PlayerMove playerMove = GetComponent<PlayerMove>();
