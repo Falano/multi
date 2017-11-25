@@ -8,7 +8,8 @@ TagManager:
   - NetworkManager
   - ColorManager
   - AttackChangeCol
-  - hGUI
+  - ThingsHolder
+  - Score
   layers:
   - Default
   - TransparentFX

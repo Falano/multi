@@ -5,25 +5,31 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
-public class MenuManager : MonoBehaviour {
+public class MenuManager : MonoBehaviour
+{
     public static MenuManager singleton;
     public Scene[] scenes;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
-	public static int enemyNumber = 5;
-	public static int startHp = 20;
-	public static int maxPlayersNumber = 20;
-	public static string startLevel;
-	public static int teamwork; // number of different teams; 0 is chacun pour soi
-	public static float chrono = 0; // en minutes
+    public static int enemyNumber = 10;
+    public static int startHp = 20;
+    public static bool soloGame = true;
+    public static string startLevel;
+    public static int teamwork; // number of different teams; 0 is chacun pour soi
+    public static float chrono = 0; // en minutes
     [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
+    public static int musicIndex = 0;
     private string playerName;
+    public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
+    public static Color[] colors;
+    [SerializeField]
+    private Material[] colorsMats;
 
     //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 
-    [Header("Don't change that if it works")]
+    [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
@@ -33,14 +39,19 @@ public class MenuManager : MonoBehaviour {
     public Text chronoText;
     [Tooltip("the 'Level' text object; aka which level we're playing (duh)")]
     public Text lvlText;
-    public Text maxPlayersText;
+    public Text soloGameText;
+    public Text musicText;
+    public Text playMusicText;
     private Image lvlImg;
+    private AudioSource audiosource;    
+    public AudioClip[] musics;
+
 
     public string PlayerName
     {
         get
         {
-                return PlayerPrefs.GetString("playerName");
+            return PlayerPrefs.GetString("playerName");
         }
         set
         {
@@ -65,18 +76,53 @@ public class MenuManager : MonoBehaviour {
 
     public void Start()
     {
+        if (PlayerPrefs.HasKey("faveMusic"))
+        {
+            musicIndex = PlayerPrefs.GetInt("faveMusic");
+        }
+        colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
-        //lobbyManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkLobbyManager>(); //for lobby version
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
         //now: initializing the texts with the default values:
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
-        maxPlayersText.text = maxPlayersNumber.ToString();
+        if (PlayerPrefs.HasKey("faveMusic"))
+        {
+            musicIndex = PlayerPrefs.GetInt("faveMusic");
+        }
+        musicText.text = musicIndex.ToString();
+        if (soloGame)
+        {
+            soloGameText.text = "yes";
+        }
+        else
+        {
+            soloGameText.text = "no";
+        }
 
+
+
+        audiosource = gameObject.GetComponent<AudioSource>();
+        audiosource.clip = musics[musicIndex];
         SetInputField();
     }
+
+    public void RefreshColors()
+    {
+        for (int i = 0; i < colorsMats.Length; i++)
+        {
+            colors[i] = colorsMats[i].color;
+        }
+    }
+
+    public void setMusic()
+    {
+        ColorManager.currentMusic = musics[musicIndex];
+        PlayerPrefs.SetInt("faveMusic", musicIndex);
+    }
+
 
     public void SetInputField()
     {
@@ -89,47 +135,124 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    public void Quit(){
-		Application.Quit ();
-	}
+    public void Quit()
+    {
+        Application.Quit();
+    }
 
-    public void ChangeStartScene(int change) {
-        activeScene = (activeScene+change+(nbScenes-1))%(nbScenes-1); //parce qu'il ne faut pas tomber sur le menu
+    public void ChangeStartScene(int change)
+    {
+        activeScene = (activeScene + change + (nbScenes - 1)) % (nbScenes - 1); //parce qu'il ne faut pas tomber sur le menu
+        if(activeScene < 0)
+        {
+            activeScene = nbScenes - 2;
+        }
+        else if(activeScene> nbScenes - 2)
+        {
+            activeScene = 0;
+        }
         //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
-        lvlText.text = (activeScene+1).ToString();
+        lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
-        //NetlobbyManager.playScene = (activeScene + 1).ToString(); // for lobby version
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
-    public void ChangeNbrEnemies(int nb){
-        ChangeSetting(nb, ref enemyNumber, enemyText);
-	}
+    public void TogglePlayMusic()
+    {
+        if (!audiosource.isPlaying)
+        {
+            audiosource.clip = musics[musicIndex];
+            audiosource.Play();
+            playMusicText.text = "Stop";
+        }
+        else
+        {
+            audiosource.Stop();
+            playMusicText.text = "Play";
+        }
+    }
+
+    public void ChangeMusicIndex(int index)
+    {
+        ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length-1);
+    }
+
+
+    public void ChangeNbrEnemies(int nb)
+    {
+        ChangeSetting(nb, ref enemyNumber, enemyText, 0, 200);
+    }
 
     public void ChangeStartHp(int nb)
     {
-        ChangeSetting(nb, ref startHp, hpText);
+        ChangeSetting(nb, ref startHp, hpText, 1, 250);
     }
-    public void ChangeMaxPlayers(int nb)
+    public void ChangeSoloGame()
     {
-        ChangeSetting(nb, ref maxPlayersNumber, maxPlayersText);
+        ChangeSetting(ref soloGame, soloGameText);
     }
 
-    public void ChangeChrono(float nb){
-        ChangeSetting(nb, ref chrono, chronoText);
+    public void ChangeChrono(float nb)
+    {
+        ChangeSetting(nb, ref chrono, chronoText, 0, 240);
     }
 
-    public void ChangeSetting(int nb, ref int setting, Text settingText)
+    public void ChangeSetting(ref bool setting, Text settingText)
+    {
+        setting = !setting;
+        string settingValue;
+        if(setting == true)
+        {
+            settingValue = "yes";
+        }
+        else
+        {
+            settingValue = "no";
+        }
+        settingText.text = settingValue;
+    }
+
+    public void ChangeSetting(int nb, ref int setting, Text settingText, int min, int max)
     {
         setting += nb;
         settingText.text = setting.ToString();
+        if(setting < min)
+        {
+            ChangeSettingAbsolute(max, ref setting, settingText);
+        }
+        else if (setting > max)
+        {
+            ChangeSettingAbsolute(min, ref setting, settingText);
+        }
     }
 
-    public void ChangeSetting(float nb, ref float setting, Text settingText)
+    public void ChangeSettingAbsolute(int nb, ref int setting, Text settingText)
+    {
+        setting = nb;
+        settingText.text = setting.ToString();
+    }
+
+    public void ChangeSetting(float nb, ref float setting, Text settingText, float min, float max)
     {
         setting += nb;
         settingText.text = setting.ToString("F1");
+
+        if (setting < min)
+        {
+            ChangeSettingAbsolute(max, ref setting, settingText);
+        }
+        else if (setting > max)
+        {
+            ChangeSettingAbsolute(min, ref setting, settingText);
+        }
     }
+
+    public void ChangeSettingAbsolute(float nb, ref float setting, Text settingText)
+    {
+        setting = nb;
+        settingText.text = setting.ToString();
+    }
+
 
     public void ToggleNetworkManagerHUD(bool state)
     {
@@ -146,7 +269,7 @@ public class MenuManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //testing area
-            PlayerPrefs.DeleteAll();
+            print(PlayerPrefs.GetString("playerName"));
         }
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
-// get a list of all players somehow
 // follow the played player
 // when they die, follow another
 
@@ -12,7 +12,7 @@ public class CameraMover : NetworkBehaviour
     public static CameraMover singleton;
     public Transform activePlayer; //assigné au début du jeu dans PlayerMove
     public Transform posRotOffset;
-    private int i = 0;
+    private int i = -1;
 
     void Awake()
     {
@@ -35,59 +35,23 @@ public class CameraMover : NetworkBehaviour
         }
 
         // for following not-dead players when you died
-        //if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
-        //{
-        //    print("i = " + i);
-        //    print("player list length" + ColorManager.listPlayers.Length);
-        //    print("is local player dead? " + ColorManager.singleton.isPlayerDead);
-        //    print("space"); // clairement ça ne marche pas
-        //    while (!(ColorManager.listPlayers[i] != null &&
-        //        ColorManager.listPlayers[i].PlayerObj != null &&
-        //        ColorManager.listPlayers[i].TimeOfDeath != 0))  //ça. ça bugge. régler ça en commentant des petits bouts de la condition jusqu'à ce que ça marche
-        //    {
-
-        //        /*
-        //        if (ColorManager.listPlayers[i]!= null && ColorManager.listPlayers[i].PlayerObj != null)
-        //        {
-        //            print("trying to attach camera to " + ColorManager.listPlayers[i].PlayerName);
-        //            activePlayer = ColorManager.listPlayers[i].PlayerObj.transform;
-        //        }*/
-        //        if (i >= ColorManager.listPlayers.Length)
-        //        {
-        //            i = -1;
-        //        }
-        //        i++;
-        //    }
-        //    print("i = " + i + "; trying to attach camera to " + ColorManager.listPlayers[i].PlayerName);
-        //    activePlayer = ColorManager.listPlayers[i].PlayerObj.transform;
-        //}
-
-
-
-        // VERSION DE FLO
-
-        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead)
+        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.isLocalPlayerDead && ColorManager.singleton.numberOfPlayersPlaying>0)
         {
-            Score playerToFollow;
-            bool searchingForPlayer = true;
-            while (searchingForPlayer)
+            i += 1;
+            if (i >= ColorManager.singleton.Scores.Length)
+            {
+                i = 0;
+            }
+            while (ColorManager.singleton.Scores[i].PlayerObj == null)
             {
                 i++;
-                if (i >= ColorManager.listPlayers.Length)
+                if (i >= ColorManager.singleton.Scores.Length)
                 {
                     i = 0;
                 }
-
-                playerToFollow = ColorManager.listPlayers[i];
-
-                if (playerToFollow != null && playerToFollow.Alive)  // XXX here I use the bool Alive created in Score.cs
-                {
-                    searchingForPlayer = false;
-                    activePlayer = playerToFollow.transform;
-                    // here add text about who you are spectating
-                }
-
             }
+            activePlayer = ColorManager.singleton.Scores[i].PlayerObj.transform;
+            ColorManager.singleton.following.text = "following " + activePlayer.GetComponent<PlayerBehaviour>().localName;
         }
     }
 }

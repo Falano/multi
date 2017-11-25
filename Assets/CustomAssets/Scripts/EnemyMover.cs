@@ -14,24 +14,22 @@ public class EnemyMover : NetworkBehaviour
     NavMeshHit hit;
     public Vector3 lvlSize;
     Animator animator;
-    public Vector2 waitRange = new Vector2(3,6);
+    public Vector2 waitRange = new Vector2(3, 6);
     public int rotationSpeed = 5;
     private bool readyToChangeDestination = true;
     private IEnumerator wait;
 
     void Start()
     {
+        transform.SetParent(ColorManager.singleton.ratKing.transform);
         if (!isServer)
         {
             return;
         }
-        lvlSize = ColorManager.singleton.LvlSize;
+        lvlSize = LvlSize.singleton.size;
         ag = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-        wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
-        //animator.SetBool("moving", false);
-
-        //StartCoroutine(wait);        
+        wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));  
     }
 
     void Update()
@@ -40,7 +38,8 @@ public class EnemyMover : NetworkBehaviour
         {
             return;
         }
-        if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination) {
+        if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination)
+        {
             readyToChangeDestination = false;
             wait = waitForChangeDir(Random.Range(waitRange.x, waitRange.y));
             StartCoroutine(wait);

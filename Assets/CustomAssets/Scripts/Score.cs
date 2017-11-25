@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 // juste la classe score avec ses fonctions
@@ -9,36 +10,24 @@ using UnityEngine.Networking;
 public class Score : NetworkBehaviour
 {
     [Tooltip("its index in the list")]
-    public int i;
-    GameObject playerObj;
-    string playerName;
-    float timeOfDeath;
-    bool alive; // XXX
+    public int idNumber;
+    public GameObject playerObj;
+    public string playerName;
+    string timeOfDeath = "0";
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
-    public int colorChangesFromSelf;
-    float startTime;
-    bool _isReady = false;
-    public GameObject ScoreTx;
+    public int colorChangesFromSelf = -1;
+    public Text ScoreTx;
+    float startTime; // l'assigner on start game
 
-    public string PlayerName
+    private void Start()
     {
-        get
-        {
-            if (PlayerPrefs.HasKey("playerName"))
-            {
-                return PlayerPrefs.GetString("playerName");
-            }
-            return playerName;
-        }
-        set
-        {
-            PlayerPrefs.SetString("playerName", value);
-            playerName = value;
-        }
+        transform.SetParent(ColorManager.singleton.ScoresHolderParent.transform);
     }
-    public float TimeOfDeath
+
+
+    public string TimeOfDeath
     {
         get
         {
@@ -52,83 +41,26 @@ public class Score : NetworkBehaviour
             return playerObj;
         }
     }
-    public bool IsReady
-    {
-        get
-        {
-            return _isReady;
-        }
-        set
-        {
-            ToggleReady(value);
-        }
-    }
-
-    public bool Alive // XXX
-    {
-        get
-        {
-            return alive;
-        }
-        private set
-        {
-            alive = value;
-        }
-    }
-
-    public Score(GameObject playerObject, string playerNamed)
-    {
-        playerObj = playerObject;
-        startTime = Time.time;
-        playerName = playerNamed;
-        Alive = true; // XXX
-        timeOfDeath = 0; // XXX
-    }
 
     public void SetTimeOfDeath()
     {
-        Alive = false;//XXX
-        timeOfDeath = Time.time - startTime;
+        timeOfDeath = (Time.time - startTime).ToString("0.0");
     }
+
     public void SetI(int newI)
     {
-        i = newI;
+        idNumber = newI;
     }
 
 
-
-    public void ToggleReady(bool state)
+    public void SetStartTime()
     {
-        _isReady = state;
-        //print("is player ready? " + isReady);
-        CmdTogglePlayerReady(gameObject, state);
+        startTime = Time.time;
     }
-    [Command]
-    public void CmdTogglePlayerReady(GameObject player, bool state)
-    {
-        _isReady = state;
-        ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
-    }
-    public void ToggleReadySolo(bool state)
-    {
-        _isReady = state;
-    }
-
 
     public void SetPlayersName(string name)
     {
         playerName = name;
     }
 
-    private void Update()
-    {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
-        {
-            ToggleReady(!_isReady);
-        }
-    }
 }
