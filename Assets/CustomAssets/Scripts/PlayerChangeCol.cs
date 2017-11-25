@@ -86,7 +86,10 @@ public class PlayerChangeCol : NetworkBehaviour
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
     {
         yield return new WaitForSeconds(cooldown);
-        attacker.GetComponent<PlayerChangeCol>().paintReady = true;
+        if (attacker.CompareTag("Player"))
+        {
+            attacker.GetComponent<PlayerChangeCol>().paintReady = true;
+        }
     }
 
     IEnumerator speedBoost(float duration, float strength, GameObject obj, GameObject attacker) {

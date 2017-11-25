@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 // enemy spawner.
 // the lvlSize that says where they spawn and move is on the colormanager (which is really a game manager)
@@ -54,7 +55,12 @@ public class EnemySpawner : NetworkBehaviour
 
     public void spawnEnemy()
     {
+        NavMeshHit hit;
         pos = new Vector3(Random.Range(-lvlSize.x, lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(-lvlSize.z, lvlSize.z));
+        while (!NavMesh.SamplePosition(pos, out hit, 1, NavMesh.AllAreas)) // so they don't spawn up in the air or down belowhill
+        {
+            pos = new Vector3(Random.Range(lvlSize.x, -lvlSize.x), Random.Range(lvlSize.y, -lvlSize.y), Random.Range(lvlSize.z, -lvlSize.z));
+        }
         rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
         GameObject enemy = Instantiate(enemyPrefab, pos, rot);
         NetworkServer.Spawn(enemy);

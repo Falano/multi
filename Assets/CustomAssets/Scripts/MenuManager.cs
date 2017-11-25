@@ -143,6 +143,14 @@ public class MenuManager : MonoBehaviour
     public void ChangeStartScene(int change)
     {
         activeScene = (activeScene + change + (nbScenes - 1)) % (nbScenes - 1); //parce qu'il ne faut pas tomber sur le menu
+        if(activeScene < 0)
+        {
+            activeScene = nbScenes - 2;
+        }
+        else if(activeScene> nbScenes - 2)
+        {
+            activeScene = 0;
+        }
         //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
@@ -166,30 +174,18 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMusicIndex(int index)
     {
-        if (musicIndex+index < 0 || musicIndex+index >= musics.Length)
-        {
-            if(index < 0)
-            {
-                musicIndex = 0 - index; 
-            }
-            else if (index > 0)
-            {
-                musicIndex = musics.Length -1 - index;
-
-            }
-        }
-        ChangeSetting(index, ref musicIndex, musicText);
+        ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length-1);
     }
 
 
     public void ChangeNbrEnemies(int nb)
     {
-        ChangeSetting(nb, ref enemyNumber, enemyText);
+        ChangeSetting(nb, ref enemyNumber, enemyText, 0, 200);
     }
 
     public void ChangeStartHp(int nb)
     {
-        ChangeSetting(nb, ref startHp, hpText);
+        ChangeSetting(nb, ref startHp, hpText, 1, 250);
     }
     public void ChangeSoloGame()
     {
@@ -198,7 +194,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeChrono(float nb)
     {
-        ChangeSetting(nb, ref chrono, chronoText);
+        ChangeSetting(nb, ref chrono, chronoText, 0, 240);
     }
 
     public void ChangeSetting(ref bool setting, Text settingText)
@@ -216,17 +212,47 @@ public class MenuManager : MonoBehaviour
         settingText.text = settingValue;
     }
 
-    public void ChangeSetting(int nb, ref int setting, Text settingText)
+    public void ChangeSetting(int nb, ref int setting, Text settingText, int min, int max)
     {
         setting += nb;
         settingText.text = setting.ToString();
+        if(setting < min)
+        {
+            ChangeSettingAbsolute(max, ref setting, settingText);
+        }
+        else if (setting > max)
+        {
+            ChangeSettingAbsolute(min, ref setting, settingText);
+        }
     }
 
-    public void ChangeSetting(float nb, ref float setting, Text settingText)
+    public void ChangeSettingAbsolute(int nb, ref int setting, Text settingText)
+    {
+        setting = nb;
+        settingText.text = setting.ToString();
+    }
+
+    public void ChangeSetting(float nb, ref float setting, Text settingText, float min, float max)
     {
         setting += nb;
         settingText.text = setting.ToString("F1");
+
+        if (setting < min)
+        {
+            ChangeSettingAbsolute(max, ref setting, settingText);
+        }
+        else if (setting > max)
+        {
+            ChangeSettingAbsolute(min, ref setting, settingText);
+        }
     }
+
+    public void ChangeSettingAbsolute(float nb, ref float setting, Text settingText)
+    {
+        setting = nb;
+        settingText.text = setting.ToString();
+    }
+
 
     public void ToggleNetworkManagerHUD(bool state)
     {
