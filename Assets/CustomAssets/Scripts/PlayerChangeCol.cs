@@ -64,7 +64,10 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             return;
         }
-        attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+        if (attacker.CompareTag("Player"))
+        {
+            attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+        }
         prevColor = currColor;
         // so it doesn't "change" to the same colour:
         while (prevColor == currColor)

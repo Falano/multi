@@ -13,7 +13,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(NetworkIdentity))] //everything unchecked
 public class ColorManager : NetworkBehaviour
 {
-    public Vector3 LvlSize;
     public static ColorManager singleton;
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
@@ -33,7 +32,7 @@ public class ColorManager : NetworkBehaviour
     private NetworkManagerHUD networkManager;
     [Header("tmp: sound stuff")]
     public AudioClip[] ChangeColSounds;
-    public AudioClip[] musics;
+    public static AudioClip currentMusic;
 
     private float refreshFrequency = 2.5f;
 
@@ -49,7 +48,7 @@ public class ColorManager : NetworkBehaviour
         }
         ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; ///////////////////////cause I'm using it in the Score's start
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
-        GetComponent<AudioSource>().clip = musics[MenuManager.musicIndex];
+        GetComponent<AudioSource>().clip = currentMusic;
     }
 
     void Start()
