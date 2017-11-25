@@ -11,13 +11,13 @@ to implement:
 --DONE-- when dead follow other players [DONE - yes I'll keep adding comments like this]
 --DONE-- custom player name
 --no, I have a isPlayerDead now-- mon colorManager qui est un gameManager pourrait au debut du jeu enregistrer le joueur et si le joueur n'est plus la lancer le "follow other players"
-4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind option) [yes please]
+4	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind preset option) [yes please]
 3	custom colours dans le menu
 4	custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
 2	custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
 2	(boring options menu in-game)
-3	custom musics
-4	sound volume
+--DONE-- custom musics
+3	sound volume
 4	custom EVERYTHING
 2	more lvls
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
@@ -50,8 +50,8 @@ to implement:
 --DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
 --DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
 --DONE-- fix speed boost so it can't accelerate forever and always chooses the right sheep
-1	sound
-
+--DONE-- sound
+4	more musics
 
 
 bugs:
@@ -79,16 +79,16 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
 --DONE-- client players need another spacebarPress to launch the game
 	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu
-	fix mice change col since apparently it's broken?
+--DONE-- fix mice change col since apparently it's broken?
 	check if I can easily fix LAN play
 --DONE-- move after death: the fuck? Probs linked to speed gain after changeCol
-	you can go to lvl -3: keep menu values in the positive
+--DONE-- you can go to lvl -3: keep menu values in the positive
 
 SUGGESTIONS FLO :
 --DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)
 --useless-- Instead of Player0, change to Host
 --nope--(Idée farfelue, peut-être compliquée) plutôt que des frontières invisibles, si tu sors de la map, tu passe en mode Full Rainbow : tu est multicolore (genre comme ça http://rs292.pbsrc.com/albums/mm23/pixcomments/The%2050s/60s/myspace-comments-animated-rainbow-s.gif?w=280&h=210&fit=crop ), et tu gagne en vitesse de déplacement, MAIS tu perds de la vie en continu.
-	Supprimer les composant du joueur à sa mort. Exemple : supprimer les scripts PlayerHealth et PlayerMove à la mort du joueur, etc.
+--done?-- Supprimer les composant du joueur à sa mort. Exemple : supprimer les scripts PlayerHealth et PlayerMove à la mort du joueur, etc.
 	Deplus pour les scripts en générals, mais surtout dans le cas de PlayerHealth : avoir un Destroyer, de sorte que tu puisse simplement surrimer le composant sans en perdre les info. Exemple : dans PlayerHealth, lors de la destruction du composant, lui faire stocker les infos 
 
 

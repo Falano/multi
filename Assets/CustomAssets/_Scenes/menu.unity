@@ -3051,7 +3051,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 462.7, y: -413.15002}
+  m_AnchoredPosition: {x: 462.7, y: -338.17004}
   m_SizeDelta: {x: 1820, y: 1020}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &918368331
@@ -3088,7 +3088,9 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: "Sound level, Custom key bindings, Choice of music, \nLanguage, custom colors
     (like I'd have time) \nare things that will be customisable here \nat some point
-    in time probably."
+    in time probably.\n\nMusics by Kevin MacLeod ( https://incompetech.com/ ) and
+    \nJason Shaw ( http://audionautix.com/ ),\r both CCby 3.0\nFor detailed credits,
+    see the credits.txt file."
 --- !u!222 &918368332
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4496,7 +4498,7 @@ Prefab:
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: musics.Array.size
-      value: 10
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
@@ -4824,7 +4826,17 @@ Prefab:
         type: 2}
       propertyPath: musics.Array.data[10]
       value: 
-      objectReference: {fileID: 8300000, guid: 472b0cc05f65b8a419ff9bc854a8620b, type: 3}
+      objectReference: {fileID: 8300000, guid: cf70918e1bddcc043a0d7c1d4275192f, type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: musics.Array.data[11]
+      value: 
+      objectReference: {fileID: 8300000, guid: b3d81be15e2c90e46a524810ab38b497, type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: musics.Array.data[12]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0886eaae2d1333e47807de5a63e57e9a, type: 3}
     m_RemovedComponents:
     - {fileID: 114342964791289458, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
