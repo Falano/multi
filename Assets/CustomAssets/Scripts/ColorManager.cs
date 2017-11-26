@@ -31,7 +31,7 @@ public class ColorManager : NetworkBehaviour
     public Text following;
     private NetworkManagerHUD networkManager;
     [Header("tmp: sound stuff")]
-    public AudioClip[] ChangeColSounds;
+    public static AudioClip[] ChangeColSounds;
     public static AudioClip currentMusic;
 
     private float refreshFrequency = 2.5f;

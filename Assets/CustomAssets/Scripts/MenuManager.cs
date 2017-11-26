@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
@@ -42,10 +43,18 @@ public class MenuManager : MonoBehaviour
     public Text soloGameText;
     public Text musicText;
     public Text playMusicText;
-    private Image lvlImg;
-    private AudioSource audiosource;    
-    public AudioClip[] musics;
+    public Text foleyVolumeText;
+    public Text musicVolumeText;
 
+    private Image lvlImg;
+    private int foleyVolumeInt = 60;
+    private int musicVolumeInt = 60;
+    private AudioSource foley;
+    private AudioSource music;
+    public AudioClip[] musics;
+    public AudioClip[] changeColSounds;
+    public AudioMixerGroup foleyMixer;
+    public AudioMixerGroup musicMixer;
 
     public string PlayerName
     {
@@ -76,6 +85,19 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        //get the audiosources right
+        foreach(AudioSource audio in GetComponents<AudioSource>())
+        {
+            if(audio.outputAudioMixerGroup == foleyMixer)
+            {
+                foley = audio;
+            }
+            else if (audio.outputAudioMixerGroup == musicMixer)
+            {
+                music = audio;
+            }
+        }
+
         if (PlayerPrefs.HasKey("faveMusic"))
         {
             musicIndex = PlayerPrefs.GetInt("faveMusic");
@@ -88,6 +110,8 @@ public class MenuManager : MonoBehaviour
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
+        foleyVolumeText.text = foleyVolumeInt.ToString();
+        musicVolumeText.text = musicVolumeInt.ToString();
         if (PlayerPrefs.HasKey("faveMusic"))
         {
             musicIndex = PlayerPrefs.GetInt("faveMusic");
@@ -102,10 +126,6 @@ public class MenuManager : MonoBehaviour
             soloGameText.text = "no";
         }
 
-
-
-        audiosource = gameObject.GetComponent<AudioSource>();
-        audiosource.clip = musics[musicIndex];
         SetInputField();
     }
 
@@ -121,6 +141,7 @@ public class MenuManager : MonoBehaviour
     {
         ColorManager.currentMusic = musics[musicIndex];
         PlayerPrefs.SetInt("faveMusic", musicIndex);
+        ColorManager.ChangeColSounds = changeColSounds;
     }
 
 
@@ -151,7 +172,6 @@ public class MenuManager : MonoBehaviour
         {
             activeScene = 0;
         }
-        //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];
@@ -159,17 +179,25 @@ public class MenuManager : MonoBehaviour
 
     public void TogglePlayMusic()
     {
-        if (!audiosource.isPlaying)
+        if (!music.isPlaying)
         {
-            audiosource.clip = musics[musicIndex];
-            audiosource.Play();
+            music.clip = musics[musicIndex];
+            music.Play();
             playMusicText.text = "Stop";
         }
         else
         {
-            audiosource.Stop();
+            music.Stop();
             playMusicText.text = "Play";
         }
+    }
+
+    // check all the sound variables, I may have made some mistakes
+
+    public void TogglePlayFoley()
+    {
+            foley.clip = changeColSounds[Random.Range(0, changeColSounds.Length)];
+            foley.Play();
     }
 
     public void ChangeMusicIndex(int index)
@@ -177,6 +205,15 @@ public class MenuManager : MonoBehaviour
         ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length-1);
     }
 
+    public void ChangeMusicVolume(int volume) {
+
+        ChangeSetting(volume, ref musicVolumeInt, musicVolumeText, 0, 100); // what does "expose Volume (of Master) to script" does? RN I have it enabled for music, disabled for foley
+        //musicMixer.volume = musicVolumeInt - 30 - musicVolumeInt*0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +20 à -30 db; 0db est 60 foleyVolumeInt; maybe go from +10 à -50? Later   ////////////////////////////////
+    }
+public void ChangeFoleyVolume(int volume) {
+        ChangeSetting(volume, ref foleyVolumeInt, foleyVolumeText, 0, 100);
+        //foleyMixer.volume = foleyVolumeInt - 30 - foleyVolumeInt * 0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +20 à -30 db; 0db est 60 foleyVolumeInt  ////////////////////////////////
+    }
 
     public void ChangeNbrEnemies(int nb)
     {

@@ -5,7 +5,7 @@ AudioMixerController:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: sounds
+  m_Name: foley
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
@@ -56,5 +56,6 @@ AudioMixerSnapshotController:
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: c24b314c9302d7d4aaa6c4952b6c55a0
-  m_FloatValues: {}
+  m_FloatValues:
+    1e88bb921c752f54da08ce559ddc7f5f: 0
   m_TransitionOverrides: {}
