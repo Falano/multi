@@ -6051,6 +6051,40 @@ Prefab:
       propertyPath: musicVolumeText
       value: 
       objectReference: {fileID: 966441263}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: foleyMixer
+      value: 
+      objectReference: {fileID: 243693691494618044, guid: 3b918f8912faf75429532ca808297b22,
+        type: 2}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: musicMixer
+      value: 
+      objectReference: {fileID: 243912869565621412, guid: 3b918f8912faf75429532ca808297b22,
+        type: 2}
+    - target: {fileID: 82611271693469426, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 243693691494618044, guid: 3b918f8912faf75429532ca808297b22,
+        type: 2}
+    - target: {fileID: 82437911221907272, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 243912869565621412, guid: 3b918f8912faf75429532ca808297b22,
+        type: 2}
+    - target: {fileID: 82611271693469426, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82437911221907272, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_IsPrefabParent: 0

@@ -207,25 +207,21 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeMusicVolume(int volume) {
 
-        ChangeSetting(volume, ref musicVolumeInt, musicVolumeText, 0, 100); // what does "expose Volume (of Master) to script" does? RN I have it enabled for music, disabled for foley
-        //musicMixer.volume = musicVolumeInt - 40 - musicVolumeInt*0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt; maybe go from +10 à -50? Later   ////////////////////////////////
-        /*
-        if (volume == 0){
-        musicMixer.volume = -70;
+        ChangeSetting(volume, ref musicVolumeInt, musicVolumeText, 0, 100);
+        musicMixer.audioMixer.SetFloat("musicVol", musicVolumeInt - 40 - musicVolumeInt * 0.5f); //là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt; is it ok? Later
+        if(musicVolumeInt == 0){ // 0 le mute completement
+        musicMixer.audioMixer.SetFloat("musicVol", -70);
         }
-          
-         
-         */
     }
+
     public void ChangeFoleyVolume(int volume)
     {
         ChangeSetting(volume, ref foleyVolumeInt, foleyVolumeText, 0, 100);
-        //foleyMixer.volume = foleyVolumeInt - 40 - foleyVolumeInt * 0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt  ////////////////////////////////
-        /*
-        if (volume == 0)
+        foleyMixer.audioMixer.SetFloat("foleyVol", foleyVolumeInt - 40 - foleyVolumeInt * 0.5f); // là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt 
+        if (foleyVolumeInt == 0)
         {
-            foleyMixer.volume = -70;
-        }*/
+            foleyMixer.audioMixer.SetFloat("foleyVol", -70);
+        }
     }
 
     public void ChangeNbrEnemies(int nb)
