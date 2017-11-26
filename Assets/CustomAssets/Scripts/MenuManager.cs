@@ -86,9 +86,9 @@ public class MenuManager : MonoBehaviour
     public void Start()
     {
         //get the audiosources right
-        foreach(AudioSource audio in GetComponents<AudioSource>())
+        foreach (AudioSource audio in GetComponents<AudioSource>())
         {
-            if(audio.outputAudioMixerGroup == foleyMixer)
+            if (audio.outputAudioMixerGroup == foleyMixer)
             {
                 foley = audio;
             }
@@ -164,11 +164,11 @@ public class MenuManager : MonoBehaviour
     public void ChangeStartScene(int change)
     {
         activeScene = (activeScene + change + (nbScenes - 1)) % (nbScenes - 1); //parce qu'il ne faut pas tomber sur le menu
-        if(activeScene < 0)
+        if (activeScene < 0)
         {
             activeScene = nbScenes - 2;
         }
-        else if(activeScene> nbScenes - 2)
+        else if (activeScene > nbScenes - 2)
         {
             activeScene = 0;
         }
@@ -196,23 +196,36 @@ public class MenuManager : MonoBehaviour
 
     public void TogglePlayFoley()
     {
-            foley.clip = changeColSounds[Random.Range(0, changeColSounds.Length)];
-            foley.Play();
+        foley.clip = changeColSounds[Random.Range(0, changeColSounds.Length)];
+        foley.Play();
     }
 
     public void ChangeMusicIndex(int index)
     {
-        ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length-1);
+        ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length - 1);
     }
 
     public void ChangeMusicVolume(int volume) {
 
         ChangeSetting(volume, ref musicVolumeInt, musicVolumeText, 0, 100); // what does "expose Volume (of Master) to script" does? RN I have it enabled for music, disabled for foley
-        //musicMixer.volume = musicVolumeInt - 30 - musicVolumeInt*0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +20 à -30 db; 0db est 60 foleyVolumeInt; maybe go from +10 à -50? Later   ////////////////////////////////
+        //musicMixer.volume = musicVolumeInt - 40 - musicVolumeInt*0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt; maybe go from +10 à -50? Later   ////////////////////////////////
+        /*
+        if (volume == 0){
+        musicMixer.volume = -70;
+        }
+          
+         
+         */
     }
-public void ChangeFoleyVolume(int volume) {
+    public void ChangeFoleyVolume(int volume)
+    {
         ChangeSetting(volume, ref foleyVolumeInt, foleyVolumeText, 0, 100);
-        //foleyMixer.volume = foleyVolumeInt - 30 - foleyVolumeInt * 0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +20 à -30 db; 0db est 60 foleyVolumeInt  ////////////////////////////////
+        //foleyMixer.volume = foleyVolumeInt - 40 - foleyVolumeInt * 0.5f; //trouver le code qui permet d'accéder au slider "volume" du Master du mixer // aussi là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt  ////////////////////////////////
+        /*
+        if (volume == 0)
+        {
+            foleyMixer.volume = -70;
+        }*/
     }
 
     public void ChangeNbrEnemies(int nb)

@@ -4,20 +4,20 @@ licensed under CCby 3.0 (  http://creativecommons.org/licenses/by/3.0/ )
 list of tracks:
 0: Balloon game, by Kevin MacLeod 
 ( https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1700063 )
-1: Fretless, by Kevin MacLeod 
+3: Fretless, by Kevin MacLeod 
 ( https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1500074&Search=Search )
-2: Hoedown, by Jason Shaw
-3: Jerry Five, by Kevin MacLeod
+4: Hoedown, by Jason Shaw
+5: Jerry Five, by Kevin MacLeod
 ( https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1700066&Search=Search )
-4: Pyramids, by Jason Shaw
-5: Robobozo, by Kevin MacLeod
+6: Pyramids, by Jason Shaw
+7: Robobozo, by Kevin MacLeod
 ( https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1700061&Search=Search )
-6: Transition, by Jason Shaw
-7: Transportation, by Jason Shaw
-8: Vanishing Horizon, by Jason Shaw
-9: Wepa, by Kevin Mac Leod
+9: Transition, by Jason Shaw
+10: Transportation, by Jason Shaw
+11: Vanishing Horizon, by Jason Shaw
+12: Wepa, by Kevin Mac Leod
 ( https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1700020&Search=Search )
-10: Big Car Theft, by Jason Shaw
-11: BirdInHand, by Jason Shaw
-12: Sneaky Snitch, by Kevin MacLeod
+1: Big Car Theft, by Jason Shaw
+2: BirdInHand, by Jason Shaw
+8: Sneaky Snitch, by Kevin MacLeod
 ( https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100772&Search=Search )
