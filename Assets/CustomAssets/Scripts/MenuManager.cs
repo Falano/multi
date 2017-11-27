@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
@@ -42,10 +43,18 @@ public class MenuManager : MonoBehaviour
     public Text soloGameText;
     public Text musicText;
     public Text playMusicText;
-    private Image lvlImg;
-    private AudioSource audiosource;    
-    public AudioClip[] musics;
+    public Text foleyVolumeText;
+    public Text musicVolumeText;
 
+    private Image lvlImg;
+    private int foleyVolumeInt = 60;
+    private int musicVolumeInt = 60;
+    private AudioSource foley;
+    private AudioSource music;
+    public AudioClip[] musics;
+    public AudioClip[] changeColSounds;
+    public AudioMixerGroup foleyMixer;
+    public AudioMixerGroup musicMixer;
 
     public string PlayerName
     {
@@ -76,6 +85,19 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        //get the audiosources right
+        foreach (AudioSource audio in GetComponents<AudioSource>())
+        {
+            if (audio.outputAudioMixerGroup == foleyMixer)
+            {
+                foley = audio;
+            }
+            else if (audio.outputAudioMixerGroup == musicMixer)
+            {
+                music = audio;
+            }
+        }
+
         if (PlayerPrefs.HasKey("faveMusic"))
         {
             musicIndex = PlayerPrefs.GetInt("faveMusic");
@@ -88,6 +110,8 @@ public class MenuManager : MonoBehaviour
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
+        foleyVolumeText.text = foleyVolumeInt.ToString();
+        musicVolumeText.text = musicVolumeInt.ToString();
         if (PlayerPrefs.HasKey("faveMusic"))
         {
             musicIndex = PlayerPrefs.GetInt("faveMusic");
@@ -102,10 +126,6 @@ public class MenuManager : MonoBehaviour
             soloGameText.text = "no";
         }
 
-
-
-        audiosource = gameObject.GetComponent<AudioSource>();
-        audiosource.clip = musics[musicIndex];
         SetInputField();
     }
 
@@ -121,6 +141,7 @@ public class MenuManager : MonoBehaviour
     {
         ColorManager.currentMusic = musics[musicIndex];
         PlayerPrefs.SetInt("faveMusic", musicIndex);
+        ColorManager.ChangeColSounds = changeColSounds;
     }
 
 
@@ -143,15 +164,14 @@ public class MenuManager : MonoBehaviour
     public void ChangeStartScene(int change)
     {
         activeScene = (activeScene + change + (nbScenes - 1)) % (nbScenes - 1); //parce qu'il ne faut pas tomber sur le menu
-        if(activeScene < 0)
+        if (activeScene < 0)
         {
             activeScene = nbScenes - 2;
         }
-        else if(activeScene> nbScenes - 2)
+        else if (activeScene > nbScenes - 2)
         {
             activeScene = 0;
         }
-        //print("activeScene = " + activeScene + ", change = "+change+", nbScenes = "+nbScenes+ "; \n(activeScene+change+nbScenes)%nbScenes = " + (activeScene+change+nbScenes)%nbScenes);
         lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];
@@ -159,24 +179,50 @@ public class MenuManager : MonoBehaviour
 
     public void TogglePlayMusic()
     {
-        if (!audiosource.isPlaying)
+        if (!music.isPlaying)
         {
-            audiosource.clip = musics[musicIndex];
-            audiosource.Play();
+            music.clip = musics[musicIndex];
+            music.Play();
             playMusicText.text = "Stop";
         }
         else
         {
-            audiosource.Stop();
+            music.Stop();
             playMusicText.text = "Play";
         }
     }
 
-    public void ChangeMusicIndex(int index)
+    // check all the sound variables, I may have made some mistakes
+
+    public void TogglePlayFoley()
     {
-        ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length-1);
+        foley.clip = changeColSounds[Random.Range(0, changeColSounds.Length)];
+        foley.Play();
     }
 
+    public void ChangeMusicIndex(int index)
+    {
+        ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length - 1);
+    }
+
+    public void ChangeMusicVolume(int volume) {
+
+        ChangeSetting(volume, ref musicVolumeInt, musicVolumeText, 0, 100);
+        musicMixer.audioMixer.SetFloat("musicVol", musicVolumeInt - 40 - musicVolumeInt * 0.5f); //là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt; is it ok? Later
+        if(musicVolumeInt == 0){ // 0 le mute completement
+        musicMixer.audioMixer.SetFloat("musicVol", -70);
+        }
+    }
+
+    public void ChangeFoleyVolume(int volume)
+    {
+        ChangeSetting(volume, ref foleyVolumeInt, foleyVolumeText, 0, 100);
+        foleyMixer.audioMixer.SetFloat("foleyVol", foleyVolumeInt - 40 - foleyVolumeInt * 0.5f); // là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt 
+        if (foleyVolumeInt == 0)
+        {
+            foleyMixer.audioMixer.SetFloat("foleyVol", -70);
+        }
+    }
 
     public void ChangeNbrEnemies(int nb)
     {
