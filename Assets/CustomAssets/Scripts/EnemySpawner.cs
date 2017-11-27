@@ -38,6 +38,10 @@ public class EnemySpawner : NetworkBehaviour
     public override void OnStartServer()
     {
         lvlSize = LvlSize.singleton.size;
+        if (ColorManager.singleton.isInTuto)
+        {
+            enemyNumber = 3;
+        }
         if (SceneManager.GetActiveScene().name == "testing") // pour que je n'ai pas à repasser par le menu si je veux juste tester un truc rapide
         {
             enemyNumber = enemyNumberTest;

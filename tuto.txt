@@ -4,20 +4,22 @@ PLAYER: on Start: I should try pressing MenuManager.MenuKey.ToString() several t
 
 NARR: on lobbyCanvas: press MenuManager.InteractKey.ToString() when you're ready. The game starts when every logged in player is ready (even if everyone you planned to play with hasn't logged in yet). </br> This tutorial is offline though, so don't worry about it for now, just remember: MenuManager.InteractKey.ToString() when you're ready.
 
+--------------------------
 PLAYER: on lookAt sheep: I wonder what would happen if I pressed MenuManager.InteractKey.ToString() right now...
-
+---------
 SHEEP: on close to mice: random: - NOOOO GET IT OFF GET IT OFF TAKE IT AWAY I HATE MICE NOOOO RUN AWAY!
 				- hi little rat, look how pretty I am!
 				- those black mice make me feel different somehow...
-
-PLAYER: on changed sheep's colour: so that's how others see me...
-
+---------
+PLAYER: on changed sheep's colour: so that's how others see me.../ so that's what I look like to others...
+---------
 SHEEP: on die: Nope, I'm out
-
+---------
 SHEEP: on changeCol: Oww, I better not do that too often.
 NARR: see the ball in the top-right corner? That's how many colour changes you have left before you turn back to paint.
-
+---------------------
 PLAYER: on changeCol: I can run, and I can hide!
+------------------
 
 PLAYER: on first two change other sheep's colour: I have been told there were both pros and cons to pressing the MenuManager.ActionKey.ToString(). Is doing it a good idea? Who knows.
 

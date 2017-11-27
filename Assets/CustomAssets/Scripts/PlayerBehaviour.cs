@@ -43,9 +43,6 @@ public class PlayerBehaviour : NetworkBehaviour
             }
             //gameObject.AddComponent<AudioListener>(); // avoir un AudioListener et l'activer/desactiver ici ne marche pas :/ 
         }
-        else
-        {
-        }
         StartCoroutine("waitToAssignScore");
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 // à mettre sur le player
 // triggers the change col 
@@ -24,9 +25,11 @@ public class PlayerChangeCol : NetworkBehaviour
     public float speedBoostStrength;
     public int currBoost = 0;
 
+    Text tutoText;
 
     void Start()
     {
+        tutoText = GetComponentInChildren<Text>();
         speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
         colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
@@ -119,6 +122,22 @@ public class PlayerChangeCol : NetworkBehaviour
             if (rd.materials[1].color != Color.black)
             {
                 rd.materials[1].color = Color.black;
+            }
+
+            if (ColorManager.singleton.isInTuto)
+            {
+                if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) && hit.transform.CompareTag("Player"))
+                {
+                    //ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "What is it? Should I get closer?", tutoText);
+                    if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
+                    {
+                        ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "I wonder what would happen if I pressed MenuManager.InteractKey.ToString() right now...", tutoText);
+                        if (Input.GetKeyDown(KeyCode.Space))
+                        {
+                            ChangeCol(hit.transform.gameObject, gameObject);
+                        }
+                    }
+                }
             }
         }
     }
