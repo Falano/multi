@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // à mettre sur le color manager
 // dit à tout le monde que le mouton a changé de couleur (rpc) (probs car n'est pas localPlayerAuthority?)
@@ -118,6 +119,12 @@ public class ColorManager : NetworkBehaviour
         else
         {
             Invoke("RefreshListOfPlayersSolo", .7f);
+        }
+
+
+        if(SceneManager.GetActiveScene().name  == "tuto")
+        {
+            MenuManager.soloGame = true;
         }
     }
 
