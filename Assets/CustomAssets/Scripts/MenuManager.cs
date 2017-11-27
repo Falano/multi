@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
     // should I have a non-static variable that the static ones take after so the designer can change it?
     public static int enemyNumber = 10;
     public static int startHp = 20;
-    public static bool soloGame = true;
+    public static bool soloGame = false;
     public static string startLevel;
     public static int teamwork; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
