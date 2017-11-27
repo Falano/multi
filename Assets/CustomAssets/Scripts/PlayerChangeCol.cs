@@ -17,15 +17,12 @@ public class PlayerChangeCol : NetworkBehaviour
     Vector3 offsetPos;
     Renderer rd;
 
-    bool paintReady = true;
-    [SerializeField]
-    float cooldown = 3;
-    [SerializeField]
-    float speedBoostDuration = 1;
-    [SerializeField]
+    public bool paintReady = true;
+    public float cooldown = 3;
+    public float speedBoostDuration = 1;
     float speedBoostStrengthFactor = 3;
-    float speedBoostStrength;
-    int currBoost = 0;
+    public float speedBoostStrength;
+    public int currBoost = 0;
 
 
     void Start()
@@ -63,10 +60,7 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             return;
         }
-        if (attacker.CompareTag("Player"))
-        {
-            attacker.GetComponent<PlayerChangeCol>().paintReady = false;
-        }
+
         prevColor = currColor;
         // so it doesn't "change" to the same colour:
         while (prevColor == currColor)
@@ -74,42 +68,6 @@ public class PlayerChangeCol : NetworkBehaviour
             currColor = colors[Random.Range(0, colors.Length)];
         }
         CmdChangeCol(obj, currColor, attacker);
-        IEnumerator paintCooldownNow = paintCooldown(cooldown, attacker);
-        StartCoroutine(paintCooldownNow);
-        if (isLocalPlayer)
-        {
-            IEnumerator speedBoostNow = speedBoost(speedBoostDuration, speedBoostStrength, obj, attacker);
-            StartCoroutine(speedBoostNow);
-        }
-    }
-
-    IEnumerator paintCooldown(float cooldown, GameObject attacker)
-    {
-        yield return new WaitForSeconds(cooldown);
-        if (attacker.CompareTag("Player"))
-        {
-            attacker.GetComponent<PlayerChangeCol>().paintReady = true;
-        }
-    }
-
-    IEnumerator speedBoost(float duration, float strength, GameObject obj, GameObject attacker) {
-        if(obj == attacker) // so it's twice as expensive to speedBoost to chase someone (if you changed your own colour) as it is if you're running away (if you've been attacked)
-        {
-            duration *= .5f;
-        }
-        currBoost += 1;
-        int prevBoost = currBoost;
-        PlayerMove playerMove = GetComponent<PlayerMove>();
-        Animator animator = playerMove.animator;
-        playerMove.speed = strength;
-        animator.speed = 2;
-        yield return new WaitForSeconds(duration);
-        if(playerMove.speed == strength && prevBoost == currBoost) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
-        {
-            playerMove.speed = playerMove.BaseSpeed;
-            animator.speed = 1;
-
-        }
     }
 
 

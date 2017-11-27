@@ -131,7 +131,6 @@ public class ColorManager : NetworkBehaviour
         currScore.playerName = name;
 
         return score;
-
     }
 
 
@@ -140,6 +139,7 @@ public class ColorManager : NetworkBehaviour
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         obj.GetComponent<PlayerHealth>().TakeDamage();
+        PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
         if (isGamePlaying)
         { // sound stuff
             AudioSource sound = obj.GetComponent<AudioSource>();
@@ -154,6 +154,9 @@ public class ColorManager : NetworkBehaviour
                 mat.color = col;
             }
 
+            IEnumerator paintCooldownNow = paintCooldown(objChangeCol.cooldown, attacker);
+            StartCoroutine(paintCooldownNow);
+
             if (attacker == obj)
             {
                 score.colorChangesFromSelf += 1;
@@ -166,9 +169,46 @@ public class ColorManager : NetworkBehaviour
             {
                 score.colorChangesFromOthers += 1;
                 attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
+                    attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+            }
+            if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
+            {
+                IEnumerator speedBoostNow = speedBoost(objChangeCol.speedBoostDuration, objChangeCol.speedBoostStrength, obj, attacker);
+                StartCoroutine(speedBoostNow);
             }
         }
     }
+
+    IEnumerator paintCooldown(float cooldown, GameObject attacker)
+    {
+        yield return new WaitForSeconds(cooldown);
+        if (attacker.CompareTag("Player"))
+        {
+            attacker.GetComponent<PlayerChangeCol>().paintReady = true;
+        }
+    }
+
+    IEnumerator speedBoost(float duration, float strength, GameObject obj, GameObject attacker)
+    {
+        PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
+        if (obj == attacker) // so it's twice as expensive to speedBoost to chase someone (if you changed your own colour) as it is if you're running away (if you've been attacked)
+        {
+            duration *= .5f;
+        }
+        objChangeCol.currBoost += 1;
+        int prevBoost = objChangeCol.currBoost;
+        PlayerMove playerMove = obj.GetComponent<PlayerMove>();
+        Animator animator = playerMove.animator;
+        playerMove.speed = strength;
+        animator.speed = 2;
+        yield return new WaitForSeconds(duration);
+        if (playerMove.speed == strength && prevBoost == objChangeCol.currBoost) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
+        {
+            playerMove.speed = playerMove.BaseSpeed;
+            animator.speed = 1;
+        }
+    }
+
 
 
     [ClientRpc]
