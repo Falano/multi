@@ -33,6 +33,7 @@ public class ColorManager : NetworkBehaviour
     [Header("tmp: sound stuff")]
     public static AudioClip[] ChangeColSounds;
     public static AudioClip currentMusic;
+    private AudioSource audioSource;
 
     private float refreshFrequency = 2.5f;
 
@@ -48,11 +49,14 @@ public class ColorManager : NetworkBehaviour
         }
         ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; ///////////////////////cause I'm using it in the Score's start
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
-        GetComponent<AudioSource>().clip = currentMusic;
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = currentMusic;
+        audioSource.loop = true;
     }
 
     void Start()
     {
+        audioSource.Play();
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
         toggleNetwHUD();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
