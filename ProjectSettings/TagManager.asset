@@ -10,6 +10,7 @@ TagManager:
   - AttackChangeCol
   - ThingsHolder
   - Score
+  - tutoPlayerNPC
   layers:
   - Default
   - TransparentFX

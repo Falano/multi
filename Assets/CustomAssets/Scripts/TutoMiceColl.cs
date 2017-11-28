@@ -17,7 +17,7 @@ public class TutoMiceColl : MonoBehaviour {
     {
         if (other.CompareTag("AttackChangeCol"))
         {
-            ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "NOOOO GET IT OFF GET IT OFF TAKE IT AWAY I HATE MICE NO RUN AWAY!!!", PNJText);
+            TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "NOOOO GET IT OFF GET IT OFF TAKE IT AWAY I HATE MICE NO RUN AWAY!!!", PNJText);
         }
     }
 

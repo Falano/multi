@@ -23,12 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/CustomAssets/_Scenes/4.unity
     guid: 9ca7813a8a387b84899cc2249b45702b
-  - enabled: 0
-    path: Assets/CustomAssets/_Scenes/testing.unity
-    guid: 22a39b4c23d872640b43b0f57994b74e
   - enabled: 1
     path: Assets/CustomAssets/_Scenes/5.unity
     guid: d543118286e2a0343b3785230e22ee90
   - enabled: 1
     path: Assets/CustomAssets/_Scenes/6.unity
     guid: e48a1542d8f00e74e982dfd8dfe4b54b
+  - enabled: 1
+    path: Assets/CustomAssets/_Scenes/7.unity
+    guid: 22a39b4c23d872640b43b0f57994b74e

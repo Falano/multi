@@ -13,10 +13,10 @@ public class PlayerChangeCol : NetworkBehaviour
     private Color prevColor;
     Color[] colors;
 
-    RaycastHit hit;
+    protected RaycastHit hit;
     public float hitDistance = 1;
-    Vector3 offsetPos;
-    Renderer rd;
+    protected Vector3 offsetPos;
+    protected Renderer rd;
 
     public bool paintReady = true;
     public float cooldown = 3;
@@ -25,11 +25,8 @@ public class PlayerChangeCol : NetworkBehaviour
     public float speedBoostStrength;
     public int currBoost = 0;
 
-    Text tutoText;
-
-    void Start()
+    protected void Start()
     {
-        tutoText = GetComponentInChildren<Text>();
         speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
         colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
@@ -53,7 +50,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
     // changing colour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
-    void ChangeCol(GameObject obj, GameObject attacker)
+    protected void ChangeCol(GameObject obj, GameObject attacker)
     {
         if(!ColorManager.isGamePlaying)
         {
@@ -122,22 +119,6 @@ public class PlayerChangeCol : NetworkBehaviour
             if (rd.materials[1].color != Color.black)
             {
                 rd.materials[1].color = Color.black;
-            }
-
-            if (ColorManager.singleton.isInTuto)
-            {
-                if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) && hit.transform.CompareTag("Player"))
-                {
-                    //ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "What is it? Should I get closer?", tutoText);
-                    if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
-                    {
-                        ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "I wonder what would happen if I pressed MenuManager.InteractKey.ToString() right now...", tutoText);
-                        if (Input.GetKeyDown(KeyCode.Space))
-                        {
-                            ChangeCol(hit.transform.gameObject, gameObject);
-                        }
-                    }
-                }
             }
         }
     }

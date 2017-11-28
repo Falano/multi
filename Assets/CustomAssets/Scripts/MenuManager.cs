@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour
     public static int teamwork; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
     [SerializeField]
-    public static int activeScene = 0;
+    public static int activeScene = 6;
     public static int nbScenes;
     public static int musicIndex = 0;
     private string playerName;
@@ -45,6 +45,7 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
+    public GameObject tutoPlayerPrefab;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -160,6 +161,15 @@ public class MenuManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void Play()
+    {
+        if(activeScene == 6)
+        {
+            NetworkManager.singleton.playerPrefab = tutoPlayerPrefab;
+        }
+    }
+
 
     public void ChangeStartScene(int change)
     {

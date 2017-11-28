@@ -17,13 +17,11 @@ public class ColorManager : NetworkBehaviour
     public static ColorManager singleton;
     public bool isLocalPlayerDead = false;
     public static bool isGamePlaying = false;
-    public bool isInTuto;
     public GameObject ScorePrefab;
     [Header("supposed to be empty in the Editor")]
     public Canvas lobbyCanvas;
     public Text launchGameTx;
     public GameObject listOfPlayersParent;
-    public GameObject playerStatePrefab;
     public GameObject ScoresHolderParent;
     public GameObject ratKing;
     public Image healthGUI;
@@ -31,17 +29,16 @@ public class ColorManager : NetworkBehaviour
     public int numberOfPlayersPlaying;
     public Score[] Scores;
     public Text following;
-    public Text tutoNarr;
     private NetworkManagerHUD networkManager;
     [Header("tmp: sound stuff")]
     public static AudioClip[] ChangeColSounds;
     public static AudioClip currentMusic;
     private AudioSource audioSource;
+    public GameObject playerStatePrefab;
 
-    public float speechDuration = 3;
     private float refreshFrequency = 2.5f;
 
-    void Awake()
+    protected void Awake()
     {
         if (singleton == null)
         {
@@ -57,13 +54,9 @@ public class ColorManager : NetworkBehaviour
         audioSource.clip = currentMusic;
         audioSource.loop = true;
 
-        if (SceneManager.GetActiveScene().name == ("tuto"))// cuz I'm using it in EnemySpawner's Awake
-        {
-            isInTuto = true;
-        }
     }
 
-    void Start()
+    protected void Start()
     {
         audioSource.Play();
         networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
@@ -92,9 +85,6 @@ public class ColorManager : NetworkBehaviour
                 case "following":
                 case "following(Clone)":
                     following = gui.GetComponent<Text>();
-                    break;
-                case "tutoNarr":
-                    tutoNarr = gui.GetComponent<Text>();
                     break;
             }
         }
@@ -130,12 +120,6 @@ public class ColorManager : NetworkBehaviour
         else
         {
             Invoke("RefreshListOfPlayersSolo", .7f);
-        }
-
-
-        if(SceneManager.GetActiveScene().name  == "tuto")
-        {
-            MenuManager.soloGame = true;
         }
     }
 
@@ -174,19 +158,10 @@ public class ColorManager : NetworkBehaviour
 
             IEnumerator paintCooldownNow = paintCooldown(objChangeCol.cooldown, attacker);
             StartCoroutine(paintCooldownNow);
-            if (isInTuto && obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
-            {
-                tutoSpeech(speechDuration, "I can run, and I can hide!", obj.GetComponentInChildren<Text>());
-            }
+
             if (attacker == obj)
             {
                 score.colorChangesFromSelf += 1;
-                if (isInTuto)
-                {
-                    tutoSpeech(speechDuration, "Ow, I better not do that too often.", attacker.GetComponentInChildren<Text>());
-                    tutoSpeech(speechDuration * 3, "See the ball in the top-right corner? That's how many//ncolour changes you have left before you turn back to paint.", tutoNarr);
-                }
-
             }
             else if (attacker.CompareTag("AttackChangeCol"))
             {
@@ -197,10 +172,6 @@ public class ColorManager : NetworkBehaviour
                 score.colorChangesFromOthers += 1;
                 attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
                 attacker.GetComponent<PlayerChangeCol>().paintReady = false;
-                if (isInTuto)
-                {
-                    tutoSpeech(speechDuration, "so that's what I look like to others...", attacker.transform.parent.GetComponentInChildren<Text>());
-                }
             }
             if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
             {

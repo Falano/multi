@@ -18,7 +18,7 @@ public class PlayerHealth : NetworkBehaviour
     private bool isAlive = true;
     [SerializeField]
     private int spritesIndex = 10;
-    Text tutoText;
+    protected Text tutoText;
 
     public float Hp
     {
@@ -33,8 +33,10 @@ public class PlayerHealth : NetworkBehaviour
     {
         hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
-        tutoText = transform.parent.GetComponentInChildren<Text>();
-
+        if (TutoManager.singleton.isInTuto)
+        {
+            tutoText = GetComponentInChildren<Text>();
+        }
     }
 
     // both for hp value and GUI's healthbar 
@@ -71,7 +73,7 @@ public class PlayerHealth : NetworkBehaviour
         
     public void KillSolo()
     {
-        ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "Nope, I'm out!", tutoText);
+        TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "Nope, I'm out!", tutoText);
 
         ColorManager.singleton.numberOfPlayersPlaying--;
 

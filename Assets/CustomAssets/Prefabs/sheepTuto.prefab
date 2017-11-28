@@ -153,12 +153,12 @@ GameObject:
   - component: {fileID: 54590154490355798}
   - component: {fileID: 114192798660280778}
   - component: {fileID: 114306249036641166}
-  - component: {fileID: 114119217228378230}
-  - component: {fileID: 114004641705076828}
   - component: {fileID: 114349372949906726}
   - component: {fileID: 82590569201100022}
+  - component: {fileID: 114301128288818572}
+  - component: {fileID: 114471639488999048}
   m_Layer: 0
-  m_Name: sheepPNJTuto
+  m_Name: sheepTuto
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1146,49 +1146,6 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4278190080
---- !u!114 &114004641705076828
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1260694378928458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ff6b76ae88e46ee8e361e51e7f04b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 0
-  healthGUI: {fileID: 0}
-  sprites:
-  - {fileID: 21300000, guid: 4590818276c294725a57c8c776bfb45c, type: 3}
-  - {fileID: 21300000, guid: fd35c13e134144598ba5f577e038e414, type: 3}
-  - {fileID: 21300000, guid: 608328657dfbb47f6bb8775fdb91ccb8, type: 3}
-  - {fileID: 21300000, guid: 1b11f15ec730942f285265b8acb6f4bc, type: 3}
-  - {fileID: 21300000, guid: e7ba99b5ba6b44a4ebc837fba14f7ec5, type: 3}
-  - {fileID: 21300000, guid: d5a8fdf736b204c7fbec70d81b5e8677, type: 3}
-  - {fileID: 21300000, guid: 09854d7738209424e8f720b53cd09de2, type: 3}
-  - {fileID: 21300000, guid: 1fd374da3865a44f5a1776b8059a7b06, type: 3}
-  - {fileID: 21300000, guid: a49fd2c4a9c27435aa53edb73e7dcb03, type: 3}
-  - {fileID: 21300000, guid: 8d3db86630b8e4758a19a25719103338, type: 3}
-  - {fileID: 21300000, guid: bde9b27e844d6432d84daabe4be8fca6, type: 3}
-  spritesIndex: 10
---- !u!114 &114119217228378230
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1260694378928458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7492820bf5bf914ba8509806cac9295, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitDistance: 2
-  paintReady: 1
-  cooldown: 0.5
-  speedBoostDuration: 1
-  speedBoostStrength: 0
-  currBoost: 0
 --- !u!114 &114149208421624436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1226,6 +1183,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588017714c244e0499fcf106ad122947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114301128288818572
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260694378928458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c6d08ac49d474b84bc640b07e5c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitDistance: 1
+  paintReady: 1
+  cooldown: 0.5
+  speedBoostDuration: 1
+  speedBoostStrength: 0
+  currBoost: 0
 --- !u!114 &114306249036641166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1269,6 +1243,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
+--- !u!114 &114471639488999048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260694378928458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af367e51de1fcf47b7e39d30fae84c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 0
+  healthGUI: {fileID: 0}
+  sprites:
+  - {fileID: 21300000, guid: 4590818276c294725a57c8c776bfb45c, type: 3}
+  - {fileID: 21300000, guid: fd35c13e134144598ba5f577e038e414, type: 3}
+  - {fileID: 21300000, guid: 608328657dfbb47f6bb8775fdb91ccb8, type: 3}
+  - {fileID: 21300000, guid: 1b11f15ec730942f285265b8acb6f4bc, type: 3}
+  - {fileID: 21300000, guid: e7ba99b5ba6b44a4ebc837fba14f7ec5, type: 3}
+  - {fileID: 21300000, guid: d5a8fdf736b204c7fbec70d81b5e8677, type: 3}
+  - {fileID: 21300000, guid: 09854d7738209424e8f720b53cd09de2, type: 3}
+  - {fileID: 21300000, guid: 1fd374da3865a44f5a1776b8059a7b06, type: 3}
+  - {fileID: 21300000, guid: a49fd2c4a9c27435aa53edb73e7dcb03, type: 3}
+  - {fileID: 21300000, guid: 8d3db86630b8e4758a19a25719103338, type: 3}
+  - {fileID: 21300000, guid: bde9b27e844d6432d84daabe4be8fca6, type: 3}
+  spritesIndex: 10
 --- !u!114 &114728936427840852
 MonoBehaviour:
   m_ObjectHideFlags: 1
