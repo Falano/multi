@@ -9,9 +9,9 @@ using UnityEngine.UI;
 
 public class PlayerChangeCol : NetworkBehaviour
 {
-    [SyncVar] private Color currColor;
-    private Color prevColor;
-    Color[] colors;
+    [SyncVar] protected Color currColor;
+    protected Color prevColor;
+    protected Color[] colors;
 
     protected RaycastHit hit;
     public float hitDistance = 1;

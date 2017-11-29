@@ -4,14 +4,26 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class TutoNPCBehaviour : PlayerBehaviour
+public class TutoBehaviour : PlayerBehaviour
 {
     public static int nameIndex;
+
     void Start()
     {
-        localName = "NPS-" + nameIndex;
-        nameIndex++;
-        //StartCoroutine("waitToAssignScore");
+        if (CompareTag("Player"))
+        {
+            TutoManager.singleton.localPlayer = gameObject;
+            CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
+            if (PlayerPrefs.HasKey("playerName"))
+            {
+                localName = PlayerPrefs.GetString("playerName");
+            }
+        }
+        else
+        {
+            localName = "NPS-" + nameIndex;
+            nameIndex++;
+        }
 
         ScoreObj = TutoManager.singleton.SpawnScore(localName, gameObject);
         name = "sheep-" + localName;

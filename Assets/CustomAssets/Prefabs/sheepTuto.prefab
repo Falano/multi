@@ -153,10 +153,10 @@ GameObject:
   - component: {fileID: 54590154490355798}
   - component: {fileID: 114192798660280778}
   - component: {fileID: 114306249036641166}
-  - component: {fileID: 114349372949906726}
   - component: {fileID: 82590569201100022}
   - component: {fileID: 114301128288818572}
   - component: {fileID: 114471639488999048}
+  - component: {fileID: 114403043913722786}
   m_Layer: 0
   m_Name: sheepTuto
   m_TagString: Player
@@ -1216,21 +1216,6 @@ MonoBehaviour:
   baseSpeed: 5
   speed: 5
   rb: {fileID: 0}
---- !u!114 &114349372949906726
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1260694378928458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ed57930bd6aa9041b1c3f443b7363c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  idNumber: 0
-  localName: 
-  ScoreTx: {fileID: 0}
-  ScoreObj: {fileID: 0}
 --- !u!114 &114370908633051128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1243,6 +1228,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Camera: {fileID: 0}
+--- !u!114 &114403043913722786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1260694378928458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05049653e2200ca40af25b6beb33719e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  idNumber: 0
+  localName: 
+  ScoreTx: {fileID: 1680790920760152, guid: 15aafdd4334060e4baaecb86faf374a8, type: 2}
+  ScoreObj: {fileID: 0}
 --- !u!114 &114471639488999048
 MonoBehaviour:
   m_ObjectHideFlags: 1

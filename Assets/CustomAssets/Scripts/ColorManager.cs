@@ -181,7 +181,7 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-    IEnumerator paintCooldown(float cooldown, GameObject attacker)
+    protected IEnumerator paintCooldown(float cooldown, GameObject attacker)
     {
         yield return new WaitForSeconds(cooldown);
         if (attacker.CompareTag("Player"))
@@ -190,7 +190,7 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-    IEnumerator speedBoost(float duration, float strength, GameObject obj, GameObject attacker)
+    protected IEnumerator speedBoost(float duration, float strength, GameObject obj, GameObject attacker)
     {
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
         if (obj == attacker) // so it's twice as expensive to speedBoost to chase someone (if you changed your own colour) as it is if you're running away (if you've been attacked)

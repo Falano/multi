@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class PlayerHealth : NetworkBehaviour
 {
     [SerializeField]
-    float hp;
+    protected float hp;
     public Image healthGUI;
     public Sprite[] sprites;
     private bool isAlive = true;
@@ -33,10 +33,6 @@ public class PlayerHealth : NetworkBehaviour
     {
         hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
-        if (TutoManager.isInTuto)
-        {
-            tutoText = GetComponentInChildren<Text>();
-        }
     }
 
     // both for hp value and GUI's healthbar 
@@ -67,6 +63,7 @@ public class PlayerHealth : NetworkBehaviour
             CmdKill(gameObject);
         }
     }
+
     [Command]
     void CmdKill(GameObject obj) {
         ColorManager.singleton.RpcKill(obj); }

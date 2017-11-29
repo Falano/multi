@@ -22,12 +22,49 @@ public class TutoChangeCol : PlayerChangeCol
         }
     }
 
+    new public void startWhite()
+    {
+        ChangeCol(gameObject, colors[0], TutoManager.singleton.gameObject);
+    }
+
 
     [Command]
     void CmdChangeCol(GameObject obj, Color col, GameObject attacker)
     {
         TutoManager.singleton.RpcChangeCol(obj, col, attacker);
     }
+
+
+    new void ChangeCol(GameObject obj, GameObject attacker)
+    {
+        if (!TutoManager.isGamePlaying)
+        {
+            return;
+        }
+        if (obj.GetComponent<TutoHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
+        {
+            return;
+        }
+
+        prevColor = currColor;
+        // so it doesn't "change" to the same colour:
+        while (prevColor == currColor)
+        {
+            currColor = colors[Random.Range(0, colors.Length)];
+        }
+        CmdChangeCol(obj, currColor, attacker);
+    }
+
+    // so I can choose to change to one specific colour
+    void ChangeCol(GameObject obj, Color col, GameObject attacker)
+    {
+        if (obj.GetComponent<TutoHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
+        {
+            return;
+        }
+        CmdChangeCol(obj, col, attacker);
+    }
+
 
 
 
