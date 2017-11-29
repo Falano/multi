@@ -38,7 +38,7 @@ public class EnemySpawner : NetworkBehaviour
     public override void OnStartServer()
     {
         lvlSize = LvlSize.singleton.size;
-        if (TutoManager.singleton.isInTuto)
+        if (TutoManager.isInTuto)
         {
             enemyNumber = 3;
         }

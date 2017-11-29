@@ -33,7 +33,7 @@ public class PlayerHealth : NetworkBehaviour
     {
         hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
-        if (TutoManager.singleton.isInTuto)
+        if (TutoManager.isInTuto)
         {
             tutoText = GetComponentInChildren<Text>();
         }
@@ -73,7 +73,10 @@ public class PlayerHealth : NetworkBehaviour
         
     public void KillSolo()
     {
-        TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "Nope, I'm out!", tutoText);
+        if (TutoManager.isInTuto)
+        {
+            TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "Nope, I'm out!", tutoText);
+        }
 
         ColorManager.singleton.numberOfPlayersPlaying--;
 

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class TutoManager : ColorManager {
 
     public static TutoManager singleton;
-    public bool isInTuto;
+    public static bool isInTuto;
     public static string tutoName = "7";
     public Text tutoNarr;
     public float speechDuration = 3;
@@ -77,7 +77,7 @@ public class TutoManager : ColorManager {
                     
                     
                     
-                    form.parent.GetComponentInChildren<Text>());
+                    transform.parent.GetComponentInChildren<Text>());
         }
     }
 
