@@ -211,22 +211,6 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-
-    public void tutoSpeech (float time, string sentence, Text textObj)
-    {
-        StopCoroutine("endSpeakNow");
-        textObj.text = sentence;
-        IEnumerator endSpeakNow = endSpeak(time, textObj);
-        StartCoroutine("endSpeakNow");
-    }
-
-    IEnumerator endSpeak (float time, Text textObj)
-    {
-        yield return new WaitForSeconds(time);
-        textObj.text = "";
-    }
-
-
     [ClientRpc]
     public void RpcKill(GameObject obj)
     {

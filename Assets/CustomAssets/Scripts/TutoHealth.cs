@@ -16,6 +16,6 @@ public class TutoHealth : PlayerHealth
     new public void KillSolo()
     {
         base.KillSolo();
-        ColorManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "Nope, I'm out!", tutoText);
+        TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "Nope, I'm out!", tutoText);
     }
 }

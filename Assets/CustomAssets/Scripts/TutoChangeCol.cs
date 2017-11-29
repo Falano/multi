@@ -9,13 +9,13 @@ using UnityEngine.UI;
 
 public class TutoChangeCol : PlayerChangeCol
 {
-
-    Text tutoText;
+    TextMesh tutoText;
 
     new void Start()
     {
         base.Start();
-        tutoText = GetComponentInChildren<Text>();
+        tutoText = GetComponentInChildren<TextMesh>();
+        print("tutoText = " + tutoText.gameObject.name);
         if (isLocalPlayer)
         {
             TutoManager.tutoText = tutoText;
@@ -33,8 +33,6 @@ public class TutoChangeCol : PlayerChangeCol
 
     void Update()
     {
-        if (isLocalPlayer)
-        {
             // changing their own colour
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -53,13 +51,13 @@ public class TutoChangeCol : PlayerChangeCol
                 //ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "What is it? Should I get closer?", tutoText);
                 if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
                 {
-                    ColorManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "I wonder what would happen if I pressed MenuManager.InteractKey.ToString() right now...", tutoText);
+                    TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "I wonder what would happen if I pressed MenuManager.InteractKey.ToString() right now...", tutoText);
                     if (Input.GetKeyDown(KeyCode.Space))
                     {
                         ChangeCol(hit.transform.gameObject, gameObject);
                     }
                 }
             }
-        }
+    
     }
 }

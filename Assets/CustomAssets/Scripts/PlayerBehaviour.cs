@@ -47,7 +47,7 @@ public class PlayerBehaviour : NetworkBehaviour
     }
 
     [Command]
-    private void CmdRefreshListOfPlayers()
+    protected void CmdRefreshListOfPlayers()
     {
         ColorManager.singleton.RpcRefreshListOfPlayers();
     }

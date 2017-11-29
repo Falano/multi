@@ -12,7 +12,7 @@ public class TutoManager : ColorManager {
     public static string tutoName = "7";
     public Text tutoNarr;
     public float speechDuration = 3;
-    public static Text tutoText;
+    public static TextMesh tutoText;
 
 
     new void Awake()
@@ -71,6 +71,35 @@ public class TutoManager : ColorManager {
                 tutoSpeech(speechDuration, "so that's what I look like to others...", attacker.
                     transform.parent.GetComponentInChildren<Text>());
         }
+    }
+
+
+    public void tutoSpeech(float time, string sentence, Text textObj)
+    {
+        StopCoroutine("endSpeak");
+        textObj.text = sentence;
+        IEnumerator endSpeakNow = endSpeak(time, textObj);
+        StartCoroutine("endSpeakNow");
+    }
+
+    public void tutoSpeech(float time, string sentence, TextMesh textObj)
+    {
+        StopCoroutine("endSpeak");
+        textObj.text = sentence;
+        IEnumerator endSpeakNow = endSpeak(time, textObj);
+        StartCoroutine("endSpeakNow");
+    }
+
+    IEnumerator endSpeak(float time, Text textObj)
+    {
+        yield return new WaitForSeconds(time);
+        textObj.text = "";
+    }
+
+    IEnumerator endSpeak(float time, TextMesh textObj)
+    {
+        yield return new WaitForSeconds(time);
+        textObj.text = "";
     }
 
 
