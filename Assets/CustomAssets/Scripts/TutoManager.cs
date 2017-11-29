@@ -69,17 +69,87 @@ public class TutoManager : ColorManager {
         else if (attacker.CompareTag("Player"))
         {
                 tutoSpeech(speechDuration, "so that's what I look like to others...", attacker.
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                     transform.parent.GetComponentInChildren<Text>());
         }
     }
+
+
+    /// <summary>
+    /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:
+    ///// </summary>
+    //public void LaunchGameSolo()
+    //{
+    //    print("launching game: " + localPlayer.name);
+
+    //    Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
+    //    foreach (Score sco in Scores)
+    //    {
+    //        sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+    //        sco.SetStartTime();
+    //    }
+    //    numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
+    //    isGamePlaying = true;
+    //    localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
+    //    launchGameTx.text = "";
+    //    listOfPlayersParent.SetActive(false);
+    //    lobbyCanvas.enabled = false;
+    //    if (isServer)
+    //    {
+    //        foreach (EnemyMover enemy in EnemySpawner.enemyList)
+    //        {
+    //            IEnumerator wait = enemy.waitForChangeDir(Random.Range(enemy.waitRange.x, enemy.waitRange.y));
+    //            StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
+    //        }
+    //    }
+    //}
+
+
+
+    //[ClientRpc]
+    //public void RpcChangeCol(GameObject obj, Color col, GameObject attacker)
+    //{
+    //    Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
+    //    obj.GetComponent<PlayerHealth>().TakeDamage();
+    //    PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
+    //    if (isGamePlaying)
+    //    { // sound stuff
+    //        AudioSource sound = obj.GetComponent<AudioSource>();
+    //        sound.clip = ChangeColSounds[Random.Range(0, ChangeColSounds.Length)];
+    //        sound.Play();
+    //    }
+    //    if (obj.GetComponent<PlayerHealth>().Hp > 0)
+    //    { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
+    //        Renderer rd = obj.GetComponentInChildren<Renderer>();
+    //        foreach (Material mat in rd.materials)
+    //        {
+    //            mat.color = col;
+    //        }
+
+    //        IEnumerator paintCooldownNow = paintCooldown(objChangeCol.cooldown, attacker);
+    //        StartCoroutine(paintCooldownNow);
+
+    //        if (attacker == obj)
+    //        {
+    //            score.colorChangesFromSelf += 1;
+    //        }
+    //        else if (attacker.CompareTag("AttackChangeCol"))
+    //        {
+    //            score.colorChangesFromMice += 1;
+    //        }
+    //        else if (attacker.CompareTag("Player"))
+    //        {
+    //            score.colorChangesFromOthers += 1;
+    //            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
+    //            attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+    //        }
+    //        if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
+    //        {
+    //            IEnumerator speedBoostNow = speedBoost(objChangeCol.speedBoostDuration, objChangeCol.speedBoostStrength, obj, attacker);
+    //            StartCoroutine(speedBoostNow);
+    //        }
+    //    }
+    //}
+
 
 
     private void tutoSpeechLaunch()
