@@ -50,7 +50,7 @@ public class TutoManager : ColorManager
                     break;
             }
         }
-        tutoSpeech(15, "press MenuManager.InteractKey.ToString() when you're ready. The game starts //n when every logged in player is ready (even if everyone //nyou planned to play with hasn't logged in yet). //n//n This tutorial is offline though, so don't worry about it for now, //njust remember: MenuManager.InteractKey.ToString() when you're ready.", tutoNarr);
+        tutoSpeech(5, "press //nMenuManager.InteractKey.ToString() when you're ready. The game starts //n when every logged in player is ready (even if everyone //nyou planned to play with hasn't logged in yet). //n//n This tutorial is offline though, so don't worry about it for now, //njust remember: MenuManager.InteractKey.ToString() when you're ready.", tutoNarr);
     }
 
     public void ChangeCol(GameObject obj, Color col, GameObject attacker)
@@ -111,8 +111,7 @@ public class TutoManager : ColorManager
         }
         else if (attacker.CompareTag("Player"))
         {
-            tutoSpeech(speechDuration, "so that's what I look like to others...", attacker.
-                transform.parent.GetComponentInChildren<Text>());
+            tutoSpeech(speechDuration, "so that's what I look like to others...", attacker.transform.GetComponentInChildren<Text>());
         }
     }
 
@@ -278,15 +277,13 @@ public class TutoManager : ColorManager
     {
         StopCoroutine("endSpeak");
         textObj.text = sentence;
-        IEnumerator endSpeakNow = endSpeak(time, textObj);
-        StartCoroutine("endSpeakNow");
+        StartCoroutine(endSpeak(time, textObj));
     }
 
     public void tutoSpeech(float time, string sentence, TextMesh textObj)
     {
         StopCoroutine("endSpeak");
         textObj.text = sentence;
-        //IEnumerator endSpeakNow = endSpeak(time, textObj);
         StartCoroutine(endSpeak(time, textObj));
     }
 

@@ -19,7 +19,7 @@ public class MenuManager : MonoBehaviour
     public static int teamwork; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
     [SerializeField]
-    public static int activeScene = 6;
+    public static int activeScene;
     public static int nbScenes;
     public static int musicIndex = 0;
     private string playerName;

@@ -27,7 +27,10 @@ public class PlayerChangeCol : NetworkBehaviour
 
     protected void Start()
     {
-        speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
+        if (CompareTag("Player"))
+        {
+            speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
+        }
         colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
         currColor = colors[0];
@@ -40,9 +43,9 @@ public class PlayerChangeCol : NetworkBehaviour
     }
 
     // mice make them change colour
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("AttackChangeCol"))
+        if (other.gameObject.CompareTag("AttackChangeCol"))
         {
             ChangeCol(gameObject, other.gameObject);
         }

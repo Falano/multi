@@ -71,21 +71,21 @@ public class TutoChangeCol : PlayerChangeCol
     void Update()
     {
             // changing their own colour
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.LeftControl) && gameObject.CompareTag("Player"))
             {
                 ChangeCol(gameObject, gameObject);
             }
 
-            Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, transform.forward * 5/*hitDistance*/, Color.green);
 
-            if (rd.materials[1].color != Color.black)
+            if (rd.materials[1].color != Color.black && CompareTag("Player"))
             {
                 rd.materials[1].color = Color.black;
             }
 
-            if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) && hit.transform.CompareTag("tutoPlayerNPC"))
+            if (Physics.Raycast(transform.position + offsetPos, transform.forward*5, out hit) && hit.transform.CompareTag("tutoPlayerNPC") && gameObject.CompareTag("Player"))
             {
-                //ColorManager.singleton.tutoSpeech(ColorManager.singleton.speechDuration, "What is it? Should I get closer?", tutoText);
+            tutoText.text = "What is it? Should I get closer?";
                 if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
                 {
                     TutoManager.singleton.tutoSpeech(TutoManager.singleton.speechDuration, "I wonder what would happen if I pressed MenuManager.InteractKey.ToString() right now...", tutoText);
@@ -95,6 +95,10 @@ public class TutoChangeCol : PlayerChangeCol
                     }
                 }
             }
+            else if(tutoText.text == "What is it? Should I get closer?")
+        {
+            tutoText.text = "";
+        }
     
     }
 }

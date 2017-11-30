@@ -152,7 +152,6 @@ GameObject:
   - component: {fileID: 195840577179801978}
   - component: {fileID: 54590154490355798}
   - component: {fileID: 114192798660280778}
-  - component: {fileID: 114306249036641166}
   - component: {fileID: 82590569201100022}
   - component: {fileID: 114301128288818572}
   - component: {fileID: 114471639488999048}
@@ -779,7 +778,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1260694378928458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -5.235782, y: -0.15, z: -4.579136}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4018395649248446}
@@ -1200,22 +1199,6 @@ MonoBehaviour:
   speedBoostDuration: 1
   speedBoostStrength: 0
   currBoost: 0
---- !u!114 &114306249036641166
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1260694378928458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94b7f53b9b7b83428f5de6fc9c4df92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 5
-  animator: {fileID: 0}
-  baseSpeed: 5
-  speed: 5
-  rb: {fileID: 0}
 --- !u!114 &114370908633051128
 MonoBehaviour:
   m_ObjectHideFlags: 1
