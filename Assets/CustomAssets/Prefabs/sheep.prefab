@@ -1131,9 +1131,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitDistance: 2
+  paintReady: 1
   cooldown: 0.5
   speedBoostDuration: 1
-  speedBoostStrengthFactor: 3
+  speedBoostStrength: 0
+  currBoost: 0
 --- !u!114 &114937269543962950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1145,10 +1147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94b7f53b9b7b83428f5de6fc9c4df92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 5
+  rotationSpeed: 320
   animator: {fileID: 0}
-  baseSpeed: 5
-  speed: 5
+  baseSpeed: 4
+  speed: 4
   rb: {fileID: 0}
 --- !u!137 &137606392631630526
 SkinnedMeshRenderer:
@@ -1224,7 +1226,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1276,4 +1278,3 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
