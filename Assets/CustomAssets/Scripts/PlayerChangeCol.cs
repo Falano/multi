@@ -12,6 +12,7 @@ public class PlayerChangeCol : NetworkBehaviour
     private Color prevColor;
     Color[] colors;
 
+
     RaycastHit hit;
     public float hitDistance = 1;
     Vector3 offsetPos;

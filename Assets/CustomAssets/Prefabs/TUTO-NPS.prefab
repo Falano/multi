@@ -112,19 +112,13 @@ GameObject:
   - component: {fileID: 65545149793697228}
   - component: {fileID: 65094418352633902}
   - component: {fileID: 95355199316291198}
-  - component: {fileID: 114366779190381156}
-  - component: {fileID: 114169377485764966}
   - component: {fileID: 195894360082853744}
   - component: {fileID: 54442260372631464}
-  - component: {fileID: 114029998074554822}
-  - component: {fileID: 114937269543962950}
-  - component: {fileID: 114907404837594186}
-  - component: {fileID: 114369389828030044}
-  - component: {fileID: 114814742401910154}
   - component: {fileID: 82046487066876684}
+  - component: {fileID: 114895502606146342}
   m_Layer: 0
   m_Name: TUTO-NPS
-  m_TagString: Player
+  m_TagString: NPS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -989,98 +983,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114029998074554822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad86c39cecae8ab43924fb617fbac4d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lerpRate: 10
-  posThreshold: 0.5
-  rotThreshold: 5
-  teleportDistance: 5
---- !u!114 &114169377485764966
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 95355199316291198}
-  m_ParameterSendBits: 0
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
---- !u!114 &114366779190381156
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 184
-    i1: 207
-    i2: 133
-    i3: 9
-    i4: 230
-    i5: 153
-    i6: 197
-    i7: 148
-    i8: 248
-    i9: 187
-    i10: 173
-    i11: 15
-    i12: 236
-    i13: 232
-    i14: 81
-    i15: 62
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &114369389828030044
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28ff6b76ae88e46ee8e361e51e7f04b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 0
-  healthGUI: {fileID: 0}
-  sprites:
-  - {fileID: 21300000, guid: 4590818276c294725a57c8c776bfb45c, type: 3}
-  - {fileID: 21300000, guid: fd35c13e134144598ba5f577e038e414, type: 3}
-  - {fileID: 21300000, guid: 608328657dfbb47f6bb8775fdb91ccb8, type: 3}
-  - {fileID: 21300000, guid: 1b11f15ec730942f285265b8acb6f4bc, type: 3}
-  - {fileID: 21300000, guid: e7ba99b5ba6b44a4ebc837fba14f7ec5, type: 3}
-  - {fileID: 21300000, guid: d5a8fdf736b204c7fbec70d81b5e8677, type: 3}
-  - {fileID: 21300000, guid: 09854d7738209424e8f720b53cd09de2, type: 3}
-  - {fileID: 21300000, guid: 1fd374da3865a44f5a1776b8059a7b06, type: 3}
-  - {fileID: 21300000, guid: a49fd2c4a9c27435aa53edb73e7dcb03, type: 3}
-  - {fileID: 21300000, guid: 8d3db86630b8e4758a19a25719103338, type: 3}
-  - {fileID: 21300000, guid: bde9b27e844d6432d84daabe4be8fca6, type: 3}
-  spritesIndex: 10
 --- !u!114 &114429843116155440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1104,7 +1006,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588017714c244e0499fcf106ad122947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114814742401910154
+--- !u!114 &114895502606146342
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1112,46 +1014,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1165169909168218}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ed57930bd6aa9041b1c3f443b7363c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 50da53e108a766449acd4089b860287b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idNumber: 0
-  localName: 
-  ScoreTx: {fileID: 0}
-  ScoreObj: {fileID: 0}
---- !u!114 &114907404837594186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7492820bf5bf914ba8509806cac9295, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitDistance: 2
-  paintReady: 1
-  cooldown: 0.5
-  speedBoostDuration: 1
-  speedBoostStrength: 0
-  currBoost: 0
---- !u!114 &114937269543962950
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165169909168218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94b7f53b9b7b83428f5de6fc9c4df92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 5
-  animator: {fileID: 0}
-  baseSpeed: 5
-  speed: 5
-  rb: {fileID: 0}
 --- !u!137 &137606392631630526
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1278,3 +1143,4 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

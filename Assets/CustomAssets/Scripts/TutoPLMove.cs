@@ -27,7 +27,7 @@ public class TutoPLMove : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        speed = 0;
+        speed = BaseSpeed;
     }
 
     void Update()
@@ -42,12 +42,12 @@ public class TutoPLMove : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow))
         {
             // add a "rotating right without advancing" anim?
-            transform.Rotate(0, rotationSpeed, 0);
+            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             // add a "rotating left without advancing" anim?
-            transform.Rotate(0, -rotationSpeed, 0);
+            transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0);
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {

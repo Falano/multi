@@ -10,18 +10,60 @@ public class TutoChangeCol : MonoBehaviour
 {
     Renderer rd;
     GameObject deathAnim;
+    Color[] colors;
+    Color prevColor;
+    AudioSource source;
 
     void Start()
     {
+        colors = TutoManager.colors;
         rd = GetComponentInChildren<Renderer>();
-        deathAnim = GetComponentInChildren<DieWhenFinishedAnim>().gameObject;
+        deathAnim = GetComponentInChildren<DieWhenFinishedAnim>(true).gameObject;
+        prevColor = rd.materials[0].color;
+        if (CompareTag("NPS"))
+        {
+            ChangeCol(gameObject);
+        }
     }
 
 
-    void ChangeCol()
+    private void OnCollisionEnter(Collision collision)
     {
-        //rd.Material =  ////////////////////////////////////////////////////////////
-
+        if (collision.gameObject.CompareTag("AttackChangeCol"))
+        {
+            ChangeCol(collision.gameObject);
+        }
     }
 
+    public void ChangeCol(GameObject attacker)
+    {
+        source = GetComponent<AudioSource>();
+        source.clip = TutoManager.singleton.ChangeColSounds[Random.Range(0, TutoManager.singleton.ChangeColSounds.Length)];
+        source.Play();
+
+        while (prevColor == rd.material.color)
+        {
+            prevColor = colors[Random.Range(0, colors.Length)];
+        }
+
+        rd.materials[0].color = prevColor;
+        if (CompareTag("NPS"))
+        {
+            rd.materials[1].color = prevColor;
+        }
+
+
+        if(attacker == gameObject)
+        {
+
+        }
+        if (attacker.CompareTag("AttackChangeCol"))
+        {
+
+        }
+        if (attacker.CompareTag("Player"))
+        {
+
+        }
+    }
 }
