@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TutoPLBehaviour : MonoBehaviour {
     RaycastHit hit;
-    public float hitDistance = 1;
+    public float hitDistance = 1.5f;
     Vector3 offsetPos;
     Renderer rd;
     TutoChangeCol changeCol;
@@ -20,6 +20,7 @@ public class TutoPLBehaviour : MonoBehaviour {
         rd = GetComponentInChildren<Renderer>();
         offsetPos = new Vector3(0, .5f, 0);
         changeCol = GetComponent<TutoChangeCol>();
+        TutoCameraMover.singleton.activePlayer = transform;
     }
 
 

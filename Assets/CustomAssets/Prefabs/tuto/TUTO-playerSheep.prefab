@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 114947225533323442}
   - component: {fileID: 114005594302524240}
   - component: {fileID: 114967568248373628}
+  - component: {fileID: 114134958705043350}
   m_Layer: 0
   m_Name: TUTO-playerSheep
   m_TagString: Player
@@ -1081,9 +1082,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1123269040237409ee3dfa43e135d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDistance: 1
+  hitDistance: 2
   paintReady: 1
   cooldown: 0.5
+--- !u!114 &114134958705043350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165169909168218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43d9b48e144c9241af71c3572deba14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localName: 
 --- !u!114 &114166688478989370
 MonoBehaviour:
   m_ObjectHideFlags: 1

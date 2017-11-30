@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 // à mettre sur tous les moutons dans le tuto
@@ -13,9 +14,14 @@ public class TutoChangeCol : MonoBehaviour
     Color[] colors;
     Color prevColor;
     AudioSource source;
+    NavMeshAgent ag;
+
+    int StartHp = 10;
+    int hp;
 
     void Start()
     {
+        ag = GetComponent<NavMeshAgent>();
         colors = TutoManager.colors;
         rd = GetComponentInChildren<Renderer>();
         deathAnim = GetComponentInChildren<DieWhenFinishedAnim>(true).gameObject;
@@ -24,6 +30,7 @@ public class TutoChangeCol : MonoBehaviour
         {
             ChangeCol(gameObject);
         }
+        hp = StartHp;
     }
 
 
@@ -37,9 +44,20 @@ public class TutoChangeCol : MonoBehaviour
 
     public void ChangeCol(GameObject attacker)
     {
+        if (hp <= 0)
+        {
+            Kill();
+            return;
+        }
+        if(TutoManager.singleton.currState == TutoManager.gameState.playing) {
+        
+
         source = GetComponent<AudioSource>();
         source.clip = TutoManager.singleton.ChangeColSounds[Random.Range(0, TutoManager.singleton.ChangeColSounds.Length)];
         source.Play();
+
+        hp -= 1;
+        }
 
         while (prevColor == rd.material.color)
         {
@@ -55,7 +73,10 @@ public class TutoChangeCol : MonoBehaviour
 
         if(attacker == gameObject)
         {
+            if (CompareTag("Player"))
+            {
 
+            }
         }
         if (attacker.CompareTag("AttackChangeCol"))
         {
@@ -65,5 +86,21 @@ public class TutoChangeCol : MonoBehaviour
         {
 
         }
+    }
+    void Kill()
+    {
+        if (CompareTag("Player"))
+        {
+            GetComponent<TutoPLMove>().speed = 0;
+        }
+        else
+        {
+            ag.speed = 0;
+        }
+        rd.gameObject.SetActive(false);
+        deathAnim.SetActive(true);
+        deathAnim.GetComponent<SpriteRenderer>().color = rd.GetComponent<Renderer>().material.color;
+        GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
+
     }
 }

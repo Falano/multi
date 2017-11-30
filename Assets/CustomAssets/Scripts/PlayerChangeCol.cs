@@ -14,7 +14,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
 
     RaycastHit hit;
-    public float hitDistance = 1;
+    public float hitDistance = 1.5f;
     Vector3 offsetPos;
     Renderer rd;
 

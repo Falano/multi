@@ -116,6 +116,7 @@ GameObject:
   - component: {fileID: 54442260372631464}
   - component: {fileID: 82046487066876684}
   - component: {fileID: 114895502606146342}
+  - component: {fileID: 114595147046115126}
   m_Layer: 0
   m_Name: TUTO-NPS
   m_TagString: NPS
@@ -1006,6 +1007,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 588017714c244e0499fcf106ad122947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114595147046115126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165169909168218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f43d9b48e144c9241af71c3572deba14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localName: 
 --- !u!114 &114895502606146342
 MonoBehaviour:
   m_ObjectHideFlags: 1
