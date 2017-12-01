@@ -48,7 +48,7 @@ public class TutoChangeCol : MonoBehaviour
         {
             spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10)-1;
             healthGUI.sprite = sprites[spritesIndex];
-            TutoManager.singleton.speak("I should try pressing <b>Escape</b> several times...", speech, 20);
+            TutoManager.singleton.speak("I should try pressing <b>Escape</b> several times...", speech, 10);
         }
     }
 
@@ -97,7 +97,7 @@ public class TutoChangeCol : MonoBehaviour
             if (CompareTag("Player"))
             {
                 TutoManager.singleton.speak("Oww, I better not do that too often", speech, 3);
-                TutoManager.singleton.speak("see <i>the ball in the top-right corner</i>? That's how many\ncolour changes you have left before you turn back to paint.", TutoManager.singleton.textNarr, 10);
+                TutoManager.singleton.speak("see <i>the ball in the top-right corner</i>? \nThat's how manycolour changes you have left\nbefore you turn back into paint.", TutoManager.singleton.textNarr, 10);
             }
         }
         if (attacker.CompareTag("AttackChangeCol"))
@@ -134,7 +134,7 @@ public class TutoChangeCol : MonoBehaviour
         else
         {
             ag.speed = 0;
-            TutoManager.singleton.speak("I have been told there were both pros and cons to pressing \nthe <b>Left Ctrl</b> key. Is doing it a good idea? Who knows.", PLchangeCol.speech, 10);
+            TutoManager.singleton.speak("I have been told there were both pros and cons\nto pressing the <b>Left Ctrl</b> key.\nIs doing it a good idea? Who knows.", PLchangeCol.speech, 10);
         }
         rd.gameObject.SetActive(false);
         deathAnim.SetActive(true);
