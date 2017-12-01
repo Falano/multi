@@ -124,6 +124,7 @@ public class TutoChangeCol : MonoBehaviour
 
     void Kill()
     {
+        StopAllCoroutines();
         speech.text = "Bye!";
         if (CompareTag("Player"))
         {

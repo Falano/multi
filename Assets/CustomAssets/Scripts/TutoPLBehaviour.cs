@@ -28,6 +28,10 @@ public class TutoPLBehaviour : MonoBehaviour {
 
     void Update()
     {
+        if(TutoManager.singleton.currState != TutoManager.gameState.playing)
+        {
+            return;
+        }
         // changing their own colour
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {

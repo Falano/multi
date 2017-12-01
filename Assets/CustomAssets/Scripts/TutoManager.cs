@@ -103,7 +103,7 @@ public class TutoManager : MonoBehaviour {
     {
         coroutinesRunning = true;
         yield return new WaitForSeconds(duration);
-        if(texte.text == sentence)
+        if(texte && texte.text == sentence)
         {
             texte.text = "";
         }
