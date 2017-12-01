@@ -16,10 +16,14 @@ public class TutoManager : MonoBehaviour {
     [SerializeField]
     private Material[] colorsMats;
     public static Color[] colors;
-    private Image healthGUI;
+    public Image healthGUI;
     public Text following;
     private Canvas lobbyCanvas;
     private Text launchGameTx;
+    Text playerReadyTx;
+    string localName = "Player";
+    public bool coroutinesRunning = false;
+
 
     private void Awake()
     {
@@ -47,7 +51,7 @@ public class TutoManager : MonoBehaviour {
         NPSs = GameObject.FindGameObjectsWithTag("NPS");
        foreach(GameObject NPS in NPSs)
         {
-            while(NPS.GetComponent<TutoStats>().localName == null)
+            while(NPS.GetComponent<TutoStats>().localName == null || NPS.GetComponent<TutoStats>().localName == "")
             {
                 int i = Random.Range(0, localNames.Length);
                 NPS.GetComponent<TutoStats>().localName = localNames[i];
@@ -70,29 +74,42 @@ public class TutoManager : MonoBehaviour {
                 case "LaunchGameTx":
                     launchGameTx = gui.GetComponent<Text>();
                     break;
+                case "PlayerReady":
+                    playerReadyTx = gui.GetComponent<Text>();
+                    break;
             }
         }
         launchGameTx.text = "";
+        if (PlayerPrefs.HasKey("playerName"))
+        {
+            localName = PlayerPrefs.GetString("playerName");
+        }
+        playerReadyTx.text = localName + " : not ready"; 
     }
 
     public void speak(string sentence, TextMesh texte, float duration)
     {
+        StopCoroutine("speak");
         texte.text = sentence;
         StartCoroutine(finishSpeaking(sentence, texte, duration));
     }
 
     IEnumerator finishSpeaking (string sentence, TextMesh texte, float duration)
     {
+        coroutinesRunning = true;
         yield return new WaitForSeconds(duration);
         if(texte.text == sentence)
         {
             texte.text = "";
         }
+        coroutinesRunning = false;
     }
 
     IEnumerator startingGame()
     {
-        launchGameTx.text = "LaunchingGame";
+        playerReadyTx.text = localName + " : ready!";
+        playerReadyTx.color = Color.green;
+        launchGameTx.text = "LaunchingGame...";
         yield return new WaitForSeconds(2);
         StartGame();
     }
@@ -102,13 +119,14 @@ public class TutoManager : MonoBehaviour {
         currState = gameState.playing;
         lobbyCanvas.enabled = false;
         launchGameTx.text = "";
+        textNarr.text = "";
     }
 
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Space) && currState == gameState.lobby)
         {
-            StartGame();
+            StartCoroutine(startingGame());
         }
 	}
 }

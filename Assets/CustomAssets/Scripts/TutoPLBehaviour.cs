@@ -38,11 +38,20 @@ public class TutoPLBehaviour : MonoBehaviour {
         // changing another's colour
         if (Physics.Raycast(transform.position + offsetPos, transform.forward * 5, out hit) && hit.transform.CompareTag("NPS"))
         {
-           // TutoManager.singleton.speak(); // should I get closer?
-            if (Input.GetKeyDown(KeyCode.Space) && paintReady && Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
+            if (Vector3.Distance(hit.transform.position, transform.position) >= hitDistance && changeCol.speech.text == "")
             {
-                hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
-             //   TutoManager.singleton.speak();// I totes should bully my neighbour
+                TutoManager.singleton.speak("Is there something there?\nI can't see; let's get closer", changeCol.speech, .5f); // should I get closer?
+            }
+            if (paintReady && Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
+            {
+                if (changeCol.speech.text == "" || changeCol.speech.text == "Is there something there?\nI can't see; let's get closer")
+                {
+                    TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>Space</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
+                }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
+                }
             }
         }
 
