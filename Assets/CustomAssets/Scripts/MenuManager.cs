@@ -161,19 +161,24 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     }
 
+    public void Tuto()
+    {
+        SceneManager.LoadScene("tuto");
+    }
+
     public void ChangeStartScene(int change)
     {
-        activeScene = (activeScene + change + (nbScenes - 1)) % (nbScenes - 1); //parce qu'il ne faut pas tomber sur le menu
+        activeScene = (activeScene + change + (nbScenes - 2)) % (nbScenes - 2); //parce qu'il ne faut pas tomber sur le menu
         if (activeScene < 0)
         {
-            activeScene = nbScenes - 2;
+            activeScene = nbScenes - 3;
         }
-        else if (activeScene > nbScenes - 2)
+        else if (activeScene > nbScenes - 3)
         {
             activeScene = 0;
         }
-        lvlText.text = (activeScene + 1).ToString();
-        NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
+        lvlText.text = (activeScene+1).ToString();
+        NetworkManager.singleton.onlineScene = (activeScene+1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 

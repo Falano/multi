@@ -44,6 +44,7 @@ public class TutoManager : MonoBehaviour {
             colors[i] = colorsMats[i].color;
         }
         localNames = new string[] {"Romuald", "Zobeide", "Trompette", "Rotule", "Medor", "Jules", "Infarctule", "Gaelann", "Fossette", "Egoinne", "Ciboulette", "Cannelle", "Bretelle", "Bobinette", "Bidule", "Asphodèle", "Andromaque", "Articule", "Barnécide", "Catapulle", "Dardielle", "Escopette", "Frisquette", "Glavicule", "Houlette", "Juliette", "Lola", "Marionnette", "Notule", "Operette", "Poutchinette", "Tentacule", "Vesicule" } ;
+        Destroy(GameObject.FindGameObjectWithTag("NetworkManager"));
     }
 
     // Use this for initialization
