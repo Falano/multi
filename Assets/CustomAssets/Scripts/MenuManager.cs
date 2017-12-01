@@ -110,6 +110,7 @@ public class MenuManager : MonoBehaviour
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
+        lvlText.text = (activeScene+1).ToString();
         foleyVolumeText.text = foleyVolumeInt.ToString();
         musicVolumeText.text = musicVolumeInt.ToString();
         if (PlayerPrefs.HasKey("faveMusic"))

@@ -4116,8 +4116,8 @@ MonoBehaviour:
     <b>Enable MatchMaker</b> then\n<b>Create Internet Match</b> \n(you can change
     the name of your match\nin the box just below written 'default')\n<i><b>players:</b></i>
     <b>Find Internet Match</b> then\n<b>Join Match: default</b> \n(unless the host
-    changed the name, \nin which case it'll be \nJoin Match: TheNameYouChose)\n\n(Press
-    <b>Escape</b> if you can't read\nthe instructions but need to)"
+    changed the name, \nin which case it'll be \nJoin Match: TheNameYouChose)\n<color=cyan>\n(Press
+    <b>Escape</b> if you can't read\nthe instructions but need to)</color>"
 --- !u!222 &915926634
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6299,6 +6299,11 @@ Prefab:
       propertyPath: musicVolumeText
       value: 
       objectReference: {fileID: 966441263}
+    - target: {fileID: 223492224168886942, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_IsPrefabParent: 0
