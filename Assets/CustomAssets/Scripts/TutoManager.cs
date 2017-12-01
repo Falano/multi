@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TutoManager : MonoBehaviour {
     public static TutoManager singleton;
@@ -23,6 +24,7 @@ public class TutoManager : MonoBehaviour {
     Text playerReadyTx;
     string localName = "Player";
     public bool coroutinesRunning = false;
+    Canvas menuOutCanvas;
 
 
     private void Awake()
@@ -77,6 +79,9 @@ public class TutoManager : MonoBehaviour {
                 case "PlayerReady":
                     playerReadyTx = gui.GetComponent<Text>();
                     break;
+                case "MenuOutCanvas":
+                    menuOutCanvas = gui.GetComponent<Canvas>();
+                    break;
             }
         }
         launchGameTx.text = "";
@@ -105,6 +110,16 @@ public class TutoManager : MonoBehaviour {
         coroutinesRunning = false;
     }
 
+    void ToggleMenuButton()
+    {
+        menuOutCanvas.enabled = !menuOutCanvas.enabled;
+    }
+
+    public void backToMenu()
+    {
+        SceneManager.LoadScene("menu");
+    }
+
     IEnumerator startingGame()
     {
         playerReadyTx.text = localName + " : ready!";
@@ -128,5 +143,9 @@ public class TutoManager : MonoBehaviour {
         {
             StartCoroutine(startingGame());
         }
-	}
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            ToggleMenuButton();
+        }
+
+    }
 }

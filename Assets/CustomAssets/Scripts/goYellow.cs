@@ -20,7 +20,7 @@ public class goYellow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TutoManager.singleton.currState != TutoManager.gameState.playing)
+        if (TutoManager.singleton.currState == TutoManager.gameState.lobby)
         {
             return;
         }
