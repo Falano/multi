@@ -1181,6 +1181,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 8d3db86630b8e4758a19a25719103338, type: 3}
   - {fileID: 21300000, guid: bde9b27e844d6432d84daabe4be8fca6, type: 3}
   speech: {fileID: 0}
+  StartHp: 15
 --- !u!114 &114936579703003926
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -23,7 +23,7 @@ public class TutoChangeCol : MonoBehaviour
     public TextMesh speech;
     private TutoChangeCol PLchangeCol;
 
-    int StartHp = 10;
+    public int StartHp = 10;
     float hp = 10;
 
     float speedBoostStrengthFactor = 2;
@@ -54,7 +54,6 @@ public class TutoChangeCol : MonoBehaviour
         if (CompareTag("NPS"))
         {
             ChangeCol(colors[0]);
-            StartHp = 5;
         }
         hp = StartHp;
         healthGUI = TutoManager.singleton.healthGUI;
@@ -91,7 +90,7 @@ public class TutoChangeCol : MonoBehaviour
         hp -= 1;
         if (CompareTag("Player"))
         {
-            spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10)-1;
+            spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10);
             healthGUI.sprite = sprites[spritesIndex];
         }
 
@@ -126,6 +125,7 @@ public class TutoChangeCol : MonoBehaviour
         if (attacker.CompareTag("Player") && gameObject != attacker)
         {
             TutoManager.singleton.speak("So that's what I look like to others...", attacker.GetComponent<TutoChangeCol>().speech, 3);
+            TutoManager.singleton.speak("Hey!\nWhy?", speech, 2);
         }
 
 
