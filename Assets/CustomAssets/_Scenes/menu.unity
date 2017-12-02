@@ -4075,7 +4075,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600.0001, y: -100.000244}
+  m_AnchoredPosition: {x: 800, y: -100.000244}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &915926633
@@ -4099,7 +4099,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 52
+    m_FontSize: 42
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 3
@@ -4111,13 +4111,14 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "<i><b>LAN Games:</b></i>\n<b><i>host:</i></b> <b>LAN Host(H)</b>\n<b><i>players:</i></b>
-    put the host's IP adress (should look \nlike 192.168.x.xx) in the field currently
-    written\n'localhost', then click <b>LAN Client(C)</b>\n\n<i><b>Internet Games:</b></i>\n<i><b>host:</b></i>
-    <b>Enable MatchMaker</b> then\n<b>Create Internet Match</b> \n(you can change
-    the name of your match\nin the box just below written 'default')\n<i><b>players:</b></i>
-    <b>Find Internet Match</b> then\n<b>Join Match: default</b> \n(unless the host
-    changed the name, \nin which case it'll be \nJoin Match: TheNameYouChose)\n<color=cyan>\n(Press
-    <b>Escape</b> if you can't read\nthe instructions but need to)</color>"
+    put the host's IP adress (should look \nsomething like 192.168.x.xx) in the field
+    currently \nwritten 'localhost', then click <b>LAN Client(C)</b>\n\n<i><b>Internet
+    Games:</b></i>\n<i><b>host:</b></i> <b>Enable MatchMaker</b> then\n<b>Create Internet
+    Match</b> \n(you can change the name of your match\nin the box just below written
+    'default')\n<i><b>players:</b></i> <b>Enable MatchMaker</b> then\n<b>Find Internet
+    Match</b> then\n<b>Join Match: default</b> \n(unless the host changed the name,
+    \nin which case it'll be \nJoin Match: TheNameYouChose)\n<color=cyan>\n(Press
+    <b>Escape</b> if the multiplayer menu\ngoes over the instructions)</color>"
 --- !u!222 &915926634
 CanvasRenderer:
   m_ObjectHideFlags: 0
