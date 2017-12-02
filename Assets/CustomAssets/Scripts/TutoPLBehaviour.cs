@@ -25,6 +25,14 @@ public class TutoPLBehaviour : MonoBehaviour {
 
 
 
+    IEnumerator paintCooldown(float cooldown)
+    {
+        paintReady = false;
+        yield return new WaitForSeconds(cooldown);
+        paintReady = true;
+    }
+
+
 
     void Update()
     {
@@ -52,9 +60,10 @@ public class TutoPLBehaviour : MonoBehaviour {
                 {
                     TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>Space</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) && paintReady == true)
                 {
                     hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
+                    StartCoroutine(paintCooldown(cooldown));
                 }
             }
         }
