@@ -11,7 +11,7 @@ public class TutoPLMove : MonoBehaviour
     public float rotationSpeed = 5;
     public Animator animator;
     [SerializeField]
-    private float baseSpeed = 5;
+    public float baseSpeed = 5;
     public float speed;
     public Rigidbody rb;
 

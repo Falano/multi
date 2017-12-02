@@ -13,7 +13,7 @@ public class TutoSpawner : MonoBehaviour
     public int enemyNumberTest;
     private int enemyNumber;
     private Vector3 lvlSize;
-    int i;
+    int i = 0;
 
     private Vector3 pos;
     private Quaternion rot;
@@ -45,8 +45,8 @@ public class TutoSpawner : MonoBehaviour
         {
             enemyNumber = MenuManager.enemyNumber;
         }
-        enemyList = new EnemyMover[enemyNumber - 1];
-        for (i = 0; i < enemyNumber - 1; i++)
+        enemyList = new EnemyMover[enemyNumber];
+        for (i=0; i < enemyNumber; i++)
         {
             spawnEnemy();
         }
@@ -62,7 +62,6 @@ public class TutoSpawner : MonoBehaviour
         }
         rot = Quaternion.Euler(0, Random.Range(0, 180), 0);
         GameObject enemy = Instantiate(enemyPrefab, pos, rot);
-        Instantiate(enemy, pos, rot);
         enemyList[i] = enemy.GetComponent<EnemyMover>();
     }
 }

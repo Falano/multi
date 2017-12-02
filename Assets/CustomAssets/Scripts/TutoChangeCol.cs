@@ -26,16 +26,16 @@ public class TutoChangeCol : MonoBehaviour
     int StartHp = 10;
     float hp = 10;
 
-    float speedBoostStrengthFactor;
+    float speedBoostStrengthFactor = 2;
     float speedBoostStrength;
-    float SpeedBoostDuration;
+    float SpeedBoostDuration = 1;
     int currBoost = 0;
 
     void Start()
     {
         if (CompareTag("Player")){
             TutoPLMove mover = GetComponent<TutoPLMove>();
-            speedBoostStrength = mover.speed * speedBoostStrengthFactor;
+            speedBoostStrength = mover.baseSpeed * speedBoostStrengthFactor;
         }
 
         else if (CompareTag("NPS"))
@@ -72,7 +72,7 @@ public class TutoChangeCol : MonoBehaviour
     {
         if (other.gameObject.CompareTag("AttackChangeCol") && speech.text != "I can run,\nand I can hide!")
         {
-            TutoManager.singleton.speak("GET IT OFF GET IT OFF\nI HATE MICE NO \nTAKE IT AWAY GO AWAY RUN", speech, 4);
+            TutoManager.singleton.speak("GET IT OFF GET IT OFF\nI HATE MICE NO \nTAKE IT AWAY GO AWAY\nRUN!", speech, 4);
         }
     }
 
@@ -112,7 +112,7 @@ public class TutoChangeCol : MonoBehaviour
             if (CompareTag("Player"))
             {
                 TutoManager.singleton.speak("Oww, I better not do that too often", speech, 3);
-                TutoManager.singleton.speak("see <i>the ball in the top-right corner</i>? \nThat's how many colour changes you have left\nbefore you turn back into paint.", TutoManager.singleton.textNarr, 15);
+                TutoManager.singleton.speak("See <i>the ball in the top-right corner</i>? \nThat's how many colour changes you have left\nbefore you turn back into paint.", TutoManager.singleton.textNarr, 20);
             }
         }
         if (attacker.CompareTag("AttackChangeCol"))
@@ -143,6 +143,7 @@ public class TutoChangeCol : MonoBehaviour
         if (obj == attacker) // so it's twice as expensive to speedBoost to chase someone (if you changed your own colour) as it is if you're running away (if you've been attacked)
         {
             duration *= .5f;
+
         }
         objChangeCol.currBoost += 1;
         int prevBoost = objChangeCol.currBoost;
@@ -159,11 +160,13 @@ public class TutoChangeCol : MonoBehaviour
                 playerMove.speed = playerMove.BaseSpeed;
                 animator.speed = 1;
             }
+
         }
         else if (obj.CompareTag("NPS"))
         {
             NavMeshAgent playerMove = obj.GetComponent<NavMeshAgent>();
             Animator animator = playerMove.gameObject.GetComponent<Animator>();
+
             playerMove.speed = strength;
             animator.speed = 2;
 
@@ -190,7 +193,7 @@ public class TutoChangeCol : MonoBehaviour
     {
         StopAllCoroutines();
         speech.text = "Bye!";
-        TutoManager.singleton.speak("When you are turned back into paint, you can't play any more\nbut the <b>Space</b> key allows you to see what others are up to.", TutoManager.singleton.textNarr, 10);
+        TutoManager.singleton.speak("When you have turned back into paint, you can't play any more\nbut the <b>Space</b> key allows you to see what others are up to.", TutoManager.singleton.textNarr, 20);
         if (CompareTag("Player"))
         {
             GetComponent<TutoPLMove>().speed = 0;
