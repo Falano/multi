@@ -1,22 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-// player move
+// player move in the tuto
 
-public class PlayerMove : NetworkBehaviour
+[RequireComponent(typeof(Animator))]
+public class TutoPLMove : MonoBehaviour
 {
 
-    public float rotationSpeed;
+    public float rotationSpeed = 5;
     public Animator animator;
     [SerializeField]
-    private float baseSpeed = 5;
+    public float baseSpeed = 5;
     public float speed;
     public Rigidbody rb;
-
-    [SyncVar] private bool isAnimated;
-    [SyncVar] private string animationName;
 
     public float BaseSpeed
     {
@@ -26,38 +23,35 @@ public class PlayerMove : NetworkBehaviour
         }
     }
 
-    public override void OnStartLocalPlayer()
+    void  Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        speed = 0;
+        speed = BaseSpeed;
     }
 
     void Update()
     {
-        if (!isLocalPlayer || !ColorManager.isGamePlaying)
+        if (TutoManager.singleton.currState != TutoManager.gameState.playing)
         {
             return;
         }
 
-        if (animator)
-        {
-            animator.SetBool("moving", Input.GetKey(KeyCode.UpArrow));
-        }
+        animator.SetBool("moving", Input.GetKey(KeyCode.UpArrow));
 
         if (Input.GetKey(KeyCode.RightArrow))
         {
             // add a "rotating right without advancing" anim?
-            transform.Rotate(0, rotationSpeed*Time.deltaTime, 0);
+            transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             // add a "rotating left without advancing" anim?
-            transform.Rotate(0, -rotationSpeed*Time.deltaTime, 0);
+            transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0);
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            transform.Translate(0, 0, speed *Time.deltaTime);
+            transform.Translate(0, 0, speed * Time.deltaTime);
         }
     }
 }

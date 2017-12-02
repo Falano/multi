@@ -36,13 +36,10 @@ GameObject:
   - component: {fileID: 4951010228705058}
   - component: {fileID: 95439185857295760}
   - component: {fileID: 65412699623013894}
-  - component: {fileID: 114879168776007644}
-  - component: {fileID: 114357235319959040}
-  - component: {fileID: 114970260441144854}
   - component: {fileID: 195614683253038204}
-  - component: {fileID: 114215883453370886}
+  - component: {fileID: 114446756742639812}
   m_Layer: 0
-  m_Name: souris
+  m_Name: TUTO-souris
   m_TagString: AttackChangeCol
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -859,7 +856,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114215883453370886
+--- !u!114 &114446756742639812
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -867,79 +864,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1090357357783986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498a7a49e35bab9499e43d11f70d54c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 56d83e0c11c607641b733e66b4530c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   goal: {x: 0, y: 0, z: 0}
-  lvlSize: {x: 26, y: 5, z: 26}
-  waitRange: {x: 2, y: 6}
-  rotationSpeed: 99999
---- !u!114 &114357235319959040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1090357357783986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Animator: {fileID: 95439185857295760}
-  m_ParameterSendBits: 0
-  param0: 
-  param1: 
-  param2: 
-  param3: 
-  param4: 
-  param5: 
---- !u!114 &114879168776007644
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1090357357783986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 247
-    i1: 35
-    i2: 45
-    i3: 162
-    i4: 56
-    i5: 224
-    i6: 205
-    i7: 244
-    i8: 120
-    i9: 202
-    i10: 238
-    i11: 195
-    i12: 188
-    i13: 104
-    i14: 100
-    i15: 212
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!114 &114970260441144854
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1090357357783986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad86c39cecae8ab43924fb617fbac4d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lerpRate: 5
-  posThreshold: 0.5
-  rotThreshold: 20
-  teleportDistance: 5
+  lvlSize: {x: 0, y: 0, z: 0}
+  waitRange: {x: 3, y: 6}
+  rotationSpeed: 5
 --- !u!137 &137799419531705072
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
