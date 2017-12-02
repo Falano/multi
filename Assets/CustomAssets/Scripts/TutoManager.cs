@@ -23,7 +23,7 @@ public class TutoManager : MonoBehaviour {
     private Text launchGameTx;
     Text playerReadyTx;
     string localName = "Player";
-    public bool coroutinesRunning = false;
+    //public bool coroutinesRunning = false;
     Canvas menuOutCanvas;
 
 
@@ -97,18 +97,37 @@ public class TutoManager : MonoBehaviour {
     {
         StopCoroutine("speak");
         texte.text = sentence;
+        //texte.color = new Color(0, 0, 0, 0); // I left the textFade out because it stops working after the player changes colour even once. (the fuck?)
+        //StartCoroutine(fadeText(1, texte));
         StartCoroutine(finishSpeaking(sentence, texte, duration));
+    }
+
+    IEnumerator fadeText(int goal, TextMesh texte)
+    {
+        int mult = 1;
+        if(goal == 0)
+        {
+            mult = -1;
+        }
+        while (texte.color.a != goal)
+        {
+            yield return new WaitForEndOfFrame();
+            texte.color = new Color(texte.color.r, texte.color.g, texte.color.b, texte.color.a + .05f);
+        }
     }
 
     IEnumerator finishSpeaking (string sentence, TextMesh texte, float duration)
     {
-        coroutinesRunning = true;
+        //coroutinesRunning = true;
         yield return new WaitForSeconds(duration);
+        //StartCoroutine(fadeText(0, texte));
+        //        yield return new WaitUntil(texte.color.a == 0);
+        //yield return new WaitForSeconds(1);
         if(texte && texte.text == sentence)
         {
             texte.text = "";
         }
-        coroutinesRunning = false;
+        //coroutinesRunning = false;
     }
 
     void ToggleMenuButton()
