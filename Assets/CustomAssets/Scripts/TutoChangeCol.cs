@@ -202,7 +202,10 @@ public class TutoChangeCol : MonoBehaviour
         else
         {
             ag.speed = 0;
-            TutoManager.singleton.speak("I have been told there were both pros and cons\nto pressing the <b>Left Ctrl</b> key.\nIs doing it a good idea? Who knows.", PLchangeCol.speech, 10);
+            if(PLchangeCol != null)
+            {
+                TutoManager.singleton.speak("I have been told there were both pros and cons\nto pressing the <b>Left Ctrl</b> key.\nIs doing it a good idea? Who knows.", PLchangeCol.speech, 10);
+            }
         }
         rd.gameObject.SetActive(false);
         deathAnim.SetActive(true);
