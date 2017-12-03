@@ -25,7 +25,6 @@ public class checkIfNetworkHUD : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "menu")
         {
             netwHUD.enabled = false;
-            ColorManager.isGamePlaying = false;
         }
         else {
             netwHUD.enabled = true;

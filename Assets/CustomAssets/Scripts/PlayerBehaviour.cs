@@ -34,8 +34,9 @@ public class PlayerBehaviour : NetworkBehaviour
         if (isLocalPlayer)
         {
             ColorManager.singleton.localPlayer = gameObject;
+
             CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
-           
+            CmdSyncGameState();
             if (PlayerPrefs.HasKey("playerName"))
             {
                 localName = PlayerPrefs.GetString("playerName");
@@ -93,6 +94,14 @@ public class PlayerBehaviour : NetworkBehaviour
     }
 
 
+    [Command]
+    public void CmdSyncGameState()
+    {
+        print(1);
+        ColorManager.singleton.currStateString = ColorManager.singleton.currState.ToString();
+        ColorManager.singleton.RpcSyncGameState(ColorManager.singleton.currStateString);
+    }
+
 
     void Update()
     {
@@ -101,7 +110,7 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
+        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.currState == ColorManager.gameState.lobby)
         {
             ToggleReady(!_isReady);
         }

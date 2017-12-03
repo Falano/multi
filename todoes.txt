@@ -60,7 +60,7 @@ to implement:
 
 
 bugs:
-	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?)
+	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 
 --DONE-- client only on second time
 --DONE-- rat anim ugly (check how sheep synchronises and do the same)
