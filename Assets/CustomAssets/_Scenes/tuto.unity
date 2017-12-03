@@ -2817,7 +2817,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f0d00844738ba3e43a5c5ad16c7c3977, type: 2}
   healthGUI: {fileID: 0}
   following: {fileID: 0}
-  coroutinesRunning: 0
 --- !u!4 &1008125976
 Transform:
   m_ObjectHideFlags: 0
@@ -5681,7 +5680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1090357357783986, guid: c1e64e14895312e48b978ce0af354fbe,
     type: 2}
-  enemyNumberTest: 4
+  enemyNumberTest: 2
   singleton: {fileID: 0}
 --- !u!4 &1843864975
 Transform:

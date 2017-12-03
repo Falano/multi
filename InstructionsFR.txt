@@ -1,0 +1,30 @@
+﻿Colambful; v0.9 (français)
+
+C'est probablement plus marrant à jouer à quatre ou plus (mais il est possible de jouer à deux).
+
+---TOUCHES---
+Flèches directionnelles pour bouger,
+Ctrl gauche pour changer de couleur,
+Barre espace pour changer la couleur des autres (il faut être tout près d'eux et regarder directement vers eux; il y a une demi-seconde de cooldown)
+Dans le sous-menu après que tout le monde s'est connecté, barre espace pour dire qu'on est prêt (le jeu commence quand tout le monde est prêt)
+Après que notre joueur est mort, barre espace pour changer le joueur que l'on regarde
+Echap pour afficher ou cacher les informations de connexion
+
+---REGLES---
+Chaque joueur a un nombre limité de changements de couleur. Quand ils n'en ont plus, le joueur meurt.
+Les souris font changer de couleur au contact.
+L'icone rond en haut à droite représente le nombre de vies restant au joueur.
+
+--CONNECTION--
+Il est possible de jouer par internet:
+	joueur-serveur: Play>Enable MatchMaker>Create Internet Match (il est possible de changer le nom du match dans la case juste en dessous où il y a écrit 'default')
+	autres joueurs: Play> Find Internet Match > Join Match: default (sauf si le joueur-serveur a changé le nom, auquel cas ce sera Join Match: NomChoisi)
+Ou en réseau local:
+	joueur-serveur: Play> LAN Host(H)
+	autres joueurs: Play> mettre l'adresse IP du joueur-serveur là où il y a écrit 'localhost', puis LAN Client(C)
+
+---BUGS CONNUS---
+Si vous utilisez wine, en fonction de votre distribution vous pourriez ne pas voir les textes des menus (si c'est le cas, s'aider du dossier Colambful_menuOptionsForWineUsers, mais il pourrait ne pas être à jour)
+
+Envoyez-moi des critiques et des commentaires si vous avez le temps :)
+(mon email: noemie.scherer@gmail.com)
