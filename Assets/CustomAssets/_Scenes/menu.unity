@@ -6977,6 +6977,32 @@ Prefab:
     - {fileID: 114091407309855830, guid: 219c5e98430805d42b03696c50dd00ec, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 219c5e98430805d42b03696c50dd00ec, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1608764719 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1425434611749530, guid: 219c5e98430805d42b03696c50dd00ec,
+    type: 2}
+  m_PrefabInternal: {fileID: 1608764718}
+--- !u!114 &1608764720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1608764719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1553936188, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BroadcastPort: 47777
+  m_BroadcastKey: 2222
+  m_BroadcastVersion: 1
+  m_BroadcastSubVersion: 1
+  m_BroadcastInterval: 1000
+  m_UseNetworkManager: 0
+  m_BroadcastData: HELLO
+  m_ShowGUI: 1
+  m_OffsetX: 0
+  m_OffsetY: 0
 --- !u!1 &1676460445
 GameObject:
   m_ObjectHideFlags: 0
