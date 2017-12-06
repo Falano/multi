@@ -56,6 +56,7 @@ public class MenuManager : MonoBehaviour
     public AudioMixerGroup foleyMixer;
     public AudioMixerGroup musicMixer;
 
+
     public string PlayerName
     {
         get
@@ -308,7 +309,7 @@ public class MenuManager : MonoBehaviour
 
     public void ToggleNetworkManagerHUD(bool state)
     {
-        checkIfNetworkHUD.singleton.GetComponent<NetworkManagerHUD>().enabled = state;
+        checkIfNetworkHUD.ToggleNetworkGUI(state);
     }
 
     public void ClearAllData()

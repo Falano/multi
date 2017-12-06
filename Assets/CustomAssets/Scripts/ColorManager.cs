@@ -29,7 +29,6 @@ public class ColorManager : NetworkBehaviour
     public int numberOfPlayersPlaying;
     public Score[] Scores;
     public Text following;
-    private NetworkManagerHUD networkManager;
     [Header("tmp: sound stuff")]
     public static AudioClip[] ChangeColSounds;
     public static AudioClip currentMusic;
@@ -38,6 +37,7 @@ public class ColorManager : NetworkBehaviour
     private float refreshFrequency = 2.5f;
 
     public enum gameState { menu, lobby, playing, scores };
+    [SyncVar]
     public gameState currState;
     public string currStateString;
 
@@ -60,11 +60,17 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
-        currState = gameState.lobby; // should absolutely happen before the local player's PlayerBehaviour Start()
+        if (isServer){
+            currState = gameState.lobby;
+            currStateString = currState.ToString();
+        } // should absolutely happen before the local player's PlayerBehaviour Start()
+        else
+        {
+            currState = (gameState)System.Enum.Parse(typeof(gameState), currStateString);
+        }
         print(currState);
         audioSource.Play();
-        networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
-        toggleNetwHUD();
+        checkIfNetworkHUD.ToggleNetworkGUI();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
         {
@@ -119,13 +125,14 @@ public class ColorManager : NetworkBehaviour
     }
 
 
-
+    /*
     [ClientRpc]
     public void RpcSyncGameState(string state)
     {
         print(2);
         currState = (gameState) System.Enum.Parse(typeof(gameState), state);
     }
+    */
 
     public GameObject SpawnScore(string name, GameObject obj)
     {
@@ -384,11 +391,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
     }
-
-    public void toggleNetwHUD()
-    {
-        networkManager.enabled = !networkManager.enabled;
-    }
+    
 
     private void Update()
     {

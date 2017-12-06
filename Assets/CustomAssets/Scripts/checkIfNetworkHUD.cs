@@ -7,7 +7,8 @@ using UnityEngine.Networking;
 // cacher le network HUD si on est dans le menu de départ
 public class checkIfNetworkHUD : MonoBehaviour {
     public static checkIfNetworkHUD singleton; // it might mess things up (when game>backToMenu>newGame). Be careful.
-    private NetworkManagerHUD netwHUD;
+    public static NetworkManagerHUD netwHUD;
+    public static NetworkDiscovery netwDisc;
 
     private void OnEnable()
     {
@@ -18,6 +19,7 @@ public class checkIfNetworkHUD : MonoBehaviour {
     private void Awake()
     {
         netwHUD = GetComponent<NetworkManagerHUD>();
+        netwDisc = GetComponent<NetworkDiscovery>();
     }
 
     public void CheckIfMenuScene(Scene scene,LoadSceneMode mode)
@@ -25,8 +27,10 @@ public class checkIfNetworkHUD : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "menu")
         {
             netwHUD.enabled = false;
+            netwDisc.enabled = false;
         }
         else {
+            netwDisc.enabled = false;
             netwHUD.enabled = true;
         }
     }
@@ -48,8 +52,20 @@ public class checkIfNetworkHUD : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            netwHUD.enabled = !netwHUD.enabled;
-        }
+            ToggleNetworkGUI();
+            }
+    }
+
+    public static void ToggleNetworkGUI()
+    {
+        netwDisc.enabled = !netwDisc.enabled;
+        netwHUD.enabled = !netwHUD.enabled;
+    }
+
+    public static void ToggleNetworkGUI(bool state)
+    {
+        netwDisc.enabled = state;
+        netwHUD.enabled = state;
     }
 
 

@@ -7,7 +7,9 @@ using UnityEngine.SceneManagement;
 public class TutoManager : MonoBehaviour {
     public static TutoManager singleton;
     public enum gameState {lobby, playing, deadPlayer};
+    public enum toDo {escape, space, rat, ctrl, nothing};
     public gameState currState;
+    public toDo currTask;
     public TextMesh textNarr;
     public GameObject[] NPSs;
     private string[] localNames;
@@ -21,6 +23,7 @@ public class TutoManager : MonoBehaviour {
     public Text following;
     private Canvas lobbyCanvas;
     private Text launchGameTx;
+    private Text instructionsTx;
     Text playerReadyTx;
     string localName = "Player";
     //public bool coroutinesRunning = false;
@@ -83,9 +86,13 @@ public class TutoManager : MonoBehaviour {
                 case "MenuOutCanvas":
                     menuOutCanvas = gui.GetComponent<Canvas>();
                     break;
+                case "Instructions":
+                    instructionsTx = gui.GetComponent<Text>();
+                    break;
             }
         }
         launchGameTx.text = "";
+        instructions("Press <b>Escape</b> to toggle the menu and those instructions\nDo it twice now.", toDo.escape);
         if (PlayerPrefs.HasKey("playerName"))
         {
             localName = PlayerPrefs.GetString("playerName");
@@ -101,6 +108,14 @@ public class TutoManager : MonoBehaviour {
         //StartCoroutine(fadeText(1, texte));
         StartCoroutine(finishSpeaking(sentence, texte, duration));
     }
+
+
+    public void instructions(string sentence, toDo state)
+    {
+        instructionsTx.text = sentence;
+        currTask = state;
+    }
+
 
     IEnumerator fadeText(int goal, TextMesh texte)
     {
@@ -155,16 +170,21 @@ public class TutoManager : MonoBehaviour {
         lobbyCanvas.enabled = false;
         launchGameTx.text = "";
         textNarr.text = "";
+        instructions("when you're looking at another sheep from very close,\n <b>Space</b> makes them change color.\nOther players see you like you see them: \nall of one color; not like you see yourself", toDo.space);
     }
 
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space) && currState == gameState.lobby)
+		if(Input.GetKeyDown(KeyCode.Space) && currState == gameState.lobby && currTask == toDo.space)
         {
             StartCoroutine(startingGame());
         }
         if (Input.GetKeyDown(KeyCode.Escape)){
             ToggleMenuButton();
+            if(currState == gameState.lobby)
+            {
+                instructions("Press <b>Space</b> to launch the game", toDo.space);
+            }
         }
 
     }

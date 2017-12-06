@@ -7002,7 +7002,7 @@ MonoBehaviour:
   m_BroadcastData: HELLO
   m_ShowGUI: 1
   m_OffsetX: 0
-  m_OffsetY: 0
+  m_OffsetY: 130
 --- !u!1 &1676460445
 GameObject:
   m_ObjectHideFlags: 0
