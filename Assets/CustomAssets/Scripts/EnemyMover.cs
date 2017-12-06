@@ -57,7 +57,7 @@ public class EnemyMover : NetworkBehaviour
 
     void ChangeDestination()
     {
-        if (ColorManager.singleton.currState != ColorManager.gameState.playing)
+        if (ColorManager.singleton.CurrState != ColorManager.gameState.playing)
         {
             return;
         }

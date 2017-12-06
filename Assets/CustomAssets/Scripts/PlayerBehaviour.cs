@@ -29,6 +29,19 @@ public class PlayerBehaviour : NetworkBehaviour
     }
 
 
+    private void Awake()
+    {
+        if (isLocalPlayer) //needs to be before ColorManager's Start
+        {
+            print("assigning local player");
+            ColorManager.singleton.localPlayer = gameObject;
+            print("local player: " + ColorManager.singleton.localPlayer);
+            CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
+            //CmdSyncGameState();
+        }
+    }
+
+
     void Start()
     {
         if (isLocalPlayer)
@@ -36,16 +49,13 @@ public class PlayerBehaviour : NetworkBehaviour
             ColorManager.singleton.localPlayer = gameObject;
 
             CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
-            //CmdSyncGameState();
+
             if (PlayerPrefs.HasKey("playerName"))
             {
                 localName = PlayerPrefs.GetString("playerName");
                 CmdSetLocalName(localName, gameObject);
             }
             //gameObject.AddComponent<AudioListener>(); // avoir un AudioListener et l'activer/desactiver ici ne marche pas :/ 
-        }
-        else
-        {
         }
         StartCoroutine("waitToAssignScore");
     }
@@ -61,8 +71,10 @@ public class PlayerBehaviour : NetworkBehaviour
         yield return new WaitForSeconds(.1f);
         ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
         name = "sheep-" + localName;
-        CmdRefreshListOfPlayers();
-
+        if (isLocalPlayer)
+        {
+            CmdRefreshListOfPlayers();
+        }
     }
 
     [Command]
@@ -110,7 +122,7 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.currState == ColorManager.gameState.lobby)
+        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.CurrState == ColorManager.gameState.lobby)
         {
             ToggleReady(!_isReady);
         }

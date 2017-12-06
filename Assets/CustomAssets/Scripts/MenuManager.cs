@@ -316,13 +316,4 @@ public class MenuManager : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
     }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //testing area
-            print(PlayerPrefs.GetString("playerName"));
-        }
-    }
 }

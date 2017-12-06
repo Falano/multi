@@ -53,7 +53,7 @@ public class PlayerChangeCol : NetworkBehaviour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
     void ChangeCol(GameObject obj, GameObject attacker)
     {
-        if(ColorManager.singleton.currState != ColorManager.gameState.playing)
+        if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
         {
             return;
         }
@@ -68,7 +68,10 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             currColor = colors[Random.Range(0, colors.Length)];
         }
-        CmdChangeCol(obj, currColor, attacker);
+        if (isLocalPlayer)
+        {
+            CmdChangeCol(obj, currColor, attacker);
+        }
     }
 
 
@@ -79,7 +82,10 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             return;
         }
-        CmdChangeCol(obj, col, attacker);
+        if (isLocalPlayer)
+        {
+            CmdChangeCol(obj, col, attacker);
+        }
     }
 
     [Command]

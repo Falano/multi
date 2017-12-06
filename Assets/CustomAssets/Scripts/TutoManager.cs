@@ -186,6 +186,5 @@ public class TutoManager : MonoBehaviour {
                 instructions("Press <b>Space</b> to launch the game", toDo.space);
             }
         }
-
     }
 }

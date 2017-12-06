@@ -200,7 +200,6 @@ public class TutoChangeCol : MonoBehaviour
             GetComponent<TutoPLMove>().speed = 0;
             TutoManager.singleton.currState = TutoManager.gameState.deadPlayer;
             TutoManager.singleton.instructions(" ", TutoManager.toDo.nothing);
-            print("oh noes player died!");
         }
         else
         {
