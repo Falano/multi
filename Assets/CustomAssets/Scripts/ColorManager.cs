@@ -115,39 +115,7 @@ public class ColorManager : NetworkBehaviour
         }
 
         launchGameTx.text = "";
-
-        /*
-        //GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
-        if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
-        {
-            print("GAME IS PLAYING");
-
-            print("destroying score obj");
-            Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            print("destroying score tx");
-            Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            print("destroying player");
-            Destroy(localPlayer); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-
-
-            Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
-            foreach (Score sco in Scores)
-            {
-                sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
-                sco.SetStartTime();
-            }
-            numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
-            CurrState = gameState.playing;
-            launchGameTx.text = "";
-            listOfPlayersParent.SetActive(false);
-            lobbyCanvas.enabled = false;
-
-
-
-            //LaunchGameSolo(); //il désactive la GUI du lobby
-            return;
-        }
-        */
+     
         Invoke("checkIfGamePlaying", 0.1f);
         if(CurrState == gameState.lobby)
         {
@@ -170,7 +138,7 @@ public class ColorManager : NetworkBehaviour
         if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
         {
             print("GAME IS PLAYING");
-
+            
             print("destroying score obj");
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
             print("destroying score tx");

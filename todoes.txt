@@ -61,6 +61,9 @@ to implement:
 
 bugs:
 	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
+the player dies, but only on its own screen, and they can't space to other players.
+player needs to die from Kill. Either I make Kill public or the player decides to die itself.
+
 
 --DONE-- client only on second time
 --DONE-- rat anim ugly (check how sheep synchronises and do the same)
