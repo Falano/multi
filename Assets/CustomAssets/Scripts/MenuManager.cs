@@ -45,6 +45,7 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
+    public Text connexionInfoTx;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -310,6 +311,11 @@ public class MenuManager : MonoBehaviour
     public void ToggleNetworkManagerHUD(bool state)
     {
         checkIfNetworkHUD.singleton.ToggleNetworkGUI(state);
+    }
+
+    public void ToggleConnexionInfo()
+    {
+        connexionInfoTx.enabled = !connexionInfoTx.enabled;
     }
 
     public void ClearAllData()
