@@ -28,6 +28,7 @@ to implement:
 3	walking/running/turning sound
 2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown
 1	enum for gameStates in main game
+9	hidden teleporters!
 
 --DONE-- anim sheep death
 --DONE-- anim sheep death same col as sheep
