@@ -85,7 +85,7 @@ public class ColorManager : NetworkBehaviour
         }
         print("current state at start: " + CurrState);
         audioSource.Play();
-        checkIfNetworkHUD.ToggleNetworkGUI();
+        checkIfNetworkHUD.singleton.ToggleNetworkGUI();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
         {

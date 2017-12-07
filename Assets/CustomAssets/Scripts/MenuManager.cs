@@ -309,7 +309,7 @@ public class MenuManager : MonoBehaviour
 
     public void ToggleNetworkManagerHUD(bool state)
     {
-        checkIfNetworkHUD.ToggleNetworkGUI(state);
+        checkIfNetworkHUD.singleton.ToggleNetworkGUI(state);
     }
 
     public void ClearAllData()
