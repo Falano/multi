@@ -1,7 +1,6 @@
 ﻿todoes multi
 
 currently working on:
-	enum for gamestates
 	chrono
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
@@ -27,7 +26,6 @@ to implement:
 5	more musics
 3	walking/running/turning sound
 2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown
-1	enum for gameStates in main game
 9	hidden teleporters!
 
 --DONE-- anim sheep death
@@ -58,13 +56,14 @@ to implement:
 --DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
 --DONE-- fix speed boost so it can't accelerate forever and always chooses the right sheep
 --DONE-- sound
+--DONE-- enum for gameStates in main game
 
 
 bugs:
 	si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 the player dies, but only on its own screen, and they can't space to other players.
 player needs to die from Kill. Either I make Kill public or the player decides to die itself.
-
+issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
 
 --DONE-- client only on second time
 --DONE-- rat anim ugly (check how sheep synchronises and do the same)

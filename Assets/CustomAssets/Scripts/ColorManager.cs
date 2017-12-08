@@ -26,6 +26,7 @@ public class ColorManager : NetworkBehaviour
     public GameObject ratKing;
     public Image healthGUI;
     public GameObject localPlayer;
+    [SyncVar]
     public int numberOfPlayersPlaying;
     public Score[] Scores;
     public Text following;
@@ -128,7 +129,10 @@ public class ColorManager : NetworkBehaviour
             {
                 Invoke("RefreshListOfPlayersSolo", .7f);
             }
-
+        }
+        else
+        {
+            localPlayer.GetComponent<PlayerBehaviour>().CmdRefreshPlayerMidGame();
         }
     }
 
@@ -139,13 +143,8 @@ public class ColorManager : NetworkBehaviour
         {
             print("GAME IS PLAYING");
             
-            print("destroying score obj");
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            print("destroying score tx");
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            print("destroying player");
-            Destroy(localPlayer); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-
 
             Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
             foreach (Score sco in Scores)
@@ -158,10 +157,6 @@ public class ColorManager : NetworkBehaviour
             launchGameTx.text = "";
             listOfPlayersParent.SetActive(false);
             lobbyCanvas.enabled = false;
-
-
-
-            //LaunchGameSolo(); //il désactive la GUI du lobby
             return;
         }
     }
@@ -373,6 +368,35 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcRefreshPlayerMidGame() { RefreshPlayerMidGameSolo(); }
+
+    public void RefreshPlayerMidGameSolo()
+    {
+        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        PlayerBehaviour[] listPlayers = new PlayerBehaviour[listPlayersGO.Length];
+        for (int i = 0; i < listPlayers.Length; i++)
+        {
+            listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
+            listPlayers[i].idNumber = i;
+            listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            if (listPlayers[i].localName == null || listPlayers[i].localName == "")
+            {
+                listPlayers[i].localName = "Player" + i.ToString();
+            }
+            string readyState = "not ready...";
+            Color txColor = Color.white;
+            if (listPlayers[i].ScoreTx == null)
+            {
+                float posX = listOfPlayersParent.transform.position.x;
+                float posY = listOfPlayersParent.transform.position.y;
+                int offset = (int)Mathf.Round(0.05f * Screen.height);
+                listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
+                listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
+            }
+        }
+    }
+
     IEnumerator waitForGameEnd()
     {
         yield return new WaitForSeconds(1);
@@ -409,6 +433,11 @@ public class ColorManager : NetworkBehaviour
             if (Scores[i].TimeOfDeath == "0")
             {
                 deathText = ": Survived To The End! ";
+            }
+            else if (float.Parse(Scores[i].TimeOfDeath) < .5f)
+            {
+                deathText = ": was spectating; ";
+                Scores[i].ScoreTx.color = Color.cyan;
             }
             else
             {

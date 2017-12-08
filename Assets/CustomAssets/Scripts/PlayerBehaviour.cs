@@ -105,6 +105,11 @@ public class PlayerBehaviour : NetworkBehaviour
         _isReady = state;
     }
 
+
+    [Command]
+    public void CmdRefreshPlayerMidGame() { ColorManager.singleton.RpcRefreshPlayerMidGame(); }
+
+
     /*
     [Command]
     public void CmdSyncGameState()
