@@ -33,9 +33,7 @@ public class PlayerBehaviour : NetworkBehaviour
     {
         if (isLocalPlayer) //needs to be before ColorManager's Start
         {
-            print("assigning local player");
             ColorManager.singleton.localPlayer = gameObject;
-            print("local player: " + ColorManager.singleton.localPlayer);
             CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
             //CmdSyncGameState();
         }

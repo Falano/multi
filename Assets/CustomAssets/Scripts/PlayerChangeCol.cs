@@ -102,6 +102,10 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
+            {
+                return;
+            }
             // changing their own colour
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {

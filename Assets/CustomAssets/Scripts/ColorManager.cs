@@ -133,6 +133,7 @@ public class ColorManager : NetworkBehaviour
         else
         {
             localPlayer.GetComponent<PlayerBehaviour>().CmdRefreshPlayerMidGame();
+            LaunchGameSolo();
         }
     }
 
@@ -300,8 +301,19 @@ public class ColorManager : NetworkBehaviour
                 IEnumerator wait = enemy.waitForChangeDir(Random.Range(enemy.waitRange.x, enemy.waitRange.y));
                 StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
             }
+            if (MenuManager.chrono != 0)
+            {
+                StartCoroutine(launchChrono(MenuManager.chrono));
+            }
         }
     }
+
+    IEnumerator launchChrono(float time)
+    {
+        yield return new WaitForSeconds(time * 60);
+        CmdShowScores();
+    }
+
 
     [ClientRpc]
     void RpcLaunchGame()
@@ -393,6 +405,7 @@ public class ColorManager : NetworkBehaviour
                 int offset = (int)Mathf.Round(0.05f * Screen.height);
                 listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
                 listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
+                listPlayers[i].ScoreTx.GetComponent<Text>().text = " ";
             }
         }
     }
@@ -418,7 +431,9 @@ public class ColorManager : NetworkBehaviour
     [ClientRpc] private void RpcShowScores() { ShowScoresSolo(); }
 
     public void ShowScoresSolo()
+
     {
+        CurrState = gameState.scores;
         lobbyCanvas.enabled = true;
         listOfPlayersParent.SetActive(true);
         for (int i = 0; i < Scores.Length; i++)
@@ -466,7 +481,6 @@ public class ColorManager : NetworkBehaviour
 
     private void Update()
     {
-
         if (CurrState == gameState.playing && numberOfPlayersPlaying <= 1 && !MenuManager.soloGame)
         {
             CurrState = gameState.scores;
@@ -478,6 +492,5 @@ public class ColorManager : NetworkBehaviour
             lobbyCanvas.enabled = !lobbyCanvas.enabled;
             launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying;
         }
-
     }
 }
