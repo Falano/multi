@@ -21,7 +21,7 @@ Il est possible de jouer par internet:
 	autres joueurs: Play> Find Internet Match > Join Match: default (sauf si le joueur-serveur a changé le nom, auquel cas ce sera Join Match: NomChoisi)
 Ou en réseau local:
 	joueur-serveur: Play> LAN Host(H)
-	autres joueurs: Play> mettre l'adresse IP du joueur-serveur là où il y a écrit 'localhost', puis LAN Client(C)
+	autres joueurs: Play> Initialize Broadcast> Listen for Broadcast; mettre l'adresse IP du joueur-serveur (le broadcast te l'a donné; il ressemble à 192.168.x.xx) là où il y a écrit 'localhost', puis LAN Client(C)
 
 ---BUGS CONNUS---
 Si vous utilisez wine, en fonction de votre distribution vous pourriez ne pas voir les textes des menus (si c'est le cas, s'aider du dossier Colambful_menuOptionsForWineUsers, mais il pourrait ne pas être à jour)

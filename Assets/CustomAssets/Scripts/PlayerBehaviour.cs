@@ -29,22 +29,31 @@ public class PlayerBehaviour : NetworkBehaviour
     }
 
 
+    private void Awake()
+    {
+        if (isLocalPlayer) //needs to be before ColorManager's Start
+        {
+            ColorManager.singleton.localPlayer = gameObject;
+            CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
+            //CmdSyncGameState();
+        }
+    }
+
+
     void Start()
     {
         if (isLocalPlayer)
         {
             ColorManager.singleton.localPlayer = gameObject;
+
             CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
-           
+
             if (PlayerPrefs.HasKey("playerName"))
             {
                 localName = PlayerPrefs.GetString("playerName");
                 CmdSetLocalName(localName, gameObject);
             }
             //gameObject.AddComponent<AudioListener>(); // avoir un AudioListener et l'activer/desactiver ici ne marche pas :/ 
-        }
-        else
-        {
         }
         StartCoroutine("waitToAssignScore");
     }
@@ -60,8 +69,10 @@ public class PlayerBehaviour : NetworkBehaviour
         yield return new WaitForSeconds(.1f);
         ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
         name = "sheep-" + localName;
-        CmdRefreshListOfPlayers();
-
+        if (isLocalPlayer)
+        {
+            CmdRefreshListOfPlayers();
+        }
     }
 
     [Command]
@@ -93,6 +104,19 @@ public class PlayerBehaviour : NetworkBehaviour
     }
 
 
+    [Command]
+    public void CmdRefreshPlayerMidGame() { ColorManager.singleton.RpcRefreshPlayerMidGame(); }
+
+
+    /*
+    [Command]
+    public void CmdSyncGameState()
+    {
+        print(1);
+        ColorManager.singleton.currStateString = ColorManager.singleton.currState.ToString();
+        ColorManager.singleton.RpcSyncGameState(ColorManager.singleton.currStateString);
+    }
+    */
 
     void Update()
     {
@@ -101,7 +125,7 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !ColorManager.isGamePlaying)
+        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.CurrState == ColorManager.gameState.lobby)
         {
             ToggleReady(!_isReady);
         }

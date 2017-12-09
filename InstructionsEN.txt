@@ -20,8 +20,8 @@ You can play over the Internet:
 	host: Play>Enable MatchMaker>Create Internet Match (you can change the name of your match in the box just below written 'default')
 	guests: Play> Find Internet Match > Join Match: default (unless the host changed the name, in which case it'll be Join Match: ChosenName)
 Or through LAN:
-	host: Play> LAN Host(H)
-	guests: Play> put the IP address of the host in the field written 'localhost', then LAN Client(C)
+	host: Play> Initialize Broadcast> Start Broadcasting ; LAN Host(H)
+	guests: Play> Initialize Broadcast> Listen for Broadcast; put the IP address of the host (the broadcast gave it to you; it looks like 192.168.x.xx) in the field written 'localhost', then LAN Client(C)
 
 --KNOWN BUGS--
 If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)

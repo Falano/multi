@@ -35,7 +35,7 @@ public class PlayerMove : NetworkBehaviour
 
     void Update()
     {
-        if (!isLocalPlayer || !ColorManager.isGamePlaying)
+        if (!isLocalPlayer || ColorManager.singleton.CurrState != ColorManager.gameState.playing)
         {
             return;
         }

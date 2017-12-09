@@ -21,9 +21,10 @@ public class PlayerChangeCol : NetworkBehaviour
     public bool paintReady = true;
     public float cooldown = 3;
     public float speedBoostDuration = 1;
-    float speedBoostStrengthFactor = 3;
+    float speedBoostStrengthFactor = 2;
     public float speedBoostStrength;
     public int currBoost = 0;
+    //public Vector3 offsetTarget;
 
 
     void Start()
@@ -53,7 +54,7 @@ public class PlayerChangeCol : NetworkBehaviour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
     void ChangeCol(GameObject obj, GameObject attacker)
     {
-        if(!ColorManager.isGamePlaying)
+        if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
         {
             return;
         }
@@ -68,7 +69,10 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             currColor = colors[Random.Range(0, colors.Length)];
         }
-        CmdChangeCol(obj, currColor, attacker);
+        if (isLocalPlayer)
+        {
+            CmdChangeCol(obj, currColor, attacker);
+        }
     }
 
 
@@ -79,7 +83,10 @@ public class PlayerChangeCol : NetworkBehaviour
         {
             return;
         }
-        CmdChangeCol(obj, col, attacker);
+        if (isLocalPlayer)
+        {
+            CmdChangeCol(obj, col, attacker);
+        }
     }
 
     [Command]
@@ -96,6 +103,10 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
+            {
+                return;
+            }
             // changing their own colour
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -103,6 +114,11 @@ public class PlayerChangeCol : NetworkBehaviour
             }
 
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right/6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.right/6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up/4).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.up / 4).normalized * hitDistance, Color.green);
+
             if (Input.GetKeyDown(KeyCode.Space) && paintReady)
             {
                 // changing another's colour

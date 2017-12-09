@@ -120,6 +120,7 @@ public class TutoChangeCol : MonoBehaviour
             {
                 TutoManager.singleton.speak("I can run,\nand I can hide!", speech, 2);
                 TutoManager.singleton.speak("It looks like changing colour produces adrenaline,\nwhether induced by mice or other sheep.", TutoManager.singleton.textNarr, 15);
+                TutoManager.singleton.instructions("You have a limited number of color changes (whichever the cause); \nwhen they're all used up, you turn back into paint.\n This keeps you from interacting, but\nyou can follow other sheep by pressing <b>Space</b>", TutoManager.toDo.space);
             }
         }
         if (attacker.CompareTag("Player") && gameObject != attacker)
@@ -198,6 +199,7 @@ public class TutoChangeCol : MonoBehaviour
         {
             GetComponent<TutoPLMove>().speed = 0;
             TutoManager.singleton.currState = TutoManager.gameState.deadPlayer;
+            TutoManager.singleton.instructions(" ", TutoManager.toDo.nothing);
         }
         else
         {

@@ -44,16 +44,20 @@ public class TutoPLBehaviour : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             changeCol.ChangeCol(gameObject);
+            if(TutoManager.singleton.currTask != TutoManager.toDo.nothing)
+            {
+                TutoManager.singleton.instructions("<b>Rats</b> make you change color on contact. \nYou get a speed boost whenever you change color.", TutoManager.toDo.rat);
+            }
         }
 
         Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
         // changing another's colour
         if (Physics.Raycast(transform.position + offsetPos, transform.forward * 5, out hit) && hit.transform.CompareTag("NPS"))
         {
-            if (Vector3.Distance(hit.transform.position, transform.position) >= hitDistance && changeCol.speech.text == "")
-            {
-                TutoManager.singleton.speak("Is there something there?\nI can't see; let's get closer", changeCol.speech, .5f); // should I get closer?
-            }
+            //if (Vector3.Distance(hit.transform.position, transform.position) >= hitDistance && changeCol.speech.text == "")
+            //{
+            //    TutoManager.singleton.speak("Is there something there?\nI can't see; let's get closer", changeCol.speech, .5f); // should I get closer?
+            //}
             if (paintReady && Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
             {
                 if (changeCol.speech.text == "" || changeCol.speech.text == "Is there something there?\nI can't see; let's get closer")
@@ -64,6 +68,7 @@ public class TutoPLBehaviour : MonoBehaviour {
                 {
                     hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
                     StartCoroutine(paintCooldown(cooldown));
+                    TutoManager.singleton.instructions("If you press <b>Left Ctrl</b>, you change your own color.", TutoManager.toDo.ctrl);
                 }
             }
         }

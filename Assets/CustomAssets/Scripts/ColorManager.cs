@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿//using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,7 +16,6 @@ public class ColorManager : NetworkBehaviour
 {
     public static ColorManager singleton;
     public bool isLocalPlayerDead = false;
-    public static bool isGamePlaying = false;
     public GameObject ScorePrefab;
     [Header("supposed to be empty in the Editor")]
     public Canvas lobbyCanvas;
@@ -26,16 +26,36 @@ public class ColorManager : NetworkBehaviour
     public GameObject ratKing;
     public Image healthGUI;
     public GameObject localPlayer;
+    [SyncVar]
     public int numberOfPlayersPlaying;
     public Score[] Scores;
     public Text following;
-    private NetworkManagerHUD networkManager;
     [Header("tmp: sound stuff")]
     public static AudioClip[] ChangeColSounds;
     public static AudioClip currentMusic;
     private AudioSource audioSource;
 
     private float refreshFrequency = 2.5f;
+
+    public enum gameState { menu, lobby, playing, scores };
+    private gameState currState;
+
+    [SyncVar]
+    public string currStateString;
+
+    public gameState CurrState
+    {
+        get
+        {
+            return currState;
+        }
+
+        set
+        {
+            currState = value;
+            currStateString = currState.ToString();
+        }
+    }
 
     void Awake()
     {
@@ -56,9 +76,17 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
+        if (isServer){
+            CurrState = gameState.lobby;
+            currStateString = CurrState.ToString();
+        } // should absolutely happen before the local player's PlayerBehaviour Start()
+        else
+        {
+            CurrState = (gameState)System.Enum.Parse(typeof(gameState), currStateString);
+        }
+        print("current state at start: " + CurrState);
         audioSource.Play();
-        networkManager = GameObject.FindGameObjectWithTag("NetworkManager").GetComponent<NetworkManagerHUD>();
-        toggleNetwHUD();
+        checkIfNetworkHUD.singleton.ToggleNetworkGUI();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
         foreach (GameObject gui in GUIs)
         {
@@ -88,39 +116,60 @@ public class ColorManager : NetworkBehaviour
         }
 
         launchGameTx.text = "";
-
-        /*
-        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject obj in listPlayersGO)
+     
+        Invoke("checkIfGamePlaying", 0.1f);
+        if(CurrState == gameState.lobby)
         {
-            if (obj.GetComponent<PlayerMove>().speed != 0)
+            Invoke("RefreshListOfPlayersSolo", 0.2f);
+            if (isServer)
             {
-                ColorManager.isGamePlaying = true;
+                Invoke("RpcRefreshListOfPlayers", .7f);
             }
-        }
-        if (ColorManager.isGamePlaying) // s'il arrive dans un jeu en cours 
-        {
-            print("GAME IS PLAYING");
-            ColorManager.singleton.LaunchGameSolo(); //il désactive la GUI du lobby
-            Destroy(listPlayersGO[listPlayersGO.Length - 1].GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            Destroy(listPlayersGO[listPlayersGO.Length - 1].GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            Destroy(listPlayersGO[listPlayersGO.Length - 1]); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            return;
-        }
-        */
-
-
-        Invoke("RefreshListOfPlayersSolo", 0.2f);
-        if (isServer)
-        {
-            Invoke("RpcRefreshListOfPlayers", .7f);
+            else
+            {
+                Invoke("RefreshListOfPlayersSolo", .7f);
+            }
         }
         else
         {
-            Invoke("RefreshListOfPlayersSolo", .7f);
+            localPlayer.GetComponent<PlayerBehaviour>().CmdRefreshPlayerMidGame();
+            LaunchGameSolo();
         }
     }
 
+
+    void checkIfGamePlaying()
+    {
+        if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
+        {
+            print("GAME IS PLAYING");
+            
+            Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+
+            Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
+            foreach (Score sco in Scores)
+            {
+                sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+                sco.SetStartTime();
+            }
+            numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
+            CurrState = gameState.playing;
+            launchGameTx.text = "";
+            listOfPlayersParent.SetActive(false);
+            lobbyCanvas.enabled = false;
+            return;
+        }
+    }
+
+    /*
+    [ClientRpc]
+    public void RpcSyncGameState(string state)
+    {
+        print(2);
+        currState = (gameState) System.Enum.Parse(typeof(gameState), state);
+    }
+    */
 
     public GameObject SpawnScore(string name, GameObject obj)
     {
@@ -138,9 +187,9 @@ public class ColorManager : NetworkBehaviour
     public void RpcChangeCol(GameObject obj, Color col, GameObject attacker)
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
-        obj.GetComponent<PlayerHealth>().TakeDamage();
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
-        if (isGamePlaying)
+        int damage = 2;
+        if (CurrState == gameState.playing)
         { // sound stuff
             AudioSource sound = obj.GetComponent<AudioSource>();
             sound.clip = ChangeColSounds[Random.Range(0, ChangeColSounds.Length)];
@@ -160,6 +209,7 @@ public class ColorManager : NetworkBehaviour
             if (attacker == obj)
             {
                 score.colorChangesFromSelf += 1;
+                damage = 1;
             }
             else if (attacker.CompareTag("AttackChangeCol"))
             {
@@ -169,7 +219,7 @@ public class ColorManager : NetworkBehaviour
             {
                 score.colorChangesFromOthers += 1;
                 attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
-                    attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+                attacker.GetComponent<PlayerChangeCol>().paintReady = false;
             }
             if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
             {
@@ -177,6 +227,7 @@ public class ColorManager : NetworkBehaviour
                 StartCoroutine(speedBoostNow);
             }
         }
+        obj.GetComponent<PlayerHealth>().TakeDamage(damage);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -233,8 +284,6 @@ public class ColorManager : NetworkBehaviour
 
     public void LaunchGameSolo()
     {
-        print("launching game: " + localPlayer.name);
-
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         foreach (Score sco in Scores)
         {
@@ -242,7 +291,7 @@ public class ColorManager : NetworkBehaviour
             sco.SetStartTime();
         }
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
-        isGamePlaying = true;
+        CurrState = gameState.playing;
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
         launchGameTx.text = "";
         listOfPlayersParent.SetActive(false);
@@ -254,8 +303,19 @@ public class ColorManager : NetworkBehaviour
                 IEnumerator wait = enemy.waitForChangeDir(Random.Range(enemy.waitRange.x, enemy.waitRange.y));
                 StartCoroutine(wait); //it works ONLY IF I create the coroutine on the previous line and set it up in here instead of in EnemyMover
             }
+            if (MenuManager.chrono != 0)
+            {
+                StartCoroutine(launchChrono(MenuManager.chrono));
+            }
         }
     }
+
+    IEnumerator launchChrono(float time)
+    {
+        yield return new WaitForSeconds(time * 60);
+        CmdShowScores();
+    }
+
 
     [ClientRpc]
     void RpcLaunchGame()
@@ -322,6 +382,36 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    public void RpcRefreshPlayerMidGame() { RefreshPlayerMidGameSolo(); }
+
+    public void RefreshPlayerMidGameSolo()
+    {
+        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        PlayerBehaviour[] listPlayers = new PlayerBehaviour[listPlayersGO.Length];
+        for (int i = 0; i < listPlayers.Length; i++)
+        {
+            listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
+            listPlayers[i].idNumber = i;
+            listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            if (listPlayers[i].localName == null || listPlayers[i].localName == "")
+            {
+                listPlayers[i].localName = "Player" + i.ToString();
+            }
+            string readyState = "not ready...";
+            Color txColor = Color.white;
+            if (listPlayers[i].ScoreTx == null)
+            {
+                float posX = listOfPlayersParent.transform.position.x;
+                float posY = listOfPlayersParent.transform.position.y;
+                int offset = (int)Mathf.Round(0.05f * Screen.height);
+                listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
+                listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
+                listPlayers[i].ScoreTx.GetComponent<Text>().text = " ";
+            }
+        }
+    }
+
     IEnumerator waitForGameEnd()
     {
         yield return new WaitForSeconds(1);
@@ -335,12 +425,17 @@ public class ColorManager : NetworkBehaviour
     }
 
     private void ShowScores()
-    { if (localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores(); } }
-    [Command] private void CmdShowScores() { RpcShowScores(); }
+    { if (localPlayer && localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores(); } }
+    [Command] private void CmdShowScores() {
+        CurrState = gameState.scores;
+        RpcShowScores();
+    }
     [ClientRpc] private void RpcShowScores() { ShowScoresSolo(); }
 
     public void ShowScoresSolo()
+
     {
+        CurrState = gameState.scores;
         lobbyCanvas.enabled = true;
         listOfPlayersParent.SetActive(true);
         for (int i = 0; i < Scores.Length; i++)
@@ -354,11 +449,16 @@ public class ColorManager : NetworkBehaviour
             string deathText;
             if (Scores[i].TimeOfDeath == "0")
             {
-                deathText = ": Survived To The End! ";
+                deathText = ": Solid To The End! ";
+            }
+            else if (float.Parse(Scores[i].TimeOfDeath) < .5f)
+            {
+                deathText = ": was spectating; ";
+                Scores[i].ScoreTx.color = Color.cyan;
             }
             else
             {
-                deathText = ": died at " + Scores[i].TimeOfDeath + "s; ";
+                deathText = ": liquefied at " + Scores[i].TimeOfDeath + "s; ";
             }
 
             if (!MenuManager.shortScore)
@@ -379,18 +479,13 @@ public class ColorManager : NetworkBehaviour
             }
         }
     }
-
-    public void toggleNetwHUD()
-    {
-        networkManager.enabled = !networkManager.enabled;
-    }
+    
 
     private void Update()
     {
-
-        if (isGamePlaying == true && numberOfPlayersPlaying <= 1 && !MenuManager.soloGame)
+        if (CurrState == gameState.playing && numberOfPlayersPlaying <= 1 && !MenuManager.soloGame)
         {
-            isGamePlaying = false;
+            CurrState = gameState.scores;
             StartCoroutine("waitForGameEnd");
         }
 
@@ -399,6 +494,5 @@ public class ColorManager : NetworkBehaviour
             lobbyCanvas.enabled = !lobbyCanvas.enabled;
             launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying;
         }
-
     }
 }

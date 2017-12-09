@@ -30,8 +30,14 @@ public class PlayerHealth : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        hp = MenuManager.startHp + 2;
+        hp = MenuManager.startHp*2 + 2;
         healthGUI = ColorManager.singleton.healthGUI;
+        if(ColorManager.singleton.CurrState != ColorManager.gameState.lobby)
+        {
+            ColorManager.singleton.numberOfPlayersPlaying += 1;
+            isAlive = false;
+            Kill();
+        }
     }
 
     // both for hp value and GUI's healthbar 
