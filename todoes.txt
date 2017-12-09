@@ -4,9 +4,7 @@ currently working on:
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
 to implement:
-1	different cost for self-change E enemy-change
 1	qd trop lgtps ds même zone: change col
-1	wider atk raius
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 2	custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
 2	more lvls
@@ -63,7 +61,8 @@ to implement:
 --nope-- custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
 --DONE-- max time (needs: scores)
 --DONE-- speedboost lower
-
+--DONE-- different cost for self-change E enemy-change
+--DONE-- wider atk raius
 
 bugs:
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
