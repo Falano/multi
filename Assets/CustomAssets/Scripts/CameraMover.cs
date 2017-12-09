@@ -28,10 +28,6 @@ public class CameraMover : NetworkBehaviour
 
     void Update()
     {
-        if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
-        {
-            return;
-        }
         if (activePlayer != null)
         {
             transform.position = activePlayer.position + posRotOffset.position;

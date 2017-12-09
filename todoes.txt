@@ -4,15 +4,15 @@ currently working on:
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
 to implement:
-1	speedboost lower
 1	different cost for self-change E enemy-change
 1	qd trop lgtps ds même zone: change col
 1	wider atk raius
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 2	custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
+2	more lvls
+2	option: more easily readable lvls
 2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown
 2	(boring options menu in-game)
-2	more lvls
 2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
 2	deathwave (how often) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 2	pretty score screen
@@ -62,10 +62,10 @@ to implement:
 --DONE-- enum for gameStates in main game
 --nope-- custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
 --DONE-- max time (needs: scores)
+--DONE-- speedboost lower
 
 
 bugs:
-	lvl5 flicker
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
 
 --DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
@@ -100,6 +100,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- move after death: the fuck? Probs linked to speed gain after changeCol
 --DONE-- you can go to lvl -3: keep menu values in the positive
 --DONE-- chrono: le host est en gameState: score, mais le client sait toujours bouger.
+--DONE-- lvl5 flicker
 
 
 

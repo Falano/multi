@@ -21,9 +21,10 @@ public class PlayerChangeCol : NetworkBehaviour
     public bool paintReady = true;
     public float cooldown = 3;
     public float speedBoostDuration = 1;
-    float speedBoostStrengthFactor = 3;
+    float speedBoostStrengthFactor = 2;
     public float speedBoostStrength;
     public int currBoost = 0;
+    //public Vector3 offsetTarget;
 
 
     void Start()
@@ -113,6 +114,11 @@ public class PlayerChangeCol : NetworkBehaviour
             }
 
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right/6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.right/6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up/4).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.up / 4).normalized * hitDistance, Color.green);
+
             if (Input.GetKeyDown(KeyCode.Space) && paintReady)
             {
                 // changing another's colour

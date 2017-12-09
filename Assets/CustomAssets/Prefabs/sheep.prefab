@@ -1130,10 +1130,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7492820bf5bf914ba8509806cac9295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitDistance: 2
+  hitDistance: 3
   paintReady: 1
   cooldown: 0.5
-  speedBoostDuration: 1
+  speedBoostDuration: 2
   speedBoostStrength: 0
   currBoost: 0
 --- !u!114 &114937269543962950
@@ -1278,3 +1278,4 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

@@ -187,8 +187,8 @@ public class ColorManager : NetworkBehaviour
     public void RpcChangeCol(GameObject obj, Color col, GameObject attacker)
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
-        obj.GetComponent<PlayerHealth>().TakeDamage();
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
+        int damage = 2;
         if (CurrState == gameState.playing)
         { // sound stuff
             AudioSource sound = obj.GetComponent<AudioSource>();
@@ -209,6 +209,7 @@ public class ColorManager : NetworkBehaviour
             if (attacker == obj)
             {
                 score.colorChangesFromSelf += 1;
+                damage = 1;
             }
             else if (attacker.CompareTag("AttackChangeCol"))
             {
@@ -218,7 +219,7 @@ public class ColorManager : NetworkBehaviour
             {
                 score.colorChangesFromOthers += 1;
                 attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
-                    attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+                attacker.GetComponent<PlayerChangeCol>().paintReady = false;
             }
             if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
             {
@@ -226,6 +227,7 @@ public class ColorManager : NetworkBehaviour
                 StartCoroutine(speedBoostNow);
             }
         }
+        obj.GetComponent<PlayerHealth>().TakeDamage(damage);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -447,7 +449,7 @@ public class ColorManager : NetworkBehaviour
             string deathText;
             if (Scores[i].TimeOfDeath == "0")
             {
-                deathText = ": Survived To The End! ";
+                deathText = ": Solid To The End! ";
             }
             else if (float.Parse(Scores[i].TimeOfDeath) < .5f)
             {
@@ -456,7 +458,7 @@ public class ColorManager : NetworkBehaviour
             }
             else
             {
-                deathText = ": died at " + Scores[i].TimeOfDeath + "s; ";
+                deathText = ": liquefied at " + Scores[i].TimeOfDeath + "s; ";
             }
 
             if (!MenuManager.shortScore)

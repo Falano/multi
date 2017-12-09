@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
     public static int enemyNumber = 10;
-    public static int startHp = 20;
+    public static int startHp = 15;
     public static bool soloGame = false;
     public static string startLevel;
     public static int teamwork; // number of different teams; 0 is chacun pour soi
@@ -22,13 +22,10 @@ public class MenuManager : MonoBehaviour
     public static int activeScene = 0;
     public static int nbScenes;
     public static int musicIndex = 0;
-    private string playerName;
     public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
     public static Color[] colors;
     [SerializeField]
     private Material[] colorsMats;
-
-    //private NetworkLobbyManager lobbyManager; //only useful for lobby version
 
     [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
@@ -45,7 +42,6 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
-    public Text connexionInfoTx;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -67,7 +63,6 @@ public class MenuManager : MonoBehaviour
         set
         {
             PlayerPrefs.SetString("playerName", value);
-            playerName = value;
         }
     }
 
@@ -82,7 +77,6 @@ public class MenuManager : MonoBehaviour
             Destroy(this);
         }
     }
-
 
 
     public void Start()
@@ -112,7 +106,7 @@ public class MenuManager : MonoBehaviour
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
-        lvlText.text = (activeScene+1).ToString();
+        lvlText.text = (activeScene + 1).ToString();
         foleyVolumeText.text = foleyVolumeInt.ToString();
         musicVolumeText.text = musicVolumeInt.ToString();
         if (PlayerPrefs.HasKey("faveMusic"))
@@ -147,7 +141,6 @@ public class MenuManager : MonoBehaviour
         ColorManager.ChangeColSounds = changeColSounds;
     }
 
-
     public void SetInputField()
     {
         InputField nameField = GetComponentInChildren<InputField>();
@@ -180,8 +173,8 @@ public class MenuManager : MonoBehaviour
         {
             activeScene = 0;
         }
-        lvlText.text = (activeScene+1).ToString();
-        NetworkManager.singleton.onlineScene = (activeScene+1).ToString();
+        lvlText.text = (activeScene + 1).ToString();
+        NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
@@ -200,8 +193,6 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // check all the sound variables, I may have made some mistakes
-
     public void TogglePlayFoley()
     {
         foley.clip = changeColSounds[Random.Range(0, changeColSounds.Length)];
@@ -213,12 +204,13 @@ public class MenuManager : MonoBehaviour
         ChangeSetting(index, ref musicIndex, musicText, 0, musics.Length - 1);
     }
 
-    public void ChangeMusicVolume(int volume) {
-
+    public void ChangeMusicVolume(int volume)
+    {
         ChangeSetting(volume, ref musicVolumeInt, musicVolumeText, 0, 100);
         musicMixer.audioMixer.SetFloat("musicVol", musicVolumeInt - 40 - musicVolumeInt * 0.5f); //là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt; is it ok? Later
-        if(musicVolumeInt == 0){ // 0 le mute completement
-        musicMixer.audioMixer.SetFloat("musicVol", -70);
+        if (musicVolumeInt == 0)
+        { // 0 le mute completement
+            musicMixer.audioMixer.SetFloat("musicVol", -70);
         }
     }
 
@@ -255,7 +247,7 @@ public class MenuManager : MonoBehaviour
     {
         setting = !setting;
         string settingValue;
-        if(setting == true)
+        if (setting == true)
         {
             settingValue = "yes";
         }
@@ -270,7 +262,7 @@ public class MenuManager : MonoBehaviour
     {
         setting += nb;
         settingText.text = setting.ToString();
-        if(setting < min)
+        if (setting < min)
         {
             ChangeSettingAbsolute(max, ref setting, settingText);
         }
@@ -307,19 +299,26 @@ public class MenuManager : MonoBehaviour
         settingText.text = setting.ToString();
     }
 
-
     public void ToggleNetworkManagerHUD(bool state)
     {
         checkIfNetworkHUD.singleton.ToggleNetworkGUI(state);
     }
 
-    public void ToggleConnexionInfo()
+    public void ToggleText(Text option)
     {
-        connexionInfoTx.enabled = !connexionInfoTx.enabled;
+        option.enabled = !option.enabled;
     }
 
     public void ClearAllData()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            soloGame = true;
+        }
     }
 }
