@@ -37,19 +37,19 @@ public class TutoPLMove : MonoBehaviour
             return;
         }
 
-        animator.SetBool("moving", Input.GetKey(KeyCode.UpArrow));
+        animator.SetBool("moving", Input.GetKey(MenuManager.forward));
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(MenuManager.right))
         {
             // add a "rotating right without advancing" anim?
             transform.Rotate(0, rotationSpeed * Time.deltaTime, 0);
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(MenuManager.left))
         {
             // add a "rotating left without advancing" anim?
             transform.Rotate(0, -rotationSpeed * Time.deltaTime, 0);
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(MenuManager.forward))
         {
             transform.Translate(0, 0, speed * Time.deltaTime);
         }

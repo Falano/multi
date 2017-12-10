@@ -41,7 +41,7 @@ public class TutoPLBehaviour : MonoBehaviour {
             return;
         }
         // changing their own colour
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(MenuManager.selfChange))
         {
             changeCol.ChangeCol(gameObject);
             if(TutoManager.singleton.currTask != TutoManager.toDo.nothing)
@@ -51,8 +51,18 @@ public class TutoPLBehaviour : MonoBehaviour {
         }
 
         Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
+        Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right / 6).normalized * hitDistance, Color.green);
+        Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.right / 6).normalized * hitDistance, Color.green);
+        Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up / 4).normalized * hitDistance, Color.green);
+        Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.up / 4).normalized * hitDistance, Color.green);
         // changing another's colour
-        if (Physics.Raycast(transform.position + offsetPos, transform.forward * 5, out hit) && hit.transform.CompareTag("NPS"))
+        if ((Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward + transform.right / 6, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward - transform.right / 6, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward + transform.up / 4, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward - transform.up / 4, out hit)
+                    )
+             && hit.transform.CompareTag("NPS"))
         {
             //if (Vector3.Distance(hit.transform.position, transform.position) >= hitDistance && changeCol.speech.text == "")
             //{
@@ -62,13 +72,13 @@ public class TutoPLBehaviour : MonoBehaviour {
             {
                 if (changeCol.speech.text == "" || changeCol.speech.text == "Is there something there?\nI can't see; let's get closer")
                 {
-                    TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>Space</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
+                    TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>"+MenuManager.interact+"</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
                 }
-                if (Input.GetKeyDown(KeyCode.Space) && paintReady == true)
+                if (Input.GetKeyDown(MenuManager.interact) && paintReady == true)
                 {
                     hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
                     StartCoroutine(paintCooldown(cooldown));
-                    TutoManager.singleton.instructions("If you press <b>Left Ctrl</b>, you change your own color.", TutoManager.toDo.ctrl);
+                    TutoManager.singleton.instructions("If you press <b>"+ MenuManager.selfChange +"</b>, you change your own color.", TutoManager.toDo.ctrl);
                 }
             }
         }

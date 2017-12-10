@@ -33,6 +33,7 @@ public class TutoChangeCol : MonoBehaviour
 
     void Start()
     {
+        sprites = TutoManager.singleton.sprites;
         if (CompareTag("Player")){
             TutoPLMove mover = GetComponent<TutoPLMove>();
             speedBoostStrength = mover.baseSpeed * speedBoostStrengthFactor;
@@ -55,14 +56,14 @@ public class TutoChangeCol : MonoBehaviour
         {
             ChangeCol(colors[0]);
         }
-        hp = StartHp;
+        hp = StartHp*2;
         healthGUI = TutoManager.singleton.healthGUI;
-        TutoManager.singleton.speak("Press <b>Space</b> when you\'re ready. The game starts when every <i>logged in</i> player\nis ready (<i>even if</i> everyone you planned to play with hasn\'t logged in yet).\nThis tutorial is offline though,so don\'t worry about forgetting people,\n just remember: <b>Space</b> when you\'re ready.", TutoManager.singleton.textNarr, 50);
+        TutoManager.singleton.speak("Press <b>"+MenuManager.interact+"</b> when you\'re ready. The game starts when every <i>logged in</i> player\nis ready (<i>even if</i> everyone you planned to play with hasn\'t logged in yet).\nThis tutorial is offline though,so don\'t worry about forgetting people,\n just remember: <b>"+MenuManager.interact+"</b> when you\'re ready.", TutoManager.singleton.textNarr, 50);
         if (CompareTag("Player"))
         {
             spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10)-1;
             healthGUI.sprite = sprites[spritesIndex];
-            TutoManager.singleton.speak("I should try pressing <b>Escape</b> several times...", speech, 10);
+            TutoManager.singleton.speak("I should try pressing <b>"+MenuManager.menu+"</b> several times...", speech, 10);
         }
     }
 
@@ -82,17 +83,11 @@ public class TutoChangeCol : MonoBehaviour
             Kill();
             return;
         }
-
+        int damage = 2;
         source = GetComponent<AudioSource>();
         source.clip = TutoManager.singleton.ChangeColSounds[Random.Range(0, TutoManager.singleton.ChangeColSounds.Length)];
         source.Play();
 
-        hp -= 1;
-        if (CompareTag("Player"))
-        {
-            spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10);
-            healthGUI.sprite = sprites[spritesIndex];
-        }
 
         while (prevColor == rd.material.color)
         {
@@ -105,13 +100,13 @@ public class TutoChangeCol : MonoBehaviour
             rd.materials[1].color = prevColor;
         }
 
-
-        if(attacker == gameObject)
+        if (attacker == gameObject)
         {
             if (CompareTag("Player"))
             {
                 TutoManager.singleton.speak("Oww, I better not do that too often", speech, 3);
                 TutoManager.singleton.speak("See <i>the ball in the top-right corner</i>? \nThat's how many colour changes you have left\nbefore you turn back into paint.", TutoManager.singleton.textNarr, 20);
+                damage = 1;
             }
         }
         if (attacker.CompareTag("AttackChangeCol"))
@@ -120,7 +115,7 @@ public class TutoChangeCol : MonoBehaviour
             {
                 TutoManager.singleton.speak("I can run,\nand I can hide!", speech, 2);
                 TutoManager.singleton.speak("It looks like changing colour produces adrenaline,\nwhether induced by mice or other sheep.", TutoManager.singleton.textNarr, 15);
-                TutoManager.singleton.instructions("You have a limited number of color changes (whichever the cause); \nwhen they're all used up, you turn back into paint.\n This keeps you from interacting, but\nyou can follow other sheep by pressing <b>Space</b>", TutoManager.toDo.space);
+                TutoManager.singleton.instructions("You have a limited number of color changes (whichever the cause); \nwhen they're all used up, you turn back into paint.\n This keeps you from interacting, but\nyou can follow other sheep by pressing <b>"+MenuManager.interact+"</b>", TutoManager.toDo.space);
             }
         }
         if (attacker.CompareTag("Player") && gameObject != attacker)
@@ -129,8 +124,15 @@ public class TutoChangeCol : MonoBehaviour
             TutoManager.singleton.speak("Hey!\nWhy?", speech, 2);
         }
 
-
-
+        if (CompareTag("Player"))
+        {
+            spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10);
+            healthGUI.                
+                sprite = 
+                sprites
+                [spritesIndex];
+        }
+        hp -= damage;
         StartCoroutine(speedBoost(SpeedBoostDuration, speedBoostStrength, gameObject, attacker ));
     }
 
@@ -194,7 +196,7 @@ public class TutoChangeCol : MonoBehaviour
     {
         StopAllCoroutines();
         speech.text = "Bye!";
-        TutoManager.singleton.speak("When you have turned back into paint, you can't play any more\nbut the <b>Space</b> key allows you to see what others are up to.", TutoManager.singleton.textNarr, 20);
+        TutoManager.singleton.speak("When you have turned back into paint, you can't play any more\nbut the <b>"+MenuManager.interact+"</b> key allows you to see what others are up to.", TutoManager.singleton.textNarr, 20);
         if (CompareTag("Player"))
         {
             GetComponent<TutoPLMove>().speed = 0;
