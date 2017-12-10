@@ -1,0 +1,33 @@
+PlayerChangeCol:
+stillTime 20
+paintReady cooldown 0.5
+speedBoostDuration 2
+speedBoostStrengthFactor 2
+HitDistance 3
+hitRadius transform.right/6, transform.up/4
+
+PlayerMove:
+BaseSpeed 4
+RotationSpeed 320
+
+MenuManager:
+StartHp 30
+enemyNumber 10
+foleyVolume 60
+musicVolume 60
+interact space
+self leftCtrl
+menu escape
+forward up
+left left
+right right
+
+EnemyMover:
+waitRange 2-6
+rotationSpeed 9999999
+
+enemy-navMeshAgent:
+speed 5
+angularSpeed 600
+acceleration 15
+stopping distance 0.2

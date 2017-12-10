@@ -221,6 +221,12 @@ public class ColorManager : NetworkBehaviour
                 attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
                 attacker.GetComponent<PlayerChangeCol>().paintReady = false;
             }
+            else
+            {
+                obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesFromGround += 1;
+                damage = 3;
+
+            }
             if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
             {
                 IEnumerator speedBoostNow = speedBoost(objChangeCol.speedBoostDuration, objChangeCol.speedBoostStrength, obj, attacker);

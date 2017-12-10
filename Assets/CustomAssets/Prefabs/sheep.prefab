@@ -1136,6 +1136,7 @@ MonoBehaviour:
   speedBoostDuration: 2
   speedBoostStrength: 0
   currBoost: 0
+  stillTime: 20
 --- !u!114 &114937269543962950
 MonoBehaviour:
   m_ObjectHideFlags: 1

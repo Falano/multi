@@ -13,7 +13,7 @@ public class MenuManager : MonoBehaviour
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
     public static int enemyNumber = 10;
-    public static int startHp = 15;
+    public static int startHp = 30;
     public static bool soloGame = false;
     public static string startLevel;
     public static int teamwork; // number of different teams; 0 is chacun pour soi
@@ -144,7 +144,7 @@ public class MenuManager : MonoBehaviour
         lvlImg.sprite = lvlPreviews[activeScene];
         //initializing the texts with the default values:
         enemyText.text = enemyNumber.ToString();
-        hpText.text = startHp.ToString();
+        hpText.text = (startHp/2).ToString();
         chronoText.text = chrono.ToString();
         lvlText.text = (activeScene + 1).ToString();
         foleyVolumeText.text = foleyVolumeInt.ToString();
@@ -273,7 +273,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeStartHp(int nb)
     {
-        ChangeSetting(nb, ref startHp, hpText, 1, 250);
+        ChangeSetting(nb*2, ref startHp, hpText, 2, 500);
     }
     public void ChangeSoloGame()
     {

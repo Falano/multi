@@ -2,12 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// à ne mettre que sur le mouton du joueur dans le tuto
+
 public class TutoPLBehaviour : MonoBehaviour {
     RaycastHit hit;
+    RaycastHit ground;
     public float hitDistance = 1.5f;
     Vector3 offsetPos;
     Renderer rd;
     TutoChangeCol changeCol;
+
+    private Color prevGroundColor;
+    private Color currGroundColor;
+    [SerializeField]
+    float stillTime = 20;
+    IEnumerator divineRetribution;
 
     public bool paintReady = true;
     public float cooldown = .5f;
@@ -21,6 +30,8 @@ public class TutoPLBehaviour : MonoBehaviour {
         offsetPos = new Vector3(0, .5f, 0);
         changeCol = GetComponent<TutoChangeCol>();
         TutoCameraMover.singleton.activePlayer = transform;
+        currGroundColor = Color.white;
+        InvokeRepeating("CheckGroundColor", 1, 1);
     }
 
 
@@ -30,6 +41,30 @@ public class TutoPLBehaviour : MonoBehaviour {
         paintReady = false;
         yield return new WaitForSeconds(cooldown);
         paintReady = true;
+    }
+
+
+    void CheckGroundColor() // so people don't stay too long in the same place
+    {
+        if (Physics.Raycast(transform.position, -transform.up, out ground))
+        {
+            prevGroundColor = currGroundColor;
+            currGroundColor = ground.transform.GetComponent<Renderer>().material.color;
+            if (prevGroundColor != currGroundColor && TutoManager.singleton.currState == TutoManager.gameState.playing)
+            { // if you just moved ground colors, we launch a new countdown
+                StopAllCoroutines();
+                divineRetribution = autoChangeCol(stillTime);
+                StartCoroutine(divineRetribution);
+            }
+        }
+    }
+
+    IEnumerator autoChangeCol(float time)
+    {
+        divineRetribution = autoChangeCol(stillTime);
+        yield return new WaitForSeconds(time);
+        changeCol.ChangeCol(TutoManager.singleton.gameObject);
+        StartCoroutine(divineRetribution);
     }
 
 
@@ -46,7 +81,13 @@ public class TutoPLBehaviour : MonoBehaviour {
             changeCol.ChangeCol(gameObject);
             if(TutoManager.singleton.currTask != TutoManager.toDo.nothing)
             {
-                TutoManager.singleton.instructions("<b>Rats</b> make you change color on contact. \nYou get a speed boost whenever you change color.", TutoManager.toDo.rat);
+                if(TutoManager.singleton.instructionsTx.text == "If you stay too long on the same colour, \nThe ground makes you change colour.")
+                {
+                    TutoManager.singleton.instructions("<b>Rats</b> make you change color on contact. \nYou get a speed boost whenever you change color.", TutoManager.toDo.rat);
+                }
+                else {
+                    TutoManager.singleton.instructions("If you stay too long on the same colour, \nThe ground makes you change colour.", TutoManager.toDo.rat);
+            }
             }
         }
 
@@ -74,14 +115,23 @@ public class TutoPLBehaviour : MonoBehaviour {
                 {
                     TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>"+MenuManager.interact+"</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
                 }
-                if (Input.GetKeyDown(MenuManager.interact) && paintReady == true)
+                if (Input.GetKeyDown(MenuManager.interact))
                 {
                     hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
                     StartCoroutine(paintCooldown(cooldown));
                     TutoManager.singleton.instructions("If you press <b>"+ MenuManager.selfChange +"</b>, you change your own color.", TutoManager.toDo.ctrl);
                 }
             }
+            else if (Input.GetKeyDown(MenuManager.interact))
+            {
+                TutoManager.singleton.speak("Too late!", changeCol.speech, 1);
+            }
         }
+        else if (Input.GetKeyDown(MenuManager.interact))
+        {
+            TutoManager.singleton.speak("Too late!", changeCol.speech, 1);
+        }
+
 
         if (rd.materials[1].color != Color.black)
         {

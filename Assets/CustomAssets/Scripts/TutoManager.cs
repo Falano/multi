@@ -23,7 +23,7 @@ public class TutoManager : MonoBehaviour {
     public Text following;
     private Canvas lobbyCanvas;
     private Text launchGameTx;
-    private Text instructionsTx;
+    public Text instructionsTx;
     Text playerReadyTx;
     string localName = "Player";
     //public bool coroutinesRunning = false;

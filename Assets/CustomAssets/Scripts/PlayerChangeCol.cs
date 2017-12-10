@@ -14,6 +14,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
 
     RaycastHit hit;
+    RaycastHit ground;
     public float hitDistance = 1.5f;
     Vector3 offsetPos;
     Renderer rd;
@@ -21,11 +22,16 @@ public class PlayerChangeCol : NetworkBehaviour
     public bool paintReady = true;
     public float cooldown = 3;
     public float speedBoostDuration = 1;
+    [SerializeField]
     float speedBoostStrengthFactor = 2;
     public float speedBoostStrength;
     public int currBoost = 0;
     //public Vector3 offsetTarget;
-
+    private Color prevGroundColor;
+    private Color currGroundColor;
+    [SerializeField]
+    float stillTime;
+    IEnumerator divineRetribution;
 
     void Start()
     {
@@ -34,6 +40,9 @@ public class PlayerChangeCol : NetworkBehaviour
         rd = GetComponentInChildren<Renderer>();
         currColor = colors[0];
         offsetPos = new Vector3(0, .5f, 0);
+        currGroundColor = Color.white;
+        InvokeRepeating("CheckGroundColor", 1, 1);
+
     }
 
     public void startWhite()
@@ -79,6 +88,7 @@ public class PlayerChangeCol : NetworkBehaviour
     // so I can choose to change to one specific colour
     void ChangeCol(GameObject obj, Color col, GameObject attacker)
     {
+        print("changeCol");
         if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
         {
             return;
@@ -95,9 +105,29 @@ public class PlayerChangeCol : NetworkBehaviour
         ColorManager.singleton.RpcChangeCol(obj, col, attacker);
     }
 
+    void CheckGroundColor() // so people don't stay too long in the same place
+    {
+        if (Physics.Raycast(transform.position+offsetPos, -transform.up, out ground))
+        {
+            prevGroundColor = currGroundColor;
+            currGroundColor = ground.transform.GetComponent<Renderer>().material.color;
+            if (prevGroundColor != currGroundColor && ColorManager.singleton.CurrState == ColorManager.gameState.playing)
+            { // if you just moved ground colors, we launch a new countdown
+                StopAllCoroutines();
+                divineRetribution = autoChangeCol(stillTime);
+                StartCoroutine(divineRetribution);
+            }
+        }
+    }
 
-
-
+    IEnumerator autoChangeCol(float time)
+    {
+        divineRetribution = autoChangeCol(stillTime);
+        yield return new WaitForSeconds(time);
+        
+        ChangeCol(gameObject, ColorManager.singleton.gameObject);
+        StartCoroutine(divineRetribution);
+    }
 
     void Update()
     {
@@ -113,6 +143,7 @@ public class PlayerChangeCol : NetworkBehaviour
                 ChangeCol(gameObject, gameObject);
             }
 
+            // changing another's colour
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right/6).normalized * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.right/6).normalized * hitDistance, Color.green);
@@ -121,7 +152,6 @@ public class PlayerChangeCol : NetworkBehaviour
 
             if (Input.GetKeyDown(MenuManager.interact) && paintReady)
             {
-                // changing another's colour
                 if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) ||
                     Physics.Raycast(transform.position + offsetPos, transform.forward + transform.right / 6, out hit) ||
                     Physics.Raycast(transform.position + offsetPos, transform.forward - transform.right / 6, out hit) ||

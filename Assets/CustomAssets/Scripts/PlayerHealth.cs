@@ -30,7 +30,7 @@ public class PlayerHealth : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        hp = MenuManager.startHp*2 + 2;
+        hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
         if(ColorManager.singleton.CurrState != ColorManager.gameState.lobby)
         {
@@ -43,6 +43,7 @@ public class PlayerHealth : NetworkBehaviour
     // both for hp value and GUI's healthbar 
     public void TakeDamage(int dmg = 1)
     {
+        print("damage");
         if (!isAlive)
         {
             return;
@@ -55,9 +56,10 @@ public class PlayerHealth : NetworkBehaviour
             isAlive = false;
             Kill();
         }
-        spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * 10);
+        spritesIndex = (int)Mathf.Floor((Hp / MenuManager.startHp) * sprites.Length);
         if (isLocalPlayer)
         {
+            print("spritesIndex: " + spritesIndex);
             healthGUI.sprite = sprites[spritesIndex]; // (si healthGUI est mal défini line 34-38 dans le Start():) ça. ça fait tout foirer. C'est la racine du mal. C'est à cause de lui que (ALORS QUE JE N'AI PAS DE WHILE NI DE FOR NI RIEN QUI EVOQUE UNE BOUCLE INFINIE) au deuxième ChangeCOl il s'emballe et re-TakeDamage() à l'infini
         }
     }
