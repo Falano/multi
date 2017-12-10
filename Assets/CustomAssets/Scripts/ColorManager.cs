@@ -489,7 +489,7 @@ public class ColorManager : NetworkBehaviour
             StartCoroutine("waitForGameEnd");
         }
 
-        if (Input.GetKeyDown(KeyCode.A)) // testing area //////////////////////////////////////////////////////////////////////////////////
+        if (Input.GetKeyDown(MenuManager.debug)) // testing area //////////////////////////////////////////////////////////////////////////////////
         {
             lobbyCanvas.enabled = !lobbyCanvas.enabled;
             launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying;

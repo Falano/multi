@@ -125,7 +125,7 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && ColorManager.singleton.CurrState == ColorManager.gameState.lobby)
+        if (Input.GetKeyDown(MenuManager.interact) && ColorManager.singleton.CurrState == ColorManager.gameState.lobby)
         {
             ToggleReady(!_isReady);
         }

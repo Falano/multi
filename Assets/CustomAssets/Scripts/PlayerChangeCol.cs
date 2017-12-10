@@ -108,21 +108,26 @@ public class PlayerChangeCol : NetworkBehaviour
                 return;
             }
             // changing their own colour
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(MenuManager.selfChange))
             {
                 ChangeCol(gameObject, gameObject);
             }
 
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right/6).normalized * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.right/6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.right/6).normalized * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up/4).normalized * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.up / 4).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.up / 4).normalized * hitDistance, Color.green);
 
-            if (Input.GetKeyDown(KeyCode.Space) && paintReady)
+            if (Input.GetKeyDown(MenuManager.interact) && paintReady)
             {
                 // changing another's colour
-                if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit))
+                if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward + transform.right / 6, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward - transform.right / 6, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward + transform.up / 4, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward - transform.up / 4, out hit)
+                    )
                 {
                     if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
                     {

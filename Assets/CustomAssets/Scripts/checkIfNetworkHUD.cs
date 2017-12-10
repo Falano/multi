@@ -52,7 +52,7 @@ public class checkIfNetworkHUD : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(MenuManager.menu))
         {
             ToggleNetworkGUI();
         }

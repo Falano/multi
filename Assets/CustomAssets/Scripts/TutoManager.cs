@@ -13,7 +13,7 @@ public class TutoManager : MonoBehaviour {
     public TextMesh textNarr;
     public GameObject[] NPSs;
     private string[] localNames;
-
+    public Sprite[] sprites;
     public AudioClip[] ChangeColSounds;
 
     [SerializeField]
@@ -48,28 +48,14 @@ public class TutoManager : MonoBehaviour {
         }
         localNames = new string[] {"Romuald", "Zobeide", "Trompette", "Rotule", "Medor", "Jules", "Infarctule", "Gaelann", "Fossette", "Egoinne", "Ciboulette", "Cannelle", "Bretelle", "Bobinette", "Bidule", "Asphodèle", "Andromaque", "Articule", "Barnécide", "Catapulle", "Dardielle", "Escopette", "Frisquette", "Glavicule", "Houlette", "Juliette", "Lola", "Marionnette", "Notule", "Operette", "Poutchinette", "Tentacule", "Vesicule" } ;
         Destroy(GameObject.FindGameObjectWithTag("NetworkManager"));
-    }
-
-    // Use this for initialization
-    void Start () {
-        currState = gameState.lobby;
-        textNarr = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<TextMesh>();
-        NPSs = GameObject.FindGameObjectsWithTag("NPS");
-       foreach(GameObject NPS in NPSs)
+        textNarr = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<TextMesh>(); // since it's in the update if I leave it in Start it throws half a dozen error messages
+        foreach (GameObject gui in GameObject.FindGameObjectsWithTag("GUI")) //cause other scripts use it and if in the Start they'll try to grab it before TutoManager knows what they are
         {
-            while(NPS.GetComponent<TutoStats>().localName == null || NPS.GetComponent<TutoStats>().localName == "")
+            switch (gui.name)
             {
-                int i = Random.Range(0, localNames.Length);
-                NPS.GetComponent<TutoStats>().localName = localNames[i];
-                localNames[i] = null;
-            } 
-        }
-       foreach (GameObject gui in GameObject.FindGameObjectsWithTag("GUI"))
-        {
-            switch (gui.name) {
 
                 case "healthGUI":
-            healthGUI = gui.GetComponent<Image>();
+                    healthGUI = gui.GetComponent<Image>();
                     break;
                 case "following":
                     following = gui.GetComponent<Text>();
@@ -91,8 +77,23 @@ public class TutoManager : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    // Use this for initialization
+    void Start () {
+        currState = gameState.lobby;
+        NPSs = GameObject.FindGameObjectsWithTag("NPS");
+       foreach(GameObject NPS in NPSs)
+        {
+            while(NPS.GetComponent<TutoStats>().localName == null || NPS.GetComponent<TutoStats>().localName == "")
+            {
+                int i = Random.Range(0, localNames.Length);
+                NPS.GetComponent<TutoStats>().localName = localNames[i];
+                localNames[i] = null;
+            } 
+        }
         launchGameTx.text = "";
-        instructions("Press <b>Escape</b> to toggle the menu and those instructions\nDo it twice now.", toDo.escape);
+        instructions("Press <b>"+MenuManager.menu+"</b> to toggle the menu and those instructions\nDo it twice now.", toDo.escape);
         if (PlayerPrefs.HasKey("playerName"))
         {
             localName = PlayerPrefs.GetString("playerName");
@@ -170,20 +171,20 @@ public class TutoManager : MonoBehaviour {
         lobbyCanvas.enabled = false;
         launchGameTx.text = "";
         textNarr.text = "";
-        instructions("when you're looking at another sheep from very close,\n <b>Space</b> makes them change color.\nOther players see you like you see them: \nall of one color; not like you see yourself", toDo.space);
+        instructions("when you're looking at another sheep from very close,\n <b>"+MenuManager.interact+"</b> makes them change color.\nOther players see you like you see them: \nall of one color; not like you see yourself", toDo.space);
     }
 
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space) && currState == gameState.lobby && currTask == toDo.space)
+		if(Input.GetKeyDown(MenuManager.interact) && currState == gameState.lobby && currTask == toDo.space)
         {
             StartCoroutine(startingGame());
         }
-        if (Input.GetKeyDown(KeyCode.Escape)){
+        if (Input.GetKeyDown(MenuManager.menu)){
             ToggleMenuButton();
             if(currState == gameState.lobby)
             {
-                instructions("Press <b>Space</b> to launch the game", toDo.space);
+                instructions("Press <b>"+MenuManager.interact+"</b> to launch the game", toDo.space);
             }
         }
     }

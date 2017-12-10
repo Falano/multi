@@ -35,7 +35,7 @@ public class TutoCameraMover : MonoBehaviour
         }
 
         // for following not-dead players when you died
-        if (Input.GetKeyDown(KeyCode.Space) && TutoManager.singleton.currState == TutoManager.gameState.deadPlayer)
+        if (Input.GetKeyDown(MenuManager.interact) && TutoManager.singleton.currState == TutoManager.gameState.deadPlayer)
         {
             i += 1;
             if (i >= TutoManager.singleton.NPSs.Length)

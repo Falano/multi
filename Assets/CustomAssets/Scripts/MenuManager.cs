@@ -53,6 +53,20 @@ public class MenuManager : MonoBehaviour
     public AudioMixerGroup foleyMixer;
     public AudioMixerGroup musicMixer;
 
+    public static KeyCode interact = KeyCode.Space;
+    public static KeyCode selfChange = KeyCode.LeftControl;
+    public static KeyCode menu = KeyCode.Escape;
+    public static KeyCode forward = KeyCode.UpArrow;
+    public static KeyCode left = KeyCode.LeftArrow;
+    public static KeyCode right = KeyCode.RightArrow;
+    public static KeyCode debug = KeyCode.P;
+
+    public Text interactKeyTx;
+    public Text selfChangeKeyTx;
+    public Text menuKeyTx;
+    public Text forwardKeyTx;
+    public Text rightKeyTx;
+    public Text leftKeyTx;
 
     public string PlayerName
     {
@@ -94,25 +108,53 @@ public class MenuManager : MonoBehaviour
             }
         }
 
+        //setting the options according to the recorded preferences
         if (PlayerPrefs.HasKey("faveMusic"))
         {
             musicIndex = PlayerPrefs.GetInt("faveMusic");
         }
+        if (PlayerPrefs.HasKey("interactKey"))
+        {
+            interact = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("interactKey"));
+        }
+        if (PlayerPrefs.HasKey("selfChangeKey"))
+        {
+            selfChange = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("selfChangeKey"));
+        }
+        if (PlayerPrefs.HasKey("menuKey"))
+        {
+            menu = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("menuKey"));
+        }
+        if (PlayerPrefs.HasKey("forwardKey"))
+        {
+            forward = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("forwardKey"));
+        }
+        if (PlayerPrefs.HasKey("rightKey"))
+        {
+            right = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("rightKey"));
+        }
+        if (PlayerPrefs.HasKey("leftKey"))
+        {
+            left = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey"));
+        }
+
         colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
-        //now: initializing the texts with the default values:
+        //initializing the texts with the default values:
         enemyText.text = enemyNumber.ToString();
         hpText.text = startHp.ToString();
         chronoText.text = chrono.ToString();
         lvlText.text = (activeScene + 1).ToString();
         foleyVolumeText.text = foleyVolumeInt.ToString();
         musicVolumeText.text = musicVolumeInt.ToString();
-        if (PlayerPrefs.HasKey("faveMusic"))
-        {
-            musicIndex = PlayerPrefs.GetInt("faveMusic");
-        }
+        interactKeyTx.text = interact.ToString();
+        selfChangeKeyTx.text = selfChange.ToString();
+        menuKeyTx.text = menu.ToString();
+        forwardKeyTx.text = forward.ToString();
+        rightKeyTx.text = right.ToString();
+        leftKeyTx.text = left.ToString();
         musicText.text = musicIndex.ToString();
         if (soloGame)
         {
@@ -309,16 +351,151 @@ public class MenuManager : MonoBehaviour
         option.enabled = !option.enabled;
     }
 
+    // for the custom keys. Since IEnumerators don't accept ref or out params, I have to do this fucking cumbersome thing. This could be six times as short and less prone to errors.
+
+    public void SetInteractKey()
+    {
+        StartCoroutine(GetInteract());
+    }
+
+    public IEnumerator GetInteract()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyPressed))
+            {
+                interact = keyPressed;
+                PlayerPrefs.SetString("interactKey", keyPressed.ToString());
+                interactKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+
+    public void SetMenuKey()
+    {
+        StartCoroutine(GetMenu());
+    }
+
+    public IEnumerator GetMenu()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyPressed))
+            {
+                menu = keyPressed;
+                PlayerPrefs.SetString("menuKey", keyPressed.ToString());
+                menuKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+    public void SetSelfKey()
+    {
+        StartCoroutine(GetSelf());
+    }
+
+    public IEnumerator GetSelf()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyPressed))
+            {
+                selfChange = keyPressed;
+                PlayerPrefs.SetString("selfChangeKey", keyPressed.ToString());
+                selfChangeKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+    public void SetFwdKey()
+    {
+        StartCoroutine(GetFwd());
+    }
+
+    public IEnumerator GetFwd()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyPressed))
+            {
+                forward = keyPressed;
+                PlayerPrefs.SetString("forwardKey", keyPressed.ToString());
+                forwardKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+    public void SetRightKey()
+    {
+        StartCoroutine(GetRight());
+    }
+
+    public IEnumerator GetRight()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyPressed))
+            {
+                right = keyPressed;
+                PlayerPrefs.SetString("rightKey", keyPressed.ToString());
+                rightKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+    public void SetLeftKey()
+    {
+        StartCoroutine(GetLeft());
+    }
+
+    public IEnumerator GetLeft()
+    {
+        yield return new WaitUntil(() => Input.anyKeyDown);
+        foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKey(keyPressed))
+            {
+                left = keyPressed;
+                PlayerPrefs.SetString("leftKey", keyPressed.ToString());
+                leftKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+
     public void ClearAllData()
     {
         PlayerPrefs.DeleteAll();
+        interact = KeyCode.Space;
+        //PlayerPrefs.SetString("interactKey", interact.ToString());
+        interactKeyTx.text = interact.ToString();
+        selfChange = KeyCode.LeftControl;
+        //PlayerPrefs.SetString("selfChangeKey", selfChange.ToString());
+        selfChangeKeyTx.text = selfChange.ToString();
+        menu = KeyCode.Escape;
+        //PlayerPrefs.SetString("menuKey", menu.ToString());
+        menuKeyTx.text = menu.ToString();
+        forward = KeyCode.UpArrow;
+        //PlayerPrefs.SetString("forwardKey", forward.ToString());
+        forwardKeyTx.text = forward.ToString();
+        right = KeyCode.RightArrow;
+        //PlayerPrefs.SetString("rightKey", right.ToString());
+        rightKeyTx.text = right.ToString();
+        left = KeyCode.LeftArrow;
+        //PlayerPrefs.SetString("leftKey", left.ToString());
+        leftKeyTx.text = left.ToString();
     }
+
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(debug))
         {
             soloGame = true;
+            print("interact: " + interact);
+            print("menu: " + menu);
+            print("self: " + selfChange);
+            print("up: " + forward);
         }
     }
 }
