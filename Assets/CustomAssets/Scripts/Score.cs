@@ -19,8 +19,11 @@ public class Score : NetworkBehaviour
     public int colorChangesFromMice;
     public int colorChangesFromGround;
     public int colorChangesFromSelf = -1;
+    public int colorChangesGiftedToTeam;
+    public int colorChangesGiftedByTeam;
     public Text ScoreTx;
     float startTime; // l'assigner on start game
+    public int team;
 
     private void Start()
     {

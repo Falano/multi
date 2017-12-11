@@ -4,12 +4,13 @@ currently working on:
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
 to implement:
-1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
+--totest-- teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
+--totest-- team share lives (both have to be ok with it, and they change col painlessly while doing it)
+	tuto teams
 1.5	more lvls
 2	option: more easily readable lvls
-2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown
+2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown and sharing lives+ and sharing lives-
 2	(boring options menu in-game; at least for sound levels)
-2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
 2	deathwave (how often (+-20% sinon c'est pas rigolo)) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 2	pretty score screen
 2.5	custom colours dans le menu

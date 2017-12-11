@@ -13,6 +13,8 @@ public class PlayerBehaviour : NetworkBehaviour
     public string localName;
     public GameObject ScoreTx;
     public GameObject ScoreObj;
+    public int team;
+    public bool localAlly = false;
 
 
 

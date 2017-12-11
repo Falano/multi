@@ -29,12 +29,16 @@ public class PlayerChangeCol : NetworkBehaviour
     //public Vector3 offsetTarget;
     private Color prevGroundColor;
     private Color currGroundColor;
+    private PlayerBehaviour behaviour;
     [SerializeField]
     float stillTime;
     IEnumerator divineRetribution;
 
+    public bool sharing;
+
     void Start()
     {
+        behaviour = gameObject.GetComponent<PlayerBehaviour>();
         speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
         colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
@@ -81,6 +85,10 @@ public class PlayerChangeCol : NetworkBehaviour
         if (isLocalPlayer)
         {
             CmdChangeCol(obj, currColor, attacker);
+        }
+        if (gameObject.GetComponent<PlayerBehaviour>().localAlly)
+        {
+            rd.materials[1].color = Color.grey;
         }
     }
 
@@ -164,13 +172,17 @@ public class PlayerChangeCol : NetworkBehaviour
                         if (hit.transform.CompareTag("Player"))
                         {
                             ChangeCol(hit.transform.gameObject, gameObject);
+                            if(hit.transform.GetComponent<PlayerBehaviour>().team == behaviour.team)
+                            {
+                                sharing = true;
+                            }
                         }
                     }
                 }
             }
-            if (rd.materials[1].color != Color.black)
+            if (Input.GetKeyUp(MenuManager.interact))
             {
-                rd.materials[1].color = Color.black;
+                sharing = false;
             }
         }
     }

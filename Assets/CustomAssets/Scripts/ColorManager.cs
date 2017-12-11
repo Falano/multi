@@ -37,7 +37,7 @@ public class ColorManager : NetworkBehaviour
 
     private float refreshFrequency = 2.5f;
 
-    public enum gameState { menu, lobby, playing, scores };
+    public enum gameState { menu, lobby, loading, playing, scores };
     private gameState currState;
 
     [SyncVar]
@@ -188,6 +188,9 @@ public class ColorManager : NetworkBehaviour
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
+        PlayerBehaviour objBehaviour = obj.GetComponent<PlayerBehaviour>();
+        PlayerBehaviour atkBehaviour = attacker.GetComponent<PlayerBehaviour>();
+        PlayerHealth objHealth = obj.GetComponent<PlayerHealth>();
         int damage = 2;
         if (CurrState == gameState.playing)
         { // sound stuff
@@ -195,13 +198,19 @@ public class ColorManager : NetworkBehaviour
             sound.clip = ChangeColSounds[Random.Range(0, ChangeColSounds.Length)];
             sound.Play();
         }
-        if (obj.GetComponent<PlayerHealth>().Hp > 0)
+        if (objHealth.Hp > 0)
         { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
             Renderer rd = obj.GetComponentInChildren<Renderer>();
-            foreach (Material mat in rd.materials)
+            rd.materials[0].color = col;
+            if (objBehaviour.localAlly)
             {
-                mat.color = col;
+                col = Color.gray;
             }
+            if (objBehaviour.isLocalPlayer)
+            {
+                col = Color.black;
+            }
+            rd.materials[1].color = col;
 
             IEnumerator paintCooldownNow = paintCooldown(objChangeCol.cooldown, attacker);
             StartCoroutine(paintCooldownNow);
@@ -217,23 +226,42 @@ public class ColorManager : NetworkBehaviour
             }
             else if (attacker.CompareTag("Player"))
             {
-                score.colorChangesFromOthers += 1;
-                attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
-                attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+                if(atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
+                {
+                    if (attacker.GetComponent<PlayerChangeCol>().sharing)
+                    {
+                        if (objHealth.Hp > attacker.GetComponent<PlayerHealth>().Hp)
+                        {
+                            damage = 1;
+                            score.colorChangesGiftedToTeam += 1;
+                        }
+                        else
+                        {
+                            damage = -1;
+                            score.colorChangesGiftedByTeam += 1;
+                        }
+                    }
+                }
+                else
+                {
+                    score.colorChangesFromOthers += 1;
+                    atkBehaviour.ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
+                    attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+                }
             }
             else
             {
-                obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesFromGround += 1;
+                score.colorChangesFromGround += 1;
                 damage = 3;
 
             }
-            if (obj.GetComponent<PlayerBehaviour>().isLocalPlayer)
+            if (objBehaviour.isLocalPlayer)
             {
                 IEnumerator speedBoostNow = speedBoost(objChangeCol.speedBoostDuration, objChangeCol.speedBoostStrength, obj, attacker);
                 StartCoroutine(speedBoostNow);
             }
         }
-        obj.GetComponent<PlayerHealth>().TakeDamage(damage);
+        objHealth.TakeDamage(damage);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -286,18 +314,34 @@ public class ColorManager : NetworkBehaviour
     {
         launchGameTx.text = "Launching Game...";
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
+        currState = gameState.loading;
+
     }
 
     public void LaunchGameSolo()
     {
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
-        foreach (Score sco in Scores)
+        for (int i = 0; i < Scores.Length; i++)
         {
-            sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
-            sco.SetStartTime();
+            PlayerBehaviour currBehaviour = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>();
+            Scores[i].ScoreTx = currBehaviour.ScoreTx.GetComponent<Text>();
+            Scores[i].SetStartTime();
+            if(MenuManager.teamsNb == 0)
+            {
+                MenuManager.teamsNb = Scores.Length;
+            }
+                Scores[i].team = i % MenuManager.teamsNb;
+                currBehaviour.team = Scores[i].team;
+
+                if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
+                {
+                    currBehaviour.localAlly = true;
+                }
+            print(Scores[i].playerName + " is in team " + Scores[i].team);
+            
+
         }
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
-        CurrState = gameState.playing;
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
         launchGameTx.text = "";
         listOfPlayersParent.SetActive(false);
@@ -314,6 +358,7 @@ public class ColorManager : NetworkBehaviour
                 StartCoroutine(launchChrono(MenuManager.chrono));
             }
         }
+        CurrState = gameState.playing;
     }
 
     IEnumerator launchChrono(float time)

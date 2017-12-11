@@ -16,9 +16,8 @@ public class MenuManager : MonoBehaviour
     public static int startHp = 30;
     public static bool soloGame = false;
     public static string startLevel;
-    public static int teamwork; // number of different teams; 0 is chacun pour soi
+    public static int teamsNb = 0; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
-    [SerializeField]
     public static int activeScene = 0;
     public static int nbScenes;
     public static int musicIndex = 0;
@@ -42,6 +41,7 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
+    public Text teamsNbText;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -156,6 +156,7 @@ public class MenuManager : MonoBehaviour
         rightKeyTx.text = right.ToString();
         leftKeyTx.text = left.ToString();
         musicText.text = musicIndex.ToString();
+        teamsNbText.text = teamsNb.ToString();
         if (soloGame)
         {
             soloGameText.text = "yes";
@@ -269,6 +270,11 @@ public class MenuManager : MonoBehaviour
     public void ChangeNbrEnemies(int nb)
     {
         ChangeSetting(nb, ref enemyNumber, enemyText, 0, 200);
+    }
+
+    public void ChangeNbrteams(int nb)
+    {
+        ChangeSetting(nb, ref teamsNb, teamsNbText, 0, 20);
     }
 
     public void ChangeStartHp(int nb)
