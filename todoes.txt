@@ -14,6 +14,8 @@ to implement:
 2	deathwave (how often (+-20% sinon c'est pas rigolo)) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 2	pretty score screen
 2.5	custom colours dans le menu
+2.5	actual connexion menu, not just the ugly unity one
+2.5	tell by how many players each level is supposed to be played
 3	walking/running/turning sound
 3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
 3	keep mice from spam attacking the player
@@ -64,7 +66,8 @@ to implement:
 --DONE-- wider atk raius
 
 bugs:
-	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late in TutoPLBehaviour's Update
+	somehow before your first color change you're really slow?
+	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
 
 --DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
@@ -101,7 +104,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- chrono: le host est en gameState: score, mais le client sait toujours bouger.
 --DONE-- lvl5 flicker
 --DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
-
+--DONE-- way too long loading time
 
 SUGGESTIONS FLO :
 --DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)

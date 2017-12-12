@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -8990,6 +8990,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -9514,6 +9519,30 @@ Prefab:
       propertyPath: m_Navigation.m_SelectOnRight
       value: 
       objectReference: {fileID: 358440152}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 2e26d310490ce544abc22d246aaa1562,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[7]
+      value: 
+      objectReference: {fileID: 21300000, guid: 2906afbff2e44ba4980ae4d9a8920def,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[8]
+      value: 
+      objectReference: {fileID: 21300000, guid: b09b45f8ae7e55748ac179e2525aef56,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: 52068549ec4e47240858a5f3050a1f38,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_IsPrefabParent: 0
