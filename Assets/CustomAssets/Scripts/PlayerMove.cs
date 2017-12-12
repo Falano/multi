@@ -30,7 +30,7 @@ public class PlayerMove : NetworkBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        speed = 0;
+        speed = baseSpeed*.1f;
     }
 
     void Update()

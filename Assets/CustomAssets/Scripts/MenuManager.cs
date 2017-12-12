@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
     public static int startHp = 30;
     public static bool soloGame = false;
     public static string startLevel;
-    public static int teamsNb = 0; // number of different teams; 0 is chacun pour soi
+    public static int teamsNb; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
     public static int activeScene = 0;
     public static int nbScenes;
@@ -502,6 +502,7 @@ public class MenuManager : MonoBehaviour
             print("menu: " + menu);
             print("self: " + selfChange);
             print("up: " + forward);
+            print("teams number: " +teamsNb);
         }
     }
 }

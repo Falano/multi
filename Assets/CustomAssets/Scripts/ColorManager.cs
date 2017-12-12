@@ -26,6 +26,7 @@ public class ColorManager : NetworkBehaviour
     public GameObject ratKing;
     public Image healthGUI;
     public GameObject localPlayer;
+    public Text DebugTx;
     [SyncVar]
     public int numberOfPlayersPlaying;
     public Score[] Scores;
@@ -112,6 +113,10 @@ public class ColorManager : NetworkBehaviour
                 case "following(Clone)":
                     following = gui.GetComponent<Text>();
                     break;
+                case "DebugText":
+                case "DebugText(Clone)":
+                    DebugTx = gui.GetComponent<Text>();
+                    break;
             }
         }
 
@@ -137,6 +142,10 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
+    void Debug(string sentence)
+    {
+        DebugTx.text = sentence; 
+    }
 
     void checkIfGamePlaying()
     {
@@ -228,18 +237,23 @@ public class ColorManager : NetworkBehaviour
             {
                 if(atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
                 {
-                    if (attacker.GetComponent<PlayerChangeCol>().sharing)
+                    if (objChangeCol.sharing)
                     {
                         if (objHealth.Hp > attacker.GetComponent<PlayerHealth>().Hp)
                         {
                             damage = 1;
                             score.colorChangesGiftedToTeam += 1;
+                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesGiftedByTeam += 1; 
+                            //si ça marche, optimiser les scores pour que la variable score d'un playerObj soit de type score, 
+                            //et la variable PlayerObj d'un score de type... PlayerBehaviour? w/e seems more efficient
                         }
                         else
                         {
                             damage = -1;
                             score.colorChangesGiftedByTeam += 1;
+                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesGiftedByTeam -= 1;
                         }
+                        attacker.GetComponent<PlayerHealth>().TakeDamage(-damage);
                     }
                 }
                 else
@@ -262,6 +276,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
         objHealth.TakeDamage(damage);
+            Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -330,14 +345,14 @@ public class ColorManager : NetworkBehaviour
             {
                 MenuManager.teamsNb = Scores.Length;
             }
-                Scores[i].team = i % MenuManager.teamsNb;
+                Scores[i].team = (i + MenuManager.teamsNb )% MenuManager.teamsNb;
                 currBehaviour.team = Scores[i].team;
 
                 if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
                 {
                     currBehaviour.localAlly = true;
                 }
-            print(Scores[i].playerName + " is in team " + Scores[i].team);
+            Debug(DebugTx.text + "\n" + Scores[i].playerName + " is in team " + Scores[i].team + " (from "+MenuManager.teamsNb+" teams total)");
             
 
         }
@@ -514,7 +529,7 @@ public class ColorManager : NetworkBehaviour
 
             if (!MenuManager.shortScore)
             {
-                Scores[i].ScoreTx.text = Scores[i].playerName +
+                Scores[i].ScoreTx.text = Scores[i].playerName + " (team " + Scores[i].team + ") "+
                     deathText +
                     "changed " + Scores[i].colorChangesToOthers +
                     " colors; others changed theirs " + Scores[i].colorChangesFromOthers +
@@ -523,7 +538,7 @@ public class ColorManager : NetworkBehaviour
             }
             else
             {
-                Scores[i].ScoreTx.text = Scores[i].playerName +
+                Scores[i].ScoreTx.text = Scores[i].playerName + " (team " + Scores[i].team + ") " +
                     deathText +
                     "Changed others' color " + Scores[i].colorChangesToOthers +
                     " times ";
@@ -534,7 +549,8 @@ public class ColorManager : NetworkBehaviour
 
     private void Update()
     {
-        if (CurrState == gameState.playing && numberOfPlayersPlaying <= 1 && !MenuManager.soloGame)
+        if (CurrState == gameState.playing && !MenuManager.soloGame &&
+            numberOfPlayersPlaying <= 1 /*nope: number of teams playing*/)
         {
             CurrState = gameState.scores;
             StartCoroutine("waitForGameEnd");
