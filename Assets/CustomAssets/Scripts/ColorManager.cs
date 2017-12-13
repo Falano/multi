@@ -35,6 +35,8 @@ public class ColorManager : NetworkBehaviour
     public static AudioClip[] ChangeColSounds;
     public static AudioClip currentMusic;
     private AudioSource audioSource;
+    [SyncVar]
+    public int teamsNbLocal;
 
     private float refreshFrequency = 2.5f;
 
@@ -80,6 +82,8 @@ public class ColorManager : NetworkBehaviour
         if (isServer){
             CurrState = gameState.lobby;
             currStateString = CurrState.ToString();
+            Debug("I'm the host player");
+            teamsNbLocal = MenuManager.teamsNb;
         } // should absolutely happen before the local player's PlayerBehaviour Start()
         else
         {
@@ -144,7 +148,7 @@ public class ColorManager : NetworkBehaviour
 
     void Debug(string sentence)
     {
-        DebugTx.text = sentence; 
+        DebugTx.text += "\n" + sentence; 
     }
 
     void checkIfGamePlaying()
@@ -169,16 +173,7 @@ public class ColorManager : NetworkBehaviour
             lobbyCanvas.enabled = false;
             return;
         }
-    }
-
-    /*
-    [ClientRpc]
-    public void RpcSyncGameState(string state)
-    {
-        print(2);
-        currState = (gameState) System.Enum.Parse(typeof(gameState), state);
-    }
-    */
+    }  
 
     public GameObject SpawnScore(string name, GameObject obj)
     {
@@ -276,7 +271,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
         objHealth.TakeDamage(damage);
-            Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
+            //Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -341,18 +336,18 @@ public class ColorManager : NetworkBehaviour
             PlayerBehaviour currBehaviour = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>();
             Scores[i].ScoreTx = currBehaviour.ScoreTx.GetComponent<Text>();
             Scores[i].SetStartTime();
-            if(MenuManager.teamsNb == 0)
+            if(teamsNbLocal == 0)
             {
-                MenuManager.teamsNb = Scores.Length;
+                teamsNbLocal = Scores.Length;
             }
-                Scores[i].team = (i + MenuManager.teamsNb )% MenuManager.teamsNb;
+                Scores[i].team = (i+teamsNbLocal) % teamsNbLocal;
                 currBehaviour.team = Scores[i].team;
 
                 if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
                 {
                     currBehaviour.localAlly = true;
                 }
-            Debug(DebugTx.text + "\n" + Scores[i].playerName + " is in team " + Scores[i].team + " (from "+MenuManager.teamsNb+" teams total)");
+            Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from "+teamsNbLocal+" teams total)");
             
 
         }

@@ -85,11 +85,11 @@ public class PlayerChangeCol : NetworkBehaviour
         if (isLocalPlayer)
         {
             CmdChangeCol(obj, currColor, attacker);
-        }/*
-        if (gameObject.GetComponent<PlayerBehaviour>().localAlly && !isLocalPlayer)
+        }
+        else if (gameObject.GetComponent<PlayerBehaviour>().localAlly)
         {
             rd.materials[1].color = Color.grey;
-        }*/
+        }
     }
 
 
