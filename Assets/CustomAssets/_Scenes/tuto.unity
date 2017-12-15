@@ -944,7 +944,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 534.06}
-  m_SizeDelta: {x: 3000, y: 500}
+  m_SizeDelta: {x: 3000, y: 550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &244640593
 MonoBehaviour:
@@ -2905,6 +2905,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: f0d00844738ba3e43a5c5ad16c7c3977, type: 2}
   healthGUI: {fileID: 0}
   following: {fileID: 0}
+  instructionsTx: {fileID: 0}
 --- !u!4 &1008125976
 Transform:
   m_ObjectHideFlags: 0
@@ -3119,7 +3120,6 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!1 &1025409042
 GameObject:
   m_ObjectHideFlags: 0
@@ -3595,8 +3595,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: -30}
+  m_SizeDelta: {x: 160, y: 225}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1235600263
 MonoBehaviour:
@@ -3624,7 +3624,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 52
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
@@ -5061,7 +5061,6 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!1 &1726116488
 GameObject:
   m_ObjectHideFlags: 0
@@ -5360,7 +5359,6 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!1 &1759850776
 GameObject:
   m_ObjectHideFlags: 0

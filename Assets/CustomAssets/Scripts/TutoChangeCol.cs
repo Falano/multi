@@ -200,6 +200,7 @@ public class TutoChangeCol : MonoBehaviour
         StopAllCoroutines();
         speech.text = "Bye!";
         TutoManager.singleton.speak("When you have turned back into paint, you can't play any more\nbut the <b>"+MenuManager.interact+"</b> key allows you to see what others are up to.", TutoManager.singleton.textNarr, 20);
+        TutoManager.singleton.instructions("Press " + MenuManager.interact + " to follow other players", TutoManager.toDo.space);
         if (CompareTag("Player"))
         {
             GetComponent<TutoPLMove>().speed = 0;
