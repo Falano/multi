@@ -360,22 +360,6 @@ public class MenuManager : MonoBehaviour
         img.enabled = !img.enabled;
     }
 
-    public void ChangeColSprite(Image img)
-    {
-        Toggle(paletteImg);
-        StartCoroutine(GetCol(img));
-    }
-
-    public IEnumerator GetCol(Image img)
-    {
-        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-
-        Color col = palette.GetPixel(Mathf.RoundToInt(Input.mousePosition.x-paletteImg.rectTransform.position.x), Mathf.RoundToInt(Input.mousePosition.y - paletteImg.rectTransform.position.y));
-            img.color = col;
-            print(col);
-        Toggle(paletteImg);
-    }
-
     // for the custom keys. Since IEnumerators don't accept ref or out params, I have to do this fucking cumbersome thing. This could be six times as short and less prone to errors.
 
     public void SetInteractKey()
@@ -486,6 +470,29 @@ public class MenuManager : MonoBehaviour
                 leftKeyTx.text = keyPressed.ToString();
             }
         }
+    }
+
+    public void ChangeColSprite(Image img)
+    {
+        Toggle(paletteImg);
+        StartCoroutine(GetCol(img));
+    }
+
+    public IEnumerator GetCol(Image img)
+    {
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+        Color col = palette.GetPixel
+            (Mathf.RoundToInt(
+                (Input.mousePosition.x - paletteImg.rectTransform.position.x) 
+                * 80/paletteImg.rectTransform.sizeDelta.x*1920/Screen.width), 
+                Mathf.RoundToInt(
+                    (Input.mousePosition.y - paletteImg.rectTransform.position.y) 
+                    * 48/paletteImg.rectTransform.sizeDelta.y*1080 / Screen.height)
+                    );
+        img.color = col;
+        print("col: "+col+ " ; paletteImg.rectTransform.sizeDelta.x "+ paletteImg.rectTransform.sizeDelta.x + "; 80 " + 80 + "; Input.mousePosition.x: "+ Input.mousePosition.x + "; paletteImg.rectTransform.position.x: "+ paletteImg.rectTransform.position.x);
+        Toggle(paletteImg);
     }
 
     private void GetColorPalette(Texture2D tex, int nbStepsW, int nbStepsH)
