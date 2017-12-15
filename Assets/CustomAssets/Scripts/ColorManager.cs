@@ -323,9 +323,7 @@ public class ColorManager : NetworkBehaviour
     public void RpcLaunchGameTx()
     {
         launchGameTx.text = "Launching Game...";
-        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         currState = gameState.loading;
-
     }
 
     public void LaunchGameSolo()
@@ -348,9 +346,11 @@ public class ColorManager : NetworkBehaviour
                     currBehaviour.localAlly = true;
                 }
             Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from "+teamsNbLocal+" teams total)");
+            currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
             
 
         }
+        localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
         launchGameTx.text = "";

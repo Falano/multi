@@ -15,8 +15,12 @@ public class PlayerBehaviour : NetworkBehaviour
     public GameObject ScoreObj;
     public int team;
     public bool localAlly = false;
+    private TextMesh DebugTxFloating;
 
-
+    public void DebugFloating(string sentence)
+    {
+        DebugTxFloating.text = sentence;
+    }
 
     public bool IsReady
     {
@@ -44,6 +48,7 @@ public class PlayerBehaviour : NetworkBehaviour
 
     void Start()
     {
+        DebugTxFloating = gameObject.GetComponentInChildren<TextMesh>();
         if (isLocalPlayer)
         {
             ColorManager.singleton.localPlayer = gameObject;

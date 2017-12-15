@@ -8,7 +8,10 @@ teams: savoir combien il reste de teams actives (stopper le jeu quand que 1)
 teams: have exchange lives working (rn they just snipe at each other; also anybody goes grey randomly, and an ally is ally with everybody)
 penser à rechanger le default selected button 
 soit enlever la focntion Debug() soit mettre un de ses textes dans chaque niveau
-le host ne se lance pas et du coup il ne lance pas les souris non plus
+-done?- le host ne se lance pas et du coup il ne lance pas les souris non plus
+possibility to choose which team you'll be on; also show that in the lobby menu 
+one random shoop won't loose health even when they've been still forever: maybe as long as you stay in the starting colour you're immune?
+do scores show if it's not the host that won? (sometimes scores don't show in 0.91)
 
 --totest-- teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 --totest-- team share lives (both have to be ok with it, and they change col painlessly while doing it)
