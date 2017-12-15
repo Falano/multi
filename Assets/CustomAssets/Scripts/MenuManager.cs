@@ -23,9 +23,12 @@ public class MenuManager : MonoBehaviour
     public static int nbScenes;
     public static int musicIndex = 0;
     public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
-    public static Color[] colors;
+    public static Color[] colors; //the colors available to the sheep to change into, aka those of the backgrounds materials
+    public Material[] colorsMats; // the background's materials
     [SerializeField]
-    private Material[] colorsMats;
+    private Color[] colorsPalette; // all of the sixty colors to choose from in the menu
+    public Texture2D palette;
+    public Image paletteImg;
 
     [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
@@ -95,6 +98,7 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        GetColorPalette(palette, 10, 6);
         //get the audiosources right
         foreach (AudioSource audio in GetComponents<AudioSource>())
         {
@@ -351,6 +355,27 @@ public class MenuManager : MonoBehaviour
         option.enabled = !option.enabled;
     }
 
+    public void Toggle(Image img)
+    {
+        img.enabled = !img.enabled;
+    }
+
+    public void ChangeColSprite(Image img)
+    {
+        Toggle(paletteImg);
+        StartCoroutine(GetCol(img));
+    }
+
+    public IEnumerator GetCol(Image img)
+    {
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+
+        Color col = palette.GetPixel(Mathf.RoundToInt(Input.mousePosition.x-paletteImg.rectTransform.position.x), Mathf.RoundToInt(Input.mousePosition.y - paletteImg.rectTransform.position.y));
+            img.color = col;
+            print(col);
+        Toggle(paletteImg);
+    }
+
     // for the custom keys. Since IEnumerators don't accept ref or out params, I have to do this fucking cumbersome thing. This could be six times as short and less prone to errors.
 
     public void SetInteractKey()
@@ -459,6 +484,20 @@ public class MenuManager : MonoBehaviour
                 left = keyPressed;
                 PlayerPrefs.SetString("leftKey", keyPressed.ToString());
                 leftKeyTx.text = keyPressed.ToString();
+            }
+        }
+    }
+
+    private void GetColorPalette(Texture2D tex, int nbStepsW, int nbStepsH)
+    {
+        colorsPalette = new Color[nbStepsH * nbStepsW];
+        int stepW = palette.width / nbStepsW;
+        int stepH = palette.height / nbStepsH;
+        for (int i = 0; i < nbStepsW; i++)
+        {
+            for (int j = 0; j < nbStepsH; j++)
+            {
+               colorsPalette[(nbStepsH * i) + (j)] = palette.GetPixel(i * stepW, j * stepH);
             }
         }
     }
