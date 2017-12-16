@@ -69,6 +69,9 @@ bugs:
 	scores only show when host won;
 	peeps who connected after others see those others as not ready by default
 	somehow before your first color change you're really slow? or the anim is just really fast?
+	linux host can't play
+	sometimes linux player can't choose resolution
+	sometimes linux player's mouse doesn't work on fullscreen
 	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
 	laurent was a zombie
