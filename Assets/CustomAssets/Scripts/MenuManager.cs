@@ -20,18 +20,24 @@ public class MenuManager : MonoBehaviour
     public static float chrono = 0; // en minutes
     [SerializeField]
     public static int activeScene = 0;
+    public static int presetColNr;
     public static int nbScenes;
     public static int musicIndex = 0;
     public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
     public static Color[] colors; //the colors available to the sheep to change into, aka those of the backgrounds materials
     public Material[] colorsMats; // the background's materials
     [SerializeField]
-    private Color[] colorsPalette; // all of the sixty colors to choose from in the menu
+    private Color[] colorsPalette; // all of the sixty colors to choose from in the menu // gonna be useful when I turn the menu all keyboard-friendly
     public Texture2D palette;
     public Image paletteImg;
+    public Image presetPalettesImg;
+
+    public Image[] presetColsImg;
+    public Color[] colorPresets; // a list that contains all the presets for the colours, as long as you take them by groups of 6
 
     [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
+    public Sprite[] palettesPreviews;
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
     [Tooltip("the 'lives' text object")]
@@ -45,6 +51,7 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
+    public Text presetColsText;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -98,7 +105,7 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
-        GetColorPalette(palette, 10, 6);
+        
         //get the audiosources right
         foreach (AudioSource audio in GetComponents<AudioSource>())
         {
@@ -141,6 +148,38 @@ public class MenuManager : MonoBehaviour
         {
             left = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey"));
         }
+        
+         //colors
+        GetColorPalette(palette, 10, 6);
+        for(int i = 0; i <colorPresets.Length; i++) // mettre les cols à full alpha (parce que j'ai merdé et elle ne le sont pas déjà)
+        {
+            colorPresets[i].a = 1;
+        }
+        if (PlayerPrefs.HasKey("col1"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col1"));
+        }
+        if (PlayerPrefs.HasKey("col2"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col2"));
+        }
+        if (PlayerPrefs.HasKey("col3"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col3"));
+        }
+        if (PlayerPrefs.HasKey("col4"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col4"));
+        }
+        if (PlayerPrefs.HasKey("col5"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col5"));
+        }
+        if (PlayerPrefs.HasKey("col6"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col6"));
+        }
+
 
         colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
@@ -287,6 +326,18 @@ public class MenuManager : MonoBehaviour
     public void ChangeChrono(float nb)
     {
         ChangeSetting(nb, ref chrono, chronoText, 0, 240);
+    }
+
+    public void ChangePresetColNr(int nb)
+    {
+        ChangeSetting(nb, ref presetColNr, presetColsText, 0 , (colorPresets.Length/6)-1);
+        for(int i = 0; i < presetColsImg.Length; i++)
+        {
+            presetColsImg[i].color = colorPresets[(presetColNr*6) +i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
+            presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
+            print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
+        }
+        presetPalettesImg.sprite = palettesPreviews[presetColNr];
     }
 
     public void ChangeSetting(ref bool setting, Text settingText)
@@ -481,8 +532,8 @@ public class MenuManager : MonoBehaviour
     public IEnumerator GetCol(Image img)
     {
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-
-        Color col = palette.GetPixel
+        Color prevCol = img.color;
+        Color col = palette.GetPixel //remplacer tous les 80 et 48 par la largeur et la hauteur de l'image source
             (Mathf.RoundToInt(
                 (Input.mousePosition.x - paletteImg.rectTransform.position.x) 
                 * 80/paletteImg.rectTransform.sizeDelta.x*1920/Screen.width), 
@@ -490,8 +541,17 @@ public class MenuManager : MonoBehaviour
                     (Input.mousePosition.y - paletteImg.rectTransform.position.y) 
                     * 48/paletteImg.rectTransform.sizeDelta.y*1080 / Screen.height)
                     );
+        /*if(((Input.mousePosition.x - paletteImg.rectTransform.position.x) * 80 / paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width) < 0
+            || ((Input.mousePosition.x - paletteImg.rectTransform.position.x) * 80 / paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width) > 80 ||
+                ((Input.mousePosition.y - paletteImg.rectTransform.position.y) * 48 / paletteImg.rectTransform.sizeDelta.y * 1920 / Screen.width) < 0 ||
+                ((Input.mousePosition.y - paletteImg.rectTransform.position.y) * 48 / paletteImg.rectTransform.sizeDelta.y * 1920 / Screen.width) > 48
+            )
+        {
+            col = prevCol;
+        }*/
         img.color = col;
-        print("col: "+col+ " ; paletteImg.rectTransform.sizeDelta.x "+ paletteImg.rectTransform.sizeDelta.x + "; 80 " + 80 + "; Input.mousePosition.x: "+ Input.mousePosition.x + "; paletteImg.rectTransform.position.x: "+ paletteImg.rectTransform.position.x);
+        img.GetComponent<ChangeMatColor>().ChangeMatCol();
+        PlayerPrefs.SetString(img.name, col.ToString());
         Toggle(paletteImg);
     }
 
@@ -508,6 +568,28 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
+
+    public static Vector4 StringToVector4(string sVector)
+    {
+        // Remove the parentheses
+        if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+        {
+            sVector = sVector.Substring(1, sVector.Length - 2);
+        }
+
+        // split the items
+        string[] sArray = sVector.Split(',');
+
+        // store as a Vector3
+        Vector4 result = new Vector4(
+            float.Parse(sArray[0]),
+            float.Parse(sArray[1]),
+            float.Parse(sArray[2]),
+            float.Parse(sArray[3]));
+
+        return result;
+    }
+
 
     public void ClearAllData()
     {

@@ -184,7 +184,7 @@ public class ColorManager : NetworkBehaviour
 
 
     [ClientRpc]
-    public void RpcChangeCol(GameObject obj, Color col, GameObject attacker)
+    public void RpcChangeCol(GameObject obj, int colIndex, GameObject attacker)
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
@@ -200,7 +200,7 @@ public class ColorManager : NetworkBehaviour
             Renderer rd = obj.GetComponentInChildren<Renderer>();
             foreach (Material mat in rd.materials)
             {
-                mat.color = col;
+                mat.color = MenuManager.colors[colIndex];
             }
 
             IEnumerator paintCooldownNow = paintCooldown(objChangeCol.cooldown, attacker);

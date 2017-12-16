@@ -9,7 +9,8 @@ public class assignColorOnStart : MonoBehaviour
         ChangeMatColor[] change = GetComponentsInChildren<ChangeMatColor>();
         for (int i = 0; i < MenuManager.singleton.colorsMats.Length; i++)
         {
-            change[i].targetMat = MenuManager.singleton.colorsMats[i];
+            change[i].targetMat = MenuManager.singleton.
+                colorsMats[i];
         }
     }
 }
