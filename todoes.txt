@@ -66,9 +66,12 @@ to implement:
 --DONE-- wider atk raius
 
 bugs:
-	somehow before your first color change you're really slow?
+	scores only show when host won;
+	peeps who connected after others see those others as not ready by default
+	somehow before your first color change you're really slow? or the anim is just really fast?
 	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
+	laurent was a zombie
 
 --DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 the player dies, but only on its own screen, and they can't space to other players.
