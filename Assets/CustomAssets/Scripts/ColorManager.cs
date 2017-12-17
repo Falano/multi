@@ -76,7 +76,8 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
-        if (isServer){
+        if (isServer)
+        {
             CurrState = gameState.lobby;
             currStateString = CurrState.ToString();
         } // should absolutely happen before the local player's PlayerBehaviour Start()
@@ -116,9 +117,9 @@ public class ColorManager : NetworkBehaviour
         }
 
         launchGameTx.text = "";
-     
+
         Invoke("checkIfGamePlaying", 0.1f);
-        if(CurrState == gameState.lobby)
+        if (CurrState == gameState.lobby)
         {
             Invoke("RefreshListOfPlayersSolo", 0.2f);
             if (isServer)
@@ -143,7 +144,7 @@ public class ColorManager : NetworkBehaviour
         if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
         {
             print("GAME IS PLAYING");
-            
+
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
 
@@ -257,7 +258,10 @@ public class ColorManager : NetworkBehaviour
         PlayerMove playerMove = obj.GetComponent<PlayerMove>();
         Animator animator = playerMove.animator;
         playerMove.speed = strength;
-        animator.speed = 2;
+        if(CurrState == ColorManager.gameState.playing)
+        {
+            animator.speed = 2;
+        }
         yield return new WaitForSeconds(duration);
         if (playerMove.speed == strength && prevBoost == objChangeCol.currBoost) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
         {
@@ -431,11 +435,15 @@ public class ColorManager : NetworkBehaviour
     }
 
     private void ShowScores()
-    { if (localPlayer && localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores(); } }
-    [Command] private void CmdShowScores() {
-        CurrState = gameState.scores;
+    { CmdShowScores(); }
+
+    [Command]
+    private void CmdShowScores()
+    {
+        //CurrState = gameState.scores;
         RpcShowScores();
     }
+
     [ClientRpc] private void RpcShowScores() { ShowScoresSolo(); }
 
     public void ShowScoresSolo()
@@ -485,7 +493,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
     }
-    
+
 
     private void Update()
     {

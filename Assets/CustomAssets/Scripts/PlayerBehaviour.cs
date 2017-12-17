@@ -6,11 +6,9 @@ using UnityEngine.Networking;
 
 public class PlayerBehaviour : NetworkBehaviour
 {
-
-    bool _isReady = false;
+    [SyncVar] bool _isReady = false;
     public int idNumber;
-    [SyncVar]
-    public string localName;
+    [SyncVar] public string localName;
     public GameObject ScoreTx;
     public GameObject ScoreObj;
 

@@ -4,7 +4,8 @@ currently working on:
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
 
 to implement:
---doing: not yet in tuto-- qd trop lgtps ds même zone: change col
+-done?- custom colours dans le menu
+--done, in tuto too?-- qd trop lgtps ds même zone: change col
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 2	more lvls
 2	option: more easily readable lvls
@@ -13,7 +14,6 @@ to implement:
 2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
 2	deathwave (how often (+-20% sinon c'est pas rigolo)) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
 2	pretty score screen
-2.5	custom colours dans le menu
 2.5	actual connexion menu, not just the ugly unity one
 2.5	tell by how many players each level is supposed to be played
 3	walking/running/turning sound
@@ -66,16 +66,17 @@ to implement:
 --DONE-- wider atk raius
 
 bugs:
-	scores only show when host won;
-	peeps who connected after others see those others as not ready by default
-	somehow before your first color change you're really slow? or the anim is just really fast?
+	-done?-scores only show when host won;
+	-done?-peeps who connected after others see those others as not ready by default
+	-done?- somehow before your first color change you're really slow? or the anim is just really fast?
+	host doesn't show name (in scores) of the last person to connect
 	linux host can't play
 	sometimes linux player can't choose resolution
 	sometimes linux player's mouse doesn't work on fullscreen
 	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
 	laurent was a zombie
-
+	
 --DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 the player dies, but only on its own screen, and they can't space to other players.
 player needs to die from Kill. Either I make Kill public or the player decides to die itself.
