@@ -6,7 +6,6 @@ currently working on:
 to implement:
 1	name: pending
 1	add a "rotating right/left without advancing" anim?
-1	plus de maps plates et intéressantes
 1	pretty score screen
 1	actual connexion menu, not just the ugly unity one
 
@@ -14,17 +13,16 @@ to implement:
 --done, in tuto too?-- qd trop lgtps ds même zone: change col
 
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
-2	more lvls
 2	option: more easily readable lvls
 2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown
 2	(boring options menu in-game; at least for sound levels)
 2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
 2	deathwave (how often (+-20% sinon c'est pas rigolo)) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
-
 2.5	tell by how many players each level is supposed to be played
 3	walking/running/turning sound
 3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
 3	keep mice from spam attacking the player
+4	more lvls
 4	custom EVERYTHING
 5	ia
 5	language choice
@@ -71,6 +69,8 @@ to implement:
 --DONE-- wider atk raius
 --DONE-- keys: pending
 --DONE-- commentaires sur les maps
+--DONE-- plus de maps plates et intéressantes
+--DONE-- random sheep spawn
 
 bugs:
 	-done?-scores only show when host won;

@@ -109,16 +109,22 @@ public class MenuManager : MonoBehaviour
     public void Start()
     {
         levelsComments = new Dictionary<int, string>() {
-            { 1, "big, flat, wide parts" },
-            { 2, "medium, flat, wide parts"},
-            { 3, "medium, cliffs, wide parts" },
-            { 4, "very small, cliffs, wide parts" },
+            { 1, "big, flat, wide areas" },
+            { 2, "medium, flat, wide areas"},
+            { 3, "medium, cliffs, wide areas" },
+            { 4, "very small, cliffs, wide areas" },
             { 5, "medium, cliffs, narrow paths" },
             { 6, "medium, cliff, narrow paths" },
             { 7, "small, hills, paths" },
             { 8, "medium, hills, paths" },
-            { 9, "medium, hills, wide parts" },
-            { 10, "big, hills, wide parts" } };
+            { 9, "medium, hills, wide areas" },
+            { 10, "big, hills and cliffs, wide areas" },
+            { 11, "small, flat, paths" },
+            { 12, "medium, flat, patchwork" },
+            { 13, "small, flat, paths" },
+            { 14, "medium, flat, patchwork" },
+            { 15, "medium, flat, wide areas" },
+            { 16, "small, flat, narrow paths" } };
         //get the audiosources right
         foreach (AudioSource audio in GetComponents<AudioSource>())
         {

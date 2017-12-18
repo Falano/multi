@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -8092,7 +8092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 572.76, y: 465.91003}
+  m_AnchoredPosition: {x: 572.76, y: 465.91006}
   m_SizeDelta: {x: 500, y: 250}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1168124617
@@ -11006,7 +11006,7 @@ Prefab:
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: lvlPreviews.Array.size
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
@@ -12720,6 +12720,42 @@ Prefab:
       propertyPath: startLevelText
       value: 
       objectReference: {fileID: 219697267}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[10]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6f9e2d19ba7a113419fa20ee4e609289,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[11]
+      value: 
+      objectReference: {fileID: 21300000, guid: 15686f7e1c7ba3b47b5c8a84bf76c64b,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[12]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8a6cf3d771254be428f839234b1f9296,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[13]
+      value: 
+      objectReference: {fileID: 21300000, guid: b6817d5967b965a4bb877d29cbec2e4a,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[14]
+      value: 
+      objectReference: {fileID: 21300000, guid: 40ff14c5b6fd2454791573200aa4e7f6,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: lvlPreviews.Array.data[15]
+      value: 
+      objectReference: {fileID: 21300000, guid: 02ae997d174fc4d4381153e502969b66,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}
   m_IsPrefabParent: 0
@@ -13854,6 +13890,11 @@ Prefab:
       value: 
       objectReference: {fileID: 1408986770010324, guid: 21997b1dd59f32b4b8bf0e93235bf2ff,
         type: 2}
+    - target: {fileID: 114021511323989624, guid: 219c5e98430805d42b03696c50dd00ec,
+        type: 2}
+      propertyPath: m_PlayerSpawnMethod
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114091407309855830, guid: 219c5e98430805d42b03696c50dd00ec, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 219c5e98430805d42b03696c50dd00ec, type: 2}
