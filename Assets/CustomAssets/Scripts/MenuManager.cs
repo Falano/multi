@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Audio;
+using System.Text;
 
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager singleton;
     public Scene[] scenes;
+    private Dictionary<int, string> levelsComments;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
     public static int enemyNumber = 10;
@@ -52,6 +54,7 @@ public class MenuManager : MonoBehaviour
     public Text foleyVolumeText;
     public Text musicVolumeText;
     public Text presetColsText;
+    public Text startLevelText;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -105,7 +108,17 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
-        
+        levelsComments = new Dictionary<int, string>() {
+            { 1, "big, flat, wide parts" },
+            { 2, "medium, flat, wide parts"},
+            { 3, "medium, cliffs, wide parts" },
+            { 4, "very small, cliffs, wide parts" },
+            { 5, "medium, cliffs, narrow paths" },
+            { 6, "medium, cliff, narrow paths" },
+            { 7, "small, hills, paths" },
+            { 8, "medium, hills, paths" },
+            { 9, "medium, hills, wide parts" },
+            { 10, "big, hills, wide parts" } };
         //get the audiosources right
         foreach (AudioSource audio in GetComponents<AudioSource>())
         {
@@ -154,10 +167,14 @@ public class MenuManager : MonoBehaviour
         for(int i = 0; i <colorPresets.Length; i++) // mettre les cols à full alpha (parce que j'ai merdé et elle ne le sont pas déjà)
         {
             colorPresets[i].a = 1;
-        }
+        }/*
+        //because it bugs it all up; StringToVector4 n'a pas l'air de marcher.
         if (PlayerPrefs.HasKey("col1"))
         {
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col1"));
+            print("color1: String: " + PlayerPrefs.GetString("col1"));
+            colorsMats[0].color = StringToVector4(PlayerPrefs.GetString("col1"));
+            print("color1: Vector4: " + colorsMats[0].color);
+
         }
         if (PlayerPrefs.HasKey("col2"))
         {
@@ -165,20 +182,20 @@ public class MenuManager : MonoBehaviour
         }
         if (PlayerPrefs.HasKey("col3"))
         {
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col3"));
+            colorsMats[2].color = StringToVector4(PlayerPrefs.GetString("col3"));
         }
         if (PlayerPrefs.HasKey("col4"))
         {
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col4"));
+            colorsMats[3].color = StringToVector4(PlayerPrefs.GetString("col4"));
         }
         if (PlayerPrefs.HasKey("col5"))
         {
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col5"));
+            colorsMats[4].color = StringToVector4(PlayerPrefs.GetString("col5"));
         }
         if (PlayerPrefs.HasKey("col6"))
         {
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col6"));
-        }
+            colorsMats[5].color = StringToVector4(PlayerPrefs.GetString("col6"));
+        }*/
 
 
         colors = new Color[colorsMats.Length];
@@ -199,6 +216,7 @@ public class MenuManager : MonoBehaviour
         rightKeyTx.text = right.ToString();
         leftKeyTx.text = left.ToString();
         musicText.text = musicIndex.ToString();
+        startLevelText.text = levelsComments[activeScene + 1];
         if (soloGame)
         {
             soloGameText.text = "yes";
@@ -260,6 +278,7 @@ public class MenuManager : MonoBehaviour
         }
         lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
+        startLevelText.text = levelsComments[activeScene+1];
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
@@ -420,6 +439,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetInteract()
     {
+        interactKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -439,6 +459,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetMenu()
     {
+        menuKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -457,6 +478,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetSelf()
     {
+        selfChangeKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -475,6 +497,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetFwd()
     {
+        forwardKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -493,6 +516,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetRight()
     {
+        rightKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -511,6 +535,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetLeft()
     {
+        leftKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -541,17 +566,16 @@ public class MenuManager : MonoBehaviour
                     (Input.mousePosition.y - paletteImg.rectTransform.position.y) 
                     * 48/paletteImg.rectTransform.sizeDelta.y*1080 / Screen.height)
                     );
-        /*if(((Input.mousePosition.x - paletteImg.rectTransform.position.x) * 80 / paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width) < 0
-            || ((Input.mousePosition.x - paletteImg.rectTransform.position.x) * 80 / paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width) > 80 ||
-                ((Input.mousePosition.y - paletteImg.rectTransform.position.y) * 48 / paletteImg.rectTransform.sizeDelta.y * 1920 / Screen.width) < 0 ||
-                ((Input.mousePosition.y - paletteImg.rectTransform.position.y) * 48 / paletteImg.rectTransform.sizeDelta.y * 1920 / Screen.width) > 48
-            )
-        {
-            col = prevCol;
-        }*/
+
         img.color = col;
         img.GetComponent<ChangeMatColor>().ChangeMatCol();
-        PlayerPrefs.SetString(img.name, col.ToString());
+        /*
+         // because String to Vector4 won't work, and so it fucks my game up
+         PlayerPrefs.SetString(img.name, col.ToString());
+        print("img name: " + img.name + "; col to string: " + col.ToString()+".");
+        print("just got the player prefs' color: " + PlayerPrefs.GetString(img.name));
+        print("now as color: ");
+            print(StringToVector4( PlayerPrefs.GetString(img.name)));*/
         Toggle(paletteImg);
     }
 
@@ -569,27 +593,32 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public static Vector4 StringToVector4(string sVector)
+    /*
+    public Vector4 StringToVector4(string sVector)
     {
+        print("start col: " + sVector);
         // Remove the parentheses
-        if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+        if (sVector.StartsWith("RGBA(") && sVector.EndsWith(")"))
         {
-            sVector = sVector.Substring(1, sVector.Length - 2);
+            print("color name's string length: " + sVector.Length);
+            sVector = sVector.Substring(4, sVector.Length-2);
+        print("end col0: " + sVector);
         }
 
         // split the items
         string[] sArray = sVector.Split(',');
 
-        // store as a Vector3
+        // store as a Vector4
         Vector4 result = new Vector4(
             float.Parse(sArray[0]),
             float.Parse(sArray[1]),
             float.Parse(sArray[2]),
             float.Parse(sArray[3]));
+        print("end col: " + sVector);
 
         return result;
     }
-
+    */
 
     public void ClearAllData()
     {
