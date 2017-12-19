@@ -363,6 +363,10 @@ public class ColorManager : NetworkBehaviour
             listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
             listPlayers[i].idNumber = i;
             listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            if (listPlayers[i].isLocalPlayer)
+            {
+                scoreShown = listPlayers[i].idNumber;
+            }
             if (listPlayers[i].localName == null || listPlayers[i].localName == "")
             {
                 listPlayers[i].localName = "Player" + i.ToString();
@@ -453,48 +457,6 @@ public class ColorManager : NetworkBehaviour
         CurrState = gameState.scores;
         lobbyCanvas.enabled = true;
         PrintScoresText(scoreShown);
-        /*
-        listOfPlayersParent.SetActive(true);
-        for (int i = 0; i < Scores.Length; i++)
-        {
-            print(Scores[i]);
-            print(Scores[i].ScoreTx);
-            float PosX = Scores[i].ScoreTx.transform.position.x;
-            float PosY = Scores[i].ScoreTx.transform.position.y;
-            Scores[i].ScoreTx.color = Color.white;
-            Scores[i].ScoreTx.transform.position = new Vector2(PosX - Screen.width * 0.33f, PosY);
-            string deathText;
-            if (Scores[i].TimeOfDeath == "0")
-            {
-                deathText = ": Solid To The End! ";
-            }
-            else if (float.Parse(Scores[i].TimeOfDeath) < .5f)
-            {
-                deathText = ": was spectating; ";
-                Scores[i].ScoreTx.color = Color.cyan;
-            }
-            else
-            {
-                deathText = ": liquefied at " + Scores[i].TimeOfDeath + "s; ";
-            }
-
-            if (!MenuManager.shortScore)
-            {
-                Scores[i].ScoreTx.text = Scores[i].playerName +
-                    deathText +
-                    "changed " + Scores[i].colorChangesToOthers +
-                    " colors; others changed theirs " + Scores[i].colorChangesFromOthers +
-                    " times, mice " + Scores[i].colorChangesFromMice +
-                    " times; themselves " + Scores[i].colorChangesFromSelf + " times.";
-            }
-            else
-            {
-                Scores[i].ScoreTx.text = Scores[i].playerName +
-                    deathText +
-                    "Changed others' color " + Scores[i].colorChangesToOthers +
-                    " times ";
-            }
-        }*/
     }
 
     private void PrintScoresText(int i)

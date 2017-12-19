@@ -43,7 +43,6 @@ public class PlayerBehaviour : NetworkBehaviour
         if (isLocalPlayer)
         {
             ColorManager.singleton.localPlayer = gameObject;
-
             CameraMover.singleton.activePlayer = transform; // on dit à la camera que c'est lui ici le player à suivre
 
             if (PlayerPrefs.HasKey("playerName"))
