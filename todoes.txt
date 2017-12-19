@@ -1,0 +1,136 @@
+﻿todoes multi
+
+currently working on:
+	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
+
+to implement:
+1	name: pending
+1	add a "rotating right/left without advancing" anim?
+1	actual connexion menu, not just the ugly unity one
+?	narrower sight radius
+
+-done?- custom colours dans le menu
+--done, in tuto too?-- qd trop lgtps ds même zone: change col
+
+1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
+2	option: more easily readable lvls
+2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown
+2	(boring options menu in-game; at least for sound levels)
+2	team share lives (both have to be ok with it, and they change col painlessly while doing it)
+2	deathwave (how often (+-20% sinon c'est pas rigolo)) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
+2.5	tell by how many players each level is supposed to be played
+3	walking/running/turning sound
+3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
+3	keep mice from spam attacking the player
+4	more lvls
+4	custom EVERYTHING
+5	ia
+5	language choice
+5	more musics
+5	custom colors depending on the day (christmas, gay pride, halloween...) (colourblind preset option) [yes please]
+9	wine issue: no words 
+9	hidden teleporters!
+999	make a lvl editor :D
+
+
+--DONE-- anim sheep death
+--DONE-- anim sheep death same col as sheep
+--DONE-- when dead follow other players [DONE - yes I'll keep adding comments like this]
+--DONE-- custom player name
+--no, I have a isPlayerDead now-- mon colorManager qui est un gameManager pourrait au debut du jeu enregistrer le joueur et si le joueur n'est plus la lancer le "follow other players"
+--DONE-- custom musics
+--DONE-- sound volume
+--nope?-- max number of players (lobby) - min number of players? [yes, that too]
+--DONE-- leur demander leur nom (lobby)
+--DONE-- score screen (time of death, colour changes to others, colour changes from others, self colour changes, mice inflicted-colour changes, number of kills?) (faire une classe score qui chope automatiquement les noms des joueurs)
+--DONE-- cooldown?
+--DONE-- gerer pos camera so it doesn't fish eye so much
+--DONE-- players in a list when join? So the game knows when you've won or something? or for easier reboot? Or something?
+--DONEkinda(enough)-- esc -> sure wanna quit? Yes -> back to lobby (lobby)
+--DONE-- tuto: a solo scene filled with npc sheep and a few mice where everything that happens is commented and you can see exactly how many lives the npc sheep (and you) have left;
+	also a pics tuto;
+--DONE :(-- less default mice
+--DONE-- make a fake lobby with like you start the game in pause or something till everyone has joined
+--DONE-- also check why the networkHUD disappears after the first play
+--DONE-- speed boost after a color change
+--DONE-- (at the very least include screenshots for linux users)
+--when everyone hits ready: DONE-- is it better if the game launches after a previously-agreed-upon number of players is online or when everyone hits ready?
+--no?-- should we be able to pause the game? Only the server? Anyone?
+--DONE-- avoir son propre status update immediately and not wait for the global refresh players
+--DONE: now score is not part of players-- ne pas retirer les joueurs de la liste ColorManager.listPlayers à leur mort, sinon il sera impossible de leur montrer leur score
+--DONE-- check whether scores work on all servers // but I'm sure it worked before, and it broke, and that doesn't make sense why would I have changed that part?
+--DONE-- fix speed boost so it can't accelerate forever and always chooses the right sheep
+--DONE-- sound
+--DONE-- enum for gameStates in main game
+--nope-- custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
+--DONE-- max time (needs: scores)
+--DONE-- speedboost lower
+--DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
+--DONE-- different cost for self-change E enemy-change
+--DONE-- wider atk raius
+--DONE-- keys: pending
+--DONE-- commentaires sur les maps
+--DONE-- plus de maps plates et intéressantes
+--DONE-- random sheep spawn
+--DONE-- pretty score screen
+
+bugs:
+	-done?-scores only show when host won;
+	-done?-peeps who connected after others see those others as not ready by default
+	-functionality temporarily removed- when you saved an individual color, it bugs up the whole game
+	host doesn't show name (in scores) of the last person to connect - or in Clients that launched before Host
+	sometimes linux host can't play
+	sometimes linux player can't choose resolution
+	sometimes linux player's mouse doesn't work on fullscreen
+	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
+	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
+	laurent was a zombie
+	
+--DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
+the player dies, but only on its own screen, and they can't space to other players.
+player needs to die from Kill. Either I make Kill public or the player decides to die itself.
+
+--DONE-- client only on second time
+--DONE-- rat anim ugly (check how sheep synchronises and do the same)
+--DONE: faster rotation speed-- have rat LOOK WHERE THEY'RE GOING (don't drink and drive)
+--DONE-- playing with outside players doesn't work :( (unity matchmaking) (lobby) -- no clue why, it works when I test on my computer; I need two computers and two networks; maybe first try LAN with two diff computers actually -- test global multi, too, now that I've set it up to work through the unity servers -- nope doesn't work either; see there in the comments: https://www.youtube.com/watch?v=-t9kzrLkF10
+I think you can already play over the Internet. I dont have time to test it since my game is buggy at the moment. But if you look at the "lobby manager" script you will see the "network info", expand this and you will see the port number. in my case is 7777 by default. So theoretically if you forward this port on you router settings, will make your server accessible  over the Internet. Now, to join the server over the Internet, Go to play mode and on the "join a game" section replace the local IP (127.0.0.1) with your external IP.  And hopefully you can play with your friends.﻿
+use your ip address and forward ports on your router to play over the internet﻿
+https://forum.unity.com/threads/unet-and-nat-punchthrough-it-can-be-done.391845/
+or scrap the lobby and use evolve?
+check how the not-lobby matchmaking works (more like: whether)
+whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
+-- huh yes they do?-- client's camera don't follow them
+--DONE-- anim sheep death: plays anim twice on first time (afterwards, only once like they should). Why?
+--useless?-- needs wider lookat radius for attackChangeCOl -- ask flo, she'll know -- do I really need it though?
+--DONE-- fix mice's lvlSize array
+--DONE-- sometimes sheep death anim only works on localPlayer (probs because the server is told of the collision at some random point after it happens and if it is after the anim has finished playing then it skips the anim) -why does it change colour though?
+--fixed?-- sometimes sheep death anim is of the wrong color; probs something badly synchronised in TakeDamage()
+--DONE: more like lobby manager fixed it all on its own-- can't play twice in a row (check if it persists with the lobby manager)
+--DONE-- enemy spawns at center. enemySpawner script seems fine though
+--DONE-- make prettier code for the thing bastien helped with
+--DONE-- keeps moving on anim death;
+--DONE with StartWhite on LaunchGame--quand un joueur (guest) poppe, les autres joueurs ont pour lui leur valeur par défaut. -> quand un joueur poppe, il faut qu'il envoie une requête au host pour qu'il lui donne les valeurs actuelles de chaque joueur, puis le joueur qui vient de popper met à jour ses copies des joueurs
+--DONE-- sinon, si le jeu commence alors qu'un joueur a les mauvaises valeurs pour un autre joueur, leur jeu ne se lancera pas
+--DONE-- client players need another spacebarPress to launch the game
+--DONE-- fix mice change col since apparently it's broken?
+--DONE-- check if I can easily fix LAN play
+--DONE-- move after death: the fuck? Probs linked to speed gain after changeCol
+--DONE-- you can go to lvl -3: keep menu values in the positive
+--DONE-- chrono: le host est en gameState: score, mais le client sait toujours bouger.
+--DONE-- lvl5 flicker
+--DONE-- way too long loading time
+--DONE-- somehow before your first color change you're really slow? or the anim is just really fast?
+
+SUGGESTIONS FLO :
+--DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)
+--useless-- Instead of Player0, change to Host
+--nope--(Idée farfelue, peut-être compliquée) plutôt que des frontières invisibles, si tu sors de la map, tu passe en mode Full Rainbow : tu est multicolore (genre comme ça http://rs292.pbsrc.com/albums/mm23/pixcomments/The%2050s/60s/myspace-comments-animated-rainbow-s.gif?w=280&h=210&fit=crop ), et tu gagne en vitesse de déplacement, MAIS tu perds de la vie en continu.
+--done?-- Supprimer les composant du joueur à sa mort. Exemple : supprimer les scripts PlayerHealth et PlayerMove à la mort du joueur, etc.
+	Deplus pour les scripts en générals, mais surtout dans le cas de PlayerHealth : avoir un Destroyer, de sorte que tu puisse simplement surrimer le composant sans en perdre les info. Exemple : dans PlayerHealth, lors de la destruction du composant, lui faire stocker les infos 
+
+
+	mettre le Score du player current sur le ColorManager
+
+Modif by Flo :
+	In score.cs, added bool alive, to avoid having to read time of death everytime you need to check who is alive or not.
