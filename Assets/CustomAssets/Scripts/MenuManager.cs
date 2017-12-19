@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using UnityEngine.Audio;
+using System.Text;
 
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager singleton;
     public Scene[] scenes;
+    private Dictionary<int, string> levelsComments;
     // Default Game Options that you can't change in the editor because they're static
     // should I have a non-static variable that the static ones take after so the designer can change it?
     public static int enemyNumber = 10;
@@ -20,15 +22,24 @@ public class MenuManager : MonoBehaviour
     public static float chrono = 0; // en minutes
     [SerializeField]
     public static int activeScene = 0;
+    public static int presetColNr;
     public static int nbScenes;
     public static int musicIndex = 0;
     public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
-    public static Color[] colors;
+    public static Color[] colors; //the colors available to the sheep to change into, aka those of the backgrounds materials
+    public Material[] colorsMats; // the background's materials
     [SerializeField]
-    private Material[] colorsMats;
+    private Color[] colorsPalette; // all of the sixty colors to choose from in the menu // gonna be useful when I turn the menu all keyboard-friendly
+    public Texture2D palette;
+    public Image paletteImg;
+    public Image presetPalettesImg;
+
+    public Image[] presetColsImg;
+    public Color[] colorPresets; // a list that contains all the presets for the colours, as long as you take them by groups of 6
 
     [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
+    public Sprite[] palettesPreviews;
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
     [Tooltip("the 'lives' text object")]
@@ -42,6 +53,8 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
+    public Text presetColsText;
+    public Text startLevelText;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
@@ -95,6 +108,23 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        levelsComments = new Dictionary<int, string>() {
+            { 1, "big, flat, wide areas" },
+            { 2, "medium, flat, wide areas"},
+            { 3, "medium, cliffs, wide areas" },
+            { 4, "very small, cliffs, wide areas" },
+            { 5, "medium, cliffs, narrow paths" },
+            { 6, "medium, cliff, narrow paths" },
+            { 7, "small, hills, paths" },
+            { 8, "medium, hills, paths" },
+            { 9, "medium, hills, wide areas" },
+            { 10, "big, hills and cliffs, wide areas" },
+            { 11, "small, flat, paths" },
+            { 12, "medium, flat, patchwork" },
+            { 13, "small, flat, paths" },
+            { 14, "medium, flat, patchwork" },
+            { 15, "medium, flat, wide areas" },
+            { 16, "small, flat, narrow paths" } };
         //get the audiosources right
         foreach (AudioSource audio in GetComponents<AudioSource>())
         {
@@ -137,6 +167,42 @@ public class MenuManager : MonoBehaviour
         {
             left = (KeyCode)KeyCode.Parse(typeof(KeyCode), PlayerPrefs.GetString("leftKey"));
         }
+        
+         //colors
+        GetColorPalette(palette, 10, 6);
+        for(int i = 0; i <colorPresets.Length; i++) // mettre les cols à full alpha (parce que j'ai merdé et elle ne le sont pas déjà)
+        {
+            colorPresets[i].a = 1;
+        }/*
+        //because it bugs it all up; StringToVector4 n'a pas l'air de marcher.
+        if (PlayerPrefs.HasKey("col1"))
+        {
+            print("color1: String: " + PlayerPrefs.GetString("col1"));
+            colorsMats[0].color = StringToVector4(PlayerPrefs.GetString("col1"));
+            print("color1: Vector4: " + colorsMats[0].color);
+
+        }
+        if (PlayerPrefs.HasKey("col2"))
+        {
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col2"));
+        }
+        if (PlayerPrefs.HasKey("col3"))
+        {
+            colorsMats[2].color = StringToVector4(PlayerPrefs.GetString("col3"));
+        }
+        if (PlayerPrefs.HasKey("col4"))
+        {
+            colorsMats[3].color = StringToVector4(PlayerPrefs.GetString("col4"));
+        }
+        if (PlayerPrefs.HasKey("col5"))
+        {
+            colorsMats[4].color = StringToVector4(PlayerPrefs.GetString("col5"));
+        }
+        if (PlayerPrefs.HasKey("col6"))
+        {
+            colorsMats[5].color = StringToVector4(PlayerPrefs.GetString("col6"));
+        }*/
+
 
         colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
@@ -156,6 +222,7 @@ public class MenuManager : MonoBehaviour
         rightKeyTx.text = right.ToString();
         leftKeyTx.text = left.ToString();
         musicText.text = musicIndex.ToString();
+        startLevelText.text = levelsComments[activeScene + 1];
         if (soloGame)
         {
             soloGameText.text = "yes";
@@ -217,6 +284,7 @@ public class MenuManager : MonoBehaviour
         }
         lvlText.text = (activeScene + 1).ToString();
         NetworkManager.singleton.onlineScene = (activeScene + 1).ToString();
+        startLevelText.text = levelsComments[activeScene+1];
         lvlImg.sprite = lvlPreviews[activeScene];
     }
 
@@ -285,6 +353,18 @@ public class MenuManager : MonoBehaviour
         ChangeSetting(nb, ref chrono, chronoText, 0, 240);
     }
 
+    public void ChangePresetColNr(int nb)
+    {
+        ChangeSetting(nb, ref presetColNr, presetColsText, 0 , (colorPresets.Length/6)-1);
+        for(int i = 0; i < presetColsImg.Length; i++)
+        {
+            presetColsImg[i].color = colorPresets[(presetColNr*6) +i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
+            presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
+            print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
+        }
+        presetPalettesImg.sprite = palettesPreviews[presetColNr];
+    }
+
     public void ChangeSetting(ref bool setting, Text settingText)
     {
         setting = !setting;
@@ -351,6 +431,11 @@ public class MenuManager : MonoBehaviour
         option.enabled = !option.enabled;
     }
 
+    public void Toggle(Image img)
+    {
+        img.enabled = !img.enabled;
+    }
+
     // for the custom keys. Since IEnumerators don't accept ref or out params, I have to do this fucking cumbersome thing. This could be six times as short and less prone to errors.
 
     public void SetInteractKey()
@@ -360,6 +445,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetInteract()
     {
+        interactKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -379,6 +465,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetMenu()
     {
+        menuKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -397,6 +484,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetSelf()
     {
+        selfChangeKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -415,6 +503,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetFwd()
     {
+        forwardKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -433,6 +522,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetRight()
     {
+        rightKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -451,6 +541,7 @@ public class MenuManager : MonoBehaviour
 
     public IEnumerator GetLeft()
     {
+        leftKeyTx.text = "press a key";
         yield return new WaitUntil(() => Input.anyKeyDown);
         foreach (KeyCode keyPressed in System.Enum.GetValues(typeof(KeyCode)))
         {
@@ -462,6 +553,78 @@ public class MenuManager : MonoBehaviour
             }
         }
     }
+
+    public void ChangeColSprite(Image img)
+    {
+        Toggle(paletteImg);
+        StartCoroutine(GetCol(img));
+    }
+
+    public IEnumerator GetCol(Image img)
+    {
+        yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        Color prevCol = img.color;
+        Color col = palette.GetPixel //remplacer tous les 80 et 48 par la largeur et la hauteur de l'image source
+            (Mathf.RoundToInt(
+                (Input.mousePosition.x - paletteImg.rectTransform.position.x) 
+                * 80/paletteImg.rectTransform.sizeDelta.x*1920/Screen.width), 
+                Mathf.RoundToInt(
+                    (Input.mousePosition.y - paletteImg.rectTransform.position.y) 
+                    * 48/paletteImg.rectTransform.sizeDelta.y*1080 / Screen.height)
+                    );
+
+        img.color = col;
+        img.GetComponent<ChangeMatColor>().ChangeMatCol();
+        /*
+         // because String to Vector4 won't work, and so it fucks my game up
+         PlayerPrefs.SetString(img.name, col.ToString());
+        print("img name: " + img.name + "; col to string: " + col.ToString()+".");
+        print("just got the player prefs' color: " + PlayerPrefs.GetString(img.name));
+        print("now as color: ");
+            print(StringToVector4( PlayerPrefs.GetString(img.name)));*/
+        Toggle(paletteImg);
+    }
+
+    private void GetColorPalette(Texture2D tex, int nbStepsW, int nbStepsH)
+    {
+        colorsPalette = new Color[nbStepsH * nbStepsW];
+        int stepW = palette.width / nbStepsW;
+        int stepH = palette.height / nbStepsH;
+        for (int i = 0; i < nbStepsW; i++)
+        {
+            for (int j = 0; j < nbStepsH; j++)
+            {
+               colorsPalette[(nbStepsH * i) + (j)] = palette.GetPixel(i * stepW, j * stepH);
+            }
+        }
+    }
+
+    /*
+    public Vector4 StringToVector4(string sVector)
+    {
+        print("start col: " + sVector);
+        // Remove the parentheses
+        if (sVector.StartsWith("RGBA(") && sVector.EndsWith(")"))
+        {
+            print("color name's string length: " + sVector.Length);
+            sVector = sVector.Substring(4, sVector.Length-2);
+        print("end col0: " + sVector);
+        }
+
+        // split the items
+        string[] sArray = sVector.Split(',');
+
+        // store as a Vector4
+        Vector4 result = new Vector4(
+            float.Parse(sArray[0]),
+            float.Parse(sArray[1]),
+            float.Parse(sArray[2]),
+            float.Parse(sArray[3]));
+        print("end col: " + sVector);
+
+        return result;
+    }
+    */
 
     public void ClearAllData()
     {

@@ -1,4 +1,4 @@
-﻿Colambful; v0.9 (français)
+﻿Colambful; v0.92b (français)
 
 C'est probablement plus marrant à jouer à quatre ou plus (mais il est possible de jouer à deux).
 
@@ -13,7 +13,10 @@ Echap pour afficher ou cacher les informations de connexion
 ---REGLES---
 Chaque joueur a un nombre limité de changements de couleur. Quand ils n'en ont plus, le joueur meurt.
 Les souris font changer de couleur au contact.
+Si on reste trop longtemps au-dessus de la même couleur (plus de 20 secondes), notre couleur change.
+Quand on change sa propre couleur, ça ne compte que comme un demi changement de couleur.
 L'icone rond en haut à droite représente le nombre de vies restant au joueur.
+Après chaque changement de couleur, on court temporairement plus vite.
 
 --CONNECTION--
 Il est possible de jouer par internet:
