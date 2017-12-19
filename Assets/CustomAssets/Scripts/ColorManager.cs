@@ -36,6 +36,7 @@ public class ColorManager : NetworkBehaviour
     private AudioSource audioSource;
 
     private float refreshFrequency = 2.5f;
+    private int scoreShown;
 
     public enum gameState { menu, lobby, playing, scores };
     private gameState currState;
@@ -258,7 +259,7 @@ public class ColorManager : NetworkBehaviour
         PlayerMove playerMove = obj.GetComponent<PlayerMove>();
         Animator animator = playerMove.animator;
         playerMove.speed = strength;
-        if(CurrState == ColorManager.gameState.playing)
+        if (CurrState == ColorManager.gameState.playing)
         {
             animator.speed = 2;
         }
@@ -451,6 +452,8 @@ public class ColorManager : NetworkBehaviour
     {
         CurrState = gameState.scores;
         lobbyCanvas.enabled = true;
+        PrintScoresText(scoreShown);
+        /*
         listOfPlayersParent.SetActive(true);
         for (int i = 0; i < Scores.Length; i++)
         {
@@ -491,9 +494,23 @@ public class ColorManager : NetworkBehaviour
                     "Changed others' color " + Scores[i].colorChangesToOthers +
                     " times ";
             }
-        }
+        }*/
     }
 
+    private void PrintScoresText(int i)
+    {
+        string deathText = "Solid to the End!";
+        if (Scores[i].TimeOfDeath != "0") { deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds."; }
+        following.text = "<size=52><b> " + Scores[i].playerName + " </b></size>\n" +
+            deathText + "\n\n\n " +
+            "<b><i>Changed another's colour </i></b> <color=lime><b> " + Scores[i].colorChangesToOthers + " </b></color> times.\n" +
+            "Got their own color changed <b><i>by other sheep</i></b> <color=lime><b>" + Scores[i].colorChangesFromOthers + "</b></color> times.\n" +
+            "Got their own color changed <b><i>by mice</i></b> <color=lime><b>" + Scores[i].colorChangesFromMice + "</b></color> times.\n" +
+            "Got their own color changed <b><i>by staying still for too long </i></b> <color=lime><b>" + Scores[i].colorChangesFromGround + "</b></color> times.\n" +
+            "<b><i>Decided to change their own color</i></b> <color=lime><b>" + Scores[i].colorChangesFromSelf + "</b></color> times.\n" +
+            "\n\n\n Congrats!\n\n" +
+            "(press <b>" + MenuManager.left + "</b> or <b>" + MenuManager.right + "</b> to see other's scores)";
+    }
 
     private void Update()
     {
@@ -501,6 +518,28 @@ public class ColorManager : NetworkBehaviour
         {
             CurrState = gameState.scores;
             StartCoroutine("waitForGameEnd");
+        }
+
+        if (CurrState == gameState.scores)
+        {
+            if (Input.GetKeyDown(MenuManager.left))
+            {
+                scoreShown--;
+                if(scoreShown < Scores.Length)
+                {
+                    scoreShown = Scores.Length - 1;
+                }
+                PrintScoresText(scoreShown);
+            }
+            else if (Input.GetKeyDown(MenuManager.right))
+            {
+                scoreShown++;
+                if(scoreShown >= Scores.Length)
+                {
+                    scoreShown = 0;
+                }
+                PrintScoresText(scoreShown);
+            }
         }
 
         if (Input.GetKeyDown(MenuManager.debug)) // testing area //////////////////////////////////////////////////////////////////////////////////

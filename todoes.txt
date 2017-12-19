@@ -6,8 +6,8 @@ currently working on:
 to implement:
 1	name: pending
 1	add a "rotating right/left without advancing" anim?
-1	pretty score screen
 1	actual connexion menu, not just the ugly unity one
+?	narrower sight radius
 
 -done?- custom colours dans le menu
 --done, in tuto too?-- qd trop lgtps ds même zone: change col
@@ -71,6 +71,7 @@ to implement:
 --DONE-- commentaires sur les maps
 --DONE-- plus de maps plates et intéressantes
 --DONE-- random sheep spawn
+--DONE-- pretty score screen
 
 bugs:
 	-done?-scores only show when host won;
