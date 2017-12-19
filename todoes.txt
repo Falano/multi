@@ -65,6 +65,7 @@ to implement:
 --nope-- custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
 --DONE-- max time (needs: scores)
 --DONE-- speedboost lower
+--DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
 --DONE-- different cost for self-change E enemy-change
 --DONE-- wider atk raius
 --DONE-- keys: pending
@@ -118,7 +119,6 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- you can go to lvl -3: keep menu values in the positive
 --DONE-- chrono: le host est en gameState: score, mais le client sait toujours bouger.
 --DONE-- lvl5 flicker
---DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
 --DONE-- way too long loading time
 --DONE-- somehow before your first color change you're really slow? or the anim is just really fast?
 
