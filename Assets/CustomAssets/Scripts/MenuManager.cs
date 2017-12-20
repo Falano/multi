@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour
     public static float chrono = 0; // en minutes
     [SerializeField]
     public static int activeScene = 0;
-    public static int presetColNr;
+    public static int presetColNr; // the palette color theme chosen
     public static int nbScenes;
     public static int musicIndex = 0;
     public static bool shortScore = true; // not really useful, I should just settle on one way to show the score
@@ -30,16 +30,16 @@ public class MenuManager : MonoBehaviour
     public Material[] colorsMats; // the background's materials
     [SerializeField]
     private Color[] colorsPalette; // all of the sixty colors to choose from in the menu // gonna be useful when I turn the menu all keyboard-friendly
-    public Texture2D palette;
-    public Image paletteImg;
-    public Image presetPalettesImg;
+    public Texture2D palette; // the palette (lots of squares in a rectangle shape) image in my pproject
+    public Image paletteImg; // the palette (lotsa squares inna rectangle) object in my scene
+    public Image presetPalettesImg; // the preview of the chosen palette
 
     public Image[] presetColsImg; // les petits nuages de chaque couleur
     public Color[] colorPresets; // a list that contains all the presets for the colours, as long as you take them by groups of 6
 
     [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
-    public Sprite[] palettesPreviews;
+    public Sprite[] palettesPreviews; // the liste of preview images available
     [Tooltip("the 'enemy number' text object")]
     public Text enemyText;
     [Tooltip("the 'lives' text object")]
@@ -108,7 +108,7 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
-        levelsComments = new Dictionary<int, string>() {
+        levelsComments = new Dictionary<int, string>() { // descriptions of each level
             { 1, "big, flat, wide areas" },
             { 2, "medium, flat, wide areas"},
             { 3, "medium, cliffs, wide areas" },
@@ -235,7 +235,6 @@ public class MenuManager : MonoBehaviour
         presetColsText.text = presetColNr.ToString();
         presetPalettesImg.sprite = palettesPreviews[presetColNr];
 
-        ChangePresetColNrAbsolute(presetColNr);
 
         if (soloGame)
         {
@@ -245,8 +244,15 @@ public class MenuManager : MonoBehaviour
         {
             soloGameText.text = "no";
         }
-
+        StartCoroutine(initCols()); // because if we don't wait they haven't initialized all they need to and it bugs it up
         SetInputField();
+    }
+
+    IEnumerator initCols()
+    {
+        yield return new WaitForSeconds(.1f);
+        ChangePresetColNrAbsolute(presetColNr);
+
     }
 
     public void RefreshColors()
@@ -375,7 +381,6 @@ public class MenuManager : MonoBehaviour
             presetColsImg[i].color = colorPresets[(presetColNr*6) +i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
             presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
             print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
-            print("color4 : "+PlayerPrefs.GetString("col4"));
         }
         presetPalettesImg.sprite = palettesPreviews[presetColNr];
         PlayerPrefs.SetInt("favePalette", presetColNr);
@@ -389,10 +394,8 @@ public class MenuManager : MonoBehaviour
             presetColsImg[i].color = colorPresets[(presetColNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
             presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
             print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
-            print("color4 : " + PlayerPrefs.GetString("col4"));
         }
         presetPalettesImg.sprite = palettesPreviews[presetColNr];
-        PlayerPrefs.SetInt("favePalette", presetColNr);
     }
 
     public void ChangeSetting(ref bool setting, Text settingText)
