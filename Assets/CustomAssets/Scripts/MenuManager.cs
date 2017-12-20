@@ -179,39 +179,9 @@ public class MenuManager : MonoBehaviour
             colorPresets[i].a = 1;
         }
 
-        /*
-        //because it bugs it all up; StringToVector4 n'a pas l'air de marcher.
-        if (PlayerPrefs.HasKey("col1"))
-        {
-            colorsMats[0].color = StringToVector4(PlayerPrefs.GetString("col1"));
-            print(PlayerPrefs.GetString("col1")+": col1: " + colorsMats[0].color);
+        
 
-        }
-        if (PlayerPrefs.HasKey("col2"))
-        {
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col2"));
-            //print("color2: Color: " + colorsMats[1].color);
-
-        }
-        if (PlayerPrefs.HasKey("col3"))
-        {
-            colorsMats[2].color = StringToVector4(PlayerPrefs.GetString("col3"));
-            //print("color3: Color: " + colorsMats[2].color);
-        }
-        if (PlayerPrefs.HasKey("col4"))
-        {
-            colorsMats[3].color = StringToVector4(PlayerPrefs.GetString("col4"));
-            print("color4: Color: " + colorsMats[3].color);
-        }
-        if (PlayerPrefs.HasKey("col5"))
-        {
-            colorsMats[4].color = StringToVector4(PlayerPrefs.GetString("col5"));
-        }
-        if (PlayerPrefs.HasKey("col6"))
-        {
-            colorsMats[5].color = StringToVector4(PlayerPrefs.GetString("col6"));
-        }
-        */
+        
 
         colors = new Color[colorsMats.Length];
         nbScenes = SceneManager.sceneCountInBuildSettings;
@@ -244,14 +214,36 @@ public class MenuManager : MonoBehaviour
         {
             soloGameText.text = "no";
         }
+        print("col1 at start: " +PlayerPrefs.GetString("col1"));
+        if (!PlayerPrefs.HasKey("col1"))
+        {
+        print("setting palette");
         StartCoroutine(initCols()); // because if we don't wait they haven't initialized all they need to and it bugs it up
+        }
         SetInputField();
     }
 
     IEnumerator initCols()
     {
-        yield return new WaitForSeconds(.1f);
-        ChangePresetColNrAbsolute(presetColNr);
+        yield return new WaitForSeconds(.1f);        
+        //because it bugs it all up; StringToVector4 n'a pas l'air de marcher.
+        if (PlayerPrefs.HasKey("col1"))
+        {
+            colorsMats[0].color = StringToVector4(PlayerPrefs.GetString("col1"));
+            print("col1 in PlayerPrefs: " + PlayerPrefs.GetString("col1") + colorsMats[0].color);
+            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col2"));
+            //print("color2: Color: " + colorsMats[1].color);
+            colorsMats[2].color = StringToVector4(PlayerPrefs.GetString("col3"));
+            //print("color3: Color: " + colorsMats[2].color);
+            colorsMats[3].color = StringToVector4(PlayerPrefs.GetString("col4"));
+            colorsMats[4].color = StringToVector4(PlayerPrefs.GetString("col5"));
+            colorsMats[5].color = StringToVector4(PlayerPrefs.GetString("col6"));
+        }
+        else
+        {
+            ChangePresetColNrAbsolute(presetColNr);
+
+        }
 
     }
 
@@ -380,7 +372,8 @@ public class MenuManager : MonoBehaviour
         {
             presetColsImg[i].color = colorPresets[(presetColNr*6) +i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
             presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
-            print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
+            PlayerPrefs.SetString(presetColsImg[i].name.ToString(), Vector4ToString(presetColsImg[i].color));
+            print(presetColsImg[i].name.ToString() + "'s color is now " + Vector4ToString(presetColsImg[i].color) + " because I'm using the preset number " + presetColNr);
         }
         presetPalettesImg.sprite = palettesPreviews[presetColNr];
         PlayerPrefs.SetInt("favePalette", presetColNr);
@@ -393,6 +386,7 @@ public class MenuManager : MonoBehaviour
         {
             presetColsImg[i].color = colorPresets[(presetColNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
             presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
+            PlayerPrefs.SetString(presetColsImg[i].name.ToString(), Vector4ToString(presetColsImg[i].color));
             print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
         }
         presetPalettesImg.sprite = palettesPreviews[presetColNr];
@@ -609,14 +603,14 @@ public class MenuManager : MonoBehaviour
         img.color = col;
         img.GetComponent<ChangeMatColor>().ChangeMatCol();
         
-        /*
+        
          // because String to Vector4 won't work, and so it fucks my game up
          PlayerPrefs.SetString(img.name.ToString(), Vector4ToString(col));
         print("img name: " + img.name + "; col to string: " + Vector4ToString(col)+".");
         print("just got the player prefs' color: " + PlayerPrefs.GetString(img.name));
         print("now as color: ");
             print(StringToVector4( PlayerPrefs.GetString(img.name.ToString())));
-    */    
+        
     Toggle(paletteImg);
     }
 
