@@ -43,16 +43,16 @@ public class PlayerMove : NetworkBehaviour
         if (animator)
         {
             animator.SetBool("moving", Input.GetKey(MenuManager.forward));
+            animator.SetBool("right", Input.GetKey(MenuManager.right));
+            animator.SetBool("left", Input.GetKey(MenuManager.left));
         }
 
         if (Input.GetKey(MenuManager.right))
         {
-            // add a "rotating right without advancing" anim?
             transform.Rotate(0, rotationSpeed*Time.deltaTime, 0);
         }
         if (Input.GetKey(MenuManager.left))
         {
-            // add a "rotating left without advancing" anim?
             transform.Rotate(0, -rotationSpeed*Time.deltaTime, 0);
         }
         if (Input.GetKey(MenuManager.forward))
