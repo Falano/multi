@@ -599,7 +599,7 @@ public class MenuManager : MonoBehaviour
                 * palette.width/ paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width),
                 Mathf.RoundToInt(
                     (Input.mousePosition.y - paletteImg.rectTransform.position.y)
-                    * palette.height / paletteImg.rectTransform.sizeDelta.y * 1080 / Screen.height // because the canvas scaler that holds the palette is 1920/1080, and scales fully with Width (not Height)
+                    * palette.height / paletteImg.rectTransform.sizeDelta.y * 1920 / Screen.width // because the canvas scaler that holds the palette is 1920/1080, and scales fully with Width (not Height)
                     )
                     );
 
@@ -619,7 +619,7 @@ public class MenuManager : MonoBehaviour
         int stepH = palette.height / nbStepsH;
         for (int i = 0; i < nbStepsW; i++)
         {
-            for (int j = 0; j < nbStepsH; j++) // if "<=" , array index out of range; if "<", you click on the wrong place on the palette. Choose your evil.
+            for (int j = 0; j < nbStepsH; j++)
             {
                 colorsPalette[(nbStepsH * i) + (j)] = palette.GetPixel(i * stepW, j * stepH);
             }
