@@ -16,6 +16,5 @@ public class ChangeMatColor : MonoBehaviour {
 
     public void ChangeMatCol() {
         targetMat.color = selfCol.color;
-        print("changing material color: "+selfCol.color.ToString());
     }
 }

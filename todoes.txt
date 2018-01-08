@@ -5,12 +5,8 @@ currently working on:
 
 to implement:
 1	name: pending
-1	add a "rotating right/left without advancing" anim?
 1	actual connexion menu, not just the ugly unity one
 ?	narrower sight radius
-
--done?- custom colours dans le menu
---done, in tuto too?-- qd trop lgtps ds même zone: change col
 
 1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 2	option: more easily readable lvls
@@ -73,11 +69,13 @@ to implement:
 --DONE-- plus de maps plates et intéressantes
 --DONE-- random sheep spawn
 --DONE-- pretty score screen
+--DONE-- add a "rotating right/left without advancing" anim?
+--DONE-- custom colours dans le menu
+--DONE-- qd trop lgtps ds même zone: change col
 
 bugs:
 	-done?-scores only show when host won;
 	-done?-peeps who connected after others see those others as not ready by default
-	-functionality temporarily removed- when you saved an individual color, it bugs up the whole game
 	host doesn't show name (in scores) of the last person to connect - or in Clients that launched before Host
 	sometimes linux host can't play
 	sometimes linux player can't choose resolution
@@ -121,6 +119,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- lvl5 flicker
 --DONE-- way too long loading time
 --DONE-- somehow before your first color change you're really slow? or the anim is just really fast?
+--DONE-- when you saved an individual color, it bugs up the whole game
 
 SUGGESTIONS FLO :
 --DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)
