@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -11011,7 +11011,7 @@ Prefab:
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: colorPresets.Array.size
-      value: 54
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
@@ -11031,7 +11031,7 @@ Prefab:
     - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
       propertyPath: palettesPreviews.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114896426768272742, guid: 82d2059adc2c1407fbe7e29f98937658,
         type: 2}
@@ -12755,6 +12755,102 @@ Prefab:
       propertyPath: lvlPreviews.Array.data[15]
       value: 
       objectReference: {fileID: 21300000, guid: 02ae997d174fc4d4381153e502969b66,
+        type: 3}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[54].r
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[54].g
+      value: 0.08235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[54].b
+      value: 0.37647063
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[55].r
+      value: 0.9921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[55].g
+      value: 0.74509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[55].b
+      value: 0.43137258
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[56].r
+      value: 0.8941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[56].g
+      value: 0.44705886
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[56].b
+      value: 0.07450981
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[57].r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[57].g
+      value: 0.6431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[57].b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[58].r
+      value: 0.62352943
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[58].g
+      value: 0.16862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[58].b
+      value: 0.5921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[59].r
+      value: 0.91372555
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[59].g
+      value: 0.40784317
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: colorPresets.Array.data[59].b
+      value: 0.63529414
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160094201714306, guid: 82d2059adc2c1407fbe7e29f98937658,
+        type: 2}
+      propertyPath: palettesPreviews.Array.data[9]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ff42e12514d2584c8d2539c6aaa18f7,
         type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82d2059adc2c1407fbe7e29f98937658, type: 2}

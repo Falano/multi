@@ -219,20 +219,16 @@ public class MenuManager : MonoBehaviour
     IEnumerator initCols()
     {
         yield return new WaitForSeconds(.1f);
-        if (PlayerPrefs.HasKey("col1")) // ou col2 ou any of the others really (probs)
-        {
-            colorsMats[0].color = StringToVector4(PlayerPrefs.GetString("col1"));
-            colorsMats[1].color = StringToVector4(PlayerPrefs.GetString("col2"));
-            colorsMats[2].color = StringToVector4(PlayerPrefs.GetString("col3"));
-            colorsMats[3].color = StringToVector4(PlayerPrefs.GetString("col4"));
-            colorsMats[4].color = StringToVector4(PlayerPrefs.GetString("col5"));
-            colorsMats[5].color = StringToVector4(PlayerPrefs.GetString("col6"));
-        }
-        else
-        {
-            ChangePresetColNrAbsolute(presetColNr);
-
-        }
+            for (int i = 0; i < 6; i++) {
+                if (PlayerPrefs.HasKey("col" + (i + 1).ToString())) {
+                    colorsMats[i].color = StringToVector4(PlayerPrefs.GetString("col" + (i + 1).ToString()));
+                    presetColsImg[i].color = colorsMats[i].color;
+                }
+            }
+        //if(!(PlayerPrefs.HasKey("col1") || PlayerPrefs.HasKey("col2") || PlayerPrefs.HasKey("col3") || PlayerPrefs.HasKey("col4") || PlayerPrefs.HasKey("col5") || PlayerPrefs.HasKey("col6") ))
+        //{
+        //    ChangePresetColNrAbsolute(presetColNr);
+        //}
         RefreshColors();
 
     }
@@ -363,7 +359,6 @@ public class MenuManager : MonoBehaviour
             presetColsImg[i].color = colorPresets[(presetColNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
             presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
             PlayerPrefs.SetString(presetColsImg[i].name.ToString(), Vector4ToString(presetColsImg[i].color));
-            print(presetColsImg[i].name.ToString() + "'s color is now " + Vector4ToString(presetColsImg[i].color) + " because I'm using the preset number " + presetColNr);
         }
         presetPalettesImg.sprite = palettesPreviews[presetColNr];
         PlayerPrefs.SetInt("favePalette", presetColNr);
@@ -457,7 +452,9 @@ public class MenuManager : MonoBehaviour
 
     public void SetInteractKey()
     {
-        StartCoroutine(GetInteract());
+        if (!paletteImg.enabled) { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+            StartCoroutine(GetInteract());
+        }
     }
 
     public IEnumerator GetInteract()
@@ -477,7 +474,10 @@ public class MenuManager : MonoBehaviour
 
     public void SetMenuKey()
     {
-        StartCoroutine(GetMenu());
+        if (!paletteImg.enabled)
+        { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+            StartCoroutine(GetMenu());
+        }
     }
 
     public IEnumerator GetMenu()
@@ -496,7 +496,10 @@ public class MenuManager : MonoBehaviour
     }
     public void SetSelfKey()
     {
-        StartCoroutine(GetSelf());
+        if (!paletteImg.enabled)
+        { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+            StartCoroutine(GetSelf());
+        }
     }
 
     public IEnumerator GetSelf()
@@ -515,7 +518,10 @@ public class MenuManager : MonoBehaviour
     }
     public void SetFwdKey()
     {
-        StartCoroutine(GetFwd());
+        if (!paletteImg.enabled)
+        { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+            StartCoroutine(GetFwd());
+        }
     }
 
     public IEnumerator GetFwd()
@@ -534,7 +540,10 @@ public class MenuManager : MonoBehaviour
     }
     public void SetRightKey()
     {
-        StartCoroutine(GetRight());
+        if (!paletteImg.enabled)
+        { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+            StartCoroutine(GetRight());
+        }
     }
 
     public IEnumerator GetRight()
@@ -553,7 +562,10 @@ public class MenuManager : MonoBehaviour
     }
     public void SetLeftKey()
     {
-        StartCoroutine(GetLeft());
+        if (!paletteImg.enabled)
+        { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+            StartCoroutine(GetLeft());
+        }
     }
 
     public IEnumerator GetLeft()
@@ -577,17 +589,18 @@ public class MenuManager : MonoBehaviour
         StartCoroutine(GetCol(img));
     }
 
-    public IEnumerator GetCol(Image img)
+    public IEnumerator GetCol(Image img) //pick a color
     {
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-        Color prevCol = img.color;
-        Color col = palette.GetPixel //remplacer tous les 80 et 48 par la largeur et la hauteur de l'image source
+        Color prevCol = img.color; 
+        Color col = palette.GetPixel
             (Mathf.RoundToInt(
                 (Input.mousePosition.x - paletteImg.rectTransform.position.x)
-                * 80 / paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width),
+                * palette.width/ paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width),
                 Mathf.RoundToInt(
                     (Input.mousePosition.y - paletteImg.rectTransform.position.y)
-                    * 48 / paletteImg.rectTransform.sizeDelta.y * 1080 / Screen.height)
+                    * palette.height / paletteImg.rectTransform.sizeDelta.y * 1080 / Screen.height // because the canvas scaler that holds the palette is 1920/1080, and scales fully with Width (not Height)
+                    )
                     );
 
         img.color = col;
