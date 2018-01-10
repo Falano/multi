@@ -5,7 +5,7 @@ currently working on:
 
 to implement:
 teams: savoir combien il reste de teams actives (stopper le jeu quand que 1)
-teams: have exchange lives working (rn they just snipe at each other; also anybody goes grey randomly, and an ally is ally with everybody)
+teams: have exchange lives working (rn they just snipe at each other)
 penser à rechanger le default selected button 
 soit enlever la focntion Debug() soit mettre un de ses textes dans chaque niveau
 -done?- le host ne se lance pas et du coup il ne lance pas les souris non plus
@@ -112,7 +112,7 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- chrono: le host est en gameState: score, mais le client sait toujours bouger.
 --DONE-- lvl5 flicker
 --DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
-
+--DONE-- some peeps are in several different teams at once
 
 SUGGESTIONS FLO :
 --DONE-- Add a "Spectating playerName" text on screen (cf. CameraMover.cs => Update)

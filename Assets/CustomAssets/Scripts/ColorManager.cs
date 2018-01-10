@@ -79,7 +79,8 @@ public class ColorManager : NetworkBehaviour
 
     void Start()
     {
-        if (isServer){
+        if (isServer)
+        {
             CurrState = gameState.lobby;
             currStateString = CurrState.ToString();
             Debug("I'm the host player");
@@ -125,9 +126,9 @@ public class ColorManager : NetworkBehaviour
         }
 
         launchGameTx.text = "";
-     
+
         Invoke("checkIfGamePlaying", 0.1f);
-        if(CurrState == gameState.lobby)
+        if (CurrState == gameState.lobby)
         {
             Invoke("RefreshListOfPlayersSolo", 0.2f);
             if (isServer)
@@ -148,7 +149,7 @@ public class ColorManager : NetworkBehaviour
 
     void Debug(string sentence)
     {
-        DebugTx.text += "\n" + sentence; 
+        DebugTx.text += "\n" + sentence;
     }
 
     void checkIfGamePlaying()
@@ -156,7 +157,7 @@ public class ColorManager : NetworkBehaviour
         if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
         {
             print("GAME IS PLAYING");
-            
+
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
             Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
 
@@ -173,7 +174,7 @@ public class ColorManager : NetworkBehaviour
             lobbyCanvas.enabled = false;
             return;
         }
-    }  
+    }
 
     public GameObject SpawnScore(string name, GameObject obj)
     {
@@ -230,7 +231,7 @@ public class ColorManager : NetworkBehaviour
             }
             else if (attacker.CompareTag("Player"))
             {
-                if(atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
+                if (atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
                 {
                     if (objChangeCol.sharing)
                     {
@@ -238,7 +239,7 @@ public class ColorManager : NetworkBehaviour
                         {
                             damage = 1;
                             score.colorChangesGiftedToTeam += 1;
-                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesGiftedByTeam += 1; 
+                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesGiftedByTeam += 1;
                             //si ça marche, optimiser les scores pour que la variable score d'un playerObj soit de type score, 
                             //et la variable PlayerObj d'un score de type... PlayerBehaviour? w/e seems more efficient
                         }
@@ -271,7 +272,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
         objHealth.TakeDamage(damage);
-            //Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
+        //Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
@@ -334,21 +335,23 @@ public class ColorManager : NetworkBehaviour
             PlayerBehaviour currBehaviour = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>();
             Scores[i].ScoreTx = currBehaviour.ScoreTx.GetComponent<Text>();
             Scores[i].SetStartTime();
-            if(teamsNbLocal == 0)
+            if (teamsNbLocal == 0)
             {
                 teamsNbLocal = Scores.Length;
             }
-                Scores[i].team = (i+teamsNbLocal) % teamsNbLocal;
-                currBehaviour.team = Scores[i].team;
-
-                if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
-                {
-                    currBehaviour.localAlly = true;
-                }
-            Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from "+teamsNbLocal+" teams total)");
+            Scores[i].team = (i + teamsNbLocal) % teamsNbLocal;
+            currBehaviour.team = Scores[i].team;
+        }
+        for (int i = 0; i < Scores.Length; i++) // cause if I don't make two different loops, it tries to compare them before localPlyers' team has been assigned
+        {
+            PlayerBehaviour currBehaviour = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>();
+            if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
+            {
+                currBehaviour.localAlly = true;
+            }
+            Debug(currBehaviour.localName + " is in team " + currBehaviour.team + ", local is " + localPlayer.GetComponent<PlayerBehaviour>().team + ", so localAlly is " + currBehaviour.localAlly);
+            //Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from " + teamsNbLocal + " teams total)"); // behaviour.localName is more trustworthy than score.playerName
             currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
-            
-
         }
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -487,7 +490,9 @@ public class ColorManager : NetworkBehaviour
 
     private void ShowScores()
     { if (localPlayer && localPlayer.GetComponent<PlayerBehaviour>().isLocalPlayer) { CmdShowScores(); } }
-    [Command] private void CmdShowScores() {
+    [Command]
+    private void CmdShowScores()
+    {
         CurrState = gameState.scores;
         RpcShowScores();
     }
@@ -524,7 +529,7 @@ public class ColorManager : NetworkBehaviour
 
             if (!MenuManager.shortScore)
             {
-                Scores[i].ScoreTx.text = Scores[i].playerName + " (team " + Scores[i].team + ") "+
+                Scores[i].ScoreTx.text = Scores[i].playerName + " (team " + Scores[i].team + ") " +
                     deathText +
                     "changed " + Scores[i].colorChangesToOthers +
                     " colors; others changed theirs " + Scores[i].colorChangesFromOthers +
@@ -540,7 +545,7 @@ public class ColorManager : NetworkBehaviour
             }
         }
     }
-    
+
 
     private void Update()
     {
