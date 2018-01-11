@@ -7,6 +7,11 @@ currently working on:
 
 
 to implement:
+1	name: pending
+1	actual connexion menu, not just the ugly unity one
+?	narrower sight radius
+
+1	teeeeeeams! (how many) (divide total players by teams, substract; divide rest total numbers by rest teams, substract; etc. )
 au lieu de Score.PlayerObj.GetComponent<PlayerBehaviour>(), avoir une var Behaviour dans le Score once and for all; e generalement cleaner les interactions entre les scores et leurs objets
 supprimer le nbOfPlayersPlaying cause with the teams I don't need it anymore
 teams: savoir combien il reste de teams actives (stopper le jeu quand que 1)
@@ -26,12 +31,11 @@ do scores show if it's not the host that won? (sometimes scores don't show in 0.
 2	sounds: whoops tried to changeCol the ground and whoops forgot changeCol had a cooldown and sharing lives+ and sharing lives-
 2	(boring options menu in-game; at least for sound levels)
 2	deathwave (how often (+-20% sinon c'est pas rigolo)) (et donne une couleur: s'ils sont pas sur cette couleur ils meurent)
-2	pretty score screen
-2.5	custom colours dans le menu
+2.5	tell by how many players each level is supposed to be played
 3	walking/running/turning sound
 3	different game modes? (no idea which though, except for deathwave/teams/chrono); actually, having preset options: attrition war (lots of life), thunderstorm (little life, frequent deathwaves, teams), chacun pour soi, teams of two, two sides, protect the Thingie (nope, no clue how that'd work)
 3	keep mice from spam attacking the player
-3.5	add a "rotating right/left without advancing" anim?
+4	more lvls
 4	menu controllable from keyboard
 4	custom EVERYTHING
 5	ia
@@ -75,18 +79,33 @@ do scores show if it's not the host that won? (sometimes scores don't show in 0.
 --nope-- custom number of colours? hard to level design - except if each map has a number of colours - and they only show if the right number of colours is set; colours sheep < map: areas where they'd rather not go (interesting if those are corridors); colours sheep > map: random change col sucks for player (good? bad?)
 --DONE-- max time (needs: scores)
 --DONE-- speedboost lower
+--DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
 --DONE-- different cost for self-change E enemy-change
 --DONE-- wider atk raius
+--DONE-- keys: pending
+--DONE-- commentaires sur les maps
+--DONE-- plus de maps plates et intéressantes
+--DONE-- random sheep spawn
+--DONE-- pretty score screen
+--DONE-- add a "rotating right/left without advancing" anim?
+--DONE-- custom colours dans le menu
 --DONE-- qd trop lgtps ds même zone: change col
 
 
 
 
 bugs:
-	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late in TutoPLBehaviour's Update
+	-done?-scores only show when host won;
+	-done?-peeps who connected after others see those others as not ready by default
+	host doesn't show name (in scores) of the last person to connect - or in Clients that launched before Host
+	sometimes linux host can't play
+	sometimes linux player can't choose resolution
+	sometimes linux player's mouse doesn't work on fullscreen
+	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
-
---done?-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
+	laurent was a zombie
+	
+--DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 the player dies, but only on its own screen, and they can't space to other players.
 player needs to die from Kill. Either I make Kill public or the player decides to die itself.
 
@@ -119,7 +138,9 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- you can go to lvl -3: keep menu values in the positive
 --DONE-- chrono: le host est en gameState: score, mais le client sait toujours bouger.
 --DONE-- lvl5 flicker
---DONE-- custom key bindings (global or local? Maybe all boring settings are local. They should [They really should]); we need: move front, turn left, turn right, change self, change others, call menu (quit, connexion information, local options?)
+--DONE-- way too long loading time
+--DONE-- somehow before your first color change you're really slow? or the anim is just really fast?
+--DONE-- when you saved an individual color, it bugs up the whole game
 --DONE-- some peeps are in several different teams at once
 
 SUGGESTIONS FLO :

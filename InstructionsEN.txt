@@ -1,4 +1,4 @@
-﻿Colambful; v0.9 (english)
+﻿Colambful; v0.92b (english)
 
 It's probably more fun with four or more players (though you -can- play with just one friend).
 
@@ -13,7 +13,10 @@ Escape to toggle the connection information on and off.
 ---RULES---
 Each player has a limited number of colour changes. When they're all used up, they die.
 Mice make you change colour on contact.
+If you stay on top of the same colour for too long (more than 20 seconds), your colour changes.
+When you change your own colour, it only counts as half a colour change.
 The round icon in the top right corner shows the player's remaining lives.
+Just after you changed color, you get a color boost.
 
 --CONNEXION--
 You can play over the Internet:
@@ -22,6 +25,10 @@ You can play over the Internet:
 Or through LAN:
 	host: Play> Initialize Broadcast> Start Broadcasting ; LAN Host(H)
 	guests: Play> Initialize Broadcast> Listen for Broadcast; put the IP address of the host (the broadcast gave it to you; it looks like 192.168.x.xx) in the field written 'localhost', then LAN Client(C)
+
+--FEATURES--
+You can change the default keys, the computer will remember.
+You can change the default colours, but the computer won't remember.
 
 --KNOWN BUGS--
 If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)

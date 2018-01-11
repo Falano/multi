@@ -262,7 +262,8 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &229459444 stripped
@@ -549,7 +550,8 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &401790556 stripped
@@ -1175,7 +1177,8 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &578578044 stripped
@@ -1335,7 +1338,8 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &732540548 stripped
@@ -2627,7 +2631,8 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &1642453513 stripped
@@ -2787,7 +2792,8 @@ Prefab:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 08b353dfd51608c4f9b2f6decb0f4f00, type: 3}
   m_IsPrefabParent: 0
 --- !u!4 &1687048104 stripped

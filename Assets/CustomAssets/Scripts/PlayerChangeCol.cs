@@ -8,8 +8,8 @@ using UnityEngine.Networking;
 
 public class PlayerChangeCol : NetworkBehaviour
 {
-    [SyncVar] private Color currColor;
-    private Color prevColor;
+    [SyncVar] private int currColorIndex;
+    private int prevColorIndex;
     Color[] colors;
 
 
@@ -27,9 +27,9 @@ public class PlayerChangeCol : NetworkBehaviour
     public float speedBoostStrength;
     public int currBoost = 0;
     //public Vector3 offsetTarget;
-    private Color prevGroundColor;
-    private Color currGroundColor;
     private PlayerBehaviour behaviour;
+    private int prevGroundColorIndex;
+    private int currGroundColorIndex;
     [SerializeField]
     float stillTime;
     IEnumerator divineRetribution;
@@ -42,16 +42,16 @@ public class PlayerChangeCol : NetworkBehaviour
         speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
         colors = MenuManager.colors;
         rd = GetComponentInChildren<Renderer>();
-        currColor = colors[0];
+        currColorIndex = 0;
         offsetPos = new Vector3(0, .5f, 0);
-        currGroundColor = Color.white;
+        currGroundColorIndex = 0;
         InvokeRepeating("CheckGroundColor", 1, 1);
 
     }
 
     public void startWhite()
     {
-        ChangeCol(gameObject, colors[0], ColorManager.singleton.gameObject);
+        ChangeCol(gameObject, 0, ColorManager.singleton.gameObject);
     }
 
     // mice make them change colour
@@ -76,15 +76,15 @@ public class PlayerChangeCol : NetworkBehaviour
             return;
         }
 
-        prevColor = currColor;
+        prevColorIndex = currColorIndex;
         // so it doesn't "change" to the same colour:
-        while (prevColor == currColor)
+        while (prevColorIndex == currColorIndex)
         {
-            currColor = colors[Random.Range(0, colors.Length)];
+            currColorIndex = Random.Range(0, colors.Length);
         }
         if (isLocalPlayer)
         {
-            CmdChangeCol(obj, currColor, attacker);
+            CmdChangeCol(obj, currColorIndex, attacker);
         }
         else if (gameObject.GetComponent<PlayerBehaviour>().localAlly)
         {
@@ -94,7 +94,7 @@ public class PlayerChangeCol : NetworkBehaviour
 
 
     // so I can choose to change to one specific colour
-    void ChangeCol(GameObject obj, Color col, GameObject attacker)
+    void ChangeCol(GameObject obj, int colIndex, GameObject attacker)
     {
         print("changeCol");
         if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
@@ -103,23 +103,23 @@ public class PlayerChangeCol : NetworkBehaviour
         }
         if (isLocalPlayer)
         {
-            CmdChangeCol(obj, col, attacker);
+            CmdChangeCol(obj, colIndex, attacker);
         }
     }
 
     [Command]
-    void CmdChangeCol(GameObject obj, Color col , GameObject attacker)
+    void CmdChangeCol(GameObject obj, int colIndex , GameObject attacker)
     {
-        ColorManager.singleton.RpcChangeCol(obj, col, attacker);
+        ColorManager.singleton.RpcChangeCol(obj, colIndex, attacker);
     }
 
     void CheckGroundColor() // so people don't stay too long in the same place
     {
         if (Physics.Raycast(transform.position+offsetPos, -transform.up, out ground))
         {
-            prevGroundColor = currGroundColor;
-            currGroundColor = ground.transform.GetComponent<Renderer>().material.color;
-            if (prevGroundColor != currGroundColor && ColorManager.singleton.CurrState == ColorManager.gameState.playing)
+            prevGroundColorIndex = currGroundColorIndex;
+            currGroundColorIndex =  System.Array.IndexOf(MenuManager.colors, ground.transform.GetComponent<Renderer>().material.color) ;
+            if (prevGroundColorIndex != currGroundColorIndex && ColorManager.singleton.CurrState == ColorManager.gameState.playing)
             { // if you just moved ground colors, we launch a new countdown
                 StopAllCoroutines();
                 divineRetribution = autoChangeCol(stillTime);

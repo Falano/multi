@@ -7,6 +7,7 @@ Build/
 Builds/
 Resources/
 Images/
+Assets/CustomAssets/3DModels/Materials/
 
 =====================================
 Visual Studio / MonoDevelop generated
@@ -51,3 +52,5 @@ graphical files
 RechGraph/
 
 ProjectSettings/ProjectVersion\.txt
+
+Assets/CustomAssets/3DModels/Materials\.meta

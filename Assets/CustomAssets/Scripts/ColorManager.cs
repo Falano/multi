@@ -41,6 +41,7 @@ public class ColorManager : NetworkBehaviour
     public int teamsNbLocal;
 
     private float refreshFrequency = 2.5f;
+    private int scoreShown;
 
     public enum gameState { menu, lobby, loading, playing, scores };
     private gameState currState;
@@ -191,7 +192,7 @@ public class ColorManager : NetworkBehaviour
 
 
     [ClientRpc]
-    public void RpcChangeCol(GameObject obj, Color col, GameObject attacker)
+    public void RpcChangeCol(GameObject obj, int colIndex, GameObject attacker)
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
@@ -212,6 +213,7 @@ public class ColorManager : NetworkBehaviour
             if (objBehaviour.localAlly)
             {
                 col = Color.gray;
+                mat.color = MenuManager.colors[colIndex];
             }
             if (objBehaviour.isLocalPlayer)
             {
@@ -298,7 +300,10 @@ public class ColorManager : NetworkBehaviour
         PlayerMove playerMove = obj.GetComponent<PlayerMove>();
         Animator animator = playerMove.animator;
         playerMove.speed = strength;
-        animator.speed = 2;
+        if (CurrState == ColorManager.gameState.playing)
+        {
+            animator.speed = 2;
+        }
         yield return new WaitForSeconds(duration);
         if (playerMove.speed == strength && prevBoost == objChangeCol.currBoost) // pour qu'il ne sache pas re-bouger s'il est en train de mourir
         {
@@ -418,6 +423,10 @@ public class ColorManager : NetworkBehaviour
             listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
             listPlayers[i].idNumber = i;
             listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            if (listPlayers[i].isLocalPlayer)
+            {
+                scoreShown = listPlayers[i].idNumber;
+            }
             if (listPlayers[i].localName == null || listPlayers[i].localName == "")
             {
                 listPlayers[i].localName = "Player" + i.ToString();
@@ -498,6 +507,7 @@ public class ColorManager : NetworkBehaviour
         CurrState = gameState.scores;
         RpcShowScores();
     }
+
     [ClientRpc] private void RpcShowScores() { ShowScoresSolo(); }
 
     public void ShowScoresSolo()
@@ -505,47 +515,22 @@ public class ColorManager : NetworkBehaviour
     {
         CurrState = gameState.scores;
         lobbyCanvas.enabled = true;
-        listOfPlayersParent.SetActive(true);
-        for (int i = 0; i < Scores.Length; i++)
-        {
-            print(Scores[i]);
-            print(Scores[i].ScoreTx);
-            float PosX = Scores[i].ScoreTx.transform.position.x;
-            float PosY = Scores[i].ScoreTx.transform.position.y;
-            Scores[i].ScoreTx.color = Color.white;
-            Scores[i].ScoreTx.transform.position = new Vector2(PosX - Screen.width * 0.33f, PosY);
-            string deathText;
-            if (Scores[i].TimeOfDeath == "0")
-            {
-                deathText = ": Solid To The End! ";
-            }
-            else if (float.Parse(Scores[i].TimeOfDeath) < .5f)
-            {
-                deathText = ": was spectating; ";
-                Scores[i].ScoreTx.color = Color.cyan;
-            }
-            else
-            {
-                deathText = ": liquefied at " + Scores[i].TimeOfDeath + "s; ";
-            }
+        PrintScoresText(scoreShown);
+    }
 
-            if (!MenuManager.shortScore)
-            {
-                Scores[i].ScoreTx.text = Scores[i].playerName + " (team " + Scores[i].team + ") " +
-                    deathText +
-                    "changed " + Scores[i].colorChangesToOthers +
-                    " colors; others changed theirs " + Scores[i].colorChangesFromOthers +
-                    " times, mice " + Scores[i].colorChangesFromMice +
-                    " times; themselves " + Scores[i].colorChangesFromSelf + " times.";
-            }
-            else
-            {
-                Scores[i].ScoreTx.text = Scores[i].playerName + " (team " + Scores[i].team + ") " +
-                    deathText +
-                    "Changed others' color " + Scores[i].colorChangesToOthers +
-                    " times ";
-            }
-        }
+    private void PrintScoresText(int i)
+    {
+        string deathText = "Solid to the End!";
+        if (Scores[i].TimeOfDeath != "0") { deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds."; }
+        following.text = "<size=52><b> " + Scores[i].playerName + " </b></size>\n" +
+            deathText + "\n\n\n " +
+            "<b><i>Changed another's colour </i></b> <color=lime><b> " + Scores[i].colorChangesToOthers + " </b></color> times.\n" +
+            "Got their own color changed <b><i>by other sheep</i></b> <color=lime><b>" + Scores[i].colorChangesFromOthers + "</b></color> times.\n" +
+            "Got their own color changed <b><i>by mice</i></b> <color=lime><b>" + Scores[i].colorChangesFromMice + "</b></color> times.\n" +
+            "Got their own color changed <b><i>by staying still for too long </i></b> <color=lime><b>" + Scores[i].colorChangesFromGround + "</b></color> times.\n" +
+            "<b><i>Decided to change their own color</i></b> <color=lime><b>" + Scores[i].colorChangesFromSelf + "</b></color> times.\n" +
+            "\n\n\n Congrats!\n\n" +
+            "(press <b>" + MenuManager.left + "</b> or <b>" + MenuManager.right + "</b> to see other's scores)";
     }
 
 
@@ -556,6 +541,28 @@ public class ColorManager : NetworkBehaviour
         {
             CurrState = gameState.scores;
             StartCoroutine("waitForGameEnd");
+        }
+
+        if (CurrState == gameState.scores)
+        {
+            if (Input.GetKeyDown(MenuManager.left))
+            {
+                scoreShown--;
+                if(scoreShown < Scores.Length)
+                {
+                    scoreShown = Scores.Length - 1;
+                }
+                PrintScoresText(scoreShown);
+            }
+            else if (Input.GetKeyDown(MenuManager.right))
+            {
+                scoreShown++;
+                if(scoreShown >= Scores.Length)
+                {
+                    scoreShown = 0;
+                }
+                PrintScoresText(scoreShown);
+            }
         }
 
         if (Input.GetKeyDown(MenuManager.debug)) // testing area //////////////////////////////////////////////////////////////////////////////////
