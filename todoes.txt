@@ -2,8 +2,13 @@
 
 currently working on:
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
+	the last or second member of a team won't die
+	game won't stop unless all but one players (I'd like teams) is dead
+
 
 to implement:
+au lieu de Score.PlayerObj.GetComponent<PlayerBehaviour>(), avoir une var Behaviour dans le Score once and for all; e generalement cleaner les interactions entre les scores et leurs objets
+supprimer le nbOfPlayersPlaying cause with the teams I don't need it anymore
 teams: savoir combien il reste de teams actives (stopper le jeu quand que 1)
 teams: have exchange lives working (rn they just snipe at each other)
 penser à rechanger le default selected button 
@@ -74,11 +79,14 @@ do scores show if it's not the host that won? (sometimes scores don't show in 0.
 --DONE-- wider atk raius
 --DONE-- qd trop lgtps ds même zone: change col
 
+
+
+
 bugs:
 	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator
 
---DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
+--done?-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 the player dies, but only on its own screen, and they can't space to other players.
 player needs to die from Kill. Either I make Kill public or the player decides to die itself.
 

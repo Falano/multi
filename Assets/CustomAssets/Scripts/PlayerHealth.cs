@@ -78,7 +78,25 @@ public class PlayerHealth : NetworkBehaviour
     {
         ColorManager.singleton.numberOfPlayersPlaying--;
 
+        bool SeveralTeamsPlaying = false;
+        int prevTeam = ColorManager.singleton.Scores[0].PlayerObj.GetComponent<PlayerBehaviour>().team;
+        foreach (Score sco in ColorManager.singleton.Scores)
+        {
+            if (sco.PlayerObj != null)
+            {
+                if (prevTeam != sco.PlayerObj.GetComponent<PlayerBehaviour>().team)
+                {
+                    ColorManager.singleton.Debug("prevTeam" + prevTeam  + " != sco.PlayerObj.GetComponent<PlayerBehaviour>().team " + sco.PlayerObj.GetComponent<PlayerBehaviour>().team);
+                    SeveralTeamsPlaying = true;
+                }
+                prevTeam = sco.PlayerObj.GetComponent<PlayerBehaviour>().team;
+            }
+        }
+        ColorManager.singleton.SeveralTeamsPlaying = SeveralTeamsPlaying;
+
+
         Score score = GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
+        score.playerName = GetComponent<PlayerBehaviour>().localName;
         score.SetTimeOfDeath();
         print(score.playerName + "'s time of death: " + score.TimeOfDeath);
         

@@ -29,6 +29,8 @@ public class ColorManager : NetworkBehaviour
     public Text DebugTx;
     [SyncVar]
     public int numberOfPlayersPlaying;
+    [SyncVar]
+    public bool SeveralTeamsPlaying = true;
     public Score[] Scores;
     public Text following;
     [Header("tmp: sound stuff")]
@@ -147,7 +149,7 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-    void Debug(string sentence)
+    public void Debug(string sentence)
     {
         DebugTx.text += "\n" + sentence;
     }
@@ -350,7 +352,7 @@ public class ColorManager : NetworkBehaviour
                 currBehaviour.localAlly = true;
             }
             Debug(currBehaviour.localName + " is in team " + currBehaviour.team + ", local is " + localPlayer.GetComponent<PlayerBehaviour>().team + ", so localAlly is " + currBehaviour.localAlly);
-            //Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from " + teamsNbLocal + " teams total)"); // behaviour.localName is more trustworthy than score.playerName
+            //Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from " + teamsNbLocal + " teams total)"); // behaviour.localName is more trustworthy than score.playerName smh
             currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
         }
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
@@ -550,7 +552,7 @@ public class ColorManager : NetworkBehaviour
     private void Update()
     {
         if (CurrState == gameState.playing && !MenuManager.soloGame &&
-            numberOfPlayersPlaying <= 1 /*nope: number of teams playing*/)
+            !SeveralTeamsPlaying /*nope: number of teams playing*/)
         {
             CurrState = gameState.scores;
             StartCoroutine("waitForGameEnd");
@@ -559,7 +561,8 @@ public class ColorManager : NetworkBehaviour
         if (Input.GetKeyDown(MenuManager.debug)) // testing area //////////////////////////////////////////////////////////////////////////////////
         {
             lobbyCanvas.enabled = !lobbyCanvas.enabled;
-            launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying;
+            launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying +
+                "\n several teams: " + SeveralTeamsPlaying;
         }
     }
 }
