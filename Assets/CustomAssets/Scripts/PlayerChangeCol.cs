@@ -88,7 +88,7 @@ public class PlayerChangeCol : NetworkBehaviour
         }
         else if (gameObject.GetComponent<PlayerBehaviour>().localAlly)
         {
-            rd.materials[1].color = Color.grey;
+            rd.materials[1].color = Color.white;
         }
     }
 

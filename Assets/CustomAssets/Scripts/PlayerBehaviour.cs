@@ -10,7 +10,7 @@ public class PlayerBehaviour : NetworkBehaviour
     public int idNumber;
     [SyncVar] public string localName;
     public GameObject ScoreTx;
-    public GameObject ScoreObj;
+    public Score ScoreObj;
     public int team;
     public bool localAlly = false;
     private TextMesh DebugTxFloating;
@@ -71,7 +71,7 @@ public class PlayerBehaviour : NetworkBehaviour
     IEnumerator waitToAssignScore()
     {
         yield return new WaitForSeconds(.1f);
-        ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
+        ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject).GetComponent<Score>();
         name = "sheep-" + localName;
         if (isLocalPlayer)
         {
@@ -93,7 +93,6 @@ public class PlayerBehaviour : NetworkBehaviour
     public void ToggleReady(bool state)
     {
         _isReady = state;
-        //print("is player ready? " + isReady);
         CmdTogglePlayerReady(gameObject, state);
     }
     [Command]
@@ -116,7 +115,6 @@ public class PlayerBehaviour : NetworkBehaviour
     [Command]
     public void CmdSyncGameState()
     {
-        print(1);
         ColorManager.singleton.currStateString = ColorManager.singleton.currState.ToString();
         ColorManager.singleton.RpcSyncGameState(ColorManager.singleton.currStateString);
     }

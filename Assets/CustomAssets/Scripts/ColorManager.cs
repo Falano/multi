@@ -71,7 +71,7 @@ public class ColorManager : NetworkBehaviour
         {
             Destroy(this);
         }
-        ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; ///////////////////////cause I'm using it in the Score's start
+        ScoresHolderParent = new GameObject("ScoresHolder") { tag = "ThingsHolder" }; //cause I'm using it in the Score's start
         ratKing = new GameObject("ratKing") { tag = "ThingsHolder" };
         audioSource = GetComponent<AudioSource>();
         audioSource.clip = currentMusic;
@@ -84,14 +84,14 @@ public class ColorManager : NetworkBehaviour
         {
             CurrState = gameState.lobby;
             currStateString = CurrState.ToString();
-            Debug("I'm the host player");
+            //Debug("I'm the host player");
             teamsNbLocal = MenuManager.teamsNb;
         } // should absolutely happen before the local player's PlayerBehaviour Start()
         else
         {
             CurrState = (gameState)System.Enum.Parse(typeof(gameState), currStateString);
         }
-        print("current state at start: " + CurrState);
+        //print("current state at start: " + CurrState);
         audioSource.Play();
         checkIfNetworkHUD.singleton.ToggleNetworkGUI();
         GameObject[] GUIs = GameObject.FindGameObjectsWithTag("GUI");
@@ -157,15 +157,16 @@ public class ColorManager : NetworkBehaviour
     {
         if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
         {
-            print("GAME IS PLAYING");
+            Debug("player started mid-game");
 
-            Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            //Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj.gameObject); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            //Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
+            // I don't remember what that is this up there
 
             Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
             foreach (Score sco in Scores)
             {
-                sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
+                sco.ScoreTx = sco.behaviour.ScoreTx.GetComponent<Text>();
                 sco.SetStartTime();
             }
             CurrState = gameState.playing;
@@ -181,8 +182,7 @@ public class ColorManager : NetworkBehaviour
         GameObject score = Instantiate(ScorePrefab);
         score.name = "score-" + name;
         Score currScore = score.GetComponent<Score>();
-        currScore.playerObj = obj;
-        currScore.playerName = name;
+        currScore.SetPlayerObj(obj);
 
         return score;
     }
@@ -191,7 +191,7 @@ public class ColorManager : NetworkBehaviour
     [ClientRpc]
     public void RpcChangeCol(GameObject obj, int colIndex, GameObject attacker)
     {
-        Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
+        Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj;
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
         PlayerBehaviour objBehaviour = obj.GetComponent<PlayerBehaviour>();
         PlayerBehaviour atkBehaviour = attacker.GetComponent<PlayerBehaviour>();
@@ -210,7 +210,7 @@ public class ColorManager : NetworkBehaviour
             rd.materials[0].color = col;
             if (objBehaviour.localAlly)
             {
-                col = Color.gray;
+                col = Color.white;
             }
             if (objBehaviour.isLocalPlayer)
             {
@@ -240,15 +240,13 @@ public class ColorManager : NetworkBehaviour
                         {
                             damage = 1;
                             score.colorChangesGiftedToTeam += 1;
-                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesGiftedByTeam += 1;
-                            //si ça marche, optimiser les scores pour que la variable score d'un playerObj soit de type score, 
-                            //et la variable PlayerObj d'un score de type... PlayerBehaviour? w/e seems more efficient
+                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.colorChangesGiftedByTeam += 1;
                         }
                         else
                         {
                             damage = -1;
                             score.colorChangesGiftedByTeam += 1;
-                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>().colorChangesGiftedByTeam -= 1;
+                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.colorChangesGiftedByTeam -= 1;
                         }
                         attacker.GetComponent<PlayerHealth>().TakeDamage(-damage);
                     }
@@ -256,7 +254,7 @@ public class ColorManager : NetworkBehaviour
                 else
                 {
                     score.colorChangesFromOthers += 1;
-                    atkBehaviour.ScoreObj.GetComponent<Score>().colorChangesToOthers += 1;
+                    atkBehaviour.ScoreObj.colorChangesToOthers += 1;
                     attacker.GetComponent<PlayerChangeCol>().paintReady = false;
                 }
             }
@@ -336,7 +334,7 @@ public class ColorManager : NetworkBehaviour
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
         for (int i = 0; i < Scores.Length; i++)
         {
-            PlayerBehaviour currBehaviour = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>();
+            PlayerBehaviour currBehaviour = Scores[i].behaviour;
             Scores[i].ScoreTx = currBehaviour.ScoreTx.GetComponent<Text>();
             Scores[i].SetStartTime();
             if (teamsNbLocal == 0)
@@ -348,14 +346,14 @@ public class ColorManager : NetworkBehaviour
         }
         for (int i = 0; i < Scores.Length; i++) // cause if I don't make two different loops, it tries to compare them before localPlyers' team has been assigned
         {
-            PlayerBehaviour currBehaviour = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>();
+            PlayerBehaviour currBehaviour = Scores[i].behaviour;
             if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
             {
                 currBehaviour.localAlly = true;
             }
-            Debug(currBehaviour.localName + " is in team " + currBehaviour.team + ", local is " + localPlayer.GetComponent<PlayerBehaviour>().team + ", so localAlly is " + currBehaviour.localAlly);
+            //Debug(currBehaviour.localName + " is in team " + currBehaviour.team + ", local is " + localPlayer.GetComponent<PlayerBehaviour>().team + ", so localAlly is " + currBehaviour.localAlly);
             //Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from " + teamsNbLocal + " teams total)"); // behaviour.localName is more trustworthy than score.playerName smh
-            currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
+            //currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
         }
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
@@ -418,7 +416,7 @@ public class ColorManager : NetworkBehaviour
         {
             listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
             listPlayers[i].idNumber = i;
-            listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            listPlayers[i].ScoreObj.idNumber = i;
             if (listPlayers[i].isLocalPlayer)
             {
                 scoreShown = listPlayers[i].idNumber;
@@ -435,7 +433,6 @@ public class ColorManager : NetworkBehaviour
                 numberOfPlayersReady++;
                 txColor = Color.green;
             }
-            //print(listPlayers[i].localName + " : " + readyState);
             if (listPlayers[i].ScoreTx == null)
             {
                 float posX = listOfPlayersParent.transform.position.x;
@@ -464,7 +461,7 @@ public class ColorManager : NetworkBehaviour
         {
             listPlayers[i] = listPlayersGO[i].GetComponent<PlayerBehaviour>();
             listPlayers[i].idNumber = i;
-            listPlayers[i].ScoreObj.GetComponent<Score>().idNumber = i;
+            listPlayers[i].ScoreObj.idNumber = i;
             if (listPlayers[i].localName == null || listPlayers[i].localName == "")
             {
                 listPlayers[i].localName = "Player" + i.ToString();
@@ -486,11 +483,6 @@ public class ColorManager : NetworkBehaviour
     IEnumerator waitForGameEnd()
     {
         yield return new WaitForSeconds(1);
-        /* //pour si on veut un titre; mais c'est chiant à aligner, donc non.
-        launchGameTx.text = "Name/ Time of Death/ Player Changes/ Players Changed/ Mice changes/ Self Changes";
-        launchGameTx.fontSize = (int) Mathf.Round(launchGameTx.fontSize*0.7f);
-        launchGameTx.transform.position = new Vector2(launchGameTx.transform.position.x - Screen.width*2/5, launchGameTx.transform.position.y + Screen.height * 2 / 5);
-        */
         ShowScores();
 
     }
@@ -519,7 +511,7 @@ public class ColorManager : NetworkBehaviour
         string deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds.";
         if (Scores[i].TimeOfDeath == "0") {
             deathText = "Solid to the End!";
-            Scores[i].playerName = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>().localName;
+            //Scores[i].playerName = Scores[i].behaviour.localName;
 
         }
         following.text = "<size=52><b> " + Scores[i].playerName + " </b></size>\n" +
@@ -548,7 +540,7 @@ public class ColorManager : NetworkBehaviour
             if (Input.GetKeyDown(MenuManager.left))
             {
                 scoreShown--;
-                if(scoreShown < Scores.Length)
+                if(scoreShown < 0)
                 {
                     scoreShown = Scores.Length - 1;
                 }
