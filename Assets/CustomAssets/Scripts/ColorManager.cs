@@ -28,8 +28,6 @@ public class ColorManager : NetworkBehaviour
     public GameObject localPlayer;
     public Text DebugTx;
     [SyncVar]
-    public int numberOfPlayersPlaying;
-    [SyncVar]
     public bool SeveralTeamsPlaying = true;
     public Score[] Scores;
     public Text following;
@@ -170,7 +168,6 @@ public class ColorManager : NetworkBehaviour
                 sco.ScoreTx = sco.PlayerObj.GetComponent<PlayerBehaviour>().ScoreTx.GetComponent<Text>();
                 sco.SetStartTime();
             }
-            numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
             CurrState = gameState.playing;
             launchGameTx.text = "";
             listOfPlayersParent.SetActive(false);
@@ -361,7 +358,6 @@ public class ColorManager : NetworkBehaviour
             currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
         }
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
-        numberOfPlayersPlaying = GameObject.FindGameObjectsWithTag("Player").Length;
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
         launchGameTx.text = "";
         listOfPlayersParent.SetActive(false);
@@ -520,8 +516,12 @@ public class ColorManager : NetworkBehaviour
 
     private void PrintScoresText(int i)
     {
-        string deathText = "Solid to the End!";
-        if (Scores[i].TimeOfDeath != "0") { deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds."; }
+        string deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds.";
+        if (Scores[i].TimeOfDeath == "0") {
+            deathText = "Solid to the End!";
+            Scores[i].playerName = Scores[i].PlayerObj.GetComponent<PlayerBehaviour>().localName;
+
+        }
         following.text = "<size=52><b> " + Scores[i].playerName + " </b></size>\n" +
             deathText + "\n\n\n " +
             "<b><i>Changed another's colour </i></b> <color=lime><b> " + Scores[i].colorChangesToOthers + " </b></color> times.\n" +
@@ -568,8 +568,6 @@ public class ColorManager : NetworkBehaviour
         if (Input.GetKeyDown(MenuManager.debug)) // testing area //////////////////////////////////////////////////////////////////////////////////
         {
             lobbyCanvas.enabled = !lobbyCanvas.enabled;
-            launchGameTx.text = "number of Players Playing: " + numberOfPlayersPlaying +
-                "\n several teams: " + SeveralTeamsPlaying;
         }
     }
 }

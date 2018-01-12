@@ -34,7 +34,6 @@ public class PlayerHealth : NetworkBehaviour
         healthGUI = ColorManager.singleton.healthGUI;
         if(ColorManager.singleton.CurrState != ColorManager.gameState.lobby)
         {
-            ColorManager.singleton.numberOfPlayersPlaying += 1;
             isAlive = false;
             Kill();
         }
@@ -76,22 +75,28 @@ public class PlayerHealth : NetworkBehaviour
         
     public void KillSolo()
     {
-        ColorManager.singleton.numberOfPlayersPlaying--;
 
         bool SeveralTeamsPlaying = false;
-        int prevTeam = ColorManager.singleton.Scores[0].PlayerObj.GetComponent<PlayerBehaviour>().team;
+        bool firstLivePlayerFound = true;
+        int prevTeam = 0;
         foreach (Score sco in ColorManager.singleton.Scores)
         {
-            if (sco.PlayerObj != null)
+            if (sco.PlayerObj != null && sco.PlayerObj != gameObject)
             {
+                if (firstLivePlayerFound)
+                {
+                    prevTeam = sco.PlayerObj.GetComponent<PlayerBehaviour>().team;
+                    firstLivePlayerFound = false;
+                }
                 if (prevTeam != sco.PlayerObj.GetComponent<PlayerBehaviour>().team)
                 {
-                    ColorManager.singleton.Debug("prevTeam" + prevTeam  + " != sco.PlayerObj.GetComponent<PlayerBehaviour>().team " + sco.PlayerObj.GetComponent<PlayerBehaviour>().team);
                     SeveralTeamsPlaying = true;
                 }
+                ColorManager.singleton.Debug("prevTeam " + prevTeam  + "; currTeam " + sco.PlayerObj.GetComponent<PlayerBehaviour>().team + "; sevTeams: " + SeveralTeamsPlaying);
                 prevTeam = sco.PlayerObj.GetComponent<PlayerBehaviour>().team;
             }
         }
+        ColorManager.singleton.Debug("end teams count");
         ColorManager.singleton.SeveralTeamsPlaying = SeveralTeamsPlaying;
 
 

@@ -36,8 +36,7 @@ public class CameraMover : NetworkBehaviour
 
         // for following not-dead players when you died
         if (Input.GetKeyDown(MenuManager.interact) && 
-            ColorManager.singleton.isLocalPlayerDead && 
-            ColorManager.singleton.numberOfPlayersPlaying>0 &&
+            ColorManager.singleton.isLocalPlayerDead &&
             ColorManager.singleton.CurrState == ColorManager.gameState.playing)
         {
             i += 1;
