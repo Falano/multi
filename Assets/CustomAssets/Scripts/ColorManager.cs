@@ -521,7 +521,9 @@ public class ColorManager : NetworkBehaviour
             "Got their own color changed <b><i>by mice</i></b> <color=lime><b>" + Scores[i].colorChangesFromMice + "</b></color> times.\n" +
             "Got their own color changed <b><i>by staying still for too long </i></b> <color=lime><b>" + Scores[i].colorChangesFromGround + "</b></color> times.\n" +
             "<b><i>Decided to change their own color</i></b> <color=lime><b>" + Scores[i].colorChangesFromSelf + "</b></color> times.\n" +
-            "\n\n\n Congrats!\n\n" +
+            "<b><i>Gave an extra colour changes</i></b> to one of their team<color=lime><b> " + Scores[i].colorChangesGiftedToTeam + "</b></color> times.\n" +
+            "<b><i>Reveived an extra colour change</i></b> from one of their team<color=lime><b> " + Scores[i].colorChangesGiftedToTeam + "</b></color> times.\n" +
+        "\n\n\n Congrats!\n\n" +
             "(press <b>" + MenuManager.left + "</b> or <b>" + MenuManager.right + "</b> to see other's scores)";
     }
 

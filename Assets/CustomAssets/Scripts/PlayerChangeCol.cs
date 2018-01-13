@@ -67,11 +67,7 @@ public class PlayerChangeCol : NetworkBehaviour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
     void ChangeCol(GameObject obj, GameObject attacker)
     {
-        if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
-        {
-            return;
-        }
-        if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
+        if (ColorManager.singleton.CurrState != ColorManager.gameState.playing || obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
         {
             return;
         }
@@ -108,17 +104,17 @@ public class PlayerChangeCol : NetworkBehaviour
     }
 
     [Command]
-    void CmdChangeCol(GameObject obj, int colIndex , GameObject attacker)
+    void CmdChangeCol(GameObject obj, int colIndex, GameObject attacker)
     {
         ColorManager.singleton.RpcChangeCol(obj, colIndex, attacker);
     }
 
     void CheckGroundColor() // so people don't stay too long in the same place
     {
-        if (Physics.Raycast(transform.position+offsetPos, -transform.up, out ground))
+        if (Physics.Raycast(transform.position + offsetPos, -transform.up, out ground))
         {
             prevGroundColorIndex = currGroundColorIndex;
-            currGroundColorIndex =  System.Array.IndexOf(MenuManager.colors, ground.transform.GetComponent<Renderer>().material.color) ;
+            currGroundColorIndex = System.Array.IndexOf(MenuManager.colors, ground.transform.GetComponent<Renderer>().material.color);
             if (prevGroundColorIndex != currGroundColorIndex && ColorManager.singleton.CurrState == ColorManager.gameState.playing)
             { // if you just moved ground colors, we launch a new countdown
                 StopAllCoroutines();
@@ -132,7 +128,7 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         divineRetribution = autoChangeCol(stillTime);
         yield return new WaitForSeconds(time);
-        
+
         ChangeCol(gameObject, ColorManager.singleton.gameObject);
         StartCoroutine(divineRetribution);
     }
@@ -141,7 +137,7 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
+            if (ColorManager.singleton.CurrState != ColorManager.gameState.playing)
             {
                 return;
             }
@@ -153,12 +149,12 @@ public class PlayerChangeCol : NetworkBehaviour
 
             // changing another's colour
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right/6).normalized * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.right/6).normalized * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up/4).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right / 6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.right / 6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up / 4).normalized * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.up / 4).normalized * hitDistance, Color.green);
 
-            if (Input.GetKeyDown(MenuManager.interact) && paintReady)
+            if (Input.GetKey(MenuManager.interact) && paintReady)
             {
                 if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) ||
                     Physics.Raycast(transform.position + offsetPos, transform.forward + transform.right / 6, out hit) ||
@@ -167,15 +163,15 @@ public class PlayerChangeCol : NetworkBehaviour
                     Physics.Raycast(transform.position + offsetPos, transform.forward - transform.up / 4, out hit)
                     )
                 {
-                    if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
+                    if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance && hit.transform.CompareTag("Player"))
                     {
-                        if (hit.transform.CompareTag("Player"))
+                        if (hit.transform.GetComponent<PlayerBehaviour>().team == behaviour.team)
+                        {
+                            sharing = true;
+                        }
+                        else if (Input.GetKeyDown(MenuManager.interact))
                         {
                             ChangeCol(hit.transform.gameObject, gameObject);
-                            if(hit.transform.GetComponent<PlayerBehaviour>().team == behaviour.team)
-                            {
-                                sharing = true;
-                            }
                         }
                     }
                 }
