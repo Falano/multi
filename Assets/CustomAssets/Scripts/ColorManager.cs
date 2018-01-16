@@ -193,9 +193,11 @@ public class ColorManager : NetworkBehaviour
     {
         Score score = obj.GetComponent<PlayerBehaviour>().ScoreObj;
         PlayerChangeCol objChangeCol = obj.GetComponent<PlayerChangeCol>();
+        PlayerChangeCol atkChangeCol = attacker.GetComponent<PlayerChangeCol>();
         PlayerBehaviour objBehaviour = obj.GetComponent<PlayerBehaviour>();
         PlayerBehaviour atkBehaviour = attacker.GetComponent<PlayerBehaviour>();
         PlayerHealth objHealth = obj.GetComponent<PlayerHealth>();
+
         int damage = 2;
         if (CurrState == gameState.playing)
         { // sound stuff
@@ -234,19 +236,24 @@ public class ColorManager : NetworkBehaviour
             {
                 if (atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
                 {
-                    if (objChangeCol.sharing)
+                    StartCoroutine(sharingCooldown(10, attacker)); // on met l'attacker en sharing
+                    Debug("same team");
+                    if (objChangeCol.Sharing) // si l'obj est en sharing (donc s'il le sont tous les deux)
                     {
+                        Debug("team is sharing");
                         if (objHealth.Hp > attacker.GetComponent<PlayerHealth>().Hp)
                         {
+                            Debug("given lives from team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
                             damage = 1;
                             score.colorChangesGiftedToTeam += 1;
-                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.colorChangesGiftedByTeam += 1;
+                            atkBehaviour.ScoreObj.colorChangesGiftedByTeam += 1;
                         }
                         else
                         {
+                            Debug("giving lives to team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
                             damage = -1;
                             score.colorChangesGiftedByTeam += 1;
-                            attacker.GetComponent<PlayerBehaviour>().ScoreObj.colorChangesGiftedByTeam -= 1;
+                            atkBehaviour.ScoreObj.colorChangesGiftedByTeam -= 1;
                         }
                         attacker.GetComponent<PlayerHealth>().TakeDamage(-damage);
                     }
@@ -255,7 +262,7 @@ public class ColorManager : NetworkBehaviour
                 {
                     score.colorChangesFromOthers += 1;
                     atkBehaviour.ScoreObj.colorChangesToOthers += 1;
-                    attacker.GetComponent<PlayerChangeCol>().paintReady = false;
+                    atkChangeCol.paintReady = false;
                 }
             }
             else
@@ -280,6 +287,20 @@ public class ColorManager : NetworkBehaviour
         if (attacker.CompareTag("Player"))
         {
             attacker.GetComponent<PlayerChangeCol>().paintReady = true;
+        }
+    }
+
+    IEnumerator sharingCooldown(float duration, GameObject attacker)
+    {
+        PlayerChangeCol atkChangeCol = attacker.GetComponent<PlayerChangeCol>();
+        atkChangeCol.currShare += 1;
+        int prevShare = atkChangeCol.currShare;
+        atkChangeCol.Sharing = true;
+        yield return new WaitForSeconds(duration);
+        if (prevShare == atkChangeCol.currShare)
+        {
+            atkChangeCol.Sharing = false;
+            Debug("Imma stop sharing now");
         }
     }
 
@@ -353,7 +374,7 @@ public class ColorManager : NetworkBehaviour
             }
             //Debug(currBehaviour.localName + " is in team " + currBehaviour.team + ", local is " + localPlayer.GetComponent<PlayerBehaviour>().team + ", so localAlly is " + currBehaviour.localAlly);
             //Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from " + teamsNbLocal + " teams total)"); // behaviour.localName is more trustworthy than score.playerName smh
-            //currBehaviour.DebugFloating(Scores[i].playerName + " : team " + Scores[i].team);
+            currBehaviour.DebugFloating(Scores[i].playerName);
         }
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
@@ -521,8 +542,8 @@ public class ColorManager : NetworkBehaviour
             "Got their own color changed <b><i>by mice</i></b> <color=lime><b>" + Scores[i].colorChangesFromMice + "</b></color> times.\n" +
             "Got their own color changed <b><i>by staying still for too long </i></b> <color=lime><b>" + Scores[i].colorChangesFromGround + "</b></color> times.\n" +
             "<b><i>Decided to change their own color</i></b> <color=lime><b>" + Scores[i].colorChangesFromSelf + "</b></color> times.\n" +
-            "<b><i>Gave an extra colour changes</i></b> to one of their team<color=lime><b> " + Scores[i].colorChangesGiftedToTeam + "</b></color> times.\n" +
-            "<b><i>Reveived an extra colour change</i></b> from one of their team<color=lime><b> " + Scores[i].colorChangesGiftedToTeam + "</b></color> times.\n" +
+            "<b><i>Gave an extra colour change</i></b> to one of their team<color=lime><b> " + Scores[i].colorChangesGiftedToTeam + "</b></color> times.\n" +
+            "<b><i>Received an extra colour change</i></b> from one of their team<color=lime><b> " + Scores[i].colorChangesGiftedByTeam + "</b></color> times.\n" +
         "\n\n\n Congrats!\n\n" +
             "(press <b>" + MenuManager.left + "</b> or <b>" + MenuManager.right + "</b> to see other's scores)";
     }

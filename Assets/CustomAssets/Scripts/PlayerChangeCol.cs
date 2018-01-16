@@ -26,6 +26,7 @@ public class PlayerChangeCol : NetworkBehaviour
     float speedBoostStrengthFactor = 2;
     public float speedBoostStrength;
     public int currBoost = 0;
+    public int currShare = 0;
     //public Vector3 offsetTarget;
     private PlayerBehaviour behaviour;
     private int prevGroundColorIndex;
@@ -34,7 +35,20 @@ public class PlayerChangeCol : NetworkBehaviour
     float stillTime;
     IEnumerator divineRetribution;
 
-    public bool sharing;
+    private bool _sharing = false;
+
+    public bool Sharing
+    {
+        get
+        {
+            return _sharing;
+        }
+        set
+        {
+            _sharing = value;
+            ColorManager.singleton.Debug(gameObject.name + " : Sharing = " + value);
+        }
+    }
 
     void Start()
     {
@@ -154,7 +168,7 @@ public class PlayerChangeCol : NetworkBehaviour
             Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up / 4).normalized * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.up / 4).normalized * hitDistance, Color.green);
 
-            if (Input.GetKey(MenuManager.interact) && paintReady)
+            if (Input.GetKeyDown(MenuManager.interact) && paintReady)
             {
                 if (Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) ||
                     Physics.Raycast(transform.position + offsetPos, transform.forward + transform.right / 6, out hit) ||
@@ -165,21 +179,19 @@ public class PlayerChangeCol : NetworkBehaviour
                 {
                     if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance && hit.transform.CompareTag("Player"))
                     {
-                        if (hit.transform.GetComponent<PlayerBehaviour>().team == behaviour.team)
-                        {
-                            sharing = true;
-                        }
-                        else if (Input.GetKeyDown(MenuManager.interact))
-                        {
-                            ChangeCol(hit.transform.gameObject, gameObject);
-                        }
+                        ChangeCol(hit.transform.gameObject, gameObject);
                     }
                 }
             }
-            if (Input.GetKeyUp(MenuManager.interact))
-            {
-                sharing = false;
-            }
+            //if (Input.GetKeyUp(MenuManager.interact))
+            //{
+            //    sharing = false;
+            //}
+            //if (Input.GetKeyDown(MenuManager.interact))
+            //{
+            //    sharing = !sharing;
+            //    ColorManager.singleton.Debug("sharing: " + sharing);
+            //}
         }
     }
 }

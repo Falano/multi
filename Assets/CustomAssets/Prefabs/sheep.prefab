@@ -402,7 +402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1996901191698520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1236,7 @@ MonoBehaviour:
   speedBoostStrengthFactor: 2
   speedBoostStrength: 0
   currBoost: 0
+  currShare: 0
   stillTime: 20
   sharing: 0
 --- !u!114 &114937269543962950

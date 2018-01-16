@@ -35,8 +35,8 @@ public class CameraMover : NetworkBehaviour
         }
 
 
-        ColorManager.singleton.Debug("localPlayer dead? "+ ColorManager.singleton.isLocalPlayerDead);
-        ColorManager.singleton.Debug("current state? "+ ColorManager.singleton.CurrState);
+        //ColorManager.singleton.Debug("localPlayer dead? "+ ColorManager.singleton.isLocalPlayerDead);
+        //ColorManager.singleton.Debug("current state? "+ ColorManager.singleton.CurrState);
 
         // for following not-dead players when you died
         if (Input.GetKeyDown(MenuManager.interact) && 

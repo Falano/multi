@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class PlayerHealth : NetworkBehaviour
 {
     [SerializeField]
-    float hp;
+    float _hp;
     public Image healthGUI;
     public Sprite[] sprites;
     private bool isAlive = true;
@@ -24,14 +24,18 @@ public class PlayerHealth : NetworkBehaviour
     {
         get
         {
-            return hp;
+            return _hp;
+        }
+        set
+        {
+            _hp = value;
         }
     }
 
     // Use this for initialization
     void Start()
     {
-        hp = MenuManager.startHp + 2;
+        Hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
         behaviour = gameObject.GetComponent<PlayerBehaviour>();
         if(ColorManager.singleton.CurrState != ColorManager.gameState.lobby)
@@ -49,7 +53,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             return;
         }
-        hp -= dmg;
+        Hp -= dmg;
         //print("hp = " + hp);
         if (Hp <= 0)
         {

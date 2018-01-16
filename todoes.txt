@@ -96,10 +96,10 @@ team share lives (both have to be ok with it, and they change col painlessly whi
 
 
 bugs:
-once, the host wouldn't launch his game, and two players wouldn't show the scores (one live that could still run around, one dead that could switch not-dead players) (I played again without closing the progams and all was well)
-	--DONE--scores only show when host won;
-	--DONE--peeps who connected after others see those others as not ready by default
-	host doesn't show name (in scores) of the last person to connect - or in Clients that launched before Host
+	it feels like after some time teammates stop exchanging lives and just take them from their partner
+	sometimes you have to press left or right to show the scores
+	sometimes the host can't play, but the guests can - sometimes Host can't move, and sometimes it just can't see colour changes, neither others' nor its own (but can inflict them)
+	once, the host wouldn't launch his game, and two players wouldn't show the scores (one live that could still run around, one dead that could switch not-dead players) (I played again without closing the progams and all was well)
 	sometimes linux host can't play
 	sometimes linux player can't choose resolution
 	sometimes linux player's mouse doesn't work on fullscreen
@@ -149,6 +149,9 @@ whuh? the not-lobby matchmaking works just fine on v0.3. Well. Test it further?
 --DONE-- game won't stop unless all but one players (I'd like teams) is dead
 --DONE-- supprimer le nbOfPlayersPlaying cause with the teams I don't need it anymore
 --DONE-- au lieu de Score.PlayerObj.GetComponent<PlayerBehaviour>(), avoir une var Behaviour dans le Score once and for all; e generalement cleaner les interactions entre les scores et leurs objets
+--DONE--scores only show when host won;
+	--DONE--peeps who connected after others see those others as not ready by default
+	--DONE-- host doesn't show name (in scores) of the last person to connect - or in Clients that launched before Host
 
 
 SUGGESTIONS FLO :
