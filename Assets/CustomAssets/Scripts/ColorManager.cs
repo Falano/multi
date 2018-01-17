@@ -204,81 +204,80 @@ public class ColorManager : NetworkBehaviour
             AudioSource sound = obj.GetComponent<AudioSource>();
             sound.clip = ChangeColSounds[Random.Range(0, ChangeColSounds.Length)];
             sound.Play();
-        }
-        if (objHealth.Hp > 0)
-        { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
-            Renderer rd = obj.GetComponentInChildren<Renderer>();
-            Color col = MenuManager.colors[colIndex];
-            rd.materials[0].color = col;
-            if (objBehaviour.localAlly)
-            {
-                col = Color.white;
-            }
-            if (objBehaviour.isLocalPlayer)
-            {
-                col = Color.black;
-            }
-            rd.materials[1].color = col;
 
-            IEnumerator paintCooldownNow = paintCooldown(objChangeCol.cooldown, attacker);
-            StartCoroutine(paintCooldownNow);
-
-            if (attacker == obj)
-            {
-                score.colorChangesFromSelf += 1;
-                damage = 1;
-            }
-            else if (attacker.CompareTag("AttackChangeCol"))
-            {
-                score.colorChangesFromMice += 1;
-            }
-            else if (attacker.CompareTag("Player"))
-            {
-                if (atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
+            if (objHealth.Hp > 0)
+            { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
+                Renderer rd = obj.GetComponentInChildren<Renderer>();
+                Color col = MenuManager.colors[colIndex];
+                rd.materials[0].color = col;
+                if (objBehaviour.localAlly)
                 {
-                    StartCoroutine(sharingCooldown(10, attacker)); // on met l'attacker en sharing
-                    Debug("same team");
-                    if (objChangeCol.Sharing) // si l'obj est en sharing (donc s'il le sont tous les deux)
+                    col = Color.white;
+                }
+                if (objBehaviour.isLocalPlayer)
+                {
+                    col = Color.black;
+                }
+                rd.materials[1].color = col;
+
+                StartCoroutine(paintCooldown(objChangeCol.cooldown, attacker));
+
+                if (attacker == obj)
+                {
+                    score.colorChangesFromSelf += 1;
+                    damage = 1;
+                }
+                else if (attacker.CompareTag("AttackChangeCol"))
+                {
+                    score.colorChangesFromMice += 1;
+                }
+                else if (attacker.CompareTag("Player"))
+                {
+                    if (atkBehaviour.team == objBehaviour.team) // quand ce sont deux gens de la même équipe, s'ils sont tous les deux d'accord, ils s'échangent des points de vie
                     {
-                        Debug("team is sharing");
-                        if (objHealth.Hp > attacker.GetComponent<PlayerHealth>().Hp)
+                        StartCoroutine(sharingCooldown(10, attacker)); // on met l'attacker en sharing
+                        damage = 0;
+                        if (objChangeCol.Sharing) // si l'obj est en sharing (donc s'ils le sont tous les deux)
                         {
-                            Debug("given lives from team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
-                            damage = 1;
-                            score.colorChangesGiftedToTeam += 1;
-                            atkBehaviour.ScoreObj.colorChangesGiftedByTeam += 1;
+                            if (objHealth.Hp > attacker.GetComponent<PlayerHealth>().Hp)
+                            {
+                                Debug("given lives from team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
+                                damage = 1;
+                                score.colorChangesGiftedToTeam += 1;
+                                atkBehaviour.ScoreObj.colorChangesGiftedByTeam += 1;
+                            }
+                            else if (objHealth.Hp < attacker.GetComponent<PlayerHealth>().Hp)
+                            {
+                                Debug("giving lives to team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
+                                damage = -1;
+                                score.colorChangesGiftedByTeam += 1;
+                                atkBehaviour.ScoreObj.colorChangesGiftedToTeam += 1;
+                            }
+                            attacker.GetComponent<PlayerHealth>().TakeDamage(-damage);
                         }
-                        else
-                        {
-                            Debug("giving lives to team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
-                            damage = -1;
-                            score.colorChangesGiftedByTeam += 1;
-                            atkBehaviour.ScoreObj.colorChangesGiftedByTeam -= 1;
-                        }
-                        attacker.GetComponent<PlayerHealth>().TakeDamage(-damage);
+                    }
+                    else
+                    {
+                        score.colorChangesFromOthers += 1;
+                        atkBehaviour.ScoreObj.colorChangesToOthers += 1;
+                        atkChangeCol.paintReady = false;
                     }
                 }
                 else
                 {
-                    score.colorChangesFromOthers += 1;
-                    atkBehaviour.ScoreObj.colorChangesToOthers += 1;
-                    atkChangeCol.paintReady = false;
+                    score.colorChangesFromGround += 1;
+                    damage = 3;
+
+                }
+                if (objBehaviour.isLocalPlayer)
+                {
+                    IEnumerator speedBoostNow = speedBoost(objChangeCol.speedBoostDuration, objChangeCol.speedBoostStrength, obj, attacker);
+                    StartCoroutine(speedBoostNow);
                 }
             }
-            else
-            {
-                score.colorChangesFromGround += 1;
-                damage = 3;
-
-            }
-            if (objBehaviour.isLocalPlayer)
-            {
-                IEnumerator speedBoostNow = speedBoost(objChangeCol.speedBoostDuration, objChangeCol.speedBoostStrength, obj, attacker);
-                StartCoroutine(speedBoostNow);
-            }
+            objHealth.TakeDamage(damage);
+            //Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
         }
-        objHealth.TakeDamage(damage);
-        //Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
     }
 
     IEnumerator paintCooldown(float cooldown, GameObject attacker)
