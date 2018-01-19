@@ -1,22 +1,25 @@
-﻿Colambful; v0.92b (english)
+﻿Colambful; v0.92++Iguess (english)
 
 It's probably more fun with four or more players (though you -can- play with just one friend).
 
----KEYS---
-Directional arrows to move,
+---KEYS--- (customizable in the "Boring Settings" menu)
+Directional arrows to move (up to go forward, right and left to turn),
 Left Ctrl to change your own colour,
 Spacebar to change others' colour (you have to be near them, and look directly at them; there is a 0.5 second cooldown)
+If you're of the same team, and both of you are pressing Spacebar while looking at each other, the one of you with the most colour changes will give one to the one who has less changes left.
 In the sub-menu after everyone is connected, Spacebar to say you're ready (the game starts when everyone is ready)
-After you've died, Spacebar to change which player you're watching.
+After you've liquefied, Spacebar to change which player you're watching.
 Escape to toggle the connection information on and off.
 
 ---RULES---
-Each player has a limited number of colour changes. When they're all used up, they die.
+Each player has a limited number of colour changes. When they're all used up, they turn to paint and can't interact anymore (they can still see and follow the other players).
 Mice make you change colour on contact.
 If you stay on top of the same colour for too long (more than 20 seconds), your colour changes.
 When you change your own colour, it only counts as half a colour change.
-The round icon in the top right corner shows the player's remaining lives.
-Just after you changed color, you get a color boost.
+Just after you changed color, you get a speed boost.
+The round icon in the top right corner shows the player's remaining changes.
+The sheep with black legs and head is you; the ones with white ones are your teammates.
+
 
 --CONNEXION--
 You can play over the Internet:
@@ -28,7 +31,7 @@ Or through LAN:
 
 --FEATURES--
 You can change the default keys, the computer will remember.
-You can change the default colours, but the computer won't remember.
+You can change the default colours, but the computer will remember too.
 
 --KNOWN BUGS--
 If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)

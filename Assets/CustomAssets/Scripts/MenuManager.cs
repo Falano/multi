@@ -213,8 +213,6 @@ public class MenuManager : MonoBehaviour
         {
             soloGameText.text = "no";
         }
-
-        SetInputField();
     }
 
     IEnumerator initCols()
@@ -247,17 +245,6 @@ public class MenuManager : MonoBehaviour
         ColorManager.currentMusic = musics[musicIndex];
         PlayerPrefs.SetInt("faveMusic", musicIndex);
         ColorManager.ChangeColSounds = changeColSounds;
-    }
-
-    public void SetInputField()
-    {
-        InputField nameField = GetComponentInChildren<InputField>();
-        if (PlayerPrefs.HasKey("playerName"))
-        {
-            nameField.GetComponent<Image>().color = new Color(0, 0, 0, 0);
-            nameField.GetComponentsInChildren<Text>()[0].text = "";
-            nameField.text = PlayerName;
-        }
     }
 
     public void Quit()

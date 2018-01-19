@@ -2,12 +2,10 @@
 
 currently working on:
 	to save data between scenes: scriptable objects: https://unity3d.com/fr/learn/tutorials/modules/beginner/live-training-archive/scriptable-objects ;  https://www.youtube.com/watch?v=ItZbTYO0Mnw ; https://docs.unity3d.com/Manual/class-ScriptableObject.html
-	search all occurences of PlayerName and find out why some player names on the scores aren't remembered on some instances of the game, then clean up the temporary fix I currently use to display the right name on the scores. Ptet parce que le cmdsetlocalname est sur le player behaviour et pas sur le colormanager?
 
 
 
 to implement:
-1	name: pending
 1	actual connexion menu, not just the ugly unity one
 ?	narrower sight radius
 	mettre un tableau des scores pour quand SoloPlayer meurt
@@ -91,6 +89,7 @@ team share lives (both have to be ok with it, and they change col painlessly whi
 --DONE-- add a "rotating right/left without advancing" anim?
 --DONE-- custom colours dans le menu
 --DONE-- qd trop lgtps ds même zone: change col
+--DONE-- name: pending
 
 
 
