@@ -1,4 +1,4 @@
-﻿Colambful; v0.92b (français)
+﻿Colambful; v0.92++ je suppose (français)
 
 C'est probablement plus marrant à jouer à quatre ou plus (mais il est possible de jouer à deux).
 
@@ -6,17 +6,19 @@ C'est probablement plus marrant à jouer à quatre ou plus (mais il est possible
 Flèches directionnelles pour bouger,
 Ctrl gauche pour changer de couleur,
 Barre espace pour changer la couleur des autres (il faut être tout près d'eux et regarder directement vers eux; il y a une demi-seconde de cooldown)
+Si vous êtes tous les deux de la même équipe, et que vous appuyez tous les deux sur la barre espace en se regardant mutuellement, celui à qui il reste le plus de changements de couleur en donnera un à celui qui en a le moins.
 Dans le sous-menu après que tout le monde s'est connecté, barre espace pour dire qu'on est prêt (le jeu commence quand tout le monde est prêt)
-Après que notre joueur est mort, barre espace pour changer le joueur que l'on regarde
+Après que notre joueur s'est liquéfié, barre espace pour changer le joueur que l'on regarde
 Echap pour afficher ou cacher les informations de connexion
 
 ---REGLES---
-Chaque joueur a un nombre limité de changements de couleur. Quand ils n'en ont plus, le joueur meurt.
+Chaque joueur a un nombre limité de changements de couleur. Quand ils n'en ont plus, le joueur se transforme en peinture et ne peut plus interagir (il peut toujours voir et suivre les autres joueurs).
 Les souris font changer de couleur au contact.
 Si on reste trop longtemps au-dessus de la même couleur (plus de 20 secondes), notre couleur change.
 Quand on change sa propre couleur, ça ne compte que comme un demi changement de couleur.
-L'icone rond en haut à droite représente le nombre de vies restant au joueur.
 Après chaque changement de couleur, on court temporairement plus vite.
+L'icone rond en haut à droite représente le nombre de vies restant au joueur.
+Le mouton aux extrémités noires, c'est toi. Ceux aux extrémités blanches sont les membres de ton équipe.
 
 --CONNECTION--
 Il est possible de jouer par internet:
@@ -27,7 +29,12 @@ Ou en réseau local:
 	autres joueurs: Play> Initialize Broadcast> Listen for Broadcast; mettre l'adresse IP du joueur-serveur (le broadcast te l'a donné; il ressemble à 192.168.x.xx) là où il y a écrit 'localhost', puis LAN Client(C)
 
 ---BUGS CONNUS---
-Si vous utilisez wine, en fonction de votre distribution vous pourriez ne pas voir les textes des menus (si c'est le cas, s'aider du dossier Colambful_menuOptionsForWineUsers, mais il pourrait ne pas être à jour)
+	Parfois les scores ne s'affichent pas à la fin: appuyer sur gauche ou droite pour régler le problème (une fois qu'il ne reste qu'une équipe active); si vous avez l'impression que les moutons arrêtent soudain de répondre c'est peut-être pour ça.
+	Parfois les scores ne se lancent pas même s'il ne reste qu'une équipe et le jeu continue; il faut qu'un mouton supplémentaire se liquéfie pour activer les scores.
+	N'essayez pas de venir au milieu d'un jeu en cours.
+	Parfois un hôte qui utilise la version linux reste coincé dans le lobby de début (pour les autres joueurs, le jeu marche parfaitement), ou un joueur linux ne peut pas choisir la résolution, ou leur souris ne marche pas en plein écran. Parfois ça marche.
+	Si vous utilisez Wine, en fonction de votre distribution vous pourriez ne pas voir les textes des menus (si c'est le cas, s'aider du dossier Colambful_menuOptionsForWineUsers, mais il pourrait ne pas être à jour)
 
 Envoyez-moi des critiques et des commentaires si vous avez le temps :)
+(j'apprécie les rapports de bug même s'ils font partie des Bugs Connus; si possible, inclure son OS et sa distribution)
 (mon email: noemie.scherer@gmail.com)

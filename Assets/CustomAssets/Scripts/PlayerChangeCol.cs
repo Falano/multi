@@ -54,7 +54,7 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         behaviour = gameObject.GetComponent<PlayerBehaviour>();
         speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
-        colors = MenuManager.colors;
+        colors = MenuManager.curr6Colors;
         rd = GetComponentInChildren<Renderer>();
         currColorIndex = 0;
         offsetPos = new Vector3(0, .5f, 0);
@@ -128,7 +128,7 @@ public class PlayerChangeCol : NetworkBehaviour
         if (Physics.Raycast(transform.position + offsetPos, -transform.up, out ground))
         {
             prevGroundColorIndex = currGroundColorIndex;
-            currGroundColorIndex = System.Array.IndexOf(MenuManager.colors, ground.transform.GetComponent<Renderer>().material.color);
+            currGroundColorIndex = System.Array.IndexOf(MenuManager.curr6Colors, ground.transform.GetComponent<Renderer>().material.color);
             if (prevGroundColorIndex != currGroundColorIndex && ColorManager.singleton.CurrState == ColorManager.gameState.playing)
             { // if you just moved ground colors, we launch a new countdown
                 StopAllCoroutines();

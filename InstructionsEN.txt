@@ -34,7 +34,14 @@ You can change the default keys, the computer will remember.
 You can change the default colours, but the computer will remember too.
 
 --KNOWN BUGS--
-If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)
+	Sometimes the scores won't show in the end: just press left or right (once only one team is left) and they will; if you feel like your sheep suddenly stopped responding that may be why 
+	Sometimes the scores won't launch and the game keeps functionning even though only one team is left, and another sheep needs to liquefy for them to.
+	Don't try to come in a game that's already started
+	Sometimes a host that uses the linux version can't play (the guests still can), or a linux player can't choose the resolution, or their mouse doesn't work in fullscreen. Sometimes it's fine.
+	If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)
+
+
 
 Please send me reviews and comments if you have time :)
+(I appreciate bug reports even if they are some of the Known Bugs; if you can, include your OS and distribution)
 (my email adress: noemie.scherer@gmail.com)

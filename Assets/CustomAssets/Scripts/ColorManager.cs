@@ -208,7 +208,7 @@ public class ColorManager : NetworkBehaviour
             if (objHealth.Hp > 0)
             { // pour que la flaque de peinture soit de la dernière couleur vue et pas d'une nouvelle couleur random (cf Kill() ci-dessous)
                 Renderer rd = obj.GetComponentInChildren<Renderer>();
-                Color col = MenuManager.colors[colIndex];
+                Color col = MenuManager.curr6Colors[colIndex];
                 rd.materials[0].color = col;
                 if (objBehaviour.localAlly)
                 {
