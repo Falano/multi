@@ -61,6 +61,10 @@ public class CustomInputField : MonoBehaviour
         tx.text = PlayerPrefs.GetString("playerName");
         tx.color = txActiveCol;
         isInputActive = false;
+        if (tx.text == "")
+        {
+            resetInputField();
+        }
     }
 
     IEnumerator enterName()
@@ -126,6 +130,7 @@ public class CustomInputField : MonoBehaviour
                 PlayerPrefs.SetString("playerName", tx.text);
             }
             SetInputField();
+            StopAllCoroutines();
         }
     }
 }

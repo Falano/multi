@@ -402,7 +402,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1996901191698520
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,7 +1151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28ff6b76ae88e46ee8e361e51e7f04b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
+  _hp: 0
   healthGUI: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: 4590818276c294725a57c8c776bfb45c, type: 3}
@@ -1216,7 +1216,7 @@ MonoBehaviour:
   localName: 
   ScoreTx: {fileID: 0}
   ScoreObj: {fileID: 0}
-  team: 0
+  team: -1
   localAlly: 0
 --- !u!114 &114907404837594186
 MonoBehaviour:
@@ -1238,7 +1238,6 @@ MonoBehaviour:
   currBoost: 0
   currShare: 0
   stillTime: 20
-  sharing: 0
 --- !u!114 &114937269543962950
 MonoBehaviour:
   m_ObjectHideFlags: 1

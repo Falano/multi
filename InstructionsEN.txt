@@ -1,15 +1,20 @@
-﻿Colambful; v0.92++Iguess (english)
+﻿Colambful; v0.93 (english)
 
 It's probably more fun with four or more players (though you -can- play with just one friend).
 
 ---KEYS--- (customizable in the "Boring Settings" menu)
+Escape to toggle the connection information on and off.
+	In-game:
 Directional arrows to move (up to go forward, right and left to turn),
 Left Ctrl to change your own colour,
 Spacebar to change others' colour (you have to be near them, and look directly at them; there is a 0.5 second cooldown)
-If you're of the same team, and both of you are pressing Spacebar while looking at each other, the one of you with the most colour changes will give one to the one who has less changes left.
-In the sub-menu after everyone is connected, Spacebar to say you're ready (the game starts when everyone is ready)
+If you're of the same team, and both of you are pressing Spacebar while looking at each other, the one of you with the most colour changes will loose one and give it to the one who has less changes left.
 After you've liquefied, Spacebar to change which player you're watching.
-Escape to toggle the connection information on and off.
+	In the lobby screen after everyone is connected:
+Spacebar to say you're ready (the game starts when everyone is ready)
+Left and Right to change the team you want to be on
+	In the scores screen:
+Left and Right to see others' scores.
 
 ---RULES---
 Each player has a limited number of colour changes. When they're all used up, they turn to paint and can't interact anymore (they can still see and follow the other players).
@@ -19,7 +24,7 @@ When you change your own colour, it only counts as half a colour change.
 Just after you changed color, you get a speed boost.
 The round icon in the top right corner shows the player's remaining changes.
 The sheep with black legs and head is you; the ones with white ones are your teammates.
-
+You can't attack your teammates, but if both agree you can exchange colour changes.
 
 --CONNEXION--
 You can play over the Internet:
@@ -30,15 +35,15 @@ Or through LAN:
 	guests: Play> Initialize Broadcast> Listen for Broadcast; put the IP address of the host (the broadcast gave it to you; it looks like 192.168.x.xx) in the field written 'localhost', then LAN Client(C)
 
 --FEATURES--
-You can change the default keys, the computer will remember.
-You can change the default colours, but the computer will remember too.
+You can change the default colours (either choose one of the preset palettes or choose each color individually) and the default keys (also the sound volume, your favorite music, and your name).
+The computer will remember for the next time you play.
 
 --KNOWN BUGS--
-	Sometimes the scores won't show in the end: just press left or right (once only one team is left) and they will; if you feel like your sheep suddenly stopped responding that may be why 
-	Sometimes the scores won't launch and the game keeps functionning even though only one team is left, and another sheep needs to liquefy for them to.
-	Don't try to come in a game that's already started
-	Sometimes a host that uses the linux version can't play (the guests still can), or a linux player can't choose the resolution, or their mouse doesn't work in fullscreen. Sometimes it's fine.
-	If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)
+	- Sometimes the scores won't show in the end: just press left or right (once only one team is left) and they will; if you feel like your sheep suddenly stopped responding that may be why 
+	- Sometimes the scores won't launch and the game keeps functionning even though only one team is left, and another sheep needs to liquefy for them to.
+	- Don't try to come in a game that's already started
+	- Sometimes a host that uses the linux version can't play (the guests still can), or a linux player can't choose the resolution, or their mouse doesn't work in fullscreen. Sometimes it's fine.
+	- If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)
 
 
 

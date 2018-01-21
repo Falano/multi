@@ -27,7 +27,7 @@ public class Score : NetworkBehaviour
     public int colorChangesGiftedByTeam;
     public Text ScoreTx;
     float startTime; // l'assigner on start game
-    public int team;
+    public int team = -1;
 
     private void Start()
     {

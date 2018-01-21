@@ -150,7 +150,7 @@ public class ColorManager : NetworkBehaviour
 
     public void Debug(string sentence)
     {
-        DebugTx.text += "\n" + sentence;
+        //DebugTx.text += "\n" + sentence;
     }
 
     void checkIfGamePlaying()
@@ -241,14 +241,12 @@ public class ColorManager : NetworkBehaviour
                         {
                             if (objHealth.Hp > attacker.GetComponent<PlayerHealth>().Hp)
                             {
-                                Debug("given lives from team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
                                 damage = 1;
                                 score.colorChangesGiftedToTeam += 1;
                                 atkBehaviour.ScoreObj.colorChangesGiftedByTeam += 1;
                             }
                             else if (objHealth.Hp < attacker.GetComponent<PlayerHealth>().Hp)
                             {
-                                Debug("giving lives to team; obj hp: " + objHealth.Hp + "atk hp: " + attacker.GetComponent<PlayerHealth>().Hp);
                                 damage = -1;
                                 score.colorChangesGiftedByTeam += 1;
                                 atkBehaviour.ScoreObj.colorChangesGiftedToTeam += 1;
@@ -276,7 +274,6 @@ public class ColorManager : NetworkBehaviour
                 }
             }
             objHealth.TakeDamage(damage);
-            //Debug("attacker: " + atkBehaviour.localName + "'s hps: " + attacker.GetComponent<PlayerHealth>().Hp + "\nvictim: " + objBehaviour.localName + "'s hps: " + objHealth.Hp);
         }
     }
 
@@ -299,7 +296,6 @@ public class ColorManager : NetworkBehaviour
         if (prevShare == atkChangeCol.currShare)
         {
             atkChangeCol.Sharing = false;
-            Debug("Imma stop sharing now");
         }
     }
 
@@ -352,28 +348,38 @@ public class ColorManager : NetworkBehaviour
     public void LaunchGameSolo()
     {
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
+        int[] teamsStats = new int[teamsNbLocal]; // how many players there are in each team // could probably be used in a more global way to check midGame the strength of the teams
+        if (teamsNbLocal == 0) // if the number of teams is 0, then it's actually one team per player (everyone against everyone else)
+        {
+            teamsNbLocal = Scores.Length;
+        }
         for (int i = 0; i < Scores.Length; i++)
         {
             PlayerBehaviour currBehaviour = Scores[i].behaviour;
-            Scores[i].ScoreTx = currBehaviour.ScoreTx.GetComponent<Text>();
-            Scores[i].SetStartTime();
-            if (teamsNbLocal == 0)
+            //Scores[i].ScoreTx = currBehaviour.ScoreTx.GetComponent<Text>();
+            if (currBehaviour.team != -1) // we tell teamStats how many players chose each team
             {
-                teamsNbLocal = Scores.Length;
+                teamsStats[currBehaviour.team]++;
             }
-            Scores[i].team = (i + teamsNbLocal) % teamsNbLocal;
-            currBehaviour.team = Scores[i].team;
         }
-        for (int i = 0; i < Scores.Length; i++) // cause if I don't make two different loops, it tries to compare them before localPlyers' team has been assigned
+
+        for (int i = 0; i < Scores.Length; i++)
+        {
+            if (Scores[i].behaviour.team == -1) // to each player who hasn't chosen a specific team, we assign it to the currently smallest team, and tell teamsStats
+            {
+                Scores[i].behaviour.team = System.Array.IndexOf(teamsStats, Mathf.Min(teamsStats));
+                teamsStats[Scores[i].behaviour.team]++;
+            }
+        }
+        for (int i = 0; i < Scores.Length; i++) // cause if I don't make three different loops, it tries to compare them before localPlyers' team has been assigned
         {
             PlayerBehaviour currBehaviour = Scores[i].behaviour;
             if (currBehaviour.team == localPlayer.GetComponent<PlayerBehaviour>().team)
             {
                 currBehaviour.localAlly = true;
             }
-            //Debug(currBehaviour.localName + " is in team " + currBehaviour.team + ", local is " + localPlayer.GetComponent<PlayerBehaviour>().team + ", so localAlly is " + currBehaviour.localAlly);
-            //Debug(Scores[i].playerName + " is in team " + Scores[i].team + " (from " + teamsNbLocal + " teams total)"); // behaviour.localName is more trustworthy than score.playerName smh
             currBehaviour.DebugFloating(Scores[i].playerName);
+            Scores[i].SetStartTime();
         }
         localPlayer.GetComponent<PlayerChangeCol>().startWhite();
         localPlayer.GetComponent<PlayerMove>().speed = localPlayer.GetComponent<PlayerMove>().BaseSpeed;
@@ -424,13 +430,19 @@ public class ColorManager : NetworkBehaviour
     }
 
     [ClientRpc]
+    public void RpcChangeTeam(GameObject player, int change)
+    {
+        player.GetComponent<PlayerBehaviour>().ChangeTeamSolo(change);
+    }
+
+    [ClientRpc]
     public void RpcRefreshListOfPlayers() { RefreshListOfPlayersSolo(); }
 
     public void RefreshListOfPlayersSolo()
     {
         print("refreshing list of players");
         int numberOfPlayersReady = 0;
-        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] listPlayersGO = GameObject.FindGameObjectsWithTag("Player"); // having each player say "hey I'm part of the list now!" on connexion would probably be more efficient; and check every two seconds or so and just before launching if everyone is still there
         PlayerBehaviour[] listPlayers = new PlayerBehaviour[listPlayersGO.Length];
         for (int i = 0; i < listPlayers.Length; i++)
         {
@@ -461,7 +473,7 @@ public class ColorManager : NetworkBehaviour
                 listPlayers[i].ScoreTx = Instantiate(playerStatePrefab, listOfPlayersParent.transform);
                 listPlayers[i].ScoreTx.transform.position = new Vector2(posX, posY - 20 + i * -offset);
             }
-            listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].localName + " : " + readyState;
+            listPlayers[i].ScoreTx.GetComponent<Text>().text = listPlayers[i].localName + " (team " + ((listPlayers[i].team == -1) ? "?" : listPlayers[i].team.ToString()) + ") " + " : " + readyState;
             listPlayers[i].ScoreTx.GetComponent<Text>().color = txColor;
         }
         if (numberOfPlayersReady == listPlayersGO.Length && isServer)
@@ -522,6 +534,14 @@ public class ColorManager : NetworkBehaviour
 
     {
         CurrState = gameState.scores;
+        foreach (Score sco in Scores)
+        {
+            if (sco.behaviour)
+            {
+                sco.team = sco.behaviour.team;
+                sco.playerName = sco.behaviour.localName; // I believe this one is useless, but that just means I have an equivalent line of code somewhere that I should remove to keep this one instead
+            }
+        }
         lobbyCanvas.enabled = true;
         PrintScoresText(scoreShown);
     }
@@ -529,12 +549,15 @@ public class ColorManager : NetworkBehaviour
     private void PrintScoresText(int i)
     {
         string deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds.";
-        if (Scores[i].TimeOfDeath == "0") {
+        if (Scores[i].TimeOfDeath == "0")
+        {
             deathText = "Solid to the End!";
             //Scores[i].playerName = Scores[i].behaviour.localName;
 
         }
         following.text = "<size=52><b> " + Scores[i].playerName + " </b></size>\n" +
+            "team " + Scores[i].team
+            + "\n" +
             deathText + "\n\n\n " +
             "<b><i>Changed another's colour </i></b> <color=lime><b> " + Scores[i].colorChangesToOthers + " </b></color> times.\n" +
             "Got their own color changed <b><i>by other sheep</i></b> <color=lime><b>" + Scores[i].colorChangesFromOthers + "</b></color> times.\n" +
@@ -562,7 +585,7 @@ public class ColorManager : NetworkBehaviour
             if (Input.GetKeyDown(MenuManager.left))
             {
                 scoreShown--;
-                if(scoreShown < 0)
+                if (scoreShown < 0)
                 {
                     scoreShown = Scores.Length - 1;
                 }
@@ -571,7 +594,7 @@ public class ColorManager : NetworkBehaviour
             else if (Input.GetKeyDown(MenuManager.right))
             {
                 scoreShown++;
-                if(scoreShown >= Scores.Length)
+                if (scoreShown >= Scores.Length)
                 {
                     scoreShown = 0;
                 }

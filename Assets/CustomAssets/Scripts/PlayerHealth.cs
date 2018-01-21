@@ -107,6 +107,7 @@ public class PlayerHealth : NetworkBehaviour
         Score score = behaviour.ScoreObj;
         //score.playerName = GetComponent<PlayerBehaviour>().localName;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:::::::::::::::
         score.SetTimeOfDeath();
+        score.team = behaviour.team;
         
         if (isLocalPlayer)
         {
