@@ -5,6 +5,7 @@ currently working on:
 
 
 to implement:
+	remplacer soloGame par teams:1
 1	actual connexion menu, not just the ugly unity one
 1	tuto teams
 1	remake the whole tutoriel and default keys image so it is way simpler and shows one thing at a time (change the sheep's dialogs by emoticons) 

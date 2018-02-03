@@ -2,5 +2,6 @@
 
 
 LAN:
-host: if not solo, start broadcasting
-guest: if solo: host; if not solo: start listening: button "connect to 192.168.x.xxx?"; if gain host, connexion; else: "pas gain host :("
+host: start broadcasting and enter the lobby (once the game has started, stop broadcasting)
+guest: start listening: button "connect to 192.168.x.xxx?"; if gain host, connexion; else: "pas gain host :("
+I could use this to keep unwanteds out. Hm. Being able to barge in spectating would probably be better; but...

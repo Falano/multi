@@ -1,5 +1,28 @@
 tuto:
 
+- Press Menu twice. (menu)
+- Press left or right (changeTeam)
+- when your team is '?', it means you let the computer assign you one
+- Press interact (launchGame)
+- you can move with forward and turn with left and right (move)
+- you should avoid the mice. Touch one to see why (mice)
+- when you change color, you go faster
+- when you stay more than 20 seconds on the same ground color it makes you change color: be careful
+- find another sheep with colored legs, look at it from up close, and press interact (bully)
+- you weren't close enough
+- see, its legs are the same color as its fleece; that's how you appear to others too
+- do it again. and again. and again. (kill)
+- see the ball in the top right corner? That's how many colour changes you have left. When you don't have any more, you turn to paint. Like that sheep just did.
+- press selfChange to change your own color; it will only count as half a colour change since it was your decision (selfChange)
+- now find a sheep with white legs: it means they're an ally. Interact. You can't make it change color, except if both you and them are interacting at the same time; then the one of you with the more color changes left will gift some to the other. (team)
+- when you are ready, you can make yourself turn to paint (press selfchange or run into mice) (die)
+- press interact to follow the other players (stalker)
+- the game ends when only one team is left corporeal; in this tutorial, you can end the game by pressing Menu twice (showscores)
+- press left or right to change whose score you are seeing (changescore)
+- the menu in the top left corner lets you diconnect
+
+
+
 ---
 PLAYER: on Start: I should try pressing MenuManager.MenuKey.ToString() several times...
 ---

@@ -113,7 +113,8 @@ public class TutoPLBehaviour : MonoBehaviour {
             {
                 if (changeCol.speech.text == "" || changeCol.speech.text == "Is there something there?\nI can't see; let's get closer")
                 {
-                    TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>"+MenuManager.interact+"</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
+                    //TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>"+MenuManager.interact+"</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
+                    TutoManager.singleton.speak("?", changeCol.speech, 1);// I totes should bully my neighbour
                 }
                 if (Input.GetKeyDown(MenuManager.interact))
                 {
@@ -125,11 +126,12 @@ public class TutoPLBehaviour : MonoBehaviour {
             else if (Input.GetKeyDown(MenuManager.interact))
             {
                 TutoManager.singleton.speak("Too late!", changeCol.speech, 1);
+                TutoManager.singleton.speak("", changeCol.speech, 1);
             }
         }
         else if (Input.GetKeyDown(MenuManager.interact))
         {
-            TutoManager.singleton.speak("Too late!", changeCol.speech, 1);
+            TutoManager.singleton.speak("", changeCol.speech, 1);
         }
 
 
