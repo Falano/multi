@@ -26,17 +26,35 @@ public class PlayerChangeCol : NetworkBehaviour
     float speedBoostStrengthFactor = 2;
     public float speedBoostStrength;
     public int currBoost = 0;
+    public int currShare = 0;
     //public Vector3 offsetTarget;
+    private PlayerBehaviour behaviour;
     private int prevGroundColorIndex;
     private int currGroundColorIndex;
     [SerializeField]
     float stillTime;
     IEnumerator divineRetribution;
 
+    private bool _sharing = false;
+
+    public bool Sharing
+    {
+        get
+        {
+            return _sharing;
+        }
+        set
+        {
+            _sharing = value;
+            ColorManager.singleton.Debug(gameObject.name + " : Sharing = " + value);
+        }
+    }
+
     void Start()
     {
+        behaviour = gameObject.GetComponent<PlayerBehaviour>();
         speedBoostStrength = speedBoostStrengthFactor * GetComponent<PlayerMove>().BaseSpeed;
-        colors = MenuManager.colors;
+        colors = MenuManager.curr6Colors;
         rd = GetComponentInChildren<Renderer>();
         currColorIndex = 0;
         offsetPos = new Vector3(0, .5f, 0);
@@ -63,11 +81,7 @@ public class PlayerChangeCol : NetworkBehaviour
     // le ChangeCol qui est sur le mouton choisit une couleur, puis appelle CmdChangeCol (sur le mouton) qui (dit au serveur de) appelle RpcChangeCol (sur le color manager) qui dit à tous les clients que ce mouton a pris des dégâts et changé de couleur 
     void ChangeCol(GameObject obj, GameObject attacker)
     {
-        if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
-        {
-            return;
-        }
-        if (obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
+        if (ColorManager.singleton.CurrState != ColorManager.gameState.playing || obj.GetComponent<PlayerHealth>().Hp <= 0) // comme ça s'il est en train de jouer l'anim death, il ne remeurt pas.
         {
             return;
         }
@@ -81,6 +95,10 @@ public class PlayerChangeCol : NetworkBehaviour
         if (isLocalPlayer)
         {
             CmdChangeCol(obj, currColorIndex, attacker);
+        }
+        else if (gameObject.GetComponent<PlayerBehaviour>().localAlly)
+        {
+            rd.materials[1].color = Color.white;
         }
     }
 
@@ -100,17 +118,17 @@ public class PlayerChangeCol : NetworkBehaviour
     }
 
     [Command]
-    void CmdChangeCol(GameObject obj, int colIndex , GameObject attacker)
+    void CmdChangeCol(GameObject obj, int colIndex, GameObject attacker)
     {
         ColorManager.singleton.RpcChangeCol(obj, colIndex, attacker);
     }
 
     void CheckGroundColor() // so people don't stay too long in the same place
     {
-        if (Physics.Raycast(transform.position+offsetPos, -transform.up, out ground))
+        if (Physics.Raycast(transform.position + offsetPos, -transform.up, out ground))
         {
             prevGroundColorIndex = currGroundColorIndex;
-            currGroundColorIndex =  System.Array.IndexOf(MenuManager.colors, ground.transform.GetComponent<Renderer>().material.color) ;
+            currGroundColorIndex = System.Array.IndexOf(MenuManager.curr6Colors, ground.transform.GetComponent<Renderer>().material.color);
             if (prevGroundColorIndex != currGroundColorIndex && ColorManager.singleton.CurrState == ColorManager.gameState.playing)
             { // if you just moved ground colors, we launch a new countdown
                 StopAllCoroutines();
@@ -124,7 +142,7 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         divineRetribution = autoChangeCol(stillTime);
         yield return new WaitForSeconds(time);
-        
+
         ChangeCol(gameObject, ColorManager.singleton.gameObject);
         StartCoroutine(divineRetribution);
     }
@@ -133,7 +151,7 @@ public class PlayerChangeCol : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            if(ColorManager.singleton.CurrState != ColorManager.gameState.playing)
+            if (ColorManager.singleton.CurrState != ColorManager.gameState.playing)
             {
                 return;
             }
@@ -145,9 +163,9 @@ public class PlayerChangeCol : NetworkBehaviour
 
             // changing another's colour
             Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right/6).normalized * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.right/6).normalized * hitDistance, Color.green);
-            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up/4).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right / 6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.right / 6).normalized * hitDistance, Color.green);
+            Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up / 4).normalized * hitDistance, Color.green);
             Debug.DrawRay(transform.position + offsetPos, (transform.forward - transform.up / 4).normalized * hitDistance, Color.green);
 
             if (Input.GetKeyDown(MenuManager.interact) && paintReady)
@@ -159,19 +177,21 @@ public class PlayerChangeCol : NetworkBehaviour
                     Physics.Raycast(transform.position + offsetPos, transform.forward - transform.up / 4, out hit)
                     )
                 {
-                    if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
+                    if (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance && hit.transform.CompareTag("Player"))
                     {
-                        if (hit.transform.CompareTag("Player"))
-                        {
-                            ChangeCol(hit.transform.gameObject, gameObject);
-                        }
+                        ChangeCol(hit.transform.gameObject, gameObject);
                     }
                 }
             }
-            if (rd.materials[1].color != Color.black)
-            {
-                rd.materials[1].color = Color.black;
-            }
+            //if (Input.GetKeyUp(MenuManager.interact))
+            //{
+            //    sharing = false;
+            //}
+            //if (Input.GetKeyDown(MenuManager.interact))
+            //{
+            //    sharing = !sharing;
+            //    ColorManager.singleton.Debug("sharing: " + sharing);
+            //}
         }
     }
 }

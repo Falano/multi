@@ -12,29 +12,34 @@ using UnityEngine.UI;
 public class PlayerHealth : NetworkBehaviour
 {
     [SerializeField]
-    float hp;
+    float _hp;
     public Image healthGUI;
     public Sprite[] sprites;
     private bool isAlive = true;
     [SerializeField]
     private int spritesIndex = 10;
+    private PlayerBehaviour behaviour;
 
     public float Hp
     {
         get
         {
-            return hp;
+            return _hp;
+        }
+        set
+        {
+            _hp = value;
         }
     }
 
     // Use this for initialization
     void Start()
     {
-        hp = MenuManager.startHp + 2;
+        Hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
+        behaviour = gameObject.GetComponent<PlayerBehaviour>();
         if(ColorManager.singleton.CurrState != ColorManager.gameState.lobby)
         {
-            ColorManager.singleton.numberOfPlayersPlaying += 1;
             isAlive = false;
             Kill();
         }
@@ -48,7 +53,7 @@ public class PlayerHealth : NetworkBehaviour
         {
             return;
         }
-        hp -= dmg;
+        Hp -= dmg;
         //print("hp = " + hp);
         if (Hp <= 0)
         {
@@ -60,7 +65,7 @@ public class PlayerHealth : NetworkBehaviour
         if (isLocalPlayer)
         {
             print("spritesIndex: " + spritesIndex);
-            healthGUI.sprite = sprites[spritesIndex]; // (si healthGUI est mal défini line 34-38 dans le Start():) ça. ça fait tout foirer. C'est la racine du mal. C'est à cause de lui que (ALORS QUE JE N'AI PAS DE WHILE NI DE FOR NI RIEN QUI EVOQUE UNE BOUCLE INFINIE) au deuxième ChangeCOl il s'emballe et re-TakeDamage() à l'infini
+            healthGUI.sprite = sprites[spritesIndex];
         }
     }
 
@@ -76,11 +81,33 @@ public class PlayerHealth : NetworkBehaviour
         
     public void KillSolo()
     {
-        ColorManager.singleton.numberOfPlayersPlaying--;
 
-        Score score = GetComponent<PlayerBehaviour>().ScoreObj.GetComponent<Score>();
+        bool SeveralTeamsPlaying = false;
+        bool firstLivePlayerFound = true;
+        int prevTeam = 0;
+        foreach (Score sco in ColorManager.singleton.Scores)
+        {
+            if (sco.PlayerObj != null && sco.PlayerObj != gameObject)
+            {
+                if (firstLivePlayerFound)
+                {
+                    prevTeam = sco.behaviour.team;
+                    firstLivePlayerFound = false;
+                }
+                if (prevTeam != sco.behaviour.team)
+                {
+                    SeveralTeamsPlaying = true;
+                }
+                prevTeam = sco.behaviour.team;
+            }
+        }
+        ColorManager.singleton.SeveralTeamsPlaying = SeveralTeamsPlaying;
+
+
+        Score score = behaviour.ScoreObj;
+        //score.playerName = GetComponent<PlayerBehaviour>().localName;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:::::::::::::::
         score.SetTimeOfDeath();
-        print(score.playerName + "'s time of death: " + score.TimeOfDeath);
+        score.team = behaviour.team;
         
         if (isLocalPlayer)
         {
@@ -91,14 +118,7 @@ public class PlayerHealth : NetworkBehaviour
         mesh.SetActive(false);
         GameObject death = transform.GetChild(2).gameObject;
         death.SetActive(true);
-        //        Score player = obj.GetComponent<ScoreKeeper>().currentPlayer;
-        //        player.SetTimeOfDeath(); // pour le score
-        //        CameraMover.singleton.activePlayer = null; // pour si la caméra ne comprend pas qu'il est mort
-        //        print(player.PlayerName + " est mort après " + player.TimeOfDeath + "secondes." );
-        //        print("You dissolved into paint after " + player.TimeOfDeath.ToString("F1") + " seconds. You changed colour " + player.colorChangesFromMice + " times because of mice, " + player.colorChangesFromOthers + " times because of other players, " + player.colorChangesFromSelf  + " times of your own volition, and you made other players change colour " + player.colorChangesToOthers + " times." );
         death.GetComponent<SpriteRenderer>().color = mesh.GetComponent<Renderer>().material.color;
-        //print("deathcol = " + death.GetComponent<SpriteRenderer>().color);
-        //print("meshcol = " + mesh.GetComponent<Renderer>().material.color);
         GetComponent<BoxCollider>().enabled = false; //careful il y a deux box colliders, l'un trigger; ne pas changer leur place
                                                      //the object destroy itself is on a script on the child
     }

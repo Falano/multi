@@ -7,10 +7,10 @@ public class assignColorOnStart : MonoBehaviour
     void Start()
     {
         ChangeMatColor[] change = GetComponentsInChildren<ChangeMatColor>();
-        for (int i = 0; i < MenuManager.singleton.colorsMats.Length; i++)
+        for (int i = 0; i < MenuManager.singleton.curr6Mats.Length; i++)
         {
             change[i].targetMat = MenuManager.singleton.
-                colorsMats[i];
+                curr6Mats[i];
         }
     }
 }

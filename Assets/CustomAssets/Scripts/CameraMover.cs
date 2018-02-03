@@ -34,12 +34,16 @@ public class CameraMover : NetworkBehaviour
             transform.rotation = posRotOffset.rotation;
         }
 
+
+        //ColorManager.singleton.Debug("localPlayer dead? "+ ColorManager.singleton.isLocalPlayerDead);
+        //ColorManager.singleton.Debug("current state? "+ ColorManager.singleton.CurrState);
+
         // for following not-dead players when you died
         if (Input.GetKeyDown(MenuManager.interact) && 
-            ColorManager.singleton.isLocalPlayerDead && 
-            ColorManager.singleton.numberOfPlayersPlaying>0 &&
+            ColorManager.singleton.isLocalPlayerDead &&
             ColorManager.singleton.CurrState == ColorManager.gameState.playing)
         {
+            ColorManager.singleton.Debug("trying to change non-dead player stalked");
             i += 1;
             if (i >= ColorManager.singleton.Scores.Length)
             {

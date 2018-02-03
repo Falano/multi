@@ -12,6 +12,10 @@ public class Score : NetworkBehaviour
     [Tooltip("its index in the list")]
     public int idNumber;
     public GameObject playerObj;
+    public PlayerBehaviour behaviour;
+    public PlayerHealth health;
+    public PlayerChangeCol changeCol;
+    [SyncVar]
     public string playerName;
     string timeOfDeath = "0";
     public int colorChangesToOthers;
@@ -19,8 +23,11 @@ public class Score : NetworkBehaviour
     public int colorChangesFromMice;
     public int colorChangesFromGround;
     public int colorChangesFromSelf = -1;
+    public int colorChangesGiftedToTeam;
+    public int colorChangesGiftedByTeam;
     public Text ScoreTx;
     float startTime; // l'assigner on start game
+    public int team = -1;
 
     private void Start()
     {
@@ -53,15 +60,19 @@ public class Score : NetworkBehaviour
         idNumber = newI;
     }
 
-
     public void SetStartTime()
     {
         startTime = Time.time;
     }
 
-    public void SetPlayersName(string name)
+    public void SetPlayerObj(GameObject player)
     {
-        playerName = name;
+        playerObj = player;
+        behaviour = player.GetComponent<PlayerBehaviour>();
+        changeCol = player.GetComponent<PlayerChangeCol>();
+        health = player.GetComponent<PlayerHealth>();
+        playerName = behaviour.localName ;
+
     }
 
 }

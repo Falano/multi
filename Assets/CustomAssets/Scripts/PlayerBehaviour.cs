@@ -10,9 +10,16 @@ public class PlayerBehaviour : NetworkBehaviour
     public int idNumber;
     [SyncVar] public string localName;
     public GameObject ScoreTx;
-    public GameObject ScoreObj;
+    public Score ScoreObj;
+    [SyncVar]
+    public int team = -1;
+    public bool localAlly = false;
+    private TextMesh DebugTxFloating;
 
-
+    public void DebugFloating(string sentence)
+    {
+        //DebugTxFloating.text = sentence;
+    }
 
     public bool IsReady
     {
@@ -40,6 +47,7 @@ public class PlayerBehaviour : NetworkBehaviour
 
     void Start()
     {
+        DebugTxFloating = gameObject.GetComponentInChildren<TextMesh>();
         if (isLocalPlayer)
         {
             ColorManager.singleton.localPlayer = gameObject;
@@ -64,7 +72,7 @@ public class PlayerBehaviour : NetworkBehaviour
     IEnumerator waitToAssignScore()
     {
         yield return new WaitForSeconds(.1f);
-        ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject);
+        ScoreObj = ColorManager.singleton.SpawnScore(localName, gameObject).GetComponent<Score>();
         name = "sheep-" + localName;
         if (isLocalPlayer)
         {
@@ -85,21 +93,36 @@ public class PlayerBehaviour : NetworkBehaviour
 
     public void ToggleReady(bool state)
     {
-        _isReady = state;
-        //print("is player ready? " + isReady);
         CmdTogglePlayerReady(gameObject, state);
     }
     [Command]
     public void CmdTogglePlayerReady(GameObject player, bool state)
     {
-        ColorManager.singleton.RpcTogglePlayerReady(gameObject, state);
+        ColorManager.singleton.RpcTogglePlayerReady(player, state);
         ColorManager.singleton.RpcRefreshListOfPlayers();
     }
     public void ToggleReadySolo(bool state)
     {
         _isReady = state;
     }
+    public void ChangeTeam(int change)
+    {
+        CmdChangeTeam(gameObject, change);
+    }
+    [Command]
+    public void CmdChangeTeam(GameObject player, int change)
+    {
+        ColorManager.singleton.RpcChangeTeam(player, change);
+        ColorManager.singleton.RpcRefreshListOfPlayers();
+    }
 
+    public void ChangeTeamSolo(int change)
+    {
+        team += change;
+        team = (team < -1) ? ColorManager.singleton.teamsNbLocal - 1 : team;
+        team = (team > ColorManager.singleton.teamsNbLocal - 1) ? -1 : team;
+
+    }
 
     [Command]
     public void CmdRefreshPlayerMidGame() { ColorManager.singleton.RpcRefreshPlayerMidGame(); }
@@ -109,7 +132,6 @@ public class PlayerBehaviour : NetworkBehaviour
     [Command]
     public void CmdSyncGameState()
     {
-        print(1);
         ColorManager.singleton.currStateString = ColorManager.singleton.currState.ToString();
         ColorManager.singleton.RpcSyncGameState(ColorManager.singleton.currStateString);
     }
@@ -122,9 +144,21 @@ public class PlayerBehaviour : NetworkBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(MenuManager.interact) && ColorManager.singleton.CurrState == ColorManager.gameState.lobby)
+
+        if (ColorManager.singleton.CurrState == ColorManager.gameState.lobby)
         {
-            ToggleReady(!_isReady);
+            if (Input.GetKeyDown(MenuManager.interact))
+            {
+                ToggleReady(!_isReady);
+            }
+            if (Input.GetKeyDown(MenuManager.right))
+            {
+                ChangeTeam(+1);
+            }
+            if (Input.GetKeyDown(MenuManager.left))
+            {
+                ChangeTeam(-1);
+            }
         }
     }
 }

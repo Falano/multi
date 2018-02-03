@@ -18,23 +18,22 @@ public class MenuManager : MonoBehaviour
     public static int startHp = 30;
     public static bool soloGame = false;
     public static string startLevel;
-    public static int teamwork; // number of different teams; 0 is chacun pour soi
+    public static int teamsNb; // number of different teams; 0 is chacun pour soi
     public static float chrono = 0; // en minutes
-    [SerializeField]
     public static int activeScene = 0;
-    public static int presetColNr; // the palette color theme chosen
+    public static int chosenPaletteNr = 0; // the palette color theme chosen
     public static int nbScenes;
     public static int musicIndex = 0;
-    public static Color[] colors; //the 6 colors available to the sheep to change into, aka those of the backgrounds materials
-    public Material[] colorsMats; // the background's materials
+    public static Color[] curr6Colors; //the 6 colors available to the sheep to change into, aka those of the backgrounds materials
+    public Material[] curr6Mats; // the background's materials
     [SerializeField]
-    private Color[] colorsPalette; // all of the sixty colors to choose from in the menu // gonna be useful when I turn the menu all keyboard-friendly
+    private Color[] colorsOfFullPalette; // all of the sixty colors to choose from in the menu // gonna be useful when I turn the menu all keyboard-friendly
     public Texture2D palette; // the palette (lots of squares in a rectangle shape) image in my project
-    public Image paletteImg; // the palette (lotsa squares inna rectangle) object in my scene
-    public Image presetPalettesImg; // the preview of the chosen palette applied to a level
+    public Image paletteObj; // the palette (lotsa squares inna rectangle) object in my scene
+    public Image chosenPalettePreview; // the preview of the chosen palette applied to a level
 
-    public Image[] presetColsImg; // the small clouds that let you choose each color individually
-    public Color[] colorPresets; // a list that contains all the presets palettes for the colours, as long as you take them by groups of 6
+    public Image[] chooseEachColorButtons; // the small clouds that let you choose each color individually
+    public Color[] colorsOfEachPresetPalette; // a list that contains all the presets palettes for the colours, as long as you take them by groups of 6
 
     [Header("All the texts buttons and stuff")]
     public Sprite[] lvlPreviews;
@@ -52,12 +51,13 @@ public class MenuManager : MonoBehaviour
     public Text playMusicText;
     public Text foleyVolumeText;
     public Text musicVolumeText;
-    public Text presetColsText;
+    public Text teamsNbText;
+    public Text chosenPaletteText;
     public Text startLevelText;
 
     private Image lvlImg;
     private int foleyVolumeInt = 60;
-    private int musicVolumeInt = 60;
+    private int musicVolumeInt = 0;
     private AudioSource foley;
     private AudioSource music;
     public AudioClip[] musics;
@@ -143,9 +143,17 @@ public class MenuManager : MonoBehaviour
         {
             musicIndex = PlayerPrefs.GetInt("faveMusic");
         }
+        if (PlayerPrefs.HasKey("musicVol"))
+        {
+            musicVolumeInt = PlayerPrefs.GetInt("musicVol");
+        }
+        if (PlayerPrefs.HasKey("foleyVol"))
+        {
+            foleyVolumeInt = PlayerPrefs.GetInt("foleyVol");
+        }
         if (PlayerPrefs.HasKey("favePalette"))
         {
-            presetColNr = PlayerPrefs.GetInt("favePalette");
+            chosenPaletteNr = PlayerPrefs.GetInt("favePalette");
         }
         if (PlayerPrefs.HasKey("interactKey"))
         {
@@ -175,16 +183,18 @@ public class MenuManager : MonoBehaviour
 
         //colors
         GetColorPalette(palette, 10, 6);
-        for (int i = 0; i < colorPresets.Length; i++) // put the colors at full alpha (cause I fucked up and they aren't already)
+        for (int i = 0; i < colorsOfEachPresetPalette.Length; i++) // put the colors at full alpha (cause I fucked up and they aren't already)
         {
-            colorPresets[i].a = 1;
+            colorsOfEachPresetPalette[i].a = 1;
         }
 
 
-        colors = new Color[colorsMats.Length]; //colors: the 6 colors available to the sheep to change into, aka those of the backgrounds materials
+        curr6Colors = new Color[curr6Mats.Length]; //colors: the 6 colors available to the sheep to change into, aka those of the backgrounds materials
         nbScenes = SceneManager.sceneCountInBuildSettings;
         lvlImg = lvlText.transform.parent.GetComponent<Image>();
         lvlImg.sprite = lvlPreviews[activeScene];
+        ChangeMusicVolumeAbsolute(musicVolumeInt);
+        ChangeMusicVolumeAbsolute(foleyVolumeInt);
         //initializing the texts with the default values:
         enemyText.text = enemyNumber.ToString();
         hpText.text = (startHp / 2).ToString();
@@ -199,9 +209,10 @@ public class MenuManager : MonoBehaviour
         rightKeyTx.text = right.ToString();
         leftKeyTx.text = left.ToString();
         musicText.text = musicIndex.ToString();
+        teamsNbText.text = teamsNb.ToString();
         startLevelText.text = levelsComments[activeScene + 1];
-        presetColsText.text = presetColNr.ToString();
-        presetPalettesImg.sprite = palettesPreviews[presetColNr];
+        chosenPaletteText.text = chosenPaletteNr.ToString();
+        chosenPalettePreview.sprite = palettesPreviews[chosenPaletteNr];
 
 
         if (soloGame)
@@ -212,8 +223,6 @@ public class MenuManager : MonoBehaviour
         {
             soloGameText.text = "no";
         }
-
-        SetInputField();
     }
 
     IEnumerator initCols()
@@ -221,8 +230,8 @@ public class MenuManager : MonoBehaviour
         yield return new WaitForSeconds(.1f);
             for (int i = 0; i < 6; i++) {
                 if (PlayerPrefs.HasKey("col" + (i + 1).ToString())) {
-                    colorsMats[i].color = StringToVector4(PlayerPrefs.GetString("col" + (i + 1).ToString()));
-                    presetColsImg[i].color = colorsMats[i].color;
+                    curr6Mats[i].color = StringToVector4(PlayerPrefs.GetString("col" + (i + 1).ToString()));
+                    chooseEachColorButtons[i].color = curr6Mats[i].color;
                 }
             }
         //if(!(PlayerPrefs.HasKey("col1") || PlayerPrefs.HasKey("col2") || PlayerPrefs.HasKey("col3") || PlayerPrefs.HasKey("col4") || PlayerPrefs.HasKey("col5") || PlayerPrefs.HasKey("col6") ))
@@ -235,9 +244,9 @@ public class MenuManager : MonoBehaviour
 
     public void RefreshColors()
     {
-        for (int i = 0; i < colorsMats.Length; i++)
+        for (int i = 0; i < curr6Mats.Length; i++)
         {
-            colors[i] = colorsMats[i].color;
+            curr6Colors[i] = curr6Mats[i].color;
         }
     }
 
@@ -246,17 +255,6 @@ public class MenuManager : MonoBehaviour
         ColorManager.currentMusic = musics[musicIndex];
         PlayerPrefs.SetInt("faveMusic", musicIndex);
         ColorManager.ChangeColSounds = changeColSounds;
-    }
-
-    public void SetInputField()
-    {
-        InputField nameField = GetComponentInChildren<InputField>();
-        if (PlayerPrefs.HasKey("playerName"))
-        {
-            nameField.GetComponent<Image>().color = new Color(0, 0, 0, 0);
-            nameField.GetComponentsInChildren<Text>()[0].text = "";
-            nameField.text = PlayerName;
-        }
     }
 
     public void Quit()
@@ -320,6 +318,17 @@ public class MenuManager : MonoBehaviour
         { // 0 le mute completement
             musicMixer.audioMixer.SetFloat("musicVol", -70);
         }
+        PlayerPrefs.SetInt("musicVol", musicVolumeInt);
+    }
+
+    public void ChangeMusicVolumeAbsolute(int volume)
+    {
+        ChangeSettingAbsolute(volume, ref musicVolumeInt, musicVolumeText);
+        musicMixer.audioMixer.SetFloat("musicVol", musicVolumeInt - 40 - musicVolumeInt * 0.5f); //là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt; is it ok? Later
+        if (musicVolumeInt == 0)
+        { // 0 le mute completement
+            musicMixer.audioMixer.SetFloat("musicVol", -70);
+        }
     }
 
     public void ChangeFoleyVolume(int volume)
@@ -330,11 +339,27 @@ public class MenuManager : MonoBehaviour
         {
             foleyMixer.audioMixer.SetFloat("foleyVol", -70);
         }
+        PlayerPrefs.SetInt("FoleyVol", foleyVolumeInt);
+    }
+
+    public void ChangeFoleyVolumeAbsolute(int volume)
+    {
+        ChangeSettingAbsolute(volume, ref foleyVolumeInt, foleyVolumeText);
+        foleyMixer.audioMixer.SetFloat("foleyVol", foleyVolumeInt - 40 - foleyVolumeInt * 0.5f); // là ça va de +10 à -40 db; 0db est 80 foleyVolumeInt 
+        if (foleyVolumeInt == 0)
+        {
+            foleyMixer.audioMixer.SetFloat("foleyVol", -70);
+        }
     }
 
     public void ChangeNbrEnemies(int nb)
     {
         ChangeSetting(nb, ref enemyNumber, enemyText, 0, 200);
+    }
+
+    public void ChangeNbrteams(int nb)
+    {
+        ChangeSetting(nb, ref teamsNb, teamsNbText, 0, 20);
     }
 
     public void ChangeStartHp(int nb)
@@ -353,28 +378,28 @@ public class MenuManager : MonoBehaviour
 
     public void ChangePresetColNr(int nb)
     {
-        ChangeSetting(nb, ref presetColNr, presetColsText, 0, (colorPresets.Length / 6) - 1);
-        for (int i = 0; i < presetColsImg.Length; i++)
+        ChangeSetting(nb, ref chosenPaletteNr, chosenPaletteText, 0, (colorsOfEachPresetPalette.Length / 6) - 1);
+        for (int i = 0; i < chooseEachColorButtons.Length; i++)
         {
-            presetColsImg[i].color = colorPresets[(presetColNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
-            presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
-            PlayerPrefs.SetString(presetColsImg[i].name.ToString(), Vector4ToString(presetColsImg[i].color));
+            chooseEachColorButtons[i].color = colorsOfEachPresetPalette[(chosenPaletteNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
+            chooseEachColorButtons[i].GetComponent<ChangeMatColor>().ChangeMatCol();
+            PlayerPrefs.SetString(chooseEachColorButtons[i].name.ToString(), Vector4ToString(chooseEachColorButtons[i].color));
         }
-        presetPalettesImg.sprite = palettesPreviews[presetColNr];
-        PlayerPrefs.SetInt("favePalette", presetColNr);
+        chosenPalettePreview.sprite = palettesPreviews[chosenPaletteNr];
+        PlayerPrefs.SetInt("favePalette", chosenPaletteNr);
     }
 
     public void ChangePresetColNrAbsolute(int nb)
     {
-        ChangeSettingAbsolute(nb, ref presetColNr, presetColsText);
-        for (int i = 0; i < presetColsImg.Length; i++)
+        ChangeSettingAbsolute(nb, ref chosenPaletteNr, chosenPaletteText);
+        for (int i = 0; i < chooseEachColorButtons.Length; i++)
         {
-            presetColsImg[i].color = colorPresets[(presetColNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
-            presetColsImg[i].GetComponent<ChangeMatColor>().ChangeMatCol();
-            PlayerPrefs.SetString(presetColsImg[i].name.ToString(), Vector4ToString(presetColsImg[i].color));
-            print(presetColsImg[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + presetColsImg[i].color + " because I'm using the preset number " + presetColNr);
+            chooseEachColorButtons[i].color = colorsOfEachPresetPalette[(chosenPaletteNr * 6) + i]; //j'ai six presetColsImg, qui sont les boutons pour changer chaque couleur individuellement; j'ai autant de colorPresets que 6 * les palettes que j'ai préparé, parce qu'il y a 6 couleurs par palette
+            chooseEachColorButtons[i].GetComponent<ChangeMatColor>().ChangeMatCol();
+            PlayerPrefs.SetString(chooseEachColorButtons[i].name.ToString(), Vector4ToString(chooseEachColorButtons[i].color));
+            print(chooseEachColorButtons[i].GetComponent<ChangeMatColor>().targetMat + "'s color is now " + chooseEachColorButtons[i].color + " because I'm using the preset number " + chosenPaletteNr);
         }
-        presetPalettesImg.sprite = palettesPreviews[presetColNr];
+        chosenPalettePreview.sprite = palettesPreviews[chosenPaletteNr];
     }
 
     public void ChangeSetting(ref bool setting, Text settingText)
@@ -452,7 +477,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetInteractKey()
     {
-        if (!paletteImg.enabled) { // for if you misclick when you're choosing the colors, since the buttons are pretty close
+        if (!paletteObj.enabled) { // for if you misclick when you're choosing the colors, since the buttons are pretty close
             StartCoroutine(GetInteract());
         }
     }
@@ -474,7 +499,7 @@ public class MenuManager : MonoBehaviour
 
     public void SetMenuKey()
     {
-        if (!paletteImg.enabled)
+        if (!paletteObj.enabled)
         { // for if you misclick when you're choosing the colors, since the buttons are pretty close
             StartCoroutine(GetMenu());
         }
@@ -496,7 +521,7 @@ public class MenuManager : MonoBehaviour
     }
     public void SetSelfKey()
     {
-        if (!paletteImg.enabled)
+        if (!paletteObj.enabled)
         { // for if you misclick when you're choosing the colors, since the buttons are pretty close
             StartCoroutine(GetSelf());
         }
@@ -518,7 +543,7 @@ public class MenuManager : MonoBehaviour
     }
     public void SetFwdKey()
     {
-        if (!paletteImg.enabled)
+        if (!paletteObj.enabled)
         { // for if you misclick when you're choosing the colors, since the buttons are pretty close
             StartCoroutine(GetFwd());
         }
@@ -540,7 +565,7 @@ public class MenuManager : MonoBehaviour
     }
     public void SetRightKey()
     {
-        if (!paletteImg.enabled)
+        if (!paletteObj.enabled)
         { // for if you misclick when you're choosing the colors, since the buttons are pretty close
             StartCoroutine(GetRight());
         }
@@ -562,7 +587,7 @@ public class MenuManager : MonoBehaviour
     }
     public void SetLeftKey()
     {
-        if (!paletteImg.enabled)
+        if (!paletteObj.enabled)
         { // for if you misclick when you're choosing the colors, since the buttons are pretty close
             StartCoroutine(GetLeft());
         }
@@ -585,7 +610,7 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeColSprite(Image img)
     {
-        Toggle(paletteImg);
+        Toggle(paletteObj);
         StartCoroutine(GetCol(img));
     }
 
@@ -595,11 +620,11 @@ public class MenuManager : MonoBehaviour
         Color prevCol = img.color; 
         Color col = palette.GetPixel
             (Mathf.RoundToInt(
-                (Input.mousePosition.x - paletteImg.rectTransform.position.x)
-                * palette.width/ paletteImg.rectTransform.sizeDelta.x * 1920 / Screen.width),
+                (Input.mousePosition.x - paletteObj.rectTransform.position.x)
+                * palette.width/ paletteObj.rectTransform.sizeDelta.x * 1920 / Screen.width),
                 Mathf.RoundToInt(
-                    (Input.mousePosition.y - paletteImg.rectTransform.position.y)
-                    * palette.height / paletteImg.rectTransform.sizeDelta.y * 1920 / Screen.width // because the canvas scaler that holds the palette is 1920/1080, and scales fully with Width (not Height)
+                    (Input.mousePosition.y - paletteObj.rectTransform.position.y)
+                    * palette.height / paletteObj.rectTransform.sizeDelta.y * 1920 / Screen.width // because the canvas scaler that holds the palette is 1920/1080, and scales fully with Width (not Height)
                     )
                     );
 
@@ -609,19 +634,19 @@ public class MenuManager : MonoBehaviour
 
         PlayerPrefs.SetString(img.name.ToString(), Vector4ToString(col));
 
-        Toggle(paletteImg);
+        Toggle(paletteObj);
     }
 
     private void GetColorPalette(Texture2D tex, int nbStepsW, int nbStepsH)
     {
-        colorsPalette = new Color[nbStepsH * nbStepsW];
+        colorsOfFullPalette = new Color[nbStepsH * nbStepsW];
         int stepW = palette.width / nbStepsW;
         int stepH = palette.height / nbStepsH;
         for (int i = 0; i < nbStepsW; i++)
         {
             for (int j = 0; j < nbStepsH; j++)
             {
-                colorsPalette[(nbStepsH * i) + (j)] = palette.GetPixel(i * stepW, j * stepH);
+                colorsOfFullPalette[(nbStepsH * i) + (j)] = palette.GetPixel(i * stepW, j * stepH);
             }
         }
     }
@@ -677,10 +702,6 @@ public class MenuManager : MonoBehaviour
         if (Input.GetKeyDown(debug))
         {
             soloGame = true;
-            print("interact: " + interact);
-            print("menu: " + menu);
-            print("self: " + selfChange);
-            print("up: " + forward);
         }
     }
 }

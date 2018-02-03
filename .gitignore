@@ -54,3 +54,5 @@ RechGraph/
 ProjectSettings/ProjectVersion\.txt
 
 Assets/CustomAssets/3DModels/Materials\.meta
+
+\.vs/multi/v15/Server/sqlite3/

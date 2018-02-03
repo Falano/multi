@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activePlayer: {fileID: 0}
-  posRotOffset: {fileID: 4980439881794022, guid: 2ff5aebae327383429dab4ba41430b62,
+  posRotOffset: {fileID: 4539872886841444, guid: 49e8e1fc34cc953429212c0f024991ed,
     type: 2}
 --- !u!114 &114777898419650402
 MonoBehaviour:
