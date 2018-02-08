@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class TutoManager : MonoBehaviour {
     public static TutoManager singleton;
     public enum gameState {lobby, playing, deadPlayer};
-    public enum toDo {escape, space, rat, ctrl, nothing};
+    public enum toDo {A_menu, B_changeTeam, C_launchGame, D_move, E_bully, F_kill, G_mice, H_ground, I_selfChange, J_unwillingTeam, K_willingTam, L_die, M_stalker, N_showScores, O_changeScore, P_quit};
     public gameState currState;
     public toDo currTask;
     public TextMesh textNarr;
@@ -48,7 +48,7 @@ public class TutoManager : MonoBehaviour {
         }
         localNames = new string[] {"Romuald", "Zobeide", "Trompette", "Rotule", "Medor", "Jules", "Infarctule", "Gaelann", "Fossette", "Egoinne", "Ciboulette", "Cannelle", "Bretelle", "Bobinette", "Bidule", "Asphodèle", "Andromaque", "Articule", "Barnécide", "Catapulle", "Dardielle", "Escopette", "Frisquette", "Glavicule", "Houlette", "Juliette", "Lola", "Marionnette", "Notule", "Operette", "Poutchinette", "Tentacule", "Vesicule" } ;
         Destroy(GameObject.FindGameObjectWithTag("NetworkManager"));
-        textNarr = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<TextMesh>(); // since it's in the update if I leave it in Start it throws half a dozen error messages
+        //textNarr = GameObject.FindGameObjectWithTag("MainCamera").GetComponentInChildren<TextMesh>(); // since it's in the update if I leave it in Start it throws half a dozen error messages
         foreach (GameObject gui in GameObject.FindGameObjectsWithTag("GUI")) //cause other scripts use it and if in the Start they'll try to grab it before TutoManager knows what they are
         {
             switch (gui.name)
@@ -93,7 +93,7 @@ public class TutoManager : MonoBehaviour {
             } 
         }
         launchGameTx.text = "";
-        instructions("Press <b>"+MenuManager.menu+"</b> to toggle the menu and those instructions\nDo it twice now.", toDo.escape);
+        instructions("Press <b>"+MenuManager.menu+"</b> twice to toggle the menu. Do it.", toDo.A_menu);
         if (PlayerPrefs.HasKey("playerName"))
         {
             localName = PlayerPrefs.GetString("playerName");
@@ -176,7 +176,7 @@ public class TutoManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(MenuManager.interact) && currState == gameState.lobby && currTask == toDo.space)
+		if(Input.GetKeyDown(MenuManager.interact) && currState == gameState.lobby)
         {
             StartCoroutine(startingGame());
         }
@@ -184,7 +184,7 @@ public class TutoManager : MonoBehaviour {
             ToggleMenuButton();
             if(currState == gameState.lobby)
             {
-                instructions("Press <b>"+MenuManager.interact+"</b> to launch the game", toDo.space);
+                instructions("Press <b>" + MenuManager.left + " or " + MenuManager.right + "</b> to choose your team. \n '??' lets the computer choose.", toDo.B_changeTeam);
             }
         }
     }
