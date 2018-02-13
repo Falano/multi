@@ -12,7 +12,7 @@ public class TutoChangeCol : MonoBehaviour
 {
     Renderer rd;
     GameObject deathAnim;
-    Color[] colors;
+    public Color[] colors;
     Color prevColor;
     AudioSource source;
     NavMeshAgent ag;
@@ -31,13 +31,21 @@ public class TutoChangeCol : MonoBehaviour
     float SpeedBoostDuration = 1;
     int currBoost = 0;
 
+    public int team;
+    public string localName;
+    public bool sharing;
+    public static TutoChangeCol playerChangeCol;
+    public Score score;
+
     void Start()
     {
         sprites = TutoManager.singleton.sprites;
+        score = GetComponent<Score>();
         if (CompareTag("Player"))
         {
             TutoPLMove mover = GetComponent<TutoPLMove>();
             speedBoostStrength = mover.baseSpeed * speedBoostStrengthFactor;
+            playerChangeCol = this;
         }
 
         else if (CompareTag("NPS"))
@@ -71,78 +79,106 @@ public class TutoChangeCol : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("AttackChangeCol") && speech.text != "I can run,\nand I can hide!")
+        if (other.gameObject.CompareTag("AttackChangeCol"))
         {
-            //TutoManager.singleton.speak("GET IT OFF GET IT OFF\nI HATE MICE NO \nTAKE IT AWAY GO AWAY\nRUN!", speech, 4);
-            TutoManager.singleton.speak("D:", speech, 4);
+            TutoManager.singleton.speak("D:", speech, 2);
         }
     }
 
     public void ChangeCol(GameObject attacker)
     {
+        //TutoChangeCol atkChangeCol = attacker.GetComponent<TutoChangeCol>();
         if (hp <= 1)
         {
-            Kill();
-            return;
-        }
-        int damage = 2;
-        source = GetComponent<AudioSource>();
-        source.clip = TutoManager.singleton.ChangeColSounds[Random.Range(0, TutoManager.singleton.ChangeColSounds.Length)];
-        source.Play();
-
-
-        while (prevColor == rd.material.color)
-        {
-            prevColor = colors[Random.Range(0, colors.Length)];
-        }
-
-        rd.materials[0].color = prevColor;
-        if (CompareTag("NPS"))
-        {
-            rd.materials[1].color = prevColor;
-        }
-
-        if (attacker == gameObject)
-        {
-            if (CompareTag("Player"))
+            if (CompareTag("Player") && TutoManager.singleton.currTask != TutoManager.toDo.L_die)
+                hp += 20;
+            else
             {
-                //TutoManager.singleton.speak("Oww, I better not do that too often", speech, 4);
-                TutoManager.singleton.speak(":/", speech, 4);
-                //TutoManager.singleton.speak("See <i>the ball in the top-right corner</i>? \nThat's how many colour changes you have left\nbefore you turn back into paint.", TutoManager.singleton.textNarr, 20);
-                damage = 1;
+                score.SetTimeOfDeath();
+                Kill();
+                return;
+            }
+        }
+
+        int damage = 0;
+
+        if (attacker.CompareTag("Player") && attacker != gameObject && team == playerChangeCol.team)
+        {
+            if (sharing)
+            {
+                print("Oh they're sharing so cute");
+                print("But: sharing To be implemented");
+                // take the one with lower life and give them some of the other's
             }
         }
         else
         {
-            TutoManager.singleton.speak(":(", speech, 3);
+
+            damage = 2;
+            source = GetComponent<AudioSource>();
+            source.clip = TutoManager.singleton.ChangeColSounds[Random.Range(0, TutoManager.singleton.ChangeColSounds.Length)];
+            source.Play();
 
 
-            if (attacker.CompareTag("AttackChangeCol") && CompareTag("Player"))
+            while (prevColor == rd.material.color)
             {
-                //TutoManager.singleton.speak("I can run,\nand I can hide!", speech, 3);
-                //TutoManager.singleton.speak("It looks like changing colour produces adrenaline,\nwhether induced by mice or other sheep.", TutoManager.singleton.textNarr, 15);
-                TutoManager.singleton.instructions("You have a limited number of color changes (though the ones \nyou choose only count as half); when they're all used up,\n you turn back into paint. This keeps you from interacting, but\nyou can follow other sheep by pressing <b>" + MenuManager.interact + "</b>", TutoManager.toDo.space);
+                prevColor = colors[Random.Range(0, colors.Length)];
             }
-            else if (attacker.CompareTag("Player"))
+
+            rd.materials[0].color = prevColor;
+            if (CompareTag("NPS"))
             {
-                //TutoManager.singleton.speak("So that's what I look like to others...", attacker.GetComponent<TutoChangeCol>().speech, 4);
-                TutoManager.singleton.speak(":D", attacker.GetComponent<TutoChangeCol>().speech, 4);
-                //TutoManager.singleton.speak("Hey!\nWhy?", speech, 2);
+                rd.materials[1].color = prevColor;
+
+                if (team == playerChangeCol.team)
+                {
+                    rd.materials[1].color = Color.white;
+                }
             }
+
+            else if (attacker == gameObject)
+            {
+                if (CompareTag("Player"))
+                {
+                    TutoManager.singleton.speak(":/", speech, 2);
+                    damage = 1;
+                }
+                score.colorChangesFromSelf += 1;
+            }
+
+
             else
-            {//si c'est le sol qui l'a attaqué
-                //TutoManager.singleton.speak("I better not stay still too long!", speech, 3);
-                //TutoManager.singleton.speak("When you stay on ground the same color for too long,\nyour color changes on its self.", TutoManager.singleton.textNarr, 15);
+            {
+                TutoManager.singleton.speak(":(", speech, 2);
 
+
+                if (attacker.CompareTag("AttackChangeCol"))
+                {
+                    score.colorChangesFromMice += 1;
+                    if (CompareTag("Player") && TutoManager.singleton.currTask == TutoManager.toDo.G_mice)
+                    TutoManager.singleton.instructions("If you stay too long on the same ground colour \n you'll change automatically, be careful.\n Test it now.", TutoManager.toDo.H_ground);
+                }
+                if (attacker.CompareTag("Untagged")) //si c'est le sol qui l'a attaqué
+                {
+                    score.colorChangesFromGround += 1;
+                    if(CompareTag("Player") && TutoManager.singleton.currTask == TutoManager.toDo.H_ground)
+                    TutoManager.singleton.instructions("Press " + MenuManager.selfChange + " to change your own color. \nIt only costs you half a colour change.\n Any color change makes you go faster for a bit.", TutoManager.toDo.I_selfChange);
+                }
+                else if (attacker.CompareTag("Player"))
+                {
+                    score.colorChangesFromOthers += 1;
+                    playerChangeCol.score.colorChangesToOthers += 1;
+                    TutoManager.singleton.speak(":D", attacker.GetComponent<TutoChangeCol>().speech, 2);
+                }
             }
-        }
-        if (CompareTag("Player"))
-        {
-            spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10);
-            healthGUI.sprite = sprites[spritesIndex];
+            if (CompareTag("Player"))
+            {
+                spritesIndex = (int)Mathf.Floor((hp / StartHp) * 10);
+                healthGUI.sprite = sprites[spritesIndex];
+            }
+            StartCoroutine(speedBoost(SpeedBoostDuration, speedBoostStrength, gameObject, attacker));
         }
         hp -= damage;
-        StartCoroutine(speedBoost(SpeedBoostDuration, speedBoostStrength, gameObject, attacker));
     }
 
 
@@ -194,32 +230,32 @@ public class TutoChangeCol : MonoBehaviour
 
 
 
-    public void ChangeCol(Color color)
+    public void ChangeCol(Color betterColor)
     {
-        rd.materials[0].color = color;
-        rd.materials[1].color = color;
+        rd.materials[0].color = betterColor;
+        if (this == playerChangeCol)
+            betterColor = Color.black;
+        else if (team == PLchangeCol.team)
+            betterColor = Color.white;
+        rd.materials[1].color = betterColor;
     }
 
 
     void Kill()
     {
         StopAllCoroutines();
-        speech.text = "Bye!";
-        //TutoManager.singleton.speak("When you have turned back into paint, you can't play any more\nbut the <b>" + MenuManager.interact + "</b> key allows you to see what others are up to.", TutoManager.singleton.textNarr, 20);
-        TutoManager.singleton.instructions("Press " + MenuManager.interact + " to follow other players", TutoManager.toDo.space);
+        speech.text = ":(";
+        if (TutoManager.singleton.currTask == TutoManager.toDo.F_kill)
+            TutoManager.singleton.instructions("It has no more colour changes: it turned to paint.\n And you should avoid the mice. Touch one.", TutoManager.toDo.G_mice);
         if (CompareTag("Player"))
         {
             GetComponent<TutoPLMove>().speed = 0;
             TutoManager.singleton.currState = TutoManager.gameState.deadPlayer;
-            TutoManager.singleton.instructions(" ", TutoManager.toDo.nothing);
+            TutoManager.singleton.instructions("Press <b>" + MenuManager.interact + "</b> to see the others.\n Again. Again.", TutoManager.toDo.M_stalker);
         }
         else
         {
             ag.speed = 0;
-            if (PLchangeCol != null)
-            {
-                //TutoManager.singleton.speak("I have been told there were both pros and cons\nto pressing the <b>" + MenuManager.selfChange + "</b> key.\nIs doing it a good idea? Who knows.", PLchangeCol.speech, 10);
-            }
         }
         rd.gameObject.SetActive(false);
         deathAnim.SetActive(true);

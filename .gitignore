@@ -56,3 +56,15 @@ ProjectSettings/ProjectVersion\.txt
 Assets/CustomAssets/3DModels/Materials\.meta
 
 \.vs/multi/v15/Server/sqlite3/
+
+Assets/CustomAssets/Materials/blank\.mat
+
+Assets/CustomAssets/Materials/blue\.mat
+
+Assets/CustomAssets/Materials/cyan\.mat
+
+Assets/CustomAssets/Materials/green\.mat
+
+Assets/CustomAssets/Materials/magenta\.mat
+
+Assets/CustomAssets/Materials/yellow\.mat
