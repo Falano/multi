@@ -28,6 +28,8 @@ public class TutoEnemyMover : MonoBehaviour
 
     void Update()
     {
+        if (TutoManager.singleton.currState != TutoManager.gameState.playing)
+            return;
         if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination)
         {
             readyToChangeDestination = false;
@@ -47,10 +49,6 @@ public class TutoEnemyMover : MonoBehaviour
 
     void ChangeDestination()
     {
-        if (TutoManager.singleton.currState == TutoManager.gameState.lobby)
-        {
-            return;
-        }
         animator.SetBool("moving", true);
         Vector3 randomPoint = new Vector3(Random.Range(lvlSize.x, -lvlSize.x), Random.Range(0, lvlSize.y), Random.Range(lvlSize.z, -lvlSize.z));
         goal = randomPoint;

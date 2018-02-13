@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 102036486747521222}
   m_Layer: 0
   m_Name: NarrText
-  m_TagString: Untagged
+  m_TagString: GUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,7 +69,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1696431080436898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.5, y: -10, z: 50}
+  m_LocalPosition: {x: -16.5, y: -9, z: 50}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children: []
   m_Father: {fileID: 4142557708012906}
@@ -164,10 +164,8 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1696431080436898}
-  m_Text: 'Hello World
-
-    what do you think about this'
-  m_OffsetZ: 0
+  m_Text: 
+  m_OffsetZ: -0
   m_CharacterSize: 1
   m_LineSpacing: 1
   m_Anchor: 0
@@ -192,7 +190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activePlayer: {fileID: 0}
-  posRotOffset: {fileID: 0}
+  posRotOffset: {fileID: 4539872886841444, guid: 49e8e1fc34cc953429212c0f024991ed,
+    type: 2}
 --- !u!124 &124168209552593620
 Behaviour:
   m_ObjectHideFlags: 1

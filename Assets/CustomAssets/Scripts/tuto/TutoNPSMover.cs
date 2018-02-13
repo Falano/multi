@@ -89,7 +89,6 @@ public class TutoNPSMover : MonoBehaviour
         //TutoManager.singleton.speak("I SAID NO MICE.\nI'M OUT. HAVE FUN. BYE.", changeCol.speech, 2);
         TutoManager.singleton.speak("DDD:", changeCol.speech, 2);
         goal = transform.position + (transform.position - mice.transform.position);
-        Debug.Log("sheep pos: " + transform.position + ", mice pos: " + mice.transform.position + ", goal: " + goal);
         Mathf.Clamp(goal.x, -lvlSize.x, lvlSize.x); //so they don't try to wander too far
         Mathf.Clamp(goal.z, -lvlSize.z, lvlSize.z);
         ChangeDestination(goal);
