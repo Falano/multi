@@ -8,7 +8,7 @@ public class TutoManager : MonoBehaviour
 {
     public static TutoManager singleton;
     public enum gameState { lobby, playing, deadPlayer, scores };
-    public enum toDo { A_menu, B_changeTeam, C_launchGame, D_move, E_bully, F_kill, G_mice, H_ground, I_selfChange, J_unwillingTeam, K_willingTam, L_die, M_stalker, N_showScores, N_showScores2, O_changeScore, P_quit };
+    public enum toDo { A_menu, B_changeTeam, C_launchGame, D_move, E_bully, F_kill, G_mice, H_ground, I_selfChange, J_unwillingTeam, K_willingTam, L_die, M_stalker, M_stalker2, N_showScores, N_showScores2, O_changeScore, P_quit };
     public gameState currState;
     public toDo currTask;
     public TextMesh textNarr;
@@ -20,6 +20,7 @@ public class TutoManager : MonoBehaviour
     private TutoChangeCol playerChangeCol;
     private TutoAssignScores scoresManager;
     TutoChangeCol[] changeCols;
+    List<TutoLookatPlayer> lookats = new List<TutoLookatPlayer>();
 
     [SerializeField]
     private Material[] colorsMats;
@@ -35,7 +36,7 @@ public class TutoManager : MonoBehaviour
     //public bool coroutinesRunning = false;
     Canvas menuOutCanvas;
 
-    int i;
+    int currScore = 0;
 
     private void Awake()
     {
@@ -92,6 +93,7 @@ public class TutoManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        scoresManager = GetComponent<TutoAssignScores>();
         currState = gameState.lobby;
         player = GameObject.FindGameObjectWithTag("Player");
         playerChangeCol = player.GetComponent<TutoChangeCol>();
@@ -109,6 +111,10 @@ public class TutoManager : MonoBehaviour
                 int i = Random.Range(0, localNames.Length - 1);
                 NPS.GetComponent<TutoStats>().localName = localNames[i];
                 localNames[i] = null;
+            }
+            if (NPS.GetComponent<TutoLookatPlayer>())
+            {
+                lookats.Add(NPS.GetComponent<TutoLookatPlayer>());
             }
         }
         launchGameTx.text = "";
@@ -178,7 +184,7 @@ public class TutoManager : MonoBehaviour
 
     IEnumerator startingGame()
     {
-        playerReadyTx.text = localName + " (team " + playerChangeCol.team + ") : ready!";
+        playerReadyTx.text = localName + " (team " + ((playerChangeCol.team == -1) ? "?" : playerChangeCol.team.ToString()) + ") : ready!";
         playerReadyTx.color = Color.green;
         launchGameTx.text = "LaunchingGame...";
         yield return new WaitForSeconds(2);
@@ -192,16 +198,34 @@ public class TutoManager : MonoBehaviour
         launchGameTx.text = "";
         if (playerChangeCol.team == -1)
         {
-            playerChangeCol.team = Random.Range(0, 3);
+            changePlayerTeam(Random.Range(0, 3));
         }
         //textNarr.text = "";
     }
 
-    private void ShowScores()
+    private void changePlayerTeam(int i)
+    {
+        playerChangeCol.team = i;
+        playerChangeCol.team = (playerChangeCol.team < -1) ? 3 - 1 : playerChangeCol.team; //il y a trois teams en tout
+        playerChangeCol.team = (playerChangeCol.team > 3 - 1) ? -1 : playerChangeCol.team;
+        foreach (TutoLookatPlayer look in lookats)
+        {
+            look.RefreshAlly();
+        }
+        foreach (TutoChangeCol change in changeCols)
+        {
+            change.ChangeCol(change.colors[1]);
+        }
+    }
+
+    private void ShowScores(int i)
     {
         currState = gameState.scores;
         lobbyCanvas.enabled = true;
-        string deathText = "Liquefied at " + scoresManager.scores[i].TimeOfDeath + " seconds.";
+        string deathText = "Liquefied at " + 
+            scoresManager.
+            scores[i].
+            TimeOfDeath + " seconds.";
         if (scoresManager.scores[i].TimeOfDeath == "0")
         {
             deathText = "Solid to the End!";
@@ -231,25 +255,18 @@ public class TutoManager : MonoBehaviour
             StartCoroutine(startingGame());
             instructions("You can move with the <b>" + MenuManager.forward + "</b> key\nand turn with <b>" + MenuManager.left + "</b> and <b>" + MenuManager.right + "</b>", toDo.D_move);
         }
-        if (Input.GetKeyDown(MenuManager.menu))
+        else if (Input.GetKeyDown(MenuManager.menu))
         {
             ToggleMenuButton();
             if (currTask == toDo.A_menu)
                 instructions("Press <b>" + MenuManager.left + "</b> or <b>" + MenuManager.right + "</b> to choose your team. \n '?' lets the computer choose.\n White-legged sheep are in your team.", toDo.B_changeTeam);
-            else if (currTask == toDo.N_showScores)
-                currTask = toDo.N_showScores2;
-            else if (currTask == toDo.N_showScores2)
-            {
-                ShowScores();
-                instructions("Press <b>" + MenuManager.right + "</b> or <b>" + MenuManager.left + "</b> to see the other's scores.", toDo.O_changeScore);
-            }
         }
-        if (Input.GetKeyDown(MenuManager.left) || Input.GetKeyDown(MenuManager.right))
+        else if (Input.GetKeyDown(MenuManager.left) || Input.GetKeyDown(MenuManager.right))
         {
             if (currTask == toDo.B_changeTeam)
                 instructions("Press <b>" + MenuManager.interact + "</b> to signal you're ready. \n The game starts once all players are.", toDo.C_launchGame);
             else if (currTask == toDo.D_move)
-                instructions("Find a monochromatic sheep. \nWhen close, look towards it and press <b>" + MenuManager.interact + "</b>\nOthers see you too with colored legs", toDo.E_bully);
+                instructions("Find a monochromatic sheep. \nWhen close, look towards it and press <b>" + MenuManager.interact + "</b>\nOthers see you monochromatic too", toDo.E_bully);
             else if (currTask == toDo.O_changeScore)
                 instructions("You can disconnect using the menu in the top left corner.", toDo.P_quit);
 
@@ -257,46 +274,42 @@ public class TutoManager : MonoBehaviour
             {
                 if (currState == gameState.lobby)
                 {
-                    playerChangeCol.team -= 1;
-                    playerChangeCol.team = (playerChangeCol.team < -1) ? 3 - 1 : playerChangeCol.team; //il y a trois teams en tout
-                    playerChangeCol.team = (playerChangeCol.team > 3 - 1) ? -1 : playerChangeCol.team;
+                    changePlayerTeam(playerChangeCol.team - 1);
                     playerReadyTx.text = localName + " (team " + ((playerChangeCol.team == -1) ? "?" : playerChangeCol.team.ToString()) + ") : not ready";
                 }
                 else if (currState == gameState.scores)
                 {
-                    i--;
-                    ShowScores();
+                    currScore--;
+                    ShowScores(currScore);
                 }
             }
             else if (Input.GetKeyDown(MenuManager.right))
             {
                 if (currState == gameState.lobby)
                 {
-                    playerChangeCol.team += 1;
-                    playerChangeCol.team = (playerChangeCol.team < -1) ? 3 - 1 : playerChangeCol.team; //il y a trois teams en tout
-                    playerChangeCol.team = (playerChangeCol.team > 3 - 1) ? -1 : playerChangeCol.team;
+                    changePlayerTeam(playerChangeCol.team + 1);
                     playerReadyTx.text = localName + " (team " + ((playerChangeCol.team == -1) ? "?" : playerChangeCol.team.ToString()) + ") : not ready";
-                    foreach (TutoChangeCol change in changeCols)
-                    {
-                        change.ChangeCol(change.colors[1]);
-                    }
                 }
 
                 else if (currState == gameState.scores)
                 {
-                    i--;
-                    ShowScores();
+                    currScore--;
+                    ShowScores(currScore);
                 }
             }
         }
-
-
+        else if (Input.GetKeyDown(MenuManager.selfChange))
+        {
+            if (currTask == toDo.N_showScores)
+                currTask = toDo.N_showScores2;
+            else if (currTask == toDo.N_showScores2)
+            {
+                ShowScores(currScore);
+                instructions("Press <b>" + MenuManager.right + "</b> or <b>" + MenuManager.left + "</b> to see the other's scores.", toDo.O_changeScore);
+            }
+        }
 
         if (Input.GetKeyDown(KeyCode.P))// debug
             print("current state: " + currState);
-
-
-
-
     }
 }

@@ -109,7 +109,12 @@ public class TutoChangeCol : MonoBehaviour
                 print("Oh they're sharing so cute");
                 print("But: sharing To be implemented");
                 // take the one with lower life and give them some of the other's
+                if (TutoManager.singleton.currTask == TutoManager.toDo.K_willingTam)
+                    TutoManager.singleton.instructions("They were also trying to interact with you at the same time, so the one of you\n with more color changes left gifted some to the other.\n Now turn to paint (press <b>"+MenuManager.selfChange+"</b> or run into mice)", TutoManager.toDo.L_die);
+
             }
+            else if (TutoManager.singleton.currTask == TutoManager.toDo.J_unwillingTeam)
+                TutoManager.singleton.instructions("They weren't trying to interact with you, so nothing happened.\n Now find one that stares at what you do,\n and press <b>" + MenuManager.interact + "</b> to try to interact with them", TutoManager.toDo.K_willingTam);
         }
         else
         {
@@ -129,6 +134,16 @@ public class TutoChangeCol : MonoBehaviour
             if (CompareTag("NPS"))
             {
                 rd.materials[1].color = prevColor;
+                
+                if (attacker.CompareTag("Player"))
+                {
+                    score.colorChangesFromOthers += 1;
+                    playerChangeCol.score.colorChangesToOthers += 1;
+                    TutoManager.singleton.speak(":D", attacker.GetComponent<TutoChangeCol>().speech, 2);
+                    if (TutoManager.singleton.currTask == TutoManager.toDo.E_bully)
+                        TutoManager.singleton.instructions("The ball above their head changed (yours is in \nthe top right corner). They have one less color change now.\n Press <b>" + MenuManager.interact + "</b> again. And again. Again.", TutoManager.toDo.F_kill);
+
+                }
 
                 if (team == playerChangeCol.team)
                 {
@@ -163,12 +178,6 @@ public class TutoChangeCol : MonoBehaviour
                     score.colorChangesFromGround += 1;
                     if(CompareTag("Player") && TutoManager.singleton.currTask == TutoManager.toDo.H_ground)
                     TutoManager.singleton.instructions("Press " + MenuManager.selfChange + " to change your own color. \nIt only costs you half a colour change.\n Any color change makes you go faster for a bit.", TutoManager.toDo.I_selfChange);
-                }
-                else if (attacker.CompareTag("Player"))
-                {
-                    score.colorChangesFromOthers += 1;
-                    playerChangeCol.score.colorChangesToOthers += 1;
-                    TutoManager.singleton.speak(":D", attacker.GetComponent<TutoChangeCol>().speech, 2);
                 }
             }
             if (CompareTag("Player"))
@@ -232,6 +241,7 @@ public class TutoChangeCol : MonoBehaviour
 
     public void ChangeCol(Color betterColor)
     {
+        print("changing color of " + gameObject.name);
         rd.materials[0].color = betterColor;
         if (this == playerChangeCol)
             betterColor = Color.black;
@@ -251,7 +261,7 @@ public class TutoChangeCol : MonoBehaviour
         {
             GetComponent<TutoPLMove>().speed = 0;
             TutoManager.singleton.currState = TutoManager.gameState.deadPlayer;
-            TutoManager.singleton.instructions("Press <b>" + MenuManager.interact + "</b> to see the others.\n Again. Again.", TutoManager.toDo.M_stalker);
+            TutoManager.singleton.instructions("Press <b>" + MenuManager.interact + "</b> to see the others.", TutoManager.toDo.M_stalker);
         }
         else
         {

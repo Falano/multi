@@ -37,6 +37,10 @@ public class TutoCameraMover : MonoBehaviour
         // for following not-dead players when you died
         if (Input.GetKeyDown(MenuManager.interact) && TutoManager.singleton.currState == TutoManager.gameState.deadPlayer)
         {
+            if (TutoManager.singleton.currTask == TutoManager.toDo.M_stalker)
+                TutoManager.singleton.instructions("Press <b>" + MenuManager.interact + "</b> to see the others.\n Again. Again.", TutoManager.toDo.M_stalker2);
+            else if (TutoManager.singleton.currTask == TutoManager.toDo.M_stalker2)
+                TutoManager.singleton.instructions("The game ends when only one team is left corporeal.\n In this tutorial, you can end it by pressing <b>" + MenuManager.selfChange + "</b> twice.", TutoManager.toDo.N_showScores);
             i += 1;
             if (i >= TutoManager.singleton.NPSs.Length)
             {

@@ -12,14 +12,23 @@ to implement:
 ->	change the sheep's dialogs by emoticons
 ->	implement teams (in behaviour or manager or smthing, and also in the lobby)
 ->	give teams to the sheep in the scene
-->	show lives icon near the sheep
+-------->	show lives icon near the sheep
 ->	have one sheep turn towards you and sharing
 ->	scores
 ->	function show scores
 ->	implement scores
---done?-- --> rats are stuck if you ever changed team.
+--DONE-- --> rats are stuck if you ever changed team.
 --DONE-- --> you can bypass the change team but then you're stuck > gotta work on the conditions
---> sometimes the changeCol stops working at some random point
+--DONE-- --> sometimes the changeCol stops working at some random point
+tuto had the stopallcoroutines of divine retribution interfering with paintReady (so I made a separate script for divine retribution); check that the main game doesn't suffer from it too
+--DONE-- tuto: team ? is not refreshing
+scores not showing (issue with time of death?)
+
+
+sharing
+make a script so some sheep look at you
+
+
 
 ?	narrower sight radius
 1.5	make a prettier debug that you can toggle independently of the scores canvas
