@@ -77,7 +77,6 @@ public class TutoPLBehaviour : MonoBehaviour
             }
             else if (Input.GetKeyDown(MenuManager.interact)) // if you looked at the right sheep but from too far away or before being ready
             {
-                print("hit tag: " + hit.transform.tag + "; close enough: " + (Vector3.Distance(hit.transform.position, transform.position) <= hitDistance) + "; paint ready? " + paintReady);
                 TutoManager.singleton.speak(":/", changeCol.speech, 1);
                 if (TutoManager.singleton.currTask == TutoManager.toDo.E_bully)
                     TutoManager.singleton.instructions("You weren't close enough to the sheep.\n Press <b>" + MenuManager.interact + "</b> when you're closer, looking at a colored sheep.", TutoManager.toDo.E_bully);

@@ -31,7 +31,7 @@ public class TutoManager : MonoBehaviour
     private Text launchGameTx;
     public Text instructionsTx;
     public TextMesh NarrTx;
-    Text playerReadyTx;
+    public Text playerReadyTx;
     string localName = "Player";
     //public bool coroutinesRunning = false;
     Canvas menuOutCanvas;
@@ -103,13 +103,15 @@ public class TutoManager : MonoBehaviour
         changeCols[NPSs.Length] = playerChangeCol;
         foreach (GameObject NPS in NPSs)
         {
-            changeCols[k] = NPS.GetComponent<TutoChangeCol>();
+            TutoChangeCol ccol = NPS.GetComponent<TutoChangeCol>();
+            changeCols[k] = ccol;
             changeCols[k].ChangeCol(colors[1]);
             k += 1;
-            while (NPS.GetComponent<TutoChangeCol>().localName == null || NPS.GetComponent<TutoStats>().localName == "")
+            while (ccol.localName == null || ccol.localName == "")
             {
                 int i = Random.Range(0, localNames.Length - 1);
-                NPS.GetComponent<TutoStats>().localName = localNames[i];
+                ccol.localName = localNames[i];
+                ccol.score.playerName = localNames[i];
                 localNames[i] = null;
             }
             if (NPS.GetComponent<TutoLookatPlayer>())
@@ -200,6 +202,11 @@ public class TutoManager : MonoBehaviour
         {
             changePlayerTeam(Random.Range(0, 3));
         }
+        foreach (TutoChangeCol ccol in changeCols)
+        {
+            ccol.score.SetStartTime();
+        }
+        playerReadyTx.transform.position = new Vector3(0, -300, 0);
         //textNarr.text = "";
     }
 
@@ -220,29 +227,32 @@ public class TutoManager : MonoBehaviour
 
     private void ShowScores(int i)
     {
+        currScore += i;
+        currScore = currScore < 0 ? scoresManager.scores.Length - 1 : currScore;
+        currScore = currScore >= scoresManager.scores.Length ? 0 : currScore;
         currState = gameState.scores;
         lobbyCanvas.enabled = true;
-        string deathText = "Liquefied at " + 
+        string deathText = "Liquefied at " +
             scoresManager.
-            scores[i].
+            scores[currScore].
             TimeOfDeath + " seconds.";
-        if (scoresManager.scores[i].TimeOfDeath == "0")
+        if (scoresManager.scores[currScore].TimeOfDeath == "0")
         {
             deathText = "Solid to the End!";
             //Scores[i].playerName = Scores[i].behaviour.localName;
 
         }
-        following.text = "<size=52><b> " + scoresManager.scores[i].playerName + " </b></size>\n" +
-            "team " + scoresManager.scores[i].team
+        following.text = "<size=52><b> " + scoresManager.scores[currScore].playerName + " </b></size>\n" +
+            "team " + scoresManager.scores[currScore].team
             + "\n" +
             deathText + "\n\n\n " +
-            "<b><i>Changed another's colour </i></b> <color=lime><b> " + scoresManager.scores[i].colorChangesToOthers + " </b></color> times.\n" +
-            "Got their own color changed <b><i>by other sheep</i></b> <color=lime><b>" + scoresManager.scores[i].colorChangesFromOthers + "</b></color> times.\n" +
-            "Got their own color changed <b><i>by mice</i></b> <color=lime><b>" + scoresManager.scores[i].colorChangesFromMice + "</b></color> times.\n" +
-            "Got their own color changed <b><i>by staying still for too long </i></b> <color=lime><b>" + scoresManager.scores[i].colorChangesFromGround + "</b></color> times.\n" +
-            "<b><i>Decided to change their own color</i></b> <color=lime><b>" + scoresManager.scores[i].colorChangesFromSelf + "</b></color> times.\n" +
-            "<b><i>Gave an extra colour change</i></b> to one of their team<color=lime><b> " + scoresManager.scores[i].colorChangesGiftedToTeam + "</b></color> times.\n" +
-            "<b><i>Received an extra colour change</i></b> from one of their team<color=lime><b> " + scoresManager.scores[i].colorChangesGiftedByTeam + "</b></color> times.\n" +
+            "<b><i>Changed another's colour </i></b> <color=lime><b> " + scoresManager.scores[currScore].colorChangesToOthers + " </b></color> times.\n" +
+            "Got their own color changed <b><i>by other sheep</i></b> <color=lime><b>" + scoresManager.scores[currScore].colorChangesFromOthers + "</b></color> times.\n" +
+            "Got their own color changed <b><i>by mice</i></b> <color=lime><b>" + scoresManager.scores[currScore].colorChangesFromMice + "</b></color> times.\n" +
+            "Got their own color changed <b><i>by staying still for too long </i></b> <color=lime><b>" + scoresManager.scores[currScore].colorChangesFromGround + "</b></color> times.\n" +
+            "<b><i>Decided to change their own color</i></b> <color=lime><b>" + scoresManager.scores[currScore].colorChangesFromSelf + "</b></color> times.\n" +
+            "<b><i>Gave an extra colour change</i></b> to one of their team<color=lime><b> " + scoresManager.scores[currScore].colorChangesGiftedToTeam + "</b></color> times.\n" +
+            "<b><i>Received an extra colour change</i></b> from one of their team<color=lime><b> " + scoresManager.scores[currScore].colorChangesGiftedByTeam + "</b></color> times.\n" +
         "\n\n\n Congrats!\n\n" +
             "(press <b>" + MenuManager.left + "</b> or <b>" + MenuManager.right + "</b> to see other's scores)";
 
@@ -279,8 +289,7 @@ public class TutoManager : MonoBehaviour
                 }
                 else if (currState == gameState.scores)
                 {
-                    currScore--;
-                    ShowScores(currScore);
+                    ShowScores(-1);
                 }
             }
             else if (Input.GetKeyDown(MenuManager.right))
@@ -293,8 +302,7 @@ public class TutoManager : MonoBehaviour
 
                 else if (currState == gameState.scores)
                 {
-                    currScore--;
-                    ShowScores(currScore);
+                    ShowScores(+1);
                 }
             }
         }
@@ -308,8 +316,5 @@ public class TutoManager : MonoBehaviour
                 instructions("Press <b>" + MenuManager.right + "</b> or <b>" + MenuManager.left + "</b> to see the other's scores.", toDo.O_changeScore);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.P))// debug
-            print("current state: " + currState);
     }
 }

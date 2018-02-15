@@ -18,7 +18,7 @@ public class Score : NetworkBehaviour
     public PlayerChangeCol changeCol;
     [SyncVar]
     public string playerName;
-    string timeOfDeath = "0";
+    public string timeOfDeath = "0";
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
@@ -81,6 +81,7 @@ public class Score : NetworkBehaviour
         changeCol = player.GetComponent<PlayerChangeCol>();
         playerName = name;
         team = localTeam;
+        ScoreTx = TutoManager.singleton.playerReadyTx;
     }
 
 }

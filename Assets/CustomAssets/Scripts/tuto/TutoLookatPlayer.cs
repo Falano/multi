@@ -16,19 +16,23 @@ public class TutoLookatPlayer : MonoBehaviour
         ccol = GetComponent<TutoChangeCol>();
         ccol.sharing = true;
         RefreshAlly();
-        print(name + " is an ally? " + isAlly);
     }
 
     public void RefreshAlly()
     {
         isAlly = (player.team == ccol.team);
         ccol.StartHp = isAlly ? 50 : 10;
+        ccol.reinitializeHp();
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        if(TutoManager.singleton.currState != TutoManager.gameState.playing)
+        {
+            return;
+        }
         if (isAlly && player)
             transform.LookAt(player.transform);
     }

@@ -55,7 +55,7 @@ public class TutoCameraMover : MonoBehaviour
                 }
             }
             activePlayer = TutoManager.singleton.NPSs[i].transform;
-            TutoManager.singleton.following.text = "following " + activePlayer.GetComponent<TutoStats>().localName;
+            TutoManager.singleton.following.text = "following " + activePlayer.GetComponent<TutoChangeCol>().localName;
         }
     }
 }

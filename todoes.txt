@@ -29,6 +29,13 @@ sharing
 make a script so some sheep look at you
 
 
+todo:
+life balls for NPCs
+implement sharing
+fix scores issue
+comments
+
+
 
 ?	narrower sight radius
 1.5	make a prettier debug that you can toggle independently of the scores canvas
