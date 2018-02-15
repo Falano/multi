@@ -824,7 +824,7 @@ Prefab:
     - target: {fileID: 114895502606146342, guid: b8cf8509e699c594f8bbad0fece8513e,
         type: 2}
       propertyPath: StartHp
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 114895502606146342, guid: b8cf8509e699c594f8bbad0fece8513e,
         type: 2}
@@ -1675,7 +1675,7 @@ Prefab:
     - target: {fileID: 114895502606146342, guid: b8cf8509e699c594f8bbad0fece8513e,
         type: 2}
       propertyPath: StartHp
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 114895502606146342, guid: b8cf8509e699c594f8bbad0fece8513e,
         type: 2}
@@ -1985,6 +1985,11 @@ Prefab:
         type: 2}
       propertyPath: sharing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114895502606146342, guid: b8cf8509e699c594f8bbad0fece8513e,
+        type: 2}
+      propertyPath: StartHp
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114595147046115126, guid: b8cf8509e699c594f8bbad0fece8513e, type: 2}
@@ -4414,7 +4419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1090357357783986, guid: c1e64e14895312e48b978ce0af354fbe,
     type: 2}
-  enemyNumberTest: 2
+  enemyNumberTest: 5
   singleton: {fileID: 0}
 --- !u!4 &1843864975
 Transform:
