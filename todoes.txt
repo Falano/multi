@@ -5,9 +5,37 @@ currently working on:
 
 
 to implement:
+	remplacer soloGame par teams:1
 1	actual connexion menu, not just the ugly unity one
 1	tuto teams
-1	remake the whole tutoriel and default keys image so it is way simpler and shows one thing at a time (change the sheep's dialogs by emoticons) 
+1	remake the whole tutoriel and default keys image so it is way simpler and shows one thing at a time	
+->	change the sheep's dialogs by emoticons
+->	implement teams (in behaviour or manager or smthing, and also in the lobby)
+->	give teams to the sheep in the scene
+-------->	show lives icon near the sheep
+->	have one sheep turn towards you and sharing
+->	scores
+->	function show scores
+->	implement scores
+--DONE-- --> rats are stuck if you ever changed team.
+--DONE-- --> you can bypass the change team but then you're stuck > gotta work on the conditions
+--DONE-- --> sometimes the changeCol stops working at some random point
+tuto had the stopallcoroutines of divine retribution interfering with paintReady (so I made a separate script for divine retribution); check that the main game doesn't suffer from it too
+--DONE-- tuto: team ? is not refreshing
+scores not showing (issue with time of death?)
+
+
+sharing
+make a script so some sheep look at you
+
+
+todo:
+life balls for NPCs
+implement sharing
+fix scores issue
+comments
+
+
 
 ?	narrower sight radius
 1.5	make a prettier debug that you can toggle independently of the scores canvas

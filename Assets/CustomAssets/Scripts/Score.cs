@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 // juste la classe score avec ses fonctions
 // fucks with ColorManager's RpcUpdatePlayersList (line 32) if I don't make it a SthBehaviour // unity says there is no constructor :/ // they say UNetWeaver error
@@ -17,7 +18,7 @@ public class Score : NetworkBehaviour
     public PlayerChangeCol changeCol;
     [SyncVar]
     public string playerName;
-    string timeOfDeath = "0";
+    public string timeOfDeath = "0";
     public int colorChangesToOthers;
     public int colorChangesFromOthers;
     public int colorChangesFromMice;
@@ -31,7 +32,8 @@ public class Score : NetworkBehaviour
 
     private void Start()
     {
-        transform.SetParent(ColorManager.singleton.ScoresHolderParent.transform);
+        if (SceneManager.GetActiveScene().name != "tuto")
+            transform.SetParent(ColorManager.singleton.ScoresHolderParent.transform);
     }
 
 
@@ -71,8 +73,15 @@ public class Score : NetworkBehaviour
         behaviour = player.GetComponent<PlayerBehaviour>();
         changeCol = player.GetComponent<PlayerChangeCol>();
         health = player.GetComponent<PlayerHealth>();
-        playerName = behaviour.localName ;
-
+        playerName = behaviour.localName;
+    }
+    public void SetPlayerObjTuto(GameObject player, string name, int localTeam)
+    {
+        playerObj = player;
+        changeCol = player.GetComponent<PlayerChangeCol>();
+        playerName = name;
+        team = localTeam;
+        ScoreTx = TutoManager.singleton.playerReadyTx;
     }
 
 }

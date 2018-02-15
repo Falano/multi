@@ -524,7 +524,7 @@ public class ColorManager : NetworkBehaviour
     [Command]
     private void CmdShowScores()
     {
-        CurrState = gameState.scores;
+        //CurrState = gameState.scores;
         RpcShowScores();
     }
 

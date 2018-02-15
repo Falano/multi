@@ -7,14 +7,16 @@ public class goYellow : MonoBehaviour
 {
     TutoChangeCol changeCol;
     NavMeshAgent ag;
+    Animator anim;
 
     // Use this for initialization
     void Start()
     {
         ag = GetComponent<NavMeshAgent>();
-        GetComponent<Animator>().SetBool("moving", true);
-        changeCol = GetComponent<TutoChangeCol>();
-        changeCol.ChangeCol(TutoManager.colors[5]);
+        anim = GetComponent<Animator>();
+        //GetComponent<Animator>().SetBool("moving", true);
+        //changeCol = GetComponent<TutoChangeCol>();
+        //changeCol.ChangeCol(TutoManager.colors[0]);
     }
 
     // Update is called once per frame
@@ -24,6 +26,8 @@ public class goYellow : MonoBehaviour
         {
             return;
         }
+        if(anim.GetBool("moving") == false)
+            anim.SetBool("moving", true);
         transform.Rotate(0, -ag.angularSpeed * Time.deltaTime* 0.5f, 0);
         transform.Translate(0, 0, ag.speed * Time.deltaTime);
 

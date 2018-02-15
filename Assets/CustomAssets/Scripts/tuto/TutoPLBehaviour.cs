@@ -4,19 +4,13 @@ using UnityEngine;
 
 // à ne mettre que sur le mouton du joueur dans le tuto
 
-public class TutoPLBehaviour : MonoBehaviour {
+public class TutoPLBehaviour : MonoBehaviour
+{
     RaycastHit hit;
-    RaycastHit ground;
     public float hitDistance = 1.5f;
     Vector3 offsetPos;
     Renderer rd;
     TutoChangeCol changeCol;
-
-    private Color prevGroundColor;
-    private Color currGroundColor;
-    [SerializeField]
-    float stillTime = 20;
-    IEnumerator divineRetribution;
 
     public bool paintReady = true;
     public float cooldown = .5f;
@@ -30,11 +24,7 @@ public class TutoPLBehaviour : MonoBehaviour {
         offsetPos = new Vector3(0, .5f, 0);
         changeCol = GetComponent<TutoChangeCol>();
         TutoCameraMover.singleton.activePlayer = transform;
-        currGroundColor = Color.white;
-        InvokeRepeating("CheckGroundColor", 1, 1);
     }
-
-
 
     IEnumerator paintCooldown(float cooldown)
     {
@@ -43,35 +33,9 @@ public class TutoPLBehaviour : MonoBehaviour {
         paintReady = true;
     }
 
-
-    void CheckGroundColor() // so people don't stay too long in the same place
-    {
-        if (Physics.Raycast(transform.position, -transform.up, out ground))
-        {
-            prevGroundColor = currGroundColor;
-            currGroundColor = ground.transform.GetComponent<Renderer>().material.color;
-            if (prevGroundColor != currGroundColor && TutoManager.singleton.currState == TutoManager.gameState.playing)
-            { // if you just moved ground colors, we launch a new countdown
-                StopAllCoroutines();
-                divineRetribution = autoChangeCol(stillTime);
-                StartCoroutine(divineRetribution);
-            }
-        }
-    }
-
-    IEnumerator autoChangeCol(float time)
-    {
-        divineRetribution = autoChangeCol(stillTime);
-        yield return new WaitForSeconds(time);
-        changeCol.ChangeCol(TutoManager.singleton.gameObject);
-        StartCoroutine(divineRetribution);
-    }
-
-
-
     void Update()
     {
-        if(TutoManager.singleton.currState != TutoManager.gameState.playing)
+        if (TutoManager.singleton.currState != TutoManager.gameState.playing)
         {
             return;
         }
@@ -79,15 +43,9 @@ public class TutoPLBehaviour : MonoBehaviour {
         if (Input.GetKeyDown(MenuManager.selfChange))
         {
             changeCol.ChangeCol(gameObject);
-            if(TutoManager.singleton.currTask != TutoManager.toDo.nothing)
+            if (TutoManager.singleton.currTask == TutoManager.toDo.I_selfChange)
             {
-                if(TutoManager.singleton.instructionsTx.text == "If you stay too long on the same colour, \nThe ground makes you change colour.")
-                {
-                    TutoManager.singleton.instructions("<b>Rats</b> make you change color on contact. \nYou get a speed boost whenever you change color.", TutoManager.toDo.rat);
-                }
-                else {
-                    TutoManager.singleton.instructions("If you stay too long on the same colour, \nThe ground makes you change colour.", TutoManager.toDo.rat);
-            }
+                TutoManager.singleton.instructions("White-legged sheep are your allies.\n Try to press <b>" + MenuManager.interact + "</b> while looking at one.\n Try with one that isn't looking at you", TutoManager.toDo.J_unwillingTeam);
             }
         }
 
@@ -105,31 +63,28 @@ public class TutoPLBehaviour : MonoBehaviour {
                     )
              && hit.transform.CompareTag("NPS"))
         {
-            //if (Vector3.Distance(hit.transform.position, transform.position) >= hitDistance && changeCol.speech.text == "")
-            //{
-            //    TutoManager.singleton.speak("Is there something there?\nI can't see; let's get closer", changeCol.speech, .5f); // should I get closer?
-            //}
             if (paintReady && Vector3.Distance(hit.transform.position, transform.position) <= hitDistance)
             {
-                if (changeCol.speech.text == "" || changeCol.speech.text == "Is there something there?\nI can't see; let's get closer")
+                if (changeCol.speech.text == "")
                 {
-                    TutoManager.singleton.speak("I wonder what would happen\nif I pressed the <b>"+MenuManager.interact+"</b> key\nright now", changeCol.speech, 1);// I totes should bully my neighbour
+                    TutoManager.singleton.speak("?", changeCol.speech, 1);// I totes should bully my neighbour
                 }
                 if (Input.GetKeyDown(MenuManager.interact))
                 {
                     hit.transform.gameObject.GetComponent<TutoChangeCol>().ChangeCol(gameObject);
                     StartCoroutine(paintCooldown(cooldown));
-                    TutoManager.singleton.instructions("If you press <b>"+ MenuManager.selfChange +"</b>, you change your own color.", TutoManager.toDo.ctrl);
                 }
             }
-            else if (Input.GetKeyDown(MenuManager.interact))
+            else if (Input.GetKeyDown(MenuManager.interact)) // if you looked at the right sheep but from too far away or before being ready
             {
-                TutoManager.singleton.speak("Too late!", changeCol.speech, 1);
+                TutoManager.singleton.speak(":/", changeCol.speech, 1);
+                if (TutoManager.singleton.currTask == TutoManager.toDo.E_bully)
+                    TutoManager.singleton.instructions("You weren't close enough to the sheep.\n Press <b>" + MenuManager.interact + "</b> when you're closer, looking at a colored sheep.", TutoManager.toDo.E_bully);
             }
         }
-        else if (Input.GetKeyDown(MenuManager.interact))
+        else if (Input.GetKeyDown(MenuManager.interact)) //if you're looking at nothing?
         {
-            TutoManager.singleton.speak("Too late!", changeCol.speech, 1);
+            TutoManager.singleton.speak("'\\(:/)/'", changeCol.speech, 1);
         }
 
 
