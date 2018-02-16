@@ -103,6 +103,7 @@ public class TutoManager : MonoBehaviour
         changeCols[NPSs.Length] = playerChangeCol;
         foreach (GameObject NPS in NPSs)
         {
+            print("current NPS: " + NPS.name);
             TutoChangeCol ccol = NPS.GetComponent<TutoChangeCol>();
             changeCols[k] = ccol;
             changeCols[k].ChangeCol(colors[1]);

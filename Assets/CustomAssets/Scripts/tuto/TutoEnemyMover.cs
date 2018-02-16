@@ -28,7 +28,7 @@ public class TutoEnemyMover : MonoBehaviour
 
     void Update()
     {
-        if (TutoManager.singleton.currState != TutoManager.gameState.playing || TutoManager.singleton.currState != TutoManager.gameState.deadPlayer)
+        if (TutoManager.singleton.currState != TutoManager.gameState.playing && TutoManager.singleton.currState != TutoManager.gameState.deadPlayer)
             return;
         if (ag.remainingDistance <= ag.stoppingDistance && readyToChangeDestination)
         {
