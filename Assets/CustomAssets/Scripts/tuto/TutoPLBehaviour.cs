@@ -52,14 +52,14 @@ public class TutoPLBehaviour : MonoBehaviour
         Debug.DrawRay(transform.position + offsetPos, transform.forward * hitDistance, Color.green);
         Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.right / 6).normalized * hitDistance, Color.green);
         Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.right / 6).normalized * hitDistance, Color.green);
-        Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up / 4).normalized * hitDistance, Color.green);
-        Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.up / 4).normalized * hitDistance, Color.green);
+        Debug.DrawRay(transform.position + offsetPos, (transform.forward + transform.up / 8).normalized * hitDistance, Color.green);
+        Debug.DrawRay(transform.position + offsetPos, (transform.forward + -transform.up / 8).normalized * hitDistance, Color.green);
         // changing another's colour
         if ((Physics.Raycast(transform.position + offsetPos, transform.forward, out hit) ||
                     Physics.Raycast(transform.position + offsetPos, transform.forward + transform.right / 6, out hit) ||
                     Physics.Raycast(transform.position + offsetPos, transform.forward - transform.right / 6, out hit) ||
-                    Physics.Raycast(transform.position + offsetPos, transform.forward + transform.up / 4, out hit) ||
-                    Physics.Raycast(transform.position + offsetPos, transform.forward - transform.up / 4, out hit)
+                    Physics.Raycast(transform.position + offsetPos, transform.forward + transform.up / 8, out hit) ||
+                    Physics.Raycast(transform.position + offsetPos, transform.forward - transform.up / 8, out hit)
                     )
              && hit.transform.CompareTag("NPS"))
         {
