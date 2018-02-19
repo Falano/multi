@@ -288,6 +288,10 @@ public class TutoChangeCol : MonoBehaviour
     {
         StopAllCoroutines();
         speech.text = ":(";
+        if (healthGUI)
+            healthGUI.enabled = false;
+        if (healthGUI2)
+            healthGUI2.enabled = false;
         if (TutoManager.singleton.currTask == TutoManager.toDo.F_kill)
             TutoManager.singleton.instructions("It has no more colour changes: it turned to paint.\n And you should avoid the mice. Touch one.", TutoManager.toDo.G_mice);
         if (CompareTag("Player"))

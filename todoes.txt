@@ -5,7 +5,6 @@ notes:
 
 
 to implement:
-	remplacer soloGame par teams:1
 1	actual connexion menu, not just the ugly unity one
 1	remake default keys image 	
 
@@ -113,6 +112,7 @@ tuto had the stopallcoroutines of divine retribution interfering with paintReady
 	fix scores issue
 	comments
 --DONE-- tuto teams
+--DONE-- remplacer soloGame par teams:1
 
 
 bugs:

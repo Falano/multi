@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 114231457431381478}
   - component: {fileID: 114652978902886226}
   m_Layer: 0
-  m_Name: TUTO-NPS Stan
+  m_Name: TUTO-NPS (1)
   m_TagString: NPS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

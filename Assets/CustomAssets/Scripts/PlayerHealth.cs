@@ -73,6 +73,11 @@ public class PlayerHealth : NetworkBehaviour
         if (isLocalPlayer)
         {
             CmdKill(gameObject);
+            if (ColorManager.singleton.teamsNbLocal == 1)
+            {
+                ColorManager.singleton.CurrState = ColorManager.gameState.scores;
+                StartCoroutine(ColorManager.singleton.waitForGameEnd());
+            }
         }
     }
     [Command]
