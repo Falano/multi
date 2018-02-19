@@ -83,7 +83,6 @@ public class ColorManager : NetworkBehaviour
         if (isServer)
         {
             CurrState = gameState.lobby;
-            currStateString = CurrState.ToString();
             //Debug("I'm the host player");
             teamsNbLocal = MenuManager.teamsNb;
         } // should absolutely happen before the local player's PlayerBehaviour Start()
@@ -367,7 +366,7 @@ public class ColorManager : NetworkBehaviour
         {
             if (Scores[i].behaviour.team == -1) // to each player who hasn't chosen a specific team, we assign it to the currently smallest team, and tell teamsStats
             {
-                Scores[i].behaviour.team = System.Array.IndexOf(teamsStats, Mathf.Min(teamsStats));
+                Scores[i].behaviour.team = System.Array.IndexOf(teamsStats, Mathf.Min(teamsStats)); // what does this mean? This is (probably) key to understanding the bug when one team (some sheeps are team0, others are team-1)
                 teamsStats[Scores[i].behaviour.team]++;
             }
         }
@@ -512,7 +511,7 @@ public class ColorManager : NetworkBehaviour
         }
     }
 
-    IEnumerator waitForGameEnd()
+    public IEnumerator waitForGameEnd()
     {
         yield return new WaitForSeconds(1);
         ShowScores();

@@ -27,7 +27,6 @@ public class PlayerChangeCol : NetworkBehaviour
     public float speedBoostStrength;
     public int currBoost = 0;
     public int currShare = 0;
-    //public Vector3 offsetTarget;
     private PlayerBehaviour behaviour;
     private int prevGroundColorIndex;
     private int currGroundColorIndex;

@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 114057383637981684}
   - component: {fileID: 114395061608365092}
   m_Layer: 0
-  m_Name: TUTO-NPS Merry
+  m_Name: TUTO-NPS Merry (1)
   m_TagString: NPS
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

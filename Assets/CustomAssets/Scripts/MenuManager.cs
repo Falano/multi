@@ -360,6 +360,7 @@ public class MenuManager : MonoBehaviour
     public void ChangeNbrteams(int nb)
     {
         ChangeSetting(nb, ref teamsNb, teamsNbText, 0, 20);
+        soloGame = (teamsNb == 1) ;
     }
 
     public void ChangeStartHp(int nb)
