@@ -1,7 +1,14 @@
 ﻿LAN/internet
-
+always listening for LAN o net game;
+if host (both) start broadcasting e stop listening
+if guest, stop both e just connect
+button "nope" to stop listening one kind (toggles: can become "yeah!")
 
 LAN:
 host: start broadcasting and enter the lobby (once the game has started, stop broadcasting)
 guest: start listening: button "connect to 192.168.x.xxx?"; if gain host, connexion; else: "pas gain host :("
 I could use this to keep unwanteds out. Hm. Being able to barge in spectating would probably be better; but...
+
+net:
+host (name)
+guest: list of names + search bar

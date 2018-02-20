@@ -38,9 +38,11 @@ public class PlayerHealth : NetworkBehaviour
         Hp = MenuManager.startHp + 2;
         healthGUI = ColorManager.singleton.healthGUI;
         behaviour = gameObject.GetComponent<PlayerBehaviour>();
-        if(ColorManager.singleton.CurrState != ColorManager.gameState.lobby)
+        if (ColorManager.singleton.CurrState != ColorManager.gameState.lobby && isLocalPlayer)
         {
+            ColorManager.singleton.hasLocalPlayerPlayed = false;
             isAlive = false;
+            ColorManager.singleton.checkIfGamePlaying();
             Kill();
         }
     }
@@ -69,21 +71,19 @@ public class PlayerHealth : NetworkBehaviour
         }
     }
 
-    void Kill() {
+    void Kill()
+    {
         if (isLocalPlayer)
         {
             CmdKill(gameObject);
-            if (ColorManager.singleton.teamsNbLocal == 1)
-            {
-                ColorManager.singleton.CurrState = ColorManager.gameState.scores;
-                StartCoroutine(ColorManager.singleton.waitForGameEnd());
-            }
         }
     }
     [Command]
-    void CmdKill(GameObject obj) {
-        ColorManager.singleton.RpcKill(obj); }
-        
+    void CmdKill(GameObject obj)
+    {
+        ColorManager.singleton.RpcKill(obj);
+    }
+
     public void KillSolo()
     {
 
@@ -108,12 +108,17 @@ public class PlayerHealth : NetworkBehaviour
         }
         ColorManager.singleton.SeveralTeamsPlaying = SeveralTeamsPlaying;
 
+        if (!ColorManager.singleton.SeveralTeamsPlaying)
+        {
+            ColorManager.singleton.CurrState = ColorManager.gameState.scores;
+            StartCoroutine(ColorManager.singleton.waitForGameEnd());
+        }
 
         Score score = behaviour.ScoreObj;
         //score.playerName = GetComponent<PlayerBehaviour>().localName;//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////:::::::::::::::
         score.SetTimeOfDeath();
         score.team = behaviour.team;
-        
+
         if (isLocalPlayer)
         {
             ColorManager.singleton.isLocalPlayerDead = true;
