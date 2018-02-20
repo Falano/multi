@@ -9,19 +9,13 @@ to implement:
 1	remake default keys image 	
 
 
-pseudoAnim defKeys screen
-
-
-
-tuto had the stopallcoroutines of divine retribution interfering with paintReady (so I made a separate script for divine retribution); check that the main game doesn't suffer from it too
-
 
 
 
 ?	narrower sight radius
 1.5	make a prettier debug that you can toggle independently of the scores canvas
 
-2	mettre un tableau des scores pour quand SoloPlayer meurt
+2	 player coming midgame can see scores
 2	penser à rechanger le default selected button 
 	soit enlever la focntion Debug() soit mettre un de ses textes dans chaque niveau
 2	change the sheep turn anim so it's easier to understand
@@ -113,20 +107,23 @@ tuto had the stopallcoroutines of divine retribution interfering with paintReady
 	comments
 --DONE-- tuto teams
 --DONE-- remplacer soloGame par teams:1
+--DONE-- mettre un tableau des scores pour quand SoloPlayer meurt
+--DONE-- tuto had the stopallcoroutines of divine retribution interfering with paintReady (so I made a separate script for divine retribution); check that the main game doesn't suffer from it too
 
 
 bugs:
 	when someone leaves from the lobby, any that was connected before he left won't launch. As a fix, add any sheep that arrives to the list of sheeps, and just before they leave, remove them from it (networked) and remove their score object too.
-	sometimes the scores don't launch at all and you need to kill another sheep for them to
-	sometimes you have to press left or right to show the scores
-	sometimes the host can't play, but the guests can - sometimes Host can't move, and sometimes it just can't see colour changes, neither others' nor its own (but can inflict them)
-	once, the host wouldn't launch his game, and two players wouldn't show the scores (one live that could still run around, one dead that could switch not-dead players) (I played again without closing the progams and all was well)
+	-done?-sometimes the scores don't launch at all and you need to kill another sheep for them to
+	-done?-sometimes you have to press left or right to show the scores
+	-done?-sometimes the host can't play, but the guests can - sometimes Host can't move, and sometimes it just can't see colour changes, neither others' nor its own (but can inflict them)
+	-done?-once, the host wouldn't launch his game, and two players wouldn't show the scores (one live that could still run around, one dead that could switch not-dead players) (I played again without closing the progams and all was well)
 	sometimes linux host can't play
 	sometimes linux player can't choose resolution
 	sometimes linux player's mouse doesn't work on fullscreen
-	tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
+	-done?-tuto: if you've been touched by rats and missed at least once and/or killed someone else/two sheeps and are unlucky (cause it' only happened sometimes), it's forever too late to SpaceChangeCol in TutoPLBehaviour's Update
 	player MidGame: issue with numberOfPlayersPlaying. Issue with spaceFollowNotDeadPlayers. Check the score of the spectator. Check each change of states. when the stranger comes, the game thinks it's in scores state
 	laurent was a zombie
+	sometimes the animation is ugly (we see another player still turning/running when they see themselves normal)
 	
 --DONE-- si un joueur commence mid-game il refreshListOfPlayers and freeze le jeu (have it ask for the gameState of the server?) - ok, so the server can't tell guests what its gamestate is.
 the player dies, but only on its own screen, and they can't space to other players.

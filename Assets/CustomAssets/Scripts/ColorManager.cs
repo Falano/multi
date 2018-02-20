@@ -16,6 +16,7 @@ public class ColorManager : NetworkBehaviour
 {
     public static ColorManager singleton;
     public bool isLocalPlayerDead = false;
+    public bool hasLocalPlayerPlayed = true;
     public GameObject ScorePrefab;
     [Header("supposed to be empty in the Editor")]
     public Canvas lobbyCanvas;
@@ -152,16 +153,18 @@ public class ColorManager : NetworkBehaviour
         //DebugTx.text += "\n" + sentence;
     }
 
-    void checkIfGamePlaying()
+    public void checkIfGamePlaying()
     {
         if (CurrState != gameState.lobby) // s'il arrive dans un jeu en cours 
         {
             Debug("player started mid-game");
 
-            //Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreObj.gameObject); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            //Destroy(localPlayer.GetComponent<PlayerBehaviour>().ScoreTx); // that was so assholes who come mid-game died but could still follow it; don't think it works though // parce que pour le ColorManager qui vient d'arriver, le jeu n'est pas isPlaying
-            // I don't remember what that is this up there
-
+            GameObject[] sheep = GameObject.FindGameObjectsWithTag("Player");
+            foreach (GameObject shoop in sheep)
+            {
+                if (shoop != localPlayer)
+                    SpawnScore(shoop.GetComponent<PlayerBehaviour>().localName, shoop);
+            }
             Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
             foreach (Score sco in Scores)
             {
@@ -333,6 +336,7 @@ public class ColorManager : NetworkBehaviour
     public IEnumerator launchingGame() // un message d'erreur dit qu'il ne sait pas se lancer sur le host? mais ça marche quand même, so whatever (check if that's still true) // to be launched only on the server
     {
         RpcLaunchGameTx();
+        currState = gameState.loading;
         yield return new WaitForSeconds(2);
         RpcLaunchGame();
     }
@@ -341,17 +345,16 @@ public class ColorManager : NetworkBehaviour
     public void RpcLaunchGameTx()
     {
         launchGameTx.text = "Launching Game...";
-        currState = gameState.loading;
     }
 
     public void LaunchGameSolo()
     {
         Scores = ScoresHolderParent.GetComponentsInChildren<Score>();
-        int[] teamsStats = new int[teamsNbLocal]; // how many players there are in each team // could probably be used in a more global way to check midGame the strength of the teams
         if (teamsNbLocal == 0) // if the number of teams is 0, then it's actually one team per player (everyone against everyone else)
         {
             teamsNbLocal = Scores.Length;
         }
+        int[] teamsStats = new int[teamsNbLocal]; // how many players there are in each team // could probably be used in a more global way to check midGame the strength of the teams
         for (int i = 0; i < Scores.Length; i++)
         {
             PlayerBehaviour currBehaviour = Scores[i].behaviour;
@@ -547,6 +550,11 @@ public class ColorManager : NetworkBehaviour
 
     private void PrintScoresText(int i)
     {
+        if (!hasLocalPlayerPlayed)
+        {
+            following.text = "You came mid-game, you can't see the scores.";
+            return;
+        }
         string deathText = "Liquefied at " + Scores[i].TimeOfDeath + " seconds.";
         if (Scores[i].TimeOfDeath == "0")
         {
@@ -572,13 +580,6 @@ public class ColorManager : NetworkBehaviour
 
     private void Update()
     {
-        if (CurrState == gameState.playing && !MenuManager.soloGame &&
-            !SeveralTeamsPlaying /*nope: number of teams playing*/)
-        {
-            CurrState = gameState.scores;
-            StartCoroutine("waitForGameEnd");
-        }
-
         if (CurrState == gameState.scores)
         {
             if (Input.GetKeyDown(MenuManager.left))
