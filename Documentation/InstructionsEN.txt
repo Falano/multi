@@ -1,4 +1,4 @@
-﻿Colambful; v0.93 (english)
+﻿Colambful; v0.94 (english)
 
 It's probably more fun with four or more players (though you -can- play with just one friend).
 
@@ -9,7 +9,7 @@ Directional arrows to move (up to go forward, right and left to turn),
 Left Ctrl to change your own colour,
 Spacebar to change others' colour (you have to be near them, and look directly at them; there is a 0.5 second cooldown)
 If you're of the same team, and both of you are pressing Spacebar while looking at each other, the one of you with the most colour changes will loose one and give it to the one who has less changes left.
-After you've liquefied, Spacebar to change which player you're watching.
+After you've liquefied, press Spacebar to change which player you're watching.
 	In the lobby screen after everyone is connected:
 Spacebar to say you're ready (the game starts when everyone is ready)
 Left and Right to change the team you want to be on
@@ -39,11 +39,12 @@ You can change the default colours (either choose one of the preset palettes or 
 The computer will remember for the next time you play.
 
 --KNOWN BUGS--
-	- Sometimes the scores won't show in the end: just press left or right (once only one team is left) and they will; if you feel like your sheep suddenly stopped responding that may be why 
-	- Sometimes the scores won't launch and the game keeps functionning even though only one team is left, and another sheep needs to liquefy for them to.
-	- Don't try to come in a game that's already started
-	- Sometimes a host that uses the linux version can't play (the guests still can), or a linux player can't choose the resolution, or their mouse doesn't work in fullscreen. Sometimes it's fine.
-	- If you play through Wine, depending on your distro it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)
+	- general, probably solved:
+		- Sometimes the scores won't show in the end: just press left or right (once only one team is left) and they will; if you feel like your sheep suddenly stopped responding that may be why 
+		- Sometimes the scores won't launch and the game keeps functionning even though only one team is left, and another sheep needs to liquefy for them to.
+	- linux users (I'm really sorry)
+		- Sometimes a host that uses the linux version can't play (the guests still can), or a linux player can't choose the resolution, or their mouse doesn't work in fullscreen. Depends on your distro I guess? Sometimes it's fine.
+		- If you play through Wine, it may not display the menus' texts (if it indeed does not, you can use the Colambful_menuOptionsForWineUsers folder's images to help you navigate, but it may not be up-to-date)
 
 
 

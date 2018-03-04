@@ -1,4 +1,4 @@
-﻿Colambful; v0.93 (français)
+﻿Colambful; v0.94 (français)
 
 C'est probablement plus marrant à jouer à quatre ou plus (mais il est possible de jouer à deux).
 
@@ -9,7 +9,7 @@ Flèches directionnelles pour bouger (haut pour avancer, droite et gauche pour t
 Ctrl gauche pour changer de couleur,
 Barre espace pour changer la couleur des autres (il faut être tout près d'eux et regarder directement vers eux; il y a une demi-seconde de cooldown)
 Si vous êtes tous les deux de la même équipe, et que vous appuyez tous les deux sur la barre espace en vous regardant mutuellement, celui à qui il reste le plus de changements de couleur en perdra un qu'il donnera à celui qui en a le moins.
-Après que le joueur s'est liquéfié, barre espace pour changer le joueur que l'on regarde
+Après que le joueur s'est liquéfié, appuyer sur la barre espace pour changer le joueur que l'on regarde
 	Dans l'écran de lobby après que tout le monde s'est connecté:
 Barre espace pour dire qu'on est prêt (le jeu commence quand tout le monde est prêt)
 Flèches droite et gauche pour changer d'équipe
@@ -39,11 +39,12 @@ On peut changer les couleurs du jeu (soit choisir l'une des palettes pré-conifg
 L'ordinateur s'en souviendra pour la prochaine fois.
 	
 ---BUGS CONNUS---
-	- Parfois les scores ne s'affichent pas à la fin: appuyer sur gauche ou droite pour régler le problème (une fois qu'il ne reste qu'une équipe active); si vous avez l'impression que les moutons arrêtent soudain de répondre c'est peut-être pour ça.
-	- Parfois les scores ne se lancent pas même s'il ne reste qu'une équipe et le jeu continue; il faut qu'un mouton supplémentaire se liquéfie pour activer les scores.
-	- N'essayez pas de venir au milieu d'un jeu en cours.
-	- Parfois un hôte qui utilise la version linux reste coincé dans le lobby de début (pour les autres joueurs, le jeu marche parfaitement), ou un joueur linux ne peut pas choisir la résolution, ou leur souris ne marche pas en plein écran. Parfois ça marche.
-	- Si vous utilisez Wine, en fonction de votre distribution vous pourriez ne pas voir les textes des menus (si c'est le cas, s'aider du dossier Colambful_menuOptionsForWineUsers, mais il pourrait ne pas être à jour)
+	- bugs généraux, probablement résolus:
+		- Parfois les scores ne s'affichent pas à la fin: appuyer sur gauche ou droite pour régler le problème (une fois qu'il ne reste qu'une équipe active); si vous avez l'impression que les moutons arrêtent soudain de répondre c'est peut-être pour ça.
+		- Parfois les scores ne se lancent pas même s'il ne reste qu'une équipe et le jeu continue; il faut qu'un mouton supplémentaire se liquéfie pour activer les scores.
+	- linux
+		- Parfois un hôte qui utilise la version linux reste coincé dans le lobby de début (pour les autres joueurs, le jeu marche parfaitement), ou un joueur linux ne peut pas choisir la résolution, ou leur souris ne marche pas en plein écran. Ca dépend probablement de votre distro? Parfois ça marche.
+	- Si vous utilisez Wine vous pourriez ne pas voir les textes des menus (si c'est le cas, s'aider du dossier Colambful_menuOptionsForWineUsers, mais il pourrait ne pas être à jour)
 
 Envoyez-moi des critiques et des commentaires si vous avez le temps :)
 (j'apprécie les rapports de bug même s'ils font partie des Bugs Connus; si possible, inclure son OS et sa distribution)
