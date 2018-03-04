@@ -103,8 +103,11 @@ public class TutoChangeCol : MonoBehaviour
         if (hp <= 1)
         {
             if (CompareTag("Player") && TutoManager.singleton.currTask != TutoManager.toDo.L_die)
+            {
                 // if it was too early for the player to die, we don't want him to miss the rest of the tutorial
+                TutoManager.singleton.instructions("I gave you more colour changes because you still have things\n to learn, but pay attention to the amount you have left!\n You can see it in the ball in the top-right corner.", TutoManager.singleton.currTask);
                 hp += 20;
+            }
             else
             {
                 score.SetTimeOfDeath();
@@ -209,19 +212,20 @@ public class TutoChangeCol : MonoBehaviour
         if (atkcol)
         {
             atkcol.spritesIndex = (int)Mathf.Floor((atkcol.hp / atkcol.StartHp) * 10);
-            if (healthGUI)
-            {
-                healthGUI.sprite = sprites[spritesIndex];
-                if (atkcol.healthGUI2)
-                    atkcol.healthGUI2.sprite = sprites[atkcol.spritesIndex];
-            }
-            else if (healthGUI2)
-            {
-                healthGUI2.sprite = sprites[spritesIndex];
-                if (atkcol.healthGUI)
-                    atkcol.healthGUI.sprite = sprites[atkcol.spritesIndex];
-            }
         }
+        if (healthGUI)
+        {
+            healthGUI.sprite = sprites[spritesIndex];
+            if (atkcol.healthGUI2)
+                atkcol.healthGUI2.sprite = sprites[atkcol.spritesIndex];
+        }
+        else if (healthGUI2)
+        {
+            healthGUI2.sprite = sprites[spritesIndex];
+            if (atkcol.healthGUI)
+                atkcol.healthGUI.sprite = sprites[atkcol.spritesIndex];
+        }
+
     }
 
 
