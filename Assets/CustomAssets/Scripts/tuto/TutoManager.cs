@@ -101,9 +101,20 @@ public class TutoManager : MonoBehaviour
         int k = 0;
         changeCols = new TutoChangeCol[NPSs.Length + 1];
         changeCols[NPSs.Length] = playerChangeCol;
+
+//text thingies
+        launchGameTx.text = "";
+        instructions("Press <b>" + MenuManager.menu + "</b> twice to toggle the menu. Do it.", toDo.A_menu);
+        if (PlayerPrefs.HasKey("playerName"))
+        {
+            localName = PlayerPrefs.GetString("playerName");
+        }
+        playerReadyTx.text = localName + " (team " + playerChangeCol.team + ") : not ready";
+
+
         foreach (GameObject NPS in NPSs)
         {
-            print("current NPS: " + NPS.name);
+            //print("current NPS: " + NPS.name);
             TutoChangeCol ccol = NPS.GetComponent<TutoChangeCol>();
             changeCols[k] = ccol;
             changeCols[k].ChangeCol(colors[1]);
@@ -120,13 +131,6 @@ public class TutoManager : MonoBehaviour
                 lookats.Add(NPS.GetComponent<TutoLookatPlayer>());
             }
         }
-        launchGameTx.text = "";
-        instructions("Press <b>" + MenuManager.menu + "</b> twice to toggle the menu. Do it.", toDo.A_menu);
-        if (PlayerPrefs.HasKey("playerName"))
-        {
-            localName = PlayerPrefs.GetString("playerName");
-        }
-        playerReadyTx.text = localName + " (team " + playerChangeCol.team + ") : not ready";
     }
 
     public void speak(string sentence, TextMesh texte, float duration)

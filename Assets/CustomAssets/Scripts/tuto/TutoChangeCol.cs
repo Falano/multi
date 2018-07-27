@@ -32,11 +32,21 @@ public class TutoChangeCol : MonoBehaviour
     float SpeedBoostDuration = 1;
     int currBoost = 0;
 
-    public int team;
+    public int team = 0;
     public string localName;
     public bool sharing;
     public static TutoChangeCol playerChangeCol;
     public Score score;
+
+    private void Awake()
+    {
+        rd = GetComponentInChildren<Renderer>();
+        ag = GetComponent<NavMeshAgent>();
+        newColor = rd.materials[0].color;
+        deathAnim = GetComponentInChildren<DieWhenFinishedAnim>(true).gameObject;
+        hp = StartHp;
+        PLchangeCol = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TutoChangeCol>();
+    }
 
     void Start()
     {
@@ -62,19 +72,13 @@ public class TutoChangeCol : MonoBehaviour
                 }
             }
         }
-        ag = GetComponent<NavMeshAgent>();
         colors = TutoManager.colors;
-        rd = GetComponentInChildren<Renderer>();
-        deathAnim = GetComponentInChildren<DieWhenFinishedAnim>(true).gameObject;
-        newColor = rd.materials[0].color;
         speech = GetComponentInChildren<TextMesh>();
         speech.text = "";
-        PLchangeCol = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<TutoChangeCol>();
         if (CompareTag("NPS"))
         {
             ChangeCol(colors[0]);
         }
-        hp = StartHp;
         //TutoManager.singleton.speak("Press <b>"+MenuManager.interact+"</b> when you\'re ready. The game starts when every <i>logged in</i> player\nis ready (<i>even if</i> everyone you planned to play with hasn\'t logged in yet).\nThis tutorial is offline though,so don\'t worry about forgetting people,\n just remember: <b>"+MenuManager.interact+"</b> when you\'re ready.", TutoManager.singleton.textNarr, 50);
         if (CompareTag("Player"))
         {
@@ -222,7 +226,7 @@ public class TutoChangeCol : MonoBehaviour
         else if (healthGUI2)
         {
             healthGUI2.sprite = sprites[spritesIndex];
-            if (atkcol.healthGUI)
+            if (atkcol && atkcol.healthGUI)
                 atkcol.healthGUI.sprite = sprites[atkcol.spritesIndex];
         }
 
